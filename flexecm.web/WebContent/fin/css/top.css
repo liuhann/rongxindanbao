@@ -1,0 +1,128 @@
+@charset "utf-8";
+#top {
+	height: auto;
+	width: auto;
+	margin-bottom: 8px;
+}
+
+.top-lv01 .r img {
+  float: left;
+  height: auto;
+  width: auto;
+  margin-top: 10px;
+  margin-right: 10px;
+  margin-left: 4px;
+}
+
+.top-lv01 {
+	height: 31px;
+	width: auto;
+	margin-right: auto;
+	margin-left: auto;
+	font-size: 12px;
+	color: #666666;
+	background-image: url(../img/top_003.png);
+	background-repeat: repeat-x;
+}
+.top-lv01 .l {
+	float: left;
+	height: auto;
+	width: auto;
+}
+.top-lv01 .r {
+	float: right;
+	height: auto;
+	width: auto;
+}
+.top-lv01 .r span a {
+	color: #e03121;
+}
+.top-lv01 .l span {
+	height: 31px;
+	width: auto;
+	display: block;
+	float: left;
+	line-height: 31px;
+	margin-right: 20px;
+	font-weight: bold;
+}
+.top-lv01 .r span {
+	height: 31px;
+	width: auto;
+	display: block;
+	float: left;
+	line-height: 31px;
+	margin-right: 10px;
+	font-weight: bold;	
+}
+.top-lv02 {
+	height: 125px;
+	width: 1150px;
+	margin-right: auto;
+	margin-left: auto;
+	background-image: url(../img/top_002.png);
+	background-repeat: no-repeat;
+}
+.top-lv02 .l a img {
+	height: auto;
+	width: auto;
+	padding-top: 28px;
+}
+.top-lv02 .l {
+	float: left;
+	height: auto;
+	width: auto;
+}
+.top-lv02 .r {
+	float: right;
+	height: auto;
+	width: auto;
+}
+.top-lv02 .r a {
+	display: block;
+	height: 46px;
+	width: 102px;
+	margin-top: 39px;
+	background-image: url(../img/top_006.png);
+	background-repeat: no-repeat;
+	color: #FFF;
+	line-height: 46px;
+	text-align: center;
+	display: block;
+	padding-left:20px;
+}
+
+.top-lv02 .r a:hover {
+	background-image: url(../img/top_005.png);
+	background-repeat: no-repeat;
+	font-size: 16px;
+
+}
+.bg {
+	background-image: url(../img/top_007.png);
+	background-repeat: repeat-x;
+}
+.top-lv03 {
+	height: 50px;
+	width: 1150px;
+	margin-right: auto;
+	margin-left: auto;
+	background-image: url(../img/top_008.png);
+	background-repeat: repeat-x;
+}
+.top-lv03 ul li a {
+	font-size: 18px;
+	color: #FFF;
+}
+.top-lv03 ul li {
+	float: left;
+	height: 50px;
+	width: 191px;
+	line-height: 50px;
+	text-align: center;
+}
+
+.top-lv03 ul li:hover {
+	background-image: url(../img/top_009.png);
+	background-repeat: repeat-x;
+}

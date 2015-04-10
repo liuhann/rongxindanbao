@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+
+	<bean id="rest.faceted" class="com.ever365.ecm.faceted.FacetedService">
+		<property name="facetedDAO" ref="facetedDao"></property>
+		<property name="entityDAO" ref="entityDao"></property>
+	</bean>
+
+	<bean id="rest.manage" class="com.ever365.ecm.ManageService">
+	    <property name="dataSource" ref="ecmDataSource"></property>
+	</bean>	
+	
+	<bean id="rest.repository" class="com.ever365.ecm.service.RepositoryService">
+	    <property name="entityDAO" ref="entityDao"></property>
+	    <property name="repositoryDAO" ref="repositoryDao"></property>
+	    <property name="incrementingHelper" ref="autoIncrementingHelper"></property>
+	    <property name="contentStore" ref="ecmFileStore"></property>
+	</bean>
+	
+	<bean id="rest.public" class="com.ever365.ecm.service.PublicService">
+		<property name="entityDAO" ref="entityDao"></property>
+	    <property name="repositoryDAO" ref="repositoryDao"></property>
+	</bean>
+	
+	<bean id="entityDao" class="com.ever365.ecm.entity.EntityDAOImpl" init-method="init">
+	    <property name="dataSource" ref="ecmDataSource"></property>
+	    <property name="autoIncrementingHelper" ref="autoIncrementingHelper"></property>
+	    <property name="contentStore" ref="ecmFileStore"></property>
+	</bean>
+	
+	<bean id="repositoryDao" class="com.ever365.ecm.repo.RepositoryDAOImpl">
+		<property name="dataSource" ref="ecmDataSource"></property>
+		<property name="entityDAO" ref="entityDao"></property>
+	</bean>
+	
+	<bean id="facetedDao" class="com.ever365.ecm.faceted.FacetedDAOImpl">
+		<property name="dataSource" ref="ecmDataSource"></property>
+	</bean>
+	
+		
+	
+	 <!--
+	<bean id="ecmDataSource" class="com.ever365.mongo.LocalMongoDataSource">
+	    <property name="host">
+	    	<value>127.0.0.1</value>
+	    </property>
+	    <property name="port">
+	    	<value>27017</value>
+	    </property>
+	    <property name="db">
+	    	<value>ecm</value>
+	    </property>
+	</bean>
+	
+	<bean id="ecmFileStore" class="com.ever365.common.ContentStore">
+	     <property name="localPath">
+	         <value>d:/temp</value>
+	     </property>
+	 </bean>
+	-->
+	 
+</beans>

@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+           http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
+  
+  <!-- 
+	 <bean id="rest.seller" class="com.ever365.sale.SellerService">
+	     <property name="dataSource">
+			<ref bean="mongoDataSource"/>	         
+	     </property>
+	     <property name="contentStore">
+	        <ref bean="fileStore"/> 
+	     </property>
+	     <property name="incrementingHelper">
+	         <ref bean="autoIncrementingHelper"/>
+	     </property>
+	     <property name="repostService">
+	         <ref  bean="rest.repost"></ref>
+	     </property>
+	</bean>
+	
+	 <bean id="rest.repost" class="com.ever365.sale.RepostService">
+	     <property name="dataSource">
+			<ref bean="mongoDataSource"/>	         
+	     </property>
+	     <property name="contentStore">
+	        <ref bean="fileStore"/> 
+	     </property>
+	     <property name="incrementingHelper">
+	         <ref bean="autoIncrementingHelper"/>
+	     </property>
+	     <property name="weiboOAuthProvider">
+	         <ref bean="oauth.weibo"/>
+	     </property>
+	 </bean>
+	 --> 
+	 <bean id="rest.gift" class="com.ever365.sale.GiftService" init-method="init">
+	  	<property name="dataSource">
+			<ref bean="mongoDataSource"/>	         
+	     </property>
+	     <property name="weiboOAuthProvider">
+	         <ref bean="oauth.weibo"/>
+	     </property>
+	     <property name="seed" value="358000">
+	     </property>
+	 </bean>
+	 
+	 <bean id="rest.collect" class="com.ever365.sale.CollectRepostService" >
+	 	<property name="dataSource">
+			<ref bean="mongoDataSource"/>	         
+	     </property>
+	     <property name="weiboOAuthProvider">
+	         <ref bean="oauth.weibo"/>
+	     </property>
+	 </bean>
+	 
+	 <!-- 
+	 <bean id="rest.hufen" class="com.ever365.sale.HufenService" init-method="init">
+	  	<property name="mongoDataSource">
+			<ref bean="mongoDataSource"/>	         
+	     </property>
+	     <property name="giftService">
+	     	<ref bean="rest.gift"/>
+	     </property>
+	 </bean>
+	  -->
+</beans> 

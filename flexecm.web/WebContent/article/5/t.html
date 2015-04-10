@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="A layout example that shows off a blog page with a list of posts.">
+
+	<title>来拿网</title>
+	<link rel="stylesheet" href="../../css/pure-min.css">
+	
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+  
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="/combo/1.18.13?/css/layouts/blog-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="../../css/blog.css">
+    <!--<![endif]-->
+    
+	<SCRIPT type=text/javascript src="../../js/jquery.min.js"></SCRIPT>
+	
+	<style type="text/css">
+	
+	.meta-info {
+		margin-top: 10px;
+		padding: 5px 0px 15px 0px;
+		font-size: 13px;
+		color: #666;
+		border-bottom: 1px solid #e6e6e6;
+		white-space: nowrap !important;
+	}
+	
+	
+	
+	</style>
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+
+	<div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title">来拿技术</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="/">回首页</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+	
+	 <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+                <h1 class="content-subhead">技术博客</h1>
+
+                <!-- A single blog post -->
+                <section class="post">
+                    <header class="post-header">
+                        <h2 class="post-title">手机H5特效带你飞： 构建一个下拉跳选的菜单</h2>
+                        <p class="post-meta">
+                            		作者：<a href="#" class="post-author">寒流</a> 分类 ： <a class="post-category post-category-design" href="#">学习HTML5</a> <a class="post-category post-category-pure" href="#">H5特效带你飞</a>
+                        </p>
+                    </header>
+					<div class="meta-info">
+					    <span class="meta-item">
+					        <span class="meta-create meta-col">
+					            <i></i>
+					            <span>创建时间：</span>
+					            2015-3-10</span>
+					    </span>
+					    <span class="meta-item">
+					        <span class="meta-update meta-col">
+					            <i></i>
+					            <span>修改时间：</span>
+					            2015-3-11</span>
+					    </span>
+					</div>
+                    <div class="post-description">
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+                     <div class="note-content"><div><b style="font-size: 22px;"><br></b></div><div><span style="font-size: 22px; line-height: 33px;"><b>演示效果</b></span></div><div><span style="font-size: 22px; line-height: 33px;"><b><br></b></span></div><div><img data-media-type="image" src="./5_files/0D756779589B4BCE849E7BEA3015600F" style="width: 376.170212765957px; height: auto;"><img data-media-type="image" src="./5_files/2D413128636C414387ACFD2E9BC3CFB4" style="line-height: 1.5; width: 367.368421052632px; height: auto;"></div><div><br></div><b style="font-size: 22px;"><div>演示页</div><div><a href="http://www.luckyna.com/article/5/index.html">http://www.luckyna.com/article/5/index.html</a></div><div><br></div>1 构建页面&nbsp;</b><div><br></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div>&lt;div id="header"&gt;
+</div><div>&nbsp; &lt;ul id="menu"&gt;
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;li&gt;首页&lt;/li&gt;
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;li&gt;附近的人&lt;/li&gt;
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;li&gt;新鲜事&lt;/li&gt;
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;li&gt;关于&lt;/li&gt;
+</div><div>&nbsp; &nbsp; &nbsp;&lt;/ul&gt;
+</div><div>&nbsp; &lt;/div&gt;</div><div><br></div></td></tr></tbody></table><br></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div></div><div>#header {
+</div><div>&nbsp; background: #353541;
+</div><div>&nbsp; z-index: 30;
+</div><div>&nbsp; position: absolute;
+</div><div>&nbsp; left: 0;
+</div><div>&nbsp; right: 0;
+</div><div>&nbsp; top: 0;
+</div><div>&nbsp; height: 2.5rem;
+</div><div>&nbsp; overflow: hidden;
+</div><div>}
+</div><div><br></div><div>#menu {
+</div><div>&nbsp; list-style: none;
+</div><div>&nbsp; margin: 0;
+</div><div>&nbsp; padding: 0;
+</div><div>&nbsp; bottom: 0;
+</div><div>&nbsp; position: absolute;
+</div><div>&nbsp; width: 3000px;
+</div><div>&nbsp; transition-property: transform;
+</div><div>}</div><div><br></div><div>#menu &nbsp;li {
+</div><div>&nbsp; &nbsp; opacity: 0;
+</div><div>&nbsp; &nbsp; transition: opacity .2s ease-out;
+</div><div>&nbsp; &nbsp; color: #FFF;
+</div><div>&nbsp; &nbsp; font-size: 1.25rem;
+</div><div>&nbsp; &nbsp; font-weight: 600;
+</div><div>&nbsp; &nbsp; width: 150px;
+</div><div>&nbsp; &nbsp; text-align:center;
+</div><div>&nbsp; &nbsp; display: inline-block;
+</div><div>&nbsp; &nbsp; line-height: 2.5rem;
+</div><div>&nbsp; &nbsp; transform : translateZ(0);
+</div><div>}</div><div><br></div><div>#menu &nbsp;li.op1 {
+</div><div>&nbsp;opacity: 1;
+</div><div>}</div><div><br></div></td></tr></tbody></table><br></div><div>header 用了一个高度是相对的， 就是2.5rem; 这个在之后有用处。 然后 menu的<span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">width是3000px。 宽度大于所有li并排就可以了&nbsp;</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); font-family: 微软雅黑; font-style: normal; text-align: start; font-size: 22px;"><b>2 引入触碰控制&nbsp;</b></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="line-height: 1.5;">我们要引入一个hammerjs的库，用来兼容触碰、下拉操作。</span></div><div><a href="http://hammerjs.github.io/">http://hammerjs.github.io/</a></div><div><span style="border: 0;" contenteditable="false"><img src="./5_files/6C895DFE452549FE9D337F2E33C95A66" filelength="18358" filename="hammer.min.js" data-path="http://note.youdao.com/yws/public/resource/5d2bee851d8cc6c3428c1125219ce357/A8CABE0D09CA4D70A92613171A921802" data-media-type="attachment"></span></div><div><br></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div>var myElement = document.getElementById('header');
+</div><div>&nbsp;var mc = new Hammer(myElement);
+</div><div>&nbsp;mc.get('pan').set({ direction: Hammer.DIRECTION_ALL });
+</div><div>&nbsp;
+</div><div>&nbsp;mc.on("pandown panup panend panstart", function(ev) {
+</div><div>&nbsp; 
+ &nbsp; &nbsp;</div><div>&nbsp;});</div></td></tr></tbody></table></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">使得header监听以下事件： 触碰、 触碰下拉、触碰上拉、触碰离开</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color: rgb(255, 255, 255); color: rgb(0, 0, 0); font-family: 微软雅黑; font-style: normal; text-align: start; font-size: 22px;"><b>3 重新定义header高度</b></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">按照之前的思路， 如果header修改自身的高度来实现特效，实际上相当于为header重新定位了， 不可取，因此我们采用以下的方案</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">首先重新定义header高度， 然后让位置到屏幕的上方以外</span></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div>var oh = parseInt($("#header").css("height"));
+</div><div>&nbsp;
+</div><div>$("#header").css("height", $(window).height()/2);
+</div><div>$("#header").css("top", oh-$(window).height()/2);
+</div><div>$("#header").data("ov", $(window).height()/2-oh);
+</div><div><br></div></td></tr></tbody></table></div><div><b style="font-size: 22px;"><br></b></div><div><b style="font-size: 22px;">4 设置header响应动作</b></div><div><br></div><div>当触碰下拉或上拉时， 同样使用translate3d 修改header位置&nbsp;</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 669px;"><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">mc.on("pandown panup panend panstart", function(ev) {
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp;if (ev.type=="pandown" || ev.type=="panup") {</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; var ov = $("#header").data("ov");</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; if (ev.deltaY&lt;ov) {&nbsp;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$("#header").css("transform", "translate(0px, " + ev.deltaY + "px) translateZ(0px)"); &nbsp;&nbsp;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }</div></div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp; }</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp; if (ev.type=="panend") {
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $("#header").css("transform", "translate(0px, 0px) translateZ(0px)");
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp; &nbsp; &nbsp; &nbsp;}</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp;});</div></td></tr></tbody></table>&nbsp; &nbsp;&nbsp;</div><div><br></div><div>最后，也就是选择menu项了&nbsp;</div><div><br></div><div><div style="background-color: rgb(255, 255, 255);"><b style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:22px;font-style:normal;text-align:left;">5 设置menu响应动作</b><br><br></div><div style="background-color: rgb(255, 255, 255);">然后是编写js脚本。&nbsp;</div><div style="background-color: rgb(255, 255, 255);">首先，让menu的第一项居中显示，其他项隐藏</div><div style="background-color: rgb(255, 255, 255);"><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div>var w = $(window).width();
+</div><div><span style="font-size: inherit;">$("#menu").data("translatex", w/2-75);&nbsp;</span></div><div>$("#menu").css("transform", "translate3d(" + (w/2-75) + "px, 0px, 0px)");</div><div>$("#menu li:first()").addClass("op1");
+<span style="font-size: inherit;"></span></div></td></tr></tbody></table></div><div style="background-color: rgb(255, 255, 255);">li:first()就是选第一项。op1类我们已经定义了，就是opacity为1。</div><div style="background-color: rgb(255, 255, 255);">因为我们定义了每个li项宽度是150px，因此居中就是 &nbsp;window总宽度/2-75。我们用translate3d(x,y,z)的形式来改变位置，这也是在移动设备上唯一的一个流畅变动的属性。&nbsp;</div><br></div><div>当下拉时，menu要做2个方向的变更： 1是水平方向，要根据下滑的量来确定menu第几项居中， 也就是让整个menu左右移动。 2是垂直方向，要使得menu一直在header的垂直中央&nbsp;</div><div><br></div><div>我们的代码是</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 813px; height: 389px;"><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; var translateX = $("#menu").data("translatex"); 
+</div><div style="background-color: rgb(255, 255, 255); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; text-align: left;"><span style="color: rgb(0, 0, 0);">&nbsp; &nbsp; if (ev.deltaY&gt;ov/3) { &nbsp; </span><font color="#00b050">//超过1/3的下拉高度才做平滑变动</font></div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; $("#menu").addClass("slide");
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; var inc = Math.floor(ov/3*2/$("#menu li").length);
+</div><div style="background-color: rgb(255, 255, 255); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; text-align: left;"><span style="color: rgb(0, 0, 0);">&nbsp; &nbsp; &nbsp; &nbsp; var </span><font color="#00b050">seq </font>= Math.floor((ev.deltaY-ov/3)/inc);&nbsp;</div><div style="background-color: rgb(255, 255, 255); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; text-align: left;">&nbsp; &nbsp; &nbsp; <font color="#00b050">&nbsp; //seq就是选择第几项li。 算法就是以剩下2/3的header高度做平分</font></div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp;&nbsp;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; if (seq&gt;$("#menu li").length-1) {
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;seq = $("#menu li").length-1;
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;}
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp;if (!$("#menu li:nth-child(" + (seq+1) + ")").hasClass("op1")) {
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$("#menu li.op1").removeClass("op1");
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;$("#menu li:nth-child(" + (seq+1) + ")").addClass("op1");
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; }
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; translateX = w/2 &nbsp;- 75 - 150*seq;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $("#menu").data("translatex", translateX);
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; }</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; $("#menu").css("transform", "translate3d(" + translateX + "px , -" + ev.deltaY/2 + "px, 0px)");</div><br></td></tr></tbody></table></div><div>在&nbsp;<span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">translatex中存储了menu当前的水平位置。&nbsp;</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">最后是移动的过渡效果。 我们panend时设置过渡效果</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;"><br></span></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 687px;"><div><br></div><div>&nbsp; &nbsp;$("#header").css("-webkit-transition-duration", "200ms");
+</div><div><font color="#ff0000"><span style="background-color: rgb(255, 255, 255); font-family: 微软雅黑; font-size: 14px; font-style: normal; font-weight: normal; text-align: start;">&nbsp; &nbsp;$("#menu").removeClass("slide");
+</span><br></font></div><div><font color="#ff0000">&nbsp; &nbsp;$("#menu").css("-webkit-transition-duration", "200ms");</font></div><div><font color="#ff0000">&nbsp;&nbsp;</font></div><div><font color="#ff0000"><br></font></div><div><font color="#ff0000">&nbsp; &nbsp;$("#menu").css("transform", "translate3d(" + $("#menu").data("translatex") + "px, 0px, 0px)");</font></div></td></tr></tbody></table></div><div><br></div><div>而下拉时将效果取消。好了现在效果可以了吧。</div><div><br></div><div><b style="font-size: 22px;">6 小结</b></div><div>这种特效很激进，因为有可能用户发现不了还可以这样操作，效果很是满不错的，选菜单时也可以减少一次点击。&nbsp;</div><div><br></div><div><br></div><div><br></div><div><br></div><div><br></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><br></div></div>
+
+                     
+                     
+                     
+                     
+                    </div>
+                </section>
+            </div>
+
+            <div class="footer">
+                <div class="pure-menu pure-menu-horizontal">
+                    <ul>
+                        <li class="pure-menu-item"><a href="http://purecss.io/" class="pure-menu-link">Copyright © 2014-2015</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+</body>
+</html>

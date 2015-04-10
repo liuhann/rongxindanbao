@@ -1,0 +1,305 @@
+@CHARSET "UTF-8";
+
+* {
+    -webkit-tap-highlight-color: rgba(0,0,0,0); /* make transparent link selection, adjust last value opacity 0 to 1.0 */
+}
+html {
+ 	height: 100%;  
+}
+
+body {
+    -webkit-touch-callout: none;               
+    -webkit-text-size-adjust: none;            
+    -webkit-user-select: none;                 
+    font-size:14px;
+	margin:0px;
+    padding:0px;
+	 height: 100%;
+}
+
+
+body, input, textarea {
+  font-family: '微软雅黑','Helvetica Neue',sans-serif,SimHei;
+  -webkit-font-smoothing: antialiased;
+}
+
+ul,p {
+	padding: 0;
+	margin: 0;
+	list-style: none;
+}
+.fl {
+	float: left;
+}
+.fr {
+	float: right;
+}
+.hidden {
+	display: none;
+}
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.clearfix { display: inline-table; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* End hide from IE-mac */
+
+.head {
+	height: 2rem;
+	background-color: #444;
+	color: #EEE;
+	font-size: 1.25rem;
+	line-height: 2rem;
+	padding: .3rem 2rem;
+}
+
+.topPanel {
+	height: 2rem;
+	padding: .2rem;
+	line-height: 2rem;
+	background: #fdfdfd;
+	border-bottom: 1px dashed #d1d1d1;
+}
+
+.panel {
+	position: absolute;
+	right: .3rem;
+	width: 20rem;
+	top: 6rem;
+}
+
+.panel .content {
+	border: 1px solid #efefef;
+	padding: .5rem;
+}
+
+.panel .tab {
+	height: 2rem;
+	background-color: white;
+}
+
+.panel .tab li {
+	float: left;
+	line-height: 1rem;
+	font-size: 1rem;
+	height: 1rem;
+	padding: .5rem 1rem;
+	background-color: #fcfcfc;
+	margin-right: .5rem;
+	border-radius: .5rem .5rem 0 0;
+	border: 1px solid #efefef;
+	border-bottom: none;
+}
+
+.panel .tab li.selected {
+	background-color: #4d90fe;
+	color: #fff;
+}
+
+.panel .content label, .panel .content p {
+	display: block;
+	padding: .5rem;
+}
+
+.panel .content input, .panel .content select, .panel .content option {
+	width: 17rem;
+	border: 1px solid #efefef;
+	padding: .5rem;
+}
+.panel .content textarea {
+	width: 17rem;
+	border: 1px solid #efefef;
+	padding: .5rem;
+	height: 4rem;
+}
+.panel .content select.in-after {
+	width: 8rem;
+}
+.panel .content input.small {
+	width: 4rem;
+}
+
+.components {
+	position: absolute;
+	right: 1rem;
+	top: 6rem;
+	bottom: 1rem;
+	width: 14rem;
+	background-color: #fefefe;
+	border: 1px solid #efefef;
+}
+
+.place {
+	border: 1px solid #ccc;
+	width: 30rem;
+	height: 20rem;
+	position: relative;
+}
+
+.place .bbo {
+	width: 5rem;
+	height: 5rem;
+	position: absolute;
+	border: 1px solid #fff;
+}
+
+.place .bbo.selected {
+	border: 1px solid #666;
+}
+
+.deviceShell {
+	border: 2px solid #ccc;
+	border-radius: 30px;
+	position: absolute;
+ 	left: 10rem;
+	top: 7rem;
+	background: #fff;
+}
+.deviceShell .extra {
+	display: none;
+}
+.deviceShell.y16x9 {
+	width: 20rem;
+	height: 40rem;
+}
+
+.deviceShell.y16x9 .screen {
+  width: 18rem;
+  height: 32rem;
+  border: 1px solid #ccc;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -16rem -9rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.deviceShell.y16x9 .home {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid #ccc;
+  position: absolute;
+  bottom: .5rem;
+  left: 50%;
+  margin: 0 -1.5rem;
+  border-radius: 50%;
+}
+
+.deviceShell.y16x9 .speaker {
+  width: 3rem;
+  height: .4rem;
+  border: 1px solid #ccc;
+  border-radius: .4rem;
+  position: absolute;
+  left: 50%;
+  top: 2rem;
+  margin: 0 -1.5rem;
+}
+
+.deviceShell.y3x4 {
+	width: 48rem;
+	height: 32rem;
+	top: 10rem;
+}
+
+.deviceShell.y3x4 .screen {
+  width: 40rem;
+  height: 30rem;
+  border: 1px solid #ccc;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -15rem -20rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.deviceShell.y3x4 .home {
+  width: 3rem;
+  height: 3rem;
+  border: 1px solid #ccc;
+  position: absolute;
+  right: .5rem;
+  top:50%;
+  margin: -1.5rem 0;
+  border-radius: 50%;
+}
+
+.deviceShell.y3x4 .speaker {
+  height: 3rem;
+  width: .4rem;
+  border: 1px solid #ccc;
+  border-radius: .4rem;
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  margin: -1.5rem 0rem;
+}
+
+.deviceShell.laptop {
+	width: 55rem;
+	height: 31rem;
+	top: 8rem;
+	border-radius: .5rem;
+}
+
+.deviceShell.laptop .screen {
+  width: 52rem;
+  height: 28rem;
+  border: 1px solid #ccc;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  margin: -14rem -26rem;
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.deviceShell.laptop .extra {
+	display:block;
+	width: 63rem;
+	height: 2rem;
+	border: 1px solid #ccc;
+	position: absolute;
+	bottom: -2rem;
+	background: white;
+	left: -4rem;
+	border-radius: 0rem 0rem 40rem 40rem;
+} 
+
+.deviceShell.laptop .home {
+  display: none;
+}
+
+.deviceShell.laptop .speaker {
+  display: none;
+}
+
+.screen {
+	font-size: 14px;	
+}
+
+.screen div {
+	position: absolute;
+	border: 1px solid #fff;
+	cursor: pointer;
+}
+
+.screen div.text {
+	padding: .2rem;
+}
+
+.screen div.focus {
+	border: 1px solid #444;
+}
+
+
+

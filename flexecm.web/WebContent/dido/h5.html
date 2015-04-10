@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="format-detection" content="telephone=no" />
+    <meta name="msapplication-tap-highlight" content="no" />
+    <!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+    <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    <link rel="stylesheet" type="text/css" href="css/h5index.css" />
+     <link rel="stylesheet" href="css/fontello.css">
+     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <title>叮咚时间</title>
+</head>
+<body>
+
+<div class="main">
+	<div class="header">
+		<div class="title fl">叮咚时间</div>
+		<div class="bar oper fr"><a id="add" class="add icon"></a></div>
+		<ul class="add-menu">
+			<li id="add-timer">开始计时</li>
+			<li id="add-todo">增加待办</li>
+		</ul>
+	</div>
+	
+	<div class="wrapper time hs" id="timeline">
+		<div class="timeline">
+			<div class="line">
+				<div class="section"></div>
+			</div>
+			<table class="grid">
+				<tr><td>0:00</td></tr>
+				<tr><td>1:00</td></tr>
+				<tr><td>2:00</td></tr>
+				<tr><td>3:00</td></tr>
+				<tr><td>4:00</td></tr>
+				<tr><td>5:00</td></tr>
+				<tr><td>6:00</td></tr>
+				<tr><td>7:00</td></tr>
+				<tr><td>8:00</td></tr>
+				<tr><td>9:00</td></tr>
+				<tr><td>10:00</td></tr>
+				<tr><td>11:00</td></tr>
+				<tr><td>12:00</td></tr>
+				<tr><td>13:00</td></tr>
+				<tr><td>14:00</td></tr>
+				<tr><td>15:00</td></tr>
+				<tr><td>16:00</td></tr>
+				<tr><td>17:00</td></tr>
+				<tr><td>18:00</td></tr>
+				<tr><td>19:00</td></tr>
+				<tr><td>20:00</td></tr>
+				<tr><td>21:00</td></tr>
+				<tr><td>22:00</td></tr>
+				<tr><td>23:00</td></tr>
+			</table>
+		</div>
+	</div>
+	<div class="running pop-wrapper">
+		<div class="tick"></div>		
+		<div class="op">
+			<div class="pause"></div>
+		</div>
+		<div class="info">
+			待办事项
+			<div class="hint">3</div>
+		</div>
+	</div>
+	
+	<div class="pop-wrapper current-day">
+		<div class="fl date"></div>
+		<div class="fr total"></div>
+	</div>	
+	
+	<div class="pop-wrapper hidden todo">
+		<ul>
+			<li class="hidden">
+				<div class="content"></div>
+				<div class="remove icon "></div>
+				<div class="checkbox icon "></div>
+				<div class="start icon "></div>
+			</li>
+		</ul>
+		<div class="msg">没有待办事务</div>
+	</div>
+	
+	<div class="wrapper hidden chart">
+		<div class="type">
+			<a class="date-donut sib">每日统计</a>
+			<a class="week-donut sib">每周统计</a>
+			<a class="date-bar sib">按日条状图</a>
+		</div>
+		<div class="title"><i class="prev"></i><span class="content"></span> <i class="next"></i></div>
+		<div id="graph">
+		</div>
+	</div>
+	
+	<div class="wrapper hidden cal" id="calendar">
+		<div class="head">
+			<i class="prev"></i><span>2015</span><i class="next"></i>
+		</div>
+		<div class="weeks">
+			<table width="100%">
+				<tr align="middle">
+		          <td width="14%">一</td>
+		          <td width="14%">二</td>
+		          <td width="14%">三</td>
+		          <td width="14%">四</td>
+		          <td width="14%">五</td>
+		          <td width="14%">六</td>
+		          <td width="14%">日</td>
+		        </tr>
+			</table>
+		
+		</div>
+		<div class="daygrid">
+		</div>
+		
+	</div>
+	
+	<div class="wrapper hidden discover">
+		<ul>
+			<li class="pico item ing">叮咚ING</li>
+		</ul>
+		<ul>
+			<li class="pico item live">在线时钟</li>
+			<li class="pico item box">评论箱</li>
+		</ul>
+	</div>
+	
+	<div class="wrapper hidden me">
+		<ul>
+			<li class="about-me d">
+				<div class="title">您未注册</div>
+				<div class="desc"></div>
+			</li>
+			
+			<li class="d backup">
+				<div class="title">备份到服务器</div>
+				<div class="desc">正在获取备份信息..</div>
+			</li>
+			
+			<li class="entry restore">从服务器恢复</li>
+			
+			<li class="empty"></li>
+			
+			<li class="me-tag-config entry">计时分类配置</li>
+			<li><a class="big-btn logout">退出登录</a></li>
+		</ul>
+	</div>
+	
+	<div class="bottom">
+		<a class="item time sib">时间记录</a>
+		<a class="item cal sib">计时日历</a>
+		<a class="item chart sib">统计</a>
+		<a class="item me sib">我</a>
+	</div>
+</div>
+
+<div class="page pop-menu hidden time-item-hold">
+	<ul class="list">
+		<li class="title">时间项</li>
+		<li class="start">再启动</li>
+		<li class="stop">停止</li>
+		<li class="remove">删除</li>
+	</ul>
+</div>
+
+<div class="page tag-config hidden">
+	<div class="header">
+		<div class="bar fl"> <a class="icon cancel"></a></div>
+	</div>
+	
+	<div class="wrapper hs">
+		<ul class="list fl">
+			<li class="add"></li>
+		</ul>
+			
+		<div class="config">
+			<div class="item">
+				<input type="text" class="name"> <i class="msg">只能输入2字哦</i>  <i class="yes fr"></i>
+			</div>
+			
+			<ul class="colors">
+			</ul>
+			
+			<div class="item">
+				类型下有<span class="total">0</span>个时间记录。  
+			</div>
+			
+			<div class="item">
+				<a class="alert">删除此类型</a>  
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page edit-todo hidden">
+	<div class="header">
+		<div class="bar fl"> <a class="icon return"></a></div>
+		<div class="bar fr"> <a class="icon yes"></a></div>
+	</div>
+	
+	<div class="wrapper">
+		<div class="form">
+			<div class="item type-opt clearfix">
+				<div class="fl config" style="margin: .2rem .3rem 0rem 0rem;padding: .6rem;width: 1.8rem;height: 1.8rem;line-height: 2rem;font-size: .9rem;color: #3078ca;">配置</div>
+			</div>
+			<div class="item">
+				<textarea class="desc" placeholder="描述(可选)"></textarea>
+			</div>
+			<div class="item">
+				<span class="label"> 日期： </span> <span class="date">2012年1月23日</span>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page add-time hidden">
+	<div class="header">
+		<div class="bar fl"> <a class="icon return"></a></div>
+		<div class="bar fr"> <a class="icon yes"></a></div>
+	</div>
+	
+	<div class="wrapper">
+		<div class="form">
+			<div class="item type-opt clearfix">
+				<div class="fl config" style="margin: .2rem .3rem 0rem 0rem;padding: .6rem;width: 1.8rem;height: 1.8rem;line-height: 2rem;font-size: .8rem;color: #3078ca;">配置</div>
+			</div>
+			<div class="item">
+				<textarea class="desc" placeholder="描述(可选)"></textarea>
+			</div>
+			<div class="item switch notify checked">
+				每计隔<input type="number" value="25">分钟提醒我一次。 <i class="c"></i>
+			</div>
+			<div class="item switch sharing">
+				共享到 叮咚ING  <i class="c"></i>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page reg-user hidden">
+	<div class="header">
+		<div class="bar fl"> <a class="icon return"></a> 用户注册</div>
+	</div>
+
+	<div class="wrapper">
+		<div class="form">
+			<div class="item">
+				<input type="text" class="name" placeholder="输入有效的邮箱地址/手机号码">
+			</div>
+			
+			<div class="item">
+				<input type="password" class="password" placeholder="输入密码">
+			</div>
+			<div class="item" style="height: 2rem; border-bottom: none;">
+				<a class="dlogin fl">已有账号登陆</a>
+				<a class="findpwd fr">找回密码</a>
+			</div>
+			<div class="item">
+				<a class="big-btn btn-reg">注册</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div class="page login-user hidden">
+	<div class="header">
+		<div class="bar fl"> <a class="icon return"></a>用户登陆</div>
+	</div>
+
+	<div class="wrapper">
+		<div class="form">
+			<div class="item">
+				<input type="text" class="name" placeholder="输入有效的邮箱地址/手机号码">
+			</div>
+			
+			<div class="item">
+				<input type="password" class="password" placeholder="输入密码">
+			</div>
+			
+			<div class="item" style="height: 2rem; border-bottom: none">
+				<a class="findpwd fr">找回密码</a>
+			</div>
+			
+			<div class="item">
+				<a class="big-btn btn-login">登陆</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript" src="js/taffy-min.js"></script>
+<script type="text/javascript" src="js/h5index.js"></script>
+<script type="text/javascript" src="cal/calendar.js"></script>
+<script type="text/javascript" src="js/iscroll.js"></script>
+<script type="text/javascript" src="js/d3.min.js"></script>
+
+</body>
+</html>
+
+

@@ -1,0 +1,170 @@
+@charset "utf-8";
+.bg {
+	background-color: #efefed;
+}
+#content {
+	height: auto;
+	width: 1150px;
+	margin-right: auto;
+	margin-left: auto;
+	background-color: #FFF;
+}
+.xinwen_001 {
+	height: auto;
+	width: auto;
+	border-top-width: 2px;
+	border-top-style: solid;
+	border-top-color: #21a3e0;
+	padding-right: 50px;
+	padding-left: 50px;
+	padding-top: 14px;
+}
+
+
+.xinwen_001:after {
+	content:' ';
+	height:0px;
+	clear:both;
+	display:block;
+}
+
+.xinwen_001 .xinwen_list li .l {
+	float: left;
+	height: auto;
+	width: auto;
+}
+.xinwen_001 .xinwen_list li .r {
+	float: right;
+	height: auto;
+	width: auto;
+}
+.xinwen_001 .xinwen_list li .l span {
+	font-size: 14px;
+	font-weight: bold;
+	color: #286b8c;
+	display: block;
+	height: 50px;
+	width: auto;
+	line-height: 50px;
+}
+.xinwen_001 .xinwen_list li .r span {
+	font-size: 12px;
+	color: #728c99;
+	height: 50px;
+	width: auto;
+	line-height: 50px;
+}
+.xinwen_001 .xinwen_list li .l span b {
+	font-family: "宋体";
+}
+.xinwen_001 .xinwen_list li {
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #f2f2f2;
+}
+
+.xinwen_001 .xinwen_list li:after {
+	content:' ';
+	height:0px;
+	clear:both;
+	display:block;
+}
+.xinwen_001 cite {
+	font-size: 18px;
+	color: #666666;
+	display: block;
+	padding-top: 18px;
+	padding-bottom: 18px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #e5e5e5;
+}
+.xinwen_001 .xinwen_list {
+	float: left;
+	height: auto;
+	width: 718px;
+}
+.xinwen_001 .photo_news {
+	float: right;
+	height: auto;
+	width: 272px;
+}
+.xinwen_001 .photo_news .photo-item {
+	height: auto;
+	width: auto;
+	padding-top: 8px;
+	margin-bottom: 22px;
+}
+.xinwen_001 .photo_news .photo-block {
+	height: 68px;
+	width: 269px;
+	background-color: #e5e5e5;
+	border-radius:5px;
+}
+
+/*********/
+.Paging {
+	margin-right: auto;
+	margin-left: auto;
+	height: auto;
+	width: auto;
+	padding-top: 2px;
+	padding-bottom: 46px;
+	text-align: center;
+	border: 1px none #e5e5e5;
+	clear: both;
+}
+.Paging ul {
+	height: auto;
+	width: auto;
+	list-style: none;
+	padding: 0px;
+	margin: 0px;
+}
+
+.Paging ul:after {
+	content:' ';
+	height:0;
+	display:block;
+	clear:both;
+}
+
+.Paging ul li {
+	height: 25px;
+	width: 25px;
+	display: inline-block;
+	border-radius: 3px;
+
+
+	*display:inline;
+	*zoom:1;	
+	background-color: #f5f6f8;
+	font-size: 12px;
+	line-height: 25px;
+	text-align: center;
+	margin-right: 4px;
+	margin-left: 4px;
+	color: #330c0a;
+}
+.Paging ul .current {
+	background-color: #e5e5e5;
+	color: #FFF;
+}
+
+.Paging ul li:hover {
+	background-color: #e5e5e5;
+	color: #666;
+}
+.xinwen_001 .xinwen_list .Paging ul a li {
+	color: #868686;
+}
+#content .yinying {
+	clear: both;
+	background-image: url(../img/rongzirukouP-1_003.png);
+	background-repeat: repeat-x;
+	height: 8px;
+	width: auto;	
+}
+.xinwen_001 .xinwen_list li .l span a {
+	color: #286b8c;
+}

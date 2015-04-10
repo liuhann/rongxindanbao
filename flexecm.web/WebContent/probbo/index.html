@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Probbo</title>
+ <!-- Set render engine for 360 browser -->
+  <meta name="renderer" content="webkit">
+  
+  
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+<meta name="format-detection"content="telephone=no, email=no" />
+<meta name="msapplication-tap-highlight" content="no" />
+<!-- WARNING: for iOS 7, remove the width=device-width and height=device-height attributes. See https://issues.apache.org/jira/browse/CB-4323 -->
+<meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
+    
+<link rel="StyleSheet" href="css/animate-animo.css" type="text/css">
+<link rel="StyleSheet" href="css/page.css" type="text/css">
+<link rel="StyleSheet" href="css/font-effects.css" type="text/css">
+    
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/jquery-ui.min.js"></script>
+
+<script type="text/javascript" src="js/probbo.js"></script>
+</head>
+<body>
+
+<div class="head">
+	<span class="shining">PROBBO -a animation tools</span>	
+</div>
+
+<div class="topPanel">
+	<span>页面类型</span>
+	<select id="screenType">
+		<option value="y16x9">手机竖屏</option>
+		<option value="y3x4">平板横屏</option>
+		<option value="laptop">桌面浏览器</option>
+	</select>
+	<a onclick="addText();">增加文字</a> <a>增加图片</a> <a>增加形状</a>
+</div>
+
+<div class="deviceShell y16x9">
+	<div class="screen"></div>
+	<div class="home"></div>
+	<div class="speaker"></div>
+	<div class="extra"></div>
+</div>
+
+<div class="slides">
+	
+</div>
+
+<div class="panel">
+	<ul class="tab clearfix">
+		<li>页面</li>
+		<li class="selected">属性</li>
+		<li>组件</li>
+		<li class="effect">效果</li>
+	</ul>
+	<div class="pages content hidden">
+	</div>
+	
+	<div class="components content hidden">
+	</div>
+	
+	<div class="effect content hidden">
+		<label>显示时间</label>
+		<p> 
+			<select class="in-after">
+				<option>进入页面后</option>
+			</select>
+			<input type="text" class="sec small">秒
+		</p>
+			
+		<label>显示效果  <a>选择</a></label>
+		<p>
+			<input type="text" class="show-effect">
+		</p>
+			
+		<label>消失时间</label>
+		<p> 
+			<select class="in-after">
+				<option>显示完成后</option>
+			</select>
+			<input type="text" class="sec small">秒
+		</p>
+		
+		<label>消失效果</label>
+		<p>
+			<input type="text" class="show-effect">
+		</p>
+	</div>
+	
+	<div class="properties content">
+		<div class="text">
+			<label>文字内容</label> 
+			<textarea class="txt-content"></textarea>
+			
+			<label>文字对其</label>
+			<select class="txt-align">
+				<option value="left">居左</option>
+				<option value="right">居右</option>
+				<option value="center">居中</option>
+			</select>
+
+			<label>文字大小</label>
+			<input type="text" class="txt-font-size small"> rem
+			<label>位置</label>
+			<p>
+				x: <input type="text" class="txt-loc-x small">rem y: <input type="text" class="txt-loc-y small">rem
+			</p>
+			
+			<label>编辑隐藏</label>
+			
+			
+			
+		</div>
+	</div>
+</div>
+
+
+
+</body>
+</html>

@@ -1,0 +1,81 @@
+@charset "utf-8";
+#content {
+	height: auto;
+	width: 1150px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.bg {
+	background-color: #efefed;
+}
+.qiyezhuce_001 {
+	border-top-width: 1px;
+	border-right-width: 1px;
+	border-bottom-width: 1px;
+	border-left-width: 1px;
+	border-top-style: solid;
+	border-top-color: #21a3e0;
+	background-color: #FFF;
+}
+.qiyezhuce_001 .yinying {
+	clear: both;
+	background-image: url(../img/rongzirukouP-1_003.png);
+	background-repeat: repeat-x;
+	height: 8px;
+	width: auto;
+}
+.qiyezhuce_001 .title span {
+	font-size: 20px;
+	font-weight: bold;
+	color: #333333;
+}
+.qiyezhuce_001 .title {
+	text-align: center;
+	height: auto;
+	width: auto;
+	padding-top: 32px;
+	padding-bottom: 32px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #e5e5e5;
+}
+.qiyezhuce_001 .form-content {
+	height: auto;
+	width: auto;
+	padding-top: 24px;
+	padding-bottom: 120px;
+	padding-left: 222px;
+}
+.qiyezhuce_001 .form-content table tr td input {
+	height: 40px;
+	width: 310px;
+	border: 1px solid #dedede;
+	border-radius: 2px;
+	padding-right: 10px;
+	padding-left: 10px;
+}
+.qiyezhuce_001 .form-content table tr td span {
+	font-size: 14px;
+	color: #666666;
+}
+.qiyezhuce_001 .form-content table tr td b {
+	color: #e03121;
+	margin-right: 5px;
+}
+.qiyezhuce_001 .form-content table tr td em {
+	display: block;
+	padding: 2px 0px;
+	color: #e03121;
+	font-size:12px;
+	min-height:10px;
+}
+.qiyezhuce_001 .form-content table tr td .form-button {
+	background-image: url(../img/qiyezhuce_001.png);
+	background-repeat: repeat-x;
+	border-radius: 6px;
+	height: 46px;
+	font-size: 16px;
+	color: #fff;
+	margin-top: 36px;
+	width: 333px;
+}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="A layout example that shows off a blog page with a list of posts.">
+
+	<title>来拿网</title>
+	<link rel="stylesheet" href="../../css/pure-min.css">
+	
+    <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.6.0/grids-responsive-min.css">
+  
+    <!--[if lte IE 8]>
+        <link rel="stylesheet" href="/combo/1.18.13?/css/layouts/blog-old-ie.css">
+    <![endif]-->
+    <!--[if gt IE 8]><!-->
+        <link rel="stylesheet" href="../../css/blog.css">
+    <!--<![endif]-->
+    
+	<SCRIPT type=text/javascript src="../../js/jquery.min.js"></SCRIPT>
+	
+	<style type="text/css">
+	
+	.meta-info {
+		margin-top: 10px;
+		padding: 5px 0px 15px 0px;
+		font-size: 13px;
+		color: #666;
+		border-bottom: 1px solid #e6e6e6;
+		white-space: nowrap !important;
+	}
+	
+	
+	
+	</style>
+</head>
+<body>
+
+
+<div id="layout" class="pure-g">
+
+	<div class="sidebar pure-u-1 pure-u-md-1-4">
+        <div class="header">
+            <h1 class="brand-title">来拿技术</h1>
+            <nav class="nav">
+                <ul class="nav-list">
+                    <li class="nav-item">
+                        <a class="pure-button" href="/">回首页</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+	
+	 <div class="content pure-u-1 pure-u-md-3-4">
+        <div>
+            <!-- A wrapper for all the blog posts -->
+            <div class="posts">
+                <h1 class="content-subhead">技术博客</h1>
+
+                <!-- A single blog post -->
+                <section class="post">
+                    <header class="post-header">
+                        <h2 class="post-title">H5实战：手机操作栏的制作和特效</h2>
+                        <p class="post-meta">
+                            		作者：<a href="#" class="post-author">寒流</a> 分类 ： <a class="post-category post-category-design" href="#">学习HTML5</a> <a class="post-category post-category-pure" href="#">cordova教程</a>
+                        </p>
+                    </header>
+					<div class="meta-info">
+					    <span class="meta-item">
+					        <span class="meta-create meta-col">
+					            <i></i>
+					            <span>创建时间：</span>
+					            2015-3-6</span>
+					    </span>
+					    <span class="meta-item">
+					        <span class="meta-update meta-col">
+					            <i></i>
+					            <span>修改时间：</span>
+					            2015-3-9</span>
+					    </span>
+					</div>
+                    <div class="post-description">
+                     
+                     <div class="note-content"><div><b>创建操作栏</b></div><div><br></div><div>本节我们在H5方面将实现一个平滑切换的操作栏，在操作栏上提供对文件列表的增加删除修改等基本操作</div><div><br></div><div><br></div><div>操作栏草图如下</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto; background-color: rgb(255, 255, 255);"><tbody><tr><td valign="top" style="width: 236px; height: 33px;"><div>标题栏 &nbsp; &nbsp;高度3rem</div></td></tr><tr><td valign="top" style="width: 236px; height: 27px;"><div>文件路径 &nbsp; 高度 2.5rem</div></td></tr><tr><td valign="top" style="width: 236px; height: 186px;"><div>文件列表 &nbsp;页面剩余部分</div></td></tr><tr><td valign="top" style="width: 236px; height: 45px;"><div>&nbsp; + &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; （）</div><div>创建 &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;刷新</div></td></tr></tbody></table><br></div><div>首先我在body中增加</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px; height: 130px;"><div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&lt;div class="btnbar"&gt;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &lt;div class="normal flexbox"&gt;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &lt;a class="item"&gt;创建&lt;/a&gt;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &nbsp; &nbsp; &lt;a class="item"&gt;刷新&lt;/a&gt;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; &lt;/div&gt;<span style="background-color:inherit;">&nbsp;&nbsp;</span></div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&lt;/div&gt;</div></div></td></tr></tbody></table></div><div>将它绝对定位到整个页面底部。</div><div><br></div><b style="background-color: rgb(255, 255, 255);">让操作按钮平均分布</b><div><br></div><div>我们希望让创建和刷新按钮进行水平平均分布。&nbsp;</div><div><span style="line-height: 1.5;">我们利用HTML5的flexs box 模型，它的</span><span style="line-height: 1.5;">标准是&nbsp;</span><a href="http://www.w3.org/TR/css3-flexbox/" style="line-height: 1.5;">http://www.w3.org/TR/css3-flexbox/</a></div><div>flex box这个协议本身是为了重新定义css的布局方式。 因为自有HTML以来， 布局一直是一个老大难问题，最早是用table进行布局，后来是用div布局，现在到了移动设备上，更加困难。我们之前讲过使用的是div &nbsp;position absolute方式进行，其实也可以考虑以后用flex box形式。</div><div><br></div><div>我们甚至可以想象的到未来大家可能都会用这个模型来进行页面布局了。 当然这也要随着设备和客户端的升级和大家的认识。&nbsp;</div><div><br></div><div><span style="line-height: 1.5;">这里有几篇不错的文章来讲述， 我们不详细描述。现在只是用这个特性来进行水平平均分布的实现</span></div><div><a href="http://zh.learnlayout.com/flexbox.html" style="line-height: 1.5;">http://zh.learnlayout.com/flexbox.html</a><span style="line-height: 1.5;">&nbsp;</span></div><div><a href="https://css-tricks.com/snippets/css/a-guide-to-flexbox/">https://css-tricks.com/snippets/css/a-guide-to-flexbox/</a></div><div><br></div><div><span style="line-height: 1.5;">首先在外围容器上写</span></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div>.flexbox {
+</div><div>&nbsp;display: -webkit-box;
+</div><div>&nbsp;display: -moz-box;
+</div><div>&nbsp;display: -ms-flexbox;
+</div><div>&nbsp;display: -webkit-flex;
+</div><div>&nbsp;display: flex;
+</div><div>}</div></td></tr></tbody></table></div><div>在内部的item写</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">.flexbox .item {
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;-webkit-box-flex: 1;
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;-moz-box-flex: 1;
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;-webkit-flex: 1;
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;-ms-flex: 1;
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;flex: 1;
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;text-align: center;
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">}</div></div></td></tr></tbody></table></div><div><br></div><div>因为flexbox的标准发生过变动，因此安卓2.1开始和4.x版本可能写法不同。 上面的写法应该是兼容2种标准的</div><div><br></div><div><br></div><b style="background-color: rgb(255, 255, 255);">用webfont来实现按钮图标</b><div><br></div><div>我们需要在操作按钮上显示图标，这里我推荐用webfont方式。对于图标，大家可能要说：这还不容易，但是要知道在移动设备上，对图标的要求是它的大小是可变的，webfont实际上是我们可以用图标来作为字符的显示。 最近的项目我都用webfont来实现图标，效果很好，这里也推荐大家使用</div><div><br></div><div>1 前往&nbsp;<a href="http://fontello.com/" style="line-height: 1.5;">http://fontello.com/</a>&nbsp;&nbsp;</div><div>2 挑选需要的图标</div><div>3 打包下载</div><div><br></div><div>下载后打开大概是类似这样的一个目录&nbsp;</div><div><img data-media-type="image" src="http://note.youdao.com/yws/public/resource/aed8e15466ba84bb7eed583f3984c87d/7EC3B1F070F34775AD1B3AE02507B451" style="height: auto;"></div><div>非常好， 把css和font目录拷贝到你的工作目录下吧。 &nbsp;注意里面的文件不要和你自己的相同</div><div><br></div><div>4 在你的页面中首部加入</div><div>&lt;link rel="stylesheet" href="css/fontello.css"&gt;</div><div><br></div><div>5 然后给你需要加图标的元素增加类吧，类名是什么呢， 打开上图中的demo.html</div><div><br></div><div><img data-media-type="image" src="http://note.youdao.com/yws/public/resource/aed8e15466ba84bb7eed583f3984c87d/ABF6A6EC4C2A456AB9D9D5B88C45E122" style="height: auto;"></div><div>新建和刷新按钮就是这样的：&nbsp;</div><div><div style="background-color: rgb(255, 255, 255);"><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div><div style="background-color: rgb(255, 255, 255);">&lt;div class="btnbar"&gt;</div><div style="background-color: rgb(255, 255, 255);">&nbsp; &nbsp; &nbsp; &nbsp;&lt;div class="normal flexbox"&gt;
+</div><div style="background-color: rgb(255, 255, 255);">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;a class="item icon-plus"&gt;创建&lt;/a&gt;
+</div><div style="background-color: rgb(255, 255, 255);">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;a class="item icon-arrows-cw"&gt;刷新&lt;/a&gt;
+</div><div style="background-color: rgb(255, 255, 255);">&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;&lt;/div&gt;</div><div style="background-color: rgb(255, 255, 255);">&lt;/div&gt;</div></div></td></tr></tbody></table></div><br></div><div><br></div><b style="background-color: rgb(255, 255, 255);">给操作栏增加特效</b><div><br></div><div>在本应用中，我们给每个文件前面增加一个复选框。当用户点击复选框时，操作栏的按钮会变为移动、复制和删除，<span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">同时，新建和刷新按钮隐藏。这需要我们在btnbar下面另建一个flexbox。 它的类是selected</span></div><div><br></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div>&nbsp;&lt;div class="flexbox selected"&gt;
+</div><div>&nbsp; &nbsp; &nbsp;&lt;a class="item icon-trash"&gt;删除&lt;/a&gt;
+</div><div>&nbsp; &nbsp; &nbsp;&lt;a class="item icon-th-large-outline"&gt;复制&lt;/a&gt;
+</div><div>&nbsp; &nbsp; &nbsp;&lt;a class="item icon-right"&gt;移动&lt;/a&gt;
+</div><div>&nbsp; &nbsp; &lt;/div&gt; &nbsp;&nbsp;</div></td></tr></tbody></table></div><div><br></div><div>当然我们可以用最简单的方式就是</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div>$(".btnbar .<span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">normal</span>").hide();</div><div>$(".btnbar .selected").show();</div></td></tr></tbody></table></div><div><br></div><div>但这样不够酷。 我们希望新的操作栏向上滑动。好，我们现在实现这个功能。</div><div><b>方案1</b></div><div>首先我们用修改margin-top（上对齐）的方式&nbsp;</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px;"><div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">$(".btnbar .selected").css("margin-top", "0");
+</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">$(".btnbar .normal").css("margin-top", "3rem");</div></div></td></tr></tbody></table></div><div><br></div><div>同时， 我们为他们增加一段css</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;"><tbody><tr><td valign="top" style="width: 579px; height: 70px;"><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">.btnbar div.flexbox {</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp; &nbsp; -webkit-transition: margin-top .3s ease-in-out;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">}</div></td></tr></tbody></table></div><div>css的意思就是说当margin-top变动时， 我们使用一个过渡效果<span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">ease-in-out</span>， &nbsp;效果持续时间是0.3秒</div><div>这段代码很常见， 在PC中自不必说。在手机上表现也可以，但是如果你仔细观察，动画效果还不是很流畅，加上 -webkit-transform: translate3d(0,0,0); 也没有用。 还记得第二节我们讲到的几个浏览器廉价渲染方案么？ 这就是我们方案2&nbsp;</div><div><br></div><div><b>方案2</b></div><div><b><br></b></div><span style="background-color: rgb(255, 255, 255);">首先</span><div><span style="line-height: 1.5;">我们为这些flexbox容器加上大小属性，让它们绝对定位</span></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;">
+    
+        <tbody><tr>
+            
+                <td valign="top" style="width: 579px;"><div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;position:absolute;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;bottom: 0;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;top: 0;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;left: 0;</div><div style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">&nbsp;right: 0;</div></div></td>
+            
+        </tr>
+    
+</tbody></table></div><div><br></div><div>代码中</div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;">
+    
+        <tbody><tr>
+            
+                <td valign="top" style="width: 579px;"><div>$(".btnbar .selected").css("transform", "translate(0, 0) translateZ(0px)");
+</div><div>&nbsp;$(".btnbar .normal").css("transform", "translate(0, 3rem) translateZ(0px)")</div></td>
+            
+        </tr>
+    
+</tbody></table></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">transform:&nbsp;</span>translate是说让目标元素在原有位置进行进一步x、y、z的变换。 &nbsp;&nbsp;</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">然后给flexbox在加上变换效果</span></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;">
+    
+        <tbody><tr>
+            
+                <td valign="top" style="width: 579px;"><div>&nbsp;-webkit-transition-duration: 200ms;</div><div>-webkit-transform: translateZ(0px);</div></td>
+            
+        </tr>
+    
+</tbody></table></div><div><span style="background-color: rgb(255, 255, 255); line-height: 1.5;">最关键的是 &nbsp;&nbsp;</span><span style="background-color: rgb(255, 255, 255); line-height: 1.5;">-webkit-transform: translateZ(0px);&nbsp;</span><span style="background-color: rgb(255, 255, 255); line-height: 1.5;">这个属性。 因为它要求进行z变幻，而浏览器的默认渲染是无法支持的，所以浏览器调用了GPU进行处理，虽然z:0等于没做什么，但GPU一旦加入，速度就得到了极大提升。</span></div><div><span style="background-color: rgb(255, 255, 255); line-height: 1.5;">-webkit-transform: translate3d(0,0,0);&nbsp; 这么写也是这个目的，然而，在移动端 这个写法很可能只对<span style="background-color: rgb(255, 255, 255);">translate(x, y)生效，对像<span style="background-color: rgb(255, 255, 255);">margin-top这样的css变化似乎并无效果。</span></span></span><span style="background-color: rgb(255, 255, 255); line-height: 1.5;">所以在移动端首选方案2的形式。 速度的确快了很多，媲美原生。</span></div><div><br></div><b style="background-color: rgb(255, 255, 255);">切换触发</b><div><br></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;"><span><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;">最后，我们给每个文件、文件夹前面增加一个checkbox， 当有checkbox被选中时，操作栏切换为编辑模式&nbsp;</span></span></span></span></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;"><span><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;"><br></span></span></span></span></span></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;">
+    
+        <tbody><tr>
+            
+                <td valign="top" style="width: 579px;"><div>cloned.find(".check").<font color="#ff0000">attach</font>(function() {
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp;if ($(this).hasClass("icon-check")) {
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $(this).removeClass("icon-check");
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $(this).addClass("icon-check-empty");
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp;} else {
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $(this).addClass("icon-check");
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; $(this).removeClass("icon-check-empty");
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp;} 
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp;if ($(".check.icon-check").length&gt;0) {
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;editMode();
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; } else {
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;listMode();
+</div><div>&nbsp; &nbsp; &nbsp; &nbsp;}
+</div><div>&nbsp; &nbsp;}, true);</div></td>
+            
+        </tr>
+    
+</tbody></table></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:left;"><span><br></span></span></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">值得注意的是 attach方法，我们新增了第二个参数是true 。&nbsp;</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">表示事件不向上传播。 &nbsp;因为我们对目录的整个li增加了事件</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><table border="1" cellpadding="2" cellspacing="0" style="width: auto;">
+    
+        <tbody><tr>
+            
+                <td valign="top" style="width: 579px;"><div>&nbsp;cloned.attach(function() {
+</div><div>&nbsp; &nbsp; &nbsp;openDir($(this).data("entry"));
+</div><div>&nbsp; });</div></td>
+            
+        </tr>
+    
+</tbody></table></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">如果传播，整个目录被打开，那么操作流程就完全乱了。 &nbsp;</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><span style="background-color: rgb(255, 255, 255);"><b>小结&nbsp;</b></span><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;">&nbsp;本章我们围绕操作栏及特效进行了讲解。核心还是介绍一些H5的常用特性， 包括flexbox布局、webfont图标、translate制作动态效果等。这些都是常用而且有效的功能。</span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><span style="background-color:rgb(255, 255, 255);color:rgb(0, 0, 0);font-family:微软雅黑;font-size:14px;font-style:normal;font-weight:normal;text-align:start;"><br></span></div><div><br></div></div>
+
+
+                        
+                    </div>
+                </section>
+            </div>
+
+            <div class="footer">
+                <div class="pure-menu pure-menu-horizontal">
+                    <ul>
+                        <li class="pure-menu-item"><a href="http://purecss.io/" class="pure-menu-link">Copyright © 2014-2015</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+</div>
+
+</body>
+</html>

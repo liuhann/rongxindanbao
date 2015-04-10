@@ -1,0 +1,91 @@
+@charset "utf-8";
+#content {
+	height: auto;
+	width: 1150px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.pingtaijieshao_001 {
+	height: auto;
+	width: auto;
+	background-color: #FFF;
+	border-top-width: 2px;
+	border-top-style: solid;
+	border-top-color: #21a3e0;
+}
+
+.pingtaijieshao_001:after {
+	content:' ';
+	height:0px;
+	clear:both;
+	display:block;
+}.pingtaijieshao_001 .l {
+	float: left;
+	height: auto;
+	width: 220px;
+}
+.pingtaijieshao_001 .r {
+	float: right;
+	height: auto;
+	width: 916px;
+}
+.bg {
+	background-color: #efefed;
+}
+.pingtaijieshao_001 .l cite {
+	background-image: url(../img/pingtaijieshao_001.png);
+	height: auto;
+	width: auto;
+	display: block;
+	font-size: 16px;
+	font-weight: bold;
+	color: #1fa0dd;
+	padding: 20px;
+}
+.pingtaijieshao_001 .l ul li {
+	height: auto;
+	width: auto;
+	background-color: #f0f0f0;
+	padding-top: 16px;
+	padding-right: 20px;
+	padding-bottom: 16px;
+	padding-left: 20px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #e0e0e0;
+}
+
+.pingtaijieshao_001 .l ul li:hover {
+		background-color: #FFF;
+}
+
+.pingtaijieshao_001 .l ul li a {
+	font-size: 14px;
+	color: #999;
+	margin-left: 5px;
+}
+.pingtaijieshao_001 .l ul .end {
+	background-image: url(../img/pingtaijieshao_003.png);
+	background-repeat: no-repeat;
+	height: 122px;
+	width: auto;
+}
+.pingtaijieshao_001 .l ul .sele {
+	background-color: #FFF;
+}
+.pingtaijieshao_001 .r {
+	font-size: 14px;
+	color: #999;
+	padding-top: 28px;
+	line-height: 1.4em;
+}
+.pingtaijieshao_001 .r span {
+	color: #666;
+}
+.pingtaijieshao_001 .yinying {
+	clear: both;
+	background-image: url(../img/rongzirukouP-1_003.png);
+	background-repeat: repeat-x;
+	height: 8px;
+	width: auto;	
+}

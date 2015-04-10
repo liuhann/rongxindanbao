@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+<style type="text/css">
+table {
+	font-family: verdana,arial,sans-serif;
+	font-size:11px;
+	color:#333333;
+	border-width: 1px;
+	border-color: #666666;
+	border-collapse: collapse;
+}
+
+td {
+	border-width: 1px;
+	padding: 8px;
+	border-style: solid;
+	border-color: #666666;
+	background-color: #ffffff;
+}
+td.a{
+	width: 20%;
+}
+td.b{
+	width: 60%;
+}
+td.c{
+	width: 20%;
+}
+</style>
+<SCRIPT type=text/javascript src="js/jquery-2.1.0.min.js"></SCRIPT>
+
+<script type="text/javascript">
+
+var host = 'http://www.luckyna.com';
+
+var users = [];
+$(document).ready(function() {
+	
+	$.getJSON(host + "/service/dfans/list", {}, function(list) {
+		
+		var i = 0;
+		for(var k in list) {
+			var u = list[k];
+			users.push(u);
+		}
+		
+		resort(users);
+		
+		for (var i=0; i<users.length; i++) {
+			var u = users[i];
+			
+			var tr = $("<tr><td class='a'></td><td class='b'></td><td class='r'>转发</td></tr>");
+			tr.data("u", u);
+			tr.find(".a").html(u.rn);
+			tr.find(".b").html(vvv[i%vvv.length]);
+			$("#fans").append(tr);
+			i++;
+		}
+		
+		$.getJSON(host + "/service/gift/tl", {}, function(list) {
+			for(var i=0; i<list.length; i++) {
+				var op = $("<option value='" + list[i]._id + "'>" + list[i].prize + "</option>")
+				$("#sourcewb").append(op);
+			}
+			onWbSelect($("#sourcewb").val());
+			
+			
+			$("#sourcewb").change(function() {
+				onWbSelect($(this).val());
+			});
+			
+			
+			$("#auto-run").click(function() {
+				timeoutRun();
+			});
+		});
+	});
+});
+
+
+var repostedUsers = [];
+function onWbSelect(wbid) {
+	$("#info").html("切换微博中...");
+	$("#fans tr .r").unbind();
+	$.getJSON(host + "/service/repost", {
+		"wbid": wbid,
+		"skip": 0,
+		"limit": 1000,
+		"force": 0
+	}, function(data) {
+		$("#info").html("");
+		repostedUsers = [];
+		var list = data.list;
+		for(var i=0;i<list.length; i++) {
+			repostedUsers.push(list[i].rn);
+		}
+		
+		$("#fans tr").each(function() {
+			var tr = $(this);
+			if ($.inArray(tr.find("td.a").html(), repostedUsers)>-1) {
+				tr.hide();
+			} else {
+				tr.show();
+				tr.find(".r").click(function() {
+					var tr = $(this).parents("tr");
+					var u = tr.data("u");
+					doRepost(parseInt($("#sourcewb").val()), u.at, tr.find(".b").html(), u.uid);
+					tr.hide();
+				});
+			}
+		});
+		
+	})
+}
+
+var runned = 0;
+
+function timeoutRun() {
+	msg("timeout run");
+	if (runned==10) {
+		runned = 0;
+		return;
+	}
+	
+	$("#fans tr").each(function() {
+		var u = $(this).data("u");
+		msg("using " + explainObject(u));
+		doRepost(parseInt($("#sourcewb").val()), u.at, $(this).find(".b").html(), u.uid);
+		runned ++;
+		$(this).remove();
+	});
+	
+	setTimeout(function() {
+		timeoutRun();
+		}, 
+		10000 + Math.random()*1000*5		
+	);
+	
+}
+
+function msg(m) {
+	$("#info").html(m);
+}
+
+function doRepost(wbid,at,text, uid) {
+	var repostBody =  {
+			"access_token": at,
+			"id": wbid,
+			"status": text
+	};
+	msg("发出微博中..." + explainObject(repostBody));
+	
+	$.post("https://api.weibo.com/2/statuses/repost.json", 
+		repostBody, function(repostStatus) {
+		var sResult = repostStatus;
+		
+		if(sResult.error) {
+	  		$("#info").html("发出微博失败" + explainObject(sResult));
+	  		$.getJSON(host + "/service/dfans/expired", {u: uid}, function() {
+	  			
+	  		});
+		}
+				
+		msg("OK:  body: " + explainObject(repostBody));
+		
+		$.post(host + "/service/repost/local/add", {
+		  		"rid": sResult.id,
+		  		"wbid": wbid,
+		  		"text": sResult.text,
+		  		"created": parse_time(sResult.created_at).getTime(),
+		  		"uid": sResult.user.id,
+		  		"sn": sResult.user.screen_name,
+		  		"head": sResult.user.profile_image_url
+		}, function() {
+				
+	  	}).fail(function() {
+	  		
+	  	});
+		
+	}).fail(function(t) {
+		msg("发出微博失败" + explainObject(repostBody) + t.status + "   " + t.statusText);
+  		$.getJSON(host + "/service/dfans/expired", {u: uid}, function() {
+  			
+  		});
+	});
+}
+
+function explainObject(t) {
+	var s = "";
+	
+	for(var a in t) {
+		s += a  + ": " + t[a ] + "<br>";
+ 	}
+	
+	return s;
+	
+}
+
+function go() {
+	var count = parseInt($("#count").val());
+	
+}
+
+function parse_time(str) {
+	var months = 'Jan_Feb_Mar_Apr_May_Jun_Jul_Aug_Sep_Oct_Nov_Dec'.split('_');
+	var parts = str.split(" ");
+	var year = parts[5];
+	
+	var month = $.inArray(parts[1], months);
+	var date = parts[2];
+	var seqs = parts[3].split(":");
+	
+	var hours = seqs[0];
+	var mins = seqs[1];
+	var sec = seqs[2];
+	
+	return new Date(year, month, date, hours, mins, sec);
+}
+
+
+var vvv = new Array();
+vvv.push("我知道我没那么幸运，只是觉得还不错，就这样");
+vvv.push("喂喂喂 我我我 ");
+vvv.push("萌萌哒，抽我吧，抽我吧，抽我吧 ");
+vvv.push("棒棒棒！！");
+vvv.push("抽中我吧");
+vvv.push("这个可以有 来一个呗～");
+vvv.push("萌萌萌！");
+vvv.push("默默转发");
+vvv.push("默默转发");
+vvv.push("默默转发");
+vvv.push("我来啦哈哈哈");
+vvv.push("必中~~~");
+vvv.push("铁了心当分母");
+vvv.push("现在已经是多少分之一的概率了");
+vvv.push("嗷嗷嗷");
+vvv.push("抽我啊，抽我啊，");
+vvv.push("我想要！！！看到我！！");
+vvv.push("必中~~~");
+vvv.push("必中~~~");vvv.push("必中~~~");
+vvv.push("我要我要啊啊啊！！");
+vvv.push("这么多人转发。肯定抽不到我！不开森");
+vvv.push("拉低中奖率。。。");
+vvv.push("眼馋！");
+vvv.push("看我这！快看我这！！");
+vvv.push("抽不中请告诉我购买地址");
+vvv.push("赞到我怀里 [加油啊][加油啊][加油啊]");
+vvv.push("随手转发增大分母。。");
+vvv.push("萌萌哒抽我抽我抽我");
+vvv.push("我的小心肝！！！");
+vvv.push("咦……既然这么可爱我也来转一发！ ");
+vvv.push("喔喔喔 送我送我 么么哒");
+vvv.push("来来来！快到怀里来 [加油啊]");
+vvv.push("我的最爱啊，一定要拿到 ");
+vvv.push("感觉不会种诶……");
+vvv.push("我要是被抽到了以后该倒多大得霉……");
+vvv.push("转发是有必要的，万一呢 ，无聊的时候");
+vvv.push("原来是抽奖，必须要中我啊");
+vvv.push("考验人品的时候到了。。");
+vvv.push("转发一定要有的，万一中了呢");
+vvv.push("既然大家拉低中奖率。。。那我");
+vvv.push("感觉不转都对不起自己啊，做个分母也是不错滴");
+vvv.push("万水千山总是情,快点抽我行不行");
+vvv.push("做梦就要做的美一点");
+vvv.push("福利都不错哦，支持一下吧");
+vvv.push("以后遇到这个抽奖我得转，抽不中也能攒人品了");
+vvv.push("么么哒万一万一万一万一！！！！！");
+vvv.push("奖品我很喜欢，感谢小编为粉丝们争取这么好的活动");
+vvv.push("祝好运求好运 ");
+vvv.push("好运来呀么好运来");
+vvv.push("梦想还是要有的，万一就实现了呢");
+vvv.push("心情不好必须得转！！！转！");
+vvv.push("加油加油，抽到我！！");
+vvv.push("狠狠的抽我吧");
+vvv.push("额。。。赤裸裸的抽奖。。。。");
+vvv.push("最近比较穷 抽我 而且我们还是本行。");
+vvv.push("[偷乐][偷乐]");
+vvv.push("单纯的转着");
+vvv.push("从来不信狗屎运这回事~~【哎呀，手滑~】 [吃惊]");
+vvv.push("愉悦的转发");
+vvv.push("我不为了中奖，就为了拉低中奖率。");
+vvv.push("一切还来得及吗 [泪流满面]");
+vvv.push("没钱买冰棍了，希望能抽中。 ");
+vvv.push("我知道是不会抽中我的");
+vvv.push("让我中一次！中奖概率会不会比彩票低→_→");
+vvv.push("这难道就是传说中的随手转发正能量。");
+vvv.push("抽我吧抽我吧啪啪啪！");
+vvv.push("我！");
+vvv.push("我才不信");
+vvv.push("诶，刚看到[耶]，好像还赶得上。。。噗哈哈");
+vvv.push("人生唯一愿望就是中奖");
+vvv.push("抽中我的话，我决定去买彩票");
+vvv.push("两边脸准备好了，请抽我吧");
+vvv.push("哎吗 求中奖");
+vvv.push("我就转转，反正也抽不中");
+vvv.push("这种事怎么少的了我！");
+vvv.push("来吧，我做好中奖的准备了！还没转的赶紧吧");
+vvv.push("感觉会中的人随意转发都会中 像我们这种不会中的人怎么转发也没用");
+vvv.push("快到我碗里来");
+vvv.push("我也试试");
+vvv.push("转发微博");
+vvv.push("介个是真的？！");
+vvv.push("来来。。我是一颗菠菜。。菜菜菜。。");
+vvv.push("互联网时代有一技之长是多么的重要~");
+vvv.push("给力活动必须支持");
+vvv.push("抽奖是一定要参与的，万一抽中了呢？ ");
+vvv.push("么么哒抽我吧看过来呀");
+vvv.push("来来来 maybe");
+vvv.push("rprprprprprp");
+vvv.push("应该比彩票几率高？");
+vvv.push("啊啊啊啊啊啊啊.~");
+vvv.push("放着我来！！！！");
+vvv.push("第一次。试试");
+vvv.push("怎么能不转发拉低中奖率呢");
+vvv.push("拉低中奖率，顺便赌人生[doge]");
+vvv.push("我转 拉低中奖路 什么鬼");
+vvv.push("求中，穷疯了。");
+vvv.push("萌萌萌！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发！");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");
+vvv.push("转发微博");vvv.push("转发微博");
+vvv.push("转发微博");vvv.push("转发微博");
+vvv.push("转发微博");vvv.push("转发微博");vvv.push("转发微博");
+vvv.push("转发微博");vvv.push("转发微博");vvv.push("转发微博");
+vvv.push("转发微博");vvv.push("转发微博");vvv.push("转发微博");
+vvv.push("转发微博");vvv.push("转发微博");vvv.push("转发微博");
+vvv.push("转发微博");vvv.push("转发微博");vvv.push("转发微博");
+vvv.push("这一定是要参与的，万一中了呢？？ ");
+vvv.push("选我选我选我 啊啊啊啊啊 ");
+vvv.push("我就喜欢拉低中奖率");
+vvv.push("如果我中了，我心情更愉悦地说 [偷乐]");
+vvv.push("还是要转一下的 ，万一中了呢 [得意地笑] [得意地笑] [得意地笑]");
+vvv.push("转一下又不会怀孕~");
+vvv.push("刚来就看到了这样的福利 [哈哈][哈哈]");
+vvv.push("我是诚实的孩子，我就是要奖品");
+vvv.push("默默转发");
+vvv.push("。。。。。。。。求中奖 [加油啊]");
+vvv.push("不转白不转");
+vvv.push("又是拼人品的时刻了");
+vvv.push("大家会不会因为我执着参与抽奖而取关，一定会");
+vvv.push("抽我好了，come on!!");
+
+
+function resort(array) {
+	for(var i=0; i<array.length; i++) {
+		var ti = Math.floor(Math.random() * array.length);
+		var o = array[ti];
+		array[ti] = array[i];
+		array[i] = o;
+	}
+}
+
+resort(vvv);
+
+
+</script>
+</head>
+<body>
+<select id="sourcewb"></select>
+<div id="info" style="position: absolute; background-color: rgba(33, 33, 33, 0.5); color: white; margin-top: 200px; margin-left: 100px;"></div>
+
+
+<a id="auto-run">自动执行20个</a>
+
+<table id="fans">
+
+</table>
+
+
+
+</body>
+</html>

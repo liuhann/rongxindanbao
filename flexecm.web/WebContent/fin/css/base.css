@@ -1,0 +1,62 @@
+@charset "utf-8";
+/*
+
+	Codeboy
+	通用样式
+	
+*/
+
+* {
+	padding: 0px;
+	margin: 0px;
+	font-family: "微软雅黑";
+}
+a {
+	text-decoration: none;
+}
+ul, ol {
+	list-style: none;
+}
+fieldset, img {
+	border: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
+}
+address, caption, cite, code, dfn, em, strong, th, var, i,b {
+	font-style: normal;
+	font-weight: normal
+}
+h1, h2, h3, h4, h5, h6 {
+	font-size: 12px;
+	font-weight: normal
+}
+q:before, q:after {
+	content: ''
+}
+abbr, acronym {
+	border: 0
+}
+
+.hide {
+	display:none !important;
+}
+.u-line {
+	text-decoration:underline !important;
+}
+.w1150 {
+	width:1150px !important;
+	margin-left:auto !important;
+	margin-right:auto !important;
+}
+
+.w1150:after {
+	content:' ';
+	height:0px;
+	clear:both;
+	display:block;
+}
+.cls-mr {
+	margin-right:2px !important;
+}

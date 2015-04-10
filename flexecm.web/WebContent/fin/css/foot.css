@@ -1,0 +1,144 @@
+@charset "utf-8";
+
+.bg {
+	background-image:url(../img/top_007.png);
+	background-repeat:repeat-x;
+}
+	
+
+.foot-lv01 {
+	height: 125px;
+	width: auto;
+	margin-right: auto;
+	margin-left: auto;
+}
+
+.foot-lv01:after {
+	content:' ';
+	height:0px;
+	clear:both;
+	display:block;
+	}
+
+#foot {
+	height: auto;
+	width: 1150px;
+	margin-top: 8px;
+	margin-right: auto;
+	margin-left: auto;
+}
+.foot-lv01 .l {
+	float: left;
+	height: 125px;
+	width: 800px;
+	background-image: url(../img/foot_010.png);
+	background-repeat: repeat-x;
+}
+.foot-lv01 .r {
+	float: right;
+	height: 125px;
+	width: 336px;
+	background-image: url(../img/foot_010.png);
+	background-repeat: repeat-x;
+}
+.foot-lv01 .l .info {
+	height: 125px;
+	width: 265px;
+	float: left;
+}
+.foot-lv01 .l .v-line {
+	height: 83px;
+	width: 1px;
+	float: left;
+	background-color: #d0d0ce;
+	margin-top: 19px;
+	margin-bottom: 23px;
+}
+.foot-lv01 .l .info .icon {
+	height: auto;
+	width: auto;
+	padding-top: 28px;
+	padding-left: 35px;
+	float: left;
+	padding-right: 10px;
+}
+.foot-lv01 .l .info .text {
+	float: left;
+	height: auto;
+	width: auto;
+	padding-top: 28px;
+}
+.foot-lv01 .l .info .text h3 {
+	color: #2c2c2c;
+	font-size: 14px;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 4px;
+}
+.foot-lv01 .l .info .text span {
+	font-size: 12px;
+	color: #858585;
+	display: block;
+	margin-bottom: 4px;
+}
+.foot-lv01 .l .info .text b {
+	font-size: 14px;
+	color: #858585;
+	display: block;
+}
+.foot-lv01 .r .text {
+	float: left;
+	height: auto;
+	width: auto;
+	padding-top: 28px;
+	padding-left: 28px;
+}
+.foot-lv01 .r .erweima {
+	float: right;
+	height: auto;
+	width: auto;
+	padding-top: 20px;
+	padding-right: 30px;
+}
+.foot-lv01 .r .text h3 {
+	color: #2c2c2c;
+	font-size: 14px;
+	font-weight: bold;
+	display: block;
+	margin-bottom: 4px;	
+}
+.foot-lv01 .r .text span {
+	font-size: 12px;
+	color: #858585;
+	display: block;
+	margin-bottom: 4px;	
+}
+.foot-lv02 {
+	height: 125px;
+	width: 1150px;
+	margin-right: auto;
+	margin-left: auto;
+	background-color: #FFFFFF;
+}
+.foot-lv02 .l {
+	float: left;
+	height: auto;
+	width: auto;
+	padding-top: 38px;
+	padding-left: 35px;
+}
+.foot-lv02 .l span {
+	font-size: 12px;
+	color: #a5a5a5;
+	display: block;
+	margin-bottom: 5px;
+}
+.foot-lv02 .l span a {
+	color: #a5a5a5;
+	margin-right: 10px;
+}
+.foot-lv02 .r {
+	float: right;
+	padding-top: 36px;
+	padding-right: 28px;
+}

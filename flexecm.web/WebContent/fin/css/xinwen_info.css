@@ -1,0 +1,118 @@
+@charset "utf-8";
+.bg {
+	background-color: #efefed;
+}
+#content {
+	height: auto;
+	width: 1150px;
+	margin-right: auto;
+	margin-left: auto;
+	background-color: #FFF;
+}
+.xinwen_info_001 {
+	height: auto;
+	width: auto;
+	border-top-width: 2px;
+	border-top-style: solid;
+	border-top-color: #21a3e0;
+}
+
+
+.xinwen_info_001:after {
+	content:' ';
+	height:0px;
+	clear:both;
+	display:block;
+}
+
+
+.xinwen_info_001 .yinying {
+	clear: both;
+	background-image: url(../img/rongzirukouP-1_003.png);
+	background-repeat: repeat-x;
+	height: 8px;
+	width: auto;	
+}
+.xinwen_info_001 .l {
+	float: left;
+	height: auto;
+	width: 718px;
+	padding-left: 50px;
+	padding-right: 50px;
+	margin-top: 30px;
+	margin-bottom: 30px;
+	border-right-width: 1px;
+	border-right-style: solid;
+	border-right-color: #e5e5e5;
+}
+.xinwen_info_001 .r {
+	float: right;
+	height: auto;
+	width: 300px;
+	padding-top: 30px;
+	padding-right: 15px;
+	padding-left: 15px;
+}
+.xinwen_info_001 .l .title {
+	height: auto;
+	width: auto;
+	padding-bottom: 20px;
+	border-bottom-width: 1px;
+	border-bottom-style: dotted;
+	border-bottom-color: #f2f2f2;
+}
+.xinwen_info_001 .l .title cite {
+	font-size: 18px;
+	color: #333333;
+	display: block;
+	height: auto;
+	width: auto;
+	padding-bottom: 5px;
+}
+.xinwen_info_001 .l .title i {
+	font-size: 10px;
+	color: #666666;
+	display: block;
+}
+.xinwen_info_001 .l .content {
+	height: auto;
+	width: auto;
+	padding-top: 24px;
+}
+.xinwen_info_001 .l .content .info_text {
+	color: #999;
+	font-size: 14px;
+	line-height: 1.5em;
+	height: auto;
+	width: auto;
+	padding-top: 14px;
+	padding-bottom: 74px;
+}
+.xinwen_info_001 .r .title cite {
+	font-size: 18px;
+	color: #666;
+	height: auto;
+	width: auto;
+	padding-bottom: 14px;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+	border-bottom-color: #e5e5e5;
+	display: block;
+}
+.xinwen_info_001 .r .content ul li {
+	font-size: 14px;
+	height: auto;
+	width: auto;
+	padding-top: 12px;
+	padding-bottom: 12px;
+	border-bottom-width: 1px;
+	border-bottom-style: dashed;
+	border-bottom-color: #f2f2f2;
+}
+.xinwen_info_001 .r .content ul li a {
+	color: #698ca2;
+}
+.xinwen_info_001 .r .content ul li b {
+	color: #698ca2;
+	margin-right: 5px;
+}

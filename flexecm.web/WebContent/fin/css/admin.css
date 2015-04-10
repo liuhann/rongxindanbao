@@ -1,0 +1,297 @@
+@CHARSET "UTF-8";
+
+header, footer, section, aside, article, nav, hgroup, figure, figcaption, body, h1, h2, h3, h4, h5, h6, ul, ol, li, form, p, dl, dt, dd, blockquote, legend, table, th, td, fieldset, menu, pre {
+  margin: 0;
+  padding: 0;
+}
+html {
+	background-color: #FAFAFA;
+}
+
+body {
+  color: #222;
+  overflow: auto;
+  height: 100%;
+  width: 100%;
+  font-size: 12px;
+}
+
+body, input, textarea {
+  font-family: 'Microsoft Yahei',verdana;
+}
+
+
+a {
+	text-decoration:none
+}
+
+a.btn {
+  background: #35B558;
+  color: #FFF;
+  font-size: 12px;
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 10px;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 16px;
+}
+
+.hidden, .template {
+	display: none;
+}
+
+a.find {
+  background: #efefef;
+  padding: 5px 12px;
+  border: 1px solid #ccc;
+  border-left: none;
+}	
+
+.fr {
+	float: right;
+}
+
+input.search {
+	padding: 5px;	
+	border: 1px solid #ddd;
+}
+
+li {
+	list-style: none;
+}
+
+.wrapper {
+	width: 1200px;
+	margin: 0 auto;
+}
+
+.top {
+	height: 30px;
+	padding: 10px;
+	background-image: -webkit-linear-gradient(top,#3c3c3c 0,#222 100%);
+	  background-image: -o-linear-gradient(top,#3c3c3c 0,#222 100%);
+	  background-image: -webkit-gradient(linear,left top,left bottom,from(#3c3c3c),to(#222));
+	  background-image: linear-gradient(to bottom,#3c3c3c 0,#222 100%);
+	  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff3c3c3c', endColorstr='#ff222222', GradientType=0);
+	  filter: progid:DXImageTransform.Microsoft.gradient(enabled=false);
+	  background-repeat: repeat-x;
+	  color: white;
+	  font-size: 16px;
+	  line-height: 30px;
+}
+.top span.title {
+	float: left;
+}
+
+.top ul.nav {
+	float: left;
+	margin-left: 100px;
+	font-size: 14px;
+}
+.top ul.nav li {
+float: left;
+color: #9D9D9D;
+margin-left: 40px;
+}
+
+.top a {
+	float: right;
+	font-size: 14px;
+}
+
+.gridl {
+	float: left; 
+	width: 240px;
+	padding: 10px;
+}
+
+.gridl .box {
+	margin-top: 10px;
+	background: #fff;
+  	border: 1px solid #e9edee;
+}
+
+.gridl .box .title {
+	height: 40px;
+  line-height: 40px;
+  padding-left: 24px;
+  background-color: #f8f8f8;
+  border-bottom: 1px solid #e9edee;
+}
+.gridl .box .title h2 {
+	font-size: 14px;
+}
+
+.gridl .box ul li {
+  padding: 10px 24px;
+  height: 20px;
+  border-bottom: 1px solid #e9edee;
+  position: relative;
+}
+
+.gridl .box ul li:HOVER{
+	background-color: #f8f8f8;
+	cursor: pointer;
+}
+
+.gridr {
+	padding: 20px;
+	float: left;
+	width: 880px;
+}
+
+.gridr .panel {
+  border-top: 3px solid #2980b9;
+  padding: 10px;
+  background: white;
+}
+
+.table {
+  width: 100%;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+  display: table;
+  background: #fff;
+}
+
+.empty {
+	line-height: 400px;
+	height: 400px;
+	width: 100%;
+	text-align: center;
+	color: #bcbcbc;	
+	background-color: #fff;
+}
+
+@media screen and (max-width: 580px) {
+  .table {
+    display: block;
+  }
+}
+
+.row {
+  display: table-row;
+  background: #fff;
+}
+
+.row:nth-of-type(odd) {
+  background: #fcfcfc;
+}
+.row:HOVER {
+	cursor: pointer;
+	background-color: #abdddd;
+}
+
+.row.header {
+  font-weight: 900;
+  background: #ebeef0;
+  color: #222;
+}
+.row.green {
+  background: #27ae60;
+}
+
+.row.blue {
+  background: #2980b9;
+}
+
+@media screen and (max-width: 580px) {
+  .row {
+    padding: 8px 0;
+    display: block;
+  }
+}
+
+.cell {
+  padding: 10px 15px;
+  display: table-cell;
+  border-top: 1px solid #ccc;
+  border-left: 1px solid #ccc;
+}
+
+@media screen and (max-width: 580px) {
+  .cell {
+    padding: 2px 12px;
+    display: block;
+  }
+}
+
+.form {
+  background: #fff;
+  padding: 20px;
+}
+
+.form input {
+  margin: 4px 0;
+  padding: 8px;
+  background-color: transparent;
+  outline: 0;
+  width: 100%;
+  border: 1px solid #ddd;
+}
+
+.form.readOnly input {
+	border: none;
+}
+.form .title {
+  padding: 10px 0px 20px 10px;
+  border-bottom: 1px solid #f1f1f1;
+  position: relative;
+}
+.form .title .ops {
+	position: absolute;
+	right: 20px;
+	top: 0px;
+}
+
+.form .fcg {
+	margin-left: 10px;
+	margin-top: 20px;
+}
+
+.form .fcg label {
+  float: left;
+  width: 10rem;
+  line-height: 40px;
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.form .fcg div.fc {
+	display: table-cell;
+  	vertical-align: top;
+  	float: none;
+  	width: 400px;
+  	line-height: 40px;
+}
+
+.warn {
+  background: #ffffe1;
+  border: 1px solid #e0e0e0;
+  padding: 8px 18px;
+  margin-bottom: 20px;
+}
+.warn p {
+	line-height: 30px;
+}
+
+.warn input {
+	padding: 4px;
+	margin: 0 4px;
+}
+
+.clearfix:after {
+	visibility: hidden;
+	display: block;
+	font-size: 0;
+	content: " ";
+	clear: both;
+	height: 0;
+}
+.clearfix { display: inline-table; }
+/* Hides from IE-mac \*/
+* html .clearfix { height: 1%; }
+.clearfix { display: block; }
+/* End hide from IE-mac */
+
+
