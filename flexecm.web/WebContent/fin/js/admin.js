@@ -2,8 +2,20 @@
  * 
  */
 $(document).ready(function() {
-	
+	navTo($("ul.nav li.navuser"));
 });
+
+
+function navTo(t) {
+	$(".top ul.nav li").removeClass("current");
+	$(".gridl .box").hide();
+	
+	$(".gridl .box." + $(t).attr("class")).show();
+	
+	eval($(".gridl .box." + $(t).attr("class")).find("li").first().attr("onclick"));
+	$(t).addClass("current");
+	
+}
 
 function pageAllAccount() {
 	$(".gridr>div").hide();
@@ -17,7 +29,28 @@ function pageAllAccount() {
 }
 
 function pageUnConfirmed() {
+	$.getJSON("/service/fin/account/unconfirmed", {}, function(result) {
+		initTable("#uncfmAccount",result)
+	});
+}
+
+function initTable(tbid, data, cellcb) {
 	
+	$(tbid + " .row.item").remove();
+	$(tbid + " .empty").show();
+	$(tbid + " .empty").html("正在读取列表");
+	
+	for(var i=0; i<data.list.length; i++) {
+		$(tbid).next(".empty").hide();
+		var cloned = $(tbid + " .template").clone().removeClass("template").addClass("item row");
+		cloned.find("div.cell").each(function() {
+			
+			if ($(this).data("f")) {
+				$(this).html(data.list[i][$(this).data("f")]);
+			}
+			$(tbid).append(cloned);
+		});
+	}
 }
 
 

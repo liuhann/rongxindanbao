@@ -146,6 +146,29 @@ public class FinanceService implements Tenantable {
 		return "1";
 	}
 	
+	
+
+	@RestService(method="GET", uri="/fin/account/unconfirmed", authenticated=true, runAsAdmin=true)
+	public Map<String, Object> getUnConfirmedAccount(@RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		
+		long count = dataSource.getCollection(COLL_ACCOUNTS).count(new BasicDBObject("ecfm", new BasicDBObject("$ne", true)));
+		DBCursor cursor = dataSource.getCollection(COLL_ACCOUNTS).find(new BasicDBObject("ecfm", new BasicDBObject("$ne", true))).skip(skip).limit(limit);
+		
+		result.put("size", count);
+		
+		List<Map> list = new ArrayList<Map>();
+		while(cursor.hasNext()) {
+			Map m = cursor.next().toMap();
+			m.remove("pwd");
+			list.add(cursor.next().toMap());
+		}
+		result.put("list", list);
+		return result;
+	}
+	
+	
 	//检查账户创建请求的合法性
 	public void checkAccountValid(Map<String, Object> req) {
 		//首先判断一些必填字段 （将来判断的字段会更多）

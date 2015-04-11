@@ -93,8 +93,12 @@ li {
 float: left;
 color: #9D9D9D;
 margin-left: 40px;
+cursor: pointer;
 }
-
+.top ul.nav li.current {
+font-size: 18px;
+color: #eee;
+}
 .top a {
 	float: right;
 	font-size: 14px;
@@ -142,6 +146,7 @@ margin-left: 40px;
 }
 
 .gridr .panel {
+min-height: 30px;
   border-top: 3px solid #2980b9;
   padding: 10px;
   background: white;

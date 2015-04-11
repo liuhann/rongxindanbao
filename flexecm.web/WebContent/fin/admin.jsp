@@ -25,10 +25,10 @@
 	<div class="wrapper">
 		<span class="title">融信担保-后台管理</span>
 		<ul class="nav">
-			<li class="navuser">用户管理</li>
-			<li class="navproject">项目管理</li>
-			<li class="navcontent">内容管理</li>
-			<li class="navmanage">后台管理</li>
+			<li class="navuser" onclick="navTo(this);">用户管理</li>
+			<li class="navproject" onclick="navTo(this);">项目管理</li>
+			<li class="navcontent" onclick="navTo(this);">内容管理</li>
+			<li class="navmanage" onclick="navTo(this);">后台管理</li>
 		</ul>
 		
 		<a>退出系统</a>
@@ -192,7 +192,7 @@
 			</div>
 		</div>
 		
-		<div class="table">
+		<div class="table" id="uncfmAccount">
 		    <div class="row header">
 		      <div class="cell" style="width: 100px;">
 		        	帐号
@@ -214,28 +214,28 @@
 		      </div>
 		    </div>
 	    <div class="template">
-	      <div class="cell location">
+	      <div class="cell" data-f="loginid">
 	      </div>
-	      <div class="cell company">
+	      <div class="cell" data-f="name">
 	      </div>
-	      <div class="cell bizlicence">
+	      <div class="cell" data-f="personcode">
 	      </div>
-	      <div class="cell loginid">
+	      <div class="cell" data-f="mobile">
 	      </div>
-	      <div class="cell projects">
+	      <div class="cell" data-f="email">
 	      </div>
-	      <div class="cell crating">
+	      <div class="cell" data-cal="type">
 	      </div>
 	    </div>
 	</div>	
 	
-		 <div class="empty">
-		    	列表内容为空
-		</div>
+	 <div class="empty">
+	    	列表内容为空
+	</div>
 	
 	</div>
 
-	<div class="org">
+	<div class="org hidden">
 		<div class="panel">
 			<a class="btn" onclick="addGreenOrg();">增加绿色通道企业</a>
 			<div class="fr">
@@ -265,7 +265,7 @@
 		      </div>
 		    </div>
 	    <div class="template">
-	      <div class="cell location">
+	      <div class="cell " data-f="location">
 	      </div>
 	      <div class="cell company">
 	      </div>
