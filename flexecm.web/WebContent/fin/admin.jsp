@@ -6,18 +6,17 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>融信担保-后台管理</title>
 
-<link type="text/css" rel="stylesheet" href="css/admin.css">
-<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
-<script type="text/javascript" src="js/webcommon.js"></script>
-<script type="text/javascript" src="js/json2.js"></script>
-
-
 <%
 	if(request.getSession().getAttribute(AuthenticationUtil.SESSION_ADMIN)==null) {
 		response.getWriter().println("用户已失效，请点击<a href='login.jsp'>重新登陆</a>");
 		return;
 	}
 %>
+
+<link type="text/css" rel="stylesheet" href="css/admin.css">
+<script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+<script type="text/javascript" src="js/webcommon.js"></script>
+<script type="text/javascript" src="js/json2.js"></script>
 <script type="text/javascript" src="js/admin.js"></script>
 
 </head>
@@ -57,7 +56,7 @@
 			<h2>项目管理</h2>
 		</div>
 		<ul>
-			<li>项目库</li>
+			<li onclick="pageAllLoans();">项目库</li>
 			<li>初审列表</li>
 			<li>复审列表</li>
 			<li>未通过项目</li>
@@ -75,6 +74,15 @@
 			<li>银行理财</li>
 			<li>货币基金</li>
 		</ul>
+		
+		<div class="title">
+			<h2>新闻公告</h2>
+		</div>
+		<ul>
+			<li onclick="addNews();">增加新闻公告</li>
+			<li>新闻列表</li>
+		</ul>
+		
 	</div>
 </div>
 
@@ -186,7 +194,6 @@
 			<a class="btn edit" onclick="saveOrg();">保存</a>
 		</div>
 	</div>
-	
 	<div class="accounts">
 		<div class="panel">
 			<div class="fr">
@@ -230,13 +237,7 @@
 		      </div>
 		    </div>
 		</div>	
-	
-		 <div class="empty">
-		    	列表内容为空
-		</div>
-	
 	</div>
-
 	<div class="org hidden" id="vip-companies">
 		<div class="panel">
 			<a class="btn" onclick="addGreenOrg();">增加绿色通道企业</a>
@@ -286,7 +287,61 @@
 	    	列表内容为空
 	</div>
 	</div>    
+	<div class="loans" id="loans-list">
+		<div class="panel">
+			<div class="title">
+				项目库
+			</div>
+		</div>
 
+		<div class="table" id="loans-table">
+		    <div class="row header">
+		      <div class="cell">
+		        	借款人
+		      </div>
+		      <div class="cell">
+		       		借款金额
+		      </div>
+		      <div class="cell">
+		       		借款期限
+		      </div>
+		      <div class="cell">
+		       		联系方式
+		      </div>
+		      <div class="cell">
+		      		处理状态
+		      </div>
+		    </div>
+		    
+		    <div class="template">
+				<div class="cell" data-f="name">
+			     </div>
+			      <div class="cell" data-eval="entry['loan'] + '万元'">
+			      </div>
+			      <div class="cell" data-eval="entry['until'] + '个月'">
+			      </div>
+			      <div class="cell" data-f="email">
+			      </div>
+			      <div class="cell" data-eval="(entry['audit']==1)?'初审中':'复审中'">
+			      </div>
+			</div>
+	</div>
+	
+	 <div class="empty">
+	    	列表内容为空
+	</div>
+	</div> 
+
+	<div class="form add-news hidden">
+	
+		<div class="empty">
+	    	正在初始化编辑器..
+		</div>
+	   <!-- 加载编辑器的容器 -->
+   		<script id="umcontainer" name="content" type="text/plain">
+			</script>
+	</div>
+	
 </div>
 
 </div> <!-- wrapper end -->

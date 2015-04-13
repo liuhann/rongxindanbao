@@ -2,6 +2,7 @@ package com.ever365.fin;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,6 +29,8 @@ import com.mongodb.DBObject;
 
 public class FinanceService implements Tenantable {
 
+	public static final String COLL_TEMPORARY = "temporary";
+	public static final String COLL_LOANS = "loans";
 	private static final String TYPE_PERSON = "person";
 	private static final String FIN_ROOT = "/fin/";
 	private static final String TYPE_COMPANY = "company";
@@ -150,12 +153,17 @@ public class FinanceService implements Tenantable {
 	@RestService(method="POST", uri="/fin/account/filter", authenticated=true, runAsAdmin=true)
 	public Map<String, Object> filterAccount(@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {
 		
+		return filterCollectoin(COLL_ACCOUNTS, filters, skip, limit);
+	}
+
+	private Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters,
+			Integer skip, Integer limit) {
 		Map<String, Object> result = new HashMap<String, Object>();
 		DBObject query = new BasicDBObject();
 		if (filters!=null) {
 			query.putAll(filters);
 		}
-		DBCursor cursor = dataSource.getCollection(COLL_ACCOUNTS).find(query);
+		DBCursor cursor = dataSource.getCollection(collection).find(query);
 		result.put("size", cursor.count());
 		cursor.skip(skip).limit(limit);
 		List<Map> list = new ArrayList<Map>();
@@ -167,6 +175,40 @@ public class FinanceService implements Tenantable {
 		result.put("list", list);
 		return result;
 	}
+
+	@RestService(method="POST", uri="/fin/loan/request")
+	public void sendLoanRequest(Map<String, Object> request) {
+		request.put("uid", AuthenticationUtil.getCurrentUser());
+		request.put("rtime", new Date().getTime());
+		request.put("email", getCurrentUser().get("email"));
+		request.put("mobile", getCurrentUser().get("mobile"));
+		request.put("audit", 1);
+		dataSource.getCollection(COLL_LOANS).insert(new BasicDBObject(request));
+	}
+	
+	@RestService(method="POST", uri="/fin/loan/save")
+	public void saveLoanRequest(Map<String, Object> request) {
+		request.put("uid", AuthenticationUtil.getCurrentUser());
+		request.put("rtime", new Date().getTime());
+		dataSource.getCollection(COLL_TEMPORARY).insert(new BasicDBObject(request));
+	}
+	
+	@RestService(method="POST", uri="/fin/loan/list")
+	public Map<String, Object> getLoanRequestList(@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {
+		//首先这里要做一下权限检查
+		
+		
+		return filterCollectoin(COLL_LOANS, filters, skip, limit);
+	}
+	
+	@RestService(method="POST", uri="/fin/loan/approve")
+	public void approveRequest(Map<String, Object> request) {
+		request.put("uid", AuthenticationUtil.getCurrentUser());
+		request.put("rtime", new Date().getTime());
+		request.put("audit", 1);
+		dataSource.getCollection(COLL_LOANS).insert(new BasicDBObject(request));
+	}
+	
 	
 	
 	//检查账户创建请求的合法性
@@ -175,9 +217,7 @@ public class FinanceService implements Tenantable {
 		if (req.get("loginid")==null ||  req.get("pwd")==null || req.get("loginid").equals("") || req.get("pwd").equals("")) {
 			throw new HttpStatusException(HttpStatus.BAD_REQUEST);
 		}
-				
 	}
-	
 	
 	@RestService(method="GET", uri="/fin/logout", authenticated=false)
 	public RestResult logout() {
@@ -200,10 +240,6 @@ public class FinanceService implements Tenantable {
 			}
 		}
 		return result;
-	}
-	
-	@RestService(method="POST", uri="/fin/loan/request")
-	public void requestLoan(Map<String, Object> request) {
 	}
 	
 	@RestService(method="GET", uri="/fin/org/list")

@@ -42,72 +42,6 @@ li {
 	display: inline-block;
 }
 </style>
-
-<script type="text/javascript">
-
-
-$(function() {
-	
-});
-
-function dashboard(t) {
-	navTo(t);
-	
-	$("#content .r").hide();
-	$(".r.dashboard").show();
-	
-}
-
-function config(t) {
-	navTo(t);
-	$("#content .r").hide();
-	$(".r.personEdit").show();
-}
-
-
-function goRequest(t) {
-	navTo(t);
-	$("#content .r").hide();
-	$(".r.personRequest").show();
-	
-	var fo = new formCheck(".r.personRequest ");
-	
-}
-
-function navTo(t) {
-	$(".menu_list li.current").removeClass("current");
-	$(t).addClass("current");
-}
-
-function checkEmail() {
-	$.getJSON("/service/fin/account/email/confirm", {
-		"ecfm": $("#ecfm").val()
-	}, function(data) {
-		if (data=="1") {
-			alert("邮件验证成功");
-			location.href = location.href; 
-		} else {
-			alert("邮件验证码错误");
-		}
-	})
-}
-
-function resendEmail() {
-	$.get("/service/fin/account/email/resend", {}, function() {
-		alert("验证邮件已经再次发送，请查收");
-	});
-}
-
-function sendLoanRequest() {
-	var fo = new formCheck(".r.personRequest ");
-	
-	if (fo.test()) {
-		
-	}
-}
-
-</script>
-
 </head>
 <body class="bg">
 <%@ include file="top.jsp"%> 
@@ -121,8 +55,13 @@ function sendLoanRequest() {
 	if (currentUser.get("cu")==null) {
 		response.sendRedirect("login.jsp");
 	}
-
 %>
+
+<script type="text/javascript">
+var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
+</script>
+
+<script type="text/javascript" src="js/home.js"></script>
 
 
 <div id="content">
@@ -141,8 +80,8 @@ function sendLoanRequest() {
                     	<li onclick="goRequest(this);">
                         	借款申请&gt;
                         </li>
-                    	<li>
-                        	<a href="#">借款进度&gt;</a>
+                    	<li onclick="loanProgress(this);">
+                        	借款进度&gt;
                         </li>
                     	<li>
                         	<a href="#">评估报告&gt;</a>
@@ -412,7 +351,7 @@ function sendLoanRequest() {
 
                             </td>
                             <td>
-								<input class="form-button" name="" type="button" value="保存">
+								<input class="form-button" onclick="saveLoanRequest();" name="" type="button" value="保存">
                                 <input class="form-button" onclick="sendLoanRequest();" type="button" value="提交请求">
                             </td>
                         </tr>
@@ -422,9 +361,49 @@ function sendLoanRequest() {
                     </table>
                 </div>
             </div>
-            <div class="yinying">
-            </div>
-        </div>
+           
+           
+           
+	<div class="r lprogress hidden">
+		
+		<div class="table" id="loan-prgress-table">
+		    <div class="row header">
+		      <div class="cell">
+		        	申请时间
+		      </div>
+		      <div class="cell">
+		       		金额
+		      </div>
+		      <div class="cell">
+		       		期限
+		      </div>
+		       <div class="cell">
+		       		联系方式
+		      </div>
+		      <div class="cell">
+		      		状态
+		      </div>
+		    </div>
+			    <div class="template">
+			      <div class="cell" data-eval="var d=new Date(entry['rtime']); d.format('yyyy-MM-dd hh:mm')">
+			      </div>
+			      <div class="cell" data-eval="entry['loan'] + '万元'">
+			      </div>
+			      <div class="cell" data-eval="entry['until'] + '个月'">
+			      </div>
+			      <div class="cell" data-f="email">
+			      </div>
+			      <div class="cell" data-eval="(entry['audit']==1)?'初审中':'复审中'">
+			      </div>
+			    </div>
+		</div>	
+		<div class="empty">列表内容为空</div>
+
+	</div>
+           
+    <div class="yinying">
+    </div>
+ </div>
         
         
     <!--内容结束 -->

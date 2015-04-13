@@ -149,11 +149,16 @@ color: #eee;
 }
 
 .gridr .panel {
-min-height: 30px;
-  border-top: 3px solid #2980b9;
-  padding: 10px;
-  background: white;
+	min-height: 30px;
+	border-top: 3px solid #2980b9;
+	padding: 10px;
+	background: white;
 }
+.gridr .panel .title {
+	font-size: 16px;
+	color: #2980b9;
+}
+
 
 .table {
   width: 100%;

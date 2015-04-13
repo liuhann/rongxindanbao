@@ -160,7 +160,11 @@ function reg() {
 		$.post("/service/fin/account/reg",  request , function() {
 			location.href = "home.jsp";
 		}).fail(function(error) {
-			alert("用户名已经被注册了，请更换");
+			if (error.status==412) {
+				alert("验证码输入错误");
+			} else {
+				alert("用户名已经被注册了，请更换");
+			}
 		});
 	}
 }

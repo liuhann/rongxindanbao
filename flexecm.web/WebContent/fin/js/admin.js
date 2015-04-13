@@ -1,7 +1,9 @@
+
 /**
- * 
+ * qq
  */
 $(document).ready(function() {
+	$(".gridr>div").hide();
 	navTo($("ul.nav li.navuser"));
 });
 
@@ -19,7 +21,7 @@ function navTo(t) {
 
 function pageAllAccount() {
 	$(".gridr>div").hide();
-	$(".gridr .account").show();
+	$(".gridr .accounts").show();
 	
 	$(".account .row.item").remove();
 	
@@ -31,8 +33,14 @@ function pageAllAccount() {
 function pageUnConfirmed() {
 	filterAccount({"ecfm":{"$ne":true}});
 }
+function pageConfirmed() {
+	filterAccount({"ecfm":true});
+}
 
 function filterAccount(filter) {
+	$(".gridr>div").hide();
+	$(".gridr .accounts").show();
+	
 	$.post("/service/fin/account/filter", {
 		"filter": JSON.stringify(filter)
 	}, function(data) {
@@ -51,33 +59,6 @@ function filterAccount(filter) {
 		});
 	});
 }
-
-function pageConfirmed() {
-	filterAccount({"ecfm":true});
-}
-
-function initTable(tbid, data, cell) {
-	$(tbid + " .row.item").remove();
-	$(tbid + " .empty").show();
-	$(tbid + " .empty").html("正在读取列表");
-	
-	for(var i=0; i<data.list.length; i++) {
-		$(tbid).next(".empty").hide();
-		var cloned = $(tbid + " .template").clone().removeClass("template").addClass("item row");
-		cloned.find("div.cell").each(function() {
-			
-			if ($(this).data("f")) {
-				$(this).html(data.list[i][$(this).data("f")]);
-			}
-			
-			if ($(this).data("cal")) {
-				cell($(this), data.list[i]);
-			}
-			$(tbid).append(cloned);
-		});
-	}
-}
-
 
 function pageCompanys() {
 
@@ -98,6 +79,7 @@ function pageCompanys() {
 		initTable("#vip-companies",result);
 	});
 	
+	/*
 	$(".org .row.item").remove();
 
 	$.getJSON("/service/fin/org/list", {}, function(data) {
@@ -119,6 +101,8 @@ function pageCompanys() {
 			$(".org .table").append(cloned);
 		}
 	});
+	
+	*/
 }
 
 function addGreenOrg() {
@@ -157,4 +141,29 @@ function saveOrg() {
 			alert("用户名称1");
 		});
 	}
+}
+
+function pageAllLoans() {
+	$(".gridr>div").hide();
+	$("#loans-list").show();
+	
+	$.post("/service/fin/loan/list", {
+	}, function(data) {
+		var result = JSON.parse(data);
+		initTable("#loans-table", result);
+	});
+}
+
+
+
+function addNews() {
+	$(".gridr>div").hide();
+	$(".gridr .add-news").show();
+	loadCss("ueditor/themes/default/css/umeditor.css");
+	loadJS(["ueditor/umeditor.config.js",
+	        "ueditor/umeditor.js",
+	        "ueditor/lang/zh-cn/zh-cn.js"
+	        ], function() {
+		  	var ue = UM.getEditor('umcontainer');
+	});
 }
