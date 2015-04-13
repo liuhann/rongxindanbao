@@ -185,6 +185,7 @@ import org.json.JSONObject;
          JSONObject jsonObject = new JSONObject((String)obj);
          return jsonObjectToMap(jsonObject);
        } catch (JSONException e) {
+    	   e.printStackTrace();
          return null;
        }
      }

@@ -44,17 +44,17 @@ public class FinanceService implements Tenantable {
 		return dataSource;
 	}
 
-	 @RestService(uri="/fa/upload", method="POST", multipart=true, authenticated=false)
-	 public String uploadPreview(@RestParam("file") InputStream is, @RestParam("size") Long size) {
-	     String uid = java.util.UUID.randomUUID().toString();
-	     this.contentStore.putContent(uid, is, "image/png", size.longValue());
-	     return uid;
-	 }
+	@RestService(uri="/fa/upload", method="POST", multipart=true, authenticated=false)
+	public String uploadPreview(@RestParam("file") InputStream is, @RestParam("size") Long size) {
+		String uid = java.util.UUID.randomUUID().toString();
+		this.contentStore.putContent(uid, is, "image/png", size.longValue());
+		return uid;
+	}
 	
-	 @RestService(uri="/fa/preview", method="GET", authenticated=false)
-	 public StreamObject getPreview(@RestParam("id") String id) {
-	    return this.contentStore.getContentData(id);
-	 }
+	@RestService(uri="/fa/preview", method="GET", authenticated=false)
+	public StreamObject getPreview(@RestParam("id") String id) {
+		return this.contentStore.getContentData(id);
+	}
 	 
 	public void setDataSource(MongoDataSource dataSource) {
 		this.dataSource = dataSource;
@@ -146,6 +146,29 @@ public class FinanceService implements Tenantable {
 		return "1";
 	}
 	
+
+	@RestService(method="POST", uri="/fin/account/filter", authenticated=true, runAsAdmin=true)
+	public Map<String, Object> filterAccount(@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {
+		
+		Map<String, Object> result = new HashMap<String, Object>();
+		DBObject query = new BasicDBObject();
+		if (filters!=null) {
+			query.putAll(filters);
+		}
+		DBCursor cursor = dataSource.getCollection(COLL_ACCOUNTS).find(query);
+		result.put("size", cursor.count());
+		cursor.skip(skip).limit(limit);
+		List<Map> list = new ArrayList<Map>();
+		while(cursor.hasNext()) {
+			Map m = cursor.next().toMap();
+			m.remove("pwd");
+			list.add(m);
+		}
+		result.put("list", list);
+		return result;
+	}
+	
+	
 	//检查账户创建请求的合法性
 	public void checkAccountValid(Map<String, Object> req) {
 		//首先判断一些必填字段 （将来判断的字段会更多）
@@ -181,8 +204,6 @@ public class FinanceService implements Tenantable {
 	
 	@RestService(method="POST", uri="/fin/loan/request")
 	public void requestLoan(Map<String, Object> request) {
-		
-		
 	}
 	
 	@RestService(method="GET", uri="/fin/org/list")
