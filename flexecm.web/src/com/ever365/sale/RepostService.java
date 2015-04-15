@@ -1,7 +1,7 @@
 /*     */ package com.ever365.sale;
 /*     */ 
 /*     */ import com.ever365.auth.WeiboOAuthProvider;
-/*     */ import com.ever365.common.ContentStore;
+/*     */ import com.ever365.common.LocalContentStore;
 /*     */ import com.ever365.mongo.AutoIncrementingHelper;
 /*     */ import com.ever365.mongo.MongoDataSource;
 /*     */ import com.ever365.rest.AuthenticationUtil;
@@ -44,7 +44,7 @@
 /*     */ 
 /*  48 */   Logger logger = Logger.getLogger(RepostService.class.getName());
 /*     */   private MongoDataSource dataSource;
-/*     */   private ContentStore contentStore;
+/*     */   private LocalContentStore contentStore;
 /*     */   private AutoIncrementingHelper incrementingHelper;
 /*     */   private WeiboOAuthProvider weiboOAuthProvider;
 /* 358 */   private Map<Integer, Map> postCache = new HashMap();
@@ -53,7 +53,7 @@
 /*     */   {
 /*  56 */     this.weiboOAuthProvider = weiboOAuthProvider;
 /*     */   }
-/*     */   public void setContentStore(ContentStore contentStore) {
+/*     */   public void setContentStore(LocalContentStore contentStore) {
 /*  59 */     this.contentStore = contentStore;
 /*     */   }
 /*     */   public void setDataSource(MongoDataSource dataSource) {

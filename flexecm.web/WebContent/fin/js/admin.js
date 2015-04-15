@@ -1,6 +1,5 @@
 
 /**
- * qq
  */
 $(document).ready(function() {
 	$(".gridr>div").hide();
@@ -155,15 +154,16 @@ function pageAllLoans() {
 }
 
 
-
 function addNews() {
 	$(".gridr>div").hide();
 	$(".gridr .add-news").show();
 	loadCss("ueditor/themes/default/css/umeditor.css");
-	loadJS(["ueditor/umeditor.config.js",
-	        "ueditor/umeditor.js",
-	        "ueditor/lang/zh-cn/zh-cn.js"
+	loadJS([
+	        "ueditor/lang/zh-cn/zh-cn.js",
+	        "ueditor/umeditor.config.js",
+	        "ueditor/umeditor.js"
 	        ], function() {
+			$(".add-news .empty").hide();
 		  	var ue = UM.getEditor('umcontainer');
 	});
 }

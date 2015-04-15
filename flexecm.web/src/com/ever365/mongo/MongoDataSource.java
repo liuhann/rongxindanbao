@@ -1,17 +1,17 @@
 package com.ever365.mongo;
 
+import java.util.Map;
+
 import com.mongodb.DBCollection;
 
 public abstract interface MongoDataSource
 {
-  public abstract DBCollection getCollection(String paramString);
+  public abstract DBCollection getCollection(String collection);
 
-  public abstract DBCollection getCollection(String paramString1, String paramString2);
+  public abstract DBCollection getCollection(String dbname, String collection);
 
   public abstract void clean();
+  
+  public Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters,
+			Integer skip, Integer limit);
 }
-
-/* Location:           D:\360云盘\Desktops\T410\a.jar
- * Qualified Name:     com.ever365.mongo.MongoDataSource
- * JD-Core Version:    0.6.0
- */

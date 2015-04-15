@@ -1,6 +1,6 @@
 /*     */ package com.ever365.sale;
 /*     */ 
-/*     */ import com.ever365.common.ContentStore;
+/*     */ import com.ever365.common.LocalContentStore;
 /*     */ import com.ever365.mongo.AutoIncrementingHelper;
 /*     */ import com.ever365.mongo.MongoDataSource;
 /*     */ import com.ever365.rest.AuthenticationUtil;
@@ -54,7 +54,7 @@
 /*     */   private static final String FIELD_ID = "_id";
 /*     */   private static final String STRING_EMPTY = "";
 /*     */   private MongoDataSource dataSource;
-/*     */   private ContentStore contentStore;
+/*     */   private LocalContentStore contentStore;
 /*     */   private AutoIncrementingHelper incrementingHelper;
 /*     */   private RepostService repostService;
 /* 460 */   public Map<Integer, Map> saleShortCache = new HashMap();
@@ -70,7 +70,7 @@
 /*  77 */     this.repostService = repostService;
 /*     */   }
 /*     */ 
-/*     */   public void setContentStore(ContentStore contentStore) {
+/*     */   public void setContentStore(LocalContentStore contentStore) {
 /*  81 */     this.contentStore = contentStore;
 /*     */   }
 /*     */ 

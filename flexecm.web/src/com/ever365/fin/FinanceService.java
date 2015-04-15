@@ -10,7 +10,7 @@ import java.util.Map;
 import org.bson.types.ObjectId;
 
 import com.ever365.auth.Tenantable;
-import com.ever365.common.ContentStore;
+import com.ever365.common.LocalContentStore;
 import com.ever365.mongo.MongoDataSource;
 import com.ever365.rest.AuthenticationUtil;
 import com.ever365.rest.HttpStatus;
@@ -36,10 +36,10 @@ public class FinanceService implements Tenantable {
 	private static final String TYPE_COMPANY = "company";
 	public static final String COLL_ACCOUNTS = "accounts";
 	private MongoDataSource dataSource;
-	private ContentStore contentStore;
+	private LocalContentStore contentStore;
 	private String pwd = "@rongxin123!";
 	
-	public void setContentStore(ContentStore contentStore) {
+	public void setContentStore(LocalContentStore contentStore) {
 		this.contentStore = contentStore;
 	}
 

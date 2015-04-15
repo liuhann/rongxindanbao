@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import org.springframework.util.FileCopyUtils;
@@ -21,36 +22,16 @@ import com.baidu.inf.iis.bcs.request.GetObjectRequest;
 import com.baidu.inf.iis.bcs.request.PutObjectRequest;
 import com.baidu.inf.iis.bcs.response.BaiduBCSResponse;
 import com.ever365.rest.StreamObject;
+import com.ever365.utils.UUID;
 
-public class ContentStore {
+public class LocalContentStore {
 	private static final String SLASH = "/";
-	private String appKey;
-	private String appSecret;
-	private String bcsHost;
-	private String bucketName;
-	private BaiduBCS baiduBCS;
 	private String localPath;
-	private static Logger logger = Logger.getLogger(ContentStore.class
+	private static Logger logger = Logger.getLogger(LocalContentStore.class
 			.getName());
 
 	public void setLocalPath(String localPath) {
 		this.localPath = localPath;
-	}
-
-	public void setBucketName(String bucketName) {
-		this.bucketName = bucketName;
-	}
-
-	public void setAppKey(String appKey) {
-		this.appKey = appKey;
-	}
-
-	public void setBcsHost(String bcsHost) {
-		this.bcsHost = bcsHost;
-	}
-
-	public void setAppSecret(String appSecret) {
-		this.appSecret = appSecret;
 	}
 
 	public void copyContent(String uid, String newUid) {
@@ -61,12 +42,7 @@ public class ContentStore {
 					putContent(uid, new FileInputStream(f), null, f.length());
 				} catch (FileNotFoundException localFileNotFoundException) {
 				}
-		} else {
-			CopyObjectRequest copyObjectRequest = new CopyObjectRequest(
-					new Resource(this.bucketName, uid), new Resource(
-							this.bucketName, newUid));
-			getBCS().copyObject(copyObjectRequest);
-		}
+		} 
 	}
 
 	public void deleteContent(String uid) {
@@ -75,9 +51,7 @@ public class ContentStore {
 			if (f.exists())
 				f.delete();
 		} else {
-			DeleteObjectRequest deleteObjectRequest = new DeleteObjectRequest(
-					this.bucketName, uid);
-			getBCS().deleteObject(deleteObjectRequest);
+			
 		}
 	}
 
@@ -96,26 +70,18 @@ public class ContentStore {
 					e.printStackTrace();
 				}
 			}
-			return null;
 		}
-		if (!uid.startsWith("/")) {
-			uid = "/" + uid;
-		}
-		GetObjectRequest getObjectRequest = new GetObjectRequest(
-				this.bucketName, uid);
-		BaiduBCSResponse result = getBCS().getObject(getObjectRequest);
-		so.setInputStream(((DownloadObject) result.getResult()).getContent());
-		so.setLastModified(((DownloadObject) result.getResult())
-				.getObjectMetadata().getLastModified().getTime());
-		so.setSize(((DownloadObject) result.getResult()).getObjectMetadata()
-				.getContentLength());
-		return so;
+		return null;
 	}
 
-	public String putContent(String uid, InputStream inputStream,
-			String contentType, long size) {
+	public String putContent(InputStream inputStream, String contentType, long size) {
 		if (this.localPath != null) {
-			File f = new File(this.localPath, uid);
+			
+			Date d = new Date();
+			
+			String path = "/" + d.getYear() + "/" + d.getMonth() + "/" + d.getDate(); 
+			String uid = UUID.generate();
+			File f = new File(this.localPath + path, uid);
 			try {
 				if (!f.getParentFile().exists()) {
 					f.getParentFile().mkdirs();
@@ -132,31 +98,6 @@ public class ContentStore {
 			}
 			return uid;
 		}
-		ObjectMetadata objectMetadata = new ObjectMetadata();
-		objectMetadata.setContentType(contentType);
-		objectMetadata.setContentLength(size);
-		String object = "/" + uid;
-
-		BaiduBCS baiduBCS = getBCS();
-
-		PutObjectRequest request = new PutObjectRequest(this.bucketName,
-				object, inputStream, objectMetadata);
-		ObjectMetadata result = (ObjectMetadata) baiduBCS.putObject(request)
-				.getResult();
-		return object;
 	}
-
-	public BaiduBCS getBCS() {
-		if (this.baiduBCS == null) {
-			synchronized (this) {
-				if (this.baiduBCS == null) {
-					BCSCredentials credentials = new BCSCredentials(
-							this.appKey, this.appSecret);
-					this.baiduBCS = new BaiduBCS(credentials, this.bcsHost);
-					this.baiduBCS.setDefaultEncoding("UTF-8");
-				}
-			}
-		}
-		return this.baiduBCS;
-	}
+	
 }

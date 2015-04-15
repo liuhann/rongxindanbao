@@ -82,12 +82,10 @@
 			<li onclick="addNews();">增加新闻公告</li>
 			<li>新闻列表</li>
 		</ul>
-		
 	</div>
 </div>
 
 <div class="gridr clearfix">
-
 	<div class="form companyEdit hidden">
 		<div class="title">
 			<h3>增加/编辑企业信息</h3> 

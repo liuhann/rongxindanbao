@@ -76,22 +76,8 @@
 	    </property>
 	</bean>
 	
-	<bean id="fileStore" class="com.ever365.common.ContentStore">
+	<bean id="fileStore" class="com.ever365.common.LocalContentStore">
 	 	<property name="localPath" value="/data/content"></property>
-	 	<!-- 
-	     <property name="appKey">
-	         <value>i29vPdGTUyjE6HD0xaKsfq6Y</value>
-	     </property>
-	     <property name="appSecret">
-	         <value>bHAU6NrGLVOD710kHinHMUjeeC4UVoiN</value>
-	     </property>
-	     <property name="bcsHost">
-	         <value>bcs.duapp.com</value>
-	     </property>
-	     <property name="bucketName">
-	         <value>slide8</value>
-	     </property>
-	      -->
 	 </bean>
 	 
 	 <bean id="dido.service" class="com.ever365.dido.DidoService">

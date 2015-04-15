@@ -1,20 +1,25 @@
  package com.ever365.mongo;
  
- import com.ever365.rest.HttpStatus;
- import com.ever365.rest.HttpStatusException;
- import com.mongodb.CommandResult;
- import com.mongodb.DB;
- import com.mongodb.DBCollection;
- import com.mongodb.MongoClient;
- import com.mongodb.MongoClientOptions;
- import com.mongodb.MongoClientOptions.Builder;
- import com.mongodb.MongoCredential;
- import com.mongodb.ServerAddress;
- import java.util.Arrays;
- import java.util.HashMap;
- import java.util.Map;
- import java.util.Set;
- import java.util.logging.Logger;
+ import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.logging.Logger;
+
+import com.ever365.rest.HttpStatus;
+import com.ever365.rest.HttpStatusException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.CommandResult;
+import com.mongodb.DB;
+import com.mongodb.DBCollection;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import com.mongodb.MongoClient;
+import com.mongodb.MongoClientOptions;
+import com.mongodb.MongoCredential;
+import com.mongodb.ServerAddress;
  
  public class LocalMongoDataSource
    implements MongoDataSource
@@ -112,6 +117,28 @@
      }return getCollection(dbName);
    }
  
+   
+   public Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters,
+			Integer skip, Integer limit) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		DBObject query = new BasicDBObject();
+		if (filters!=null) {
+			query.putAll(filters);
+		}
+		DBCursor cursor = getCollection(collection).find(query);
+		result.put("size", cursor.count());
+		cursor.skip(skip).limit(limit);
+		List<Map> list = new ArrayList<Map>();
+		while(cursor.hasNext()) {
+			Map m = cursor.next().toMap();
+			m.remove("pwd");
+			list.add(m);
+		}
+		result.put("list", list);
+		return result;
+	}
+
+   
    public void clean()
    {
      Set<String> allcollections = ((DB)this.dbconnections.get(this.db)).getCollectionNames();

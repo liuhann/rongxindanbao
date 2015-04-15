@@ -93,7 +93,7 @@ function initUploader(container,btnid) {
 	var uploader = new plupload.Uploader({
 	 	runtimes : 'html5,flash,silverlight,html4',
 	    browse_button : btnid, // you can pass in id...
-	    url : "/service/fa/upload",
+	    url : "/service/attach/upload",
 	    filters : {
 	        max_file_size : '10mb',
 	        mime_types: [
