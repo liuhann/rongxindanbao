@@ -1,0 +1,67 @@
+<script type="text/javascript" src="js/plupload.full.min.js"></script>
+
+<script type="text/javascript">
+$(function() {
+	listPics();
+	initUploader("btn-media-upload", "/service/attachz/upload", function(up, s, r) {
+		if (r) {
+			listPics();
+		}
+	});
+});
+
+function listPics(skip, limit) {
+	if (skip==null) {
+		skip = 0;
+	}
+	if (limit==null) {
+		limit = 15;
+	}
+	$.getJSON("/service/attachz/upload/list", {"skip":skip, "limit": limit}, function(result) {
+		initTable("#media-table", result, function(container, data, key) {
+			if (key=="uid") {
+				var img = $("<img>");
+				img.attr("src", "/service/attachz/preview?id=" + data[key]).attr("width", "50px").attr("height", "50px");
+				$(container).append(img);
+			}
+			if (key=="remove") {
+				$(container).data("data", data)
+				$(container).click(function() {
+					var data = $(this).data("data");
+					$.post("/service/attachz/remove", {
+						"uid": data.uid
+					}, function() {
+					});
+					$(this).parents(".row").fadeOut("slow");
+				})
+			}
+			}, 
+			function(page) {
+				listPics((page-1)*15, 15);
+			}
+		);
+	});
+}
+
+</script>
+
+<div class="medias" id="media-list">
+	<div class="panel">
+		<div class="title">
+			图片库
+		</div>
+		<div class="fr">
+			<a class="gbtn" id="btn-media-upload">上传</a>
+		</div>
+	</div>
+
+	<div class="table" id="media-table">
+	    <div class="template">
+			<div class="cell" data-cal="uid">
+			</div>
+			<div class="cell remove" data-cal="remove" >
+				删除
+			</div>
+		</div>
+	</div>
+</div>

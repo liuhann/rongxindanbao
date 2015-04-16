@@ -12,6 +12,6 @@ public abstract interface MongoDataSource
 
   public abstract void clean();
   
-  public Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters,
+  public Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters, Map<String, Object> sort,
 			Integer skip, Integer limit);
 }

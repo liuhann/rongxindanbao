@@ -29,15 +29,22 @@ import com.mongodb.DBObject;
 
 public class FinanceService implements Tenantable {
 
+	public static final String COLL_NEWS = "news";
 	public static final String COLL_TEMPORARY = "temporary";
 	public static final String COLL_LOANS = "loans";
-	private static final String TYPE_PERSON = "person";
 	private static final String FIN_ROOT = "/fin/";
+	
+	//五种类型  用户  企业  管理员  后台用户 信贷经理
+	private static final String TYPE_PERSON = "person";
 	private static final String TYPE_COMPANY = "company";
+	public static final String TYPE_ADMIN = "admin";
+	public static final String TYPE_BACK_USER = "backuser";
+	
 	public static final String COLL_ACCOUNTS = "accounts";
+	
 	private MongoDataSource dataSource;
 	private LocalContentStore contentStore;
-	private String pwd = "@rongxin123!";
+	private String pwd = "123456";
 	
 	public void setContentStore(LocalContentStore contentStore) {
 		this.contentStore = contentStore;
@@ -49,9 +56,7 @@ public class FinanceService implements Tenantable {
 
 	@RestService(uri="/fa/upload", method="POST", multipart=true, authenticated=false)
 	public String uploadPreview(@RestParam("file") InputStream is, @RestParam("size") Long size) {
-		String uid = java.util.UUID.randomUUID().toString();
-		this.contentStore.putContent(uid, is, "image/png", size.longValue());
-		return uid;
+		return this.contentStore.putContent(is, "image/png", size.longValue());
 	}
 	
 	@RestService(uri="/fa/preview", method="GET", authenticated=false)
@@ -140,6 +145,7 @@ public class FinanceService implements Tenantable {
 			if (u!=null) {
 				throw new HttpStatusException(HttpStatus.CONFLICT);
 			}
+			req.remove("_id");
 			dataSource.getCollection(COLL_ACCOUNTS).insert(new BasicDBObject(req));
 		} else {
 			BasicDBObject bdo = new BasicDBObject(req);
@@ -148,14 +154,21 @@ public class FinanceService implements Tenantable {
 		}
 		return "1";
 	}
-	
 
-	@RestService(method="POST", uri="/fin/account/filter", authenticated=true, runAsAdmin=true)
+	@RestService(method="POST", uri="/fin/account/filter", authenticated=true)
 	public Map<String, Object> filterAccount(@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {
+		Map<String, Object> m = dataSource.filterCollectoin(COLL_ACCOUNTS, filters, null, skip, limit);
 		
-		return filterCollectoin(COLL_ACCOUNTS, filters, skip, limit);
+		if (!AuthenticationUtil.isAdmin()) {
+			List<Map> list = (List<Map>) m.get("list");
+			for (Map map : list) {
+				map.remove("pwd");
+			}
+		}
+		return m;
 	}
 
+	/*
 	private Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters,
 			Integer skip, Integer limit) {
 		Map<String, Object> result = new HashMap<String, Object>();
@@ -175,6 +188,7 @@ public class FinanceService implements Tenantable {
 		result.put("list", list);
 		return result;
 	}
+	*/
 
 	@RestService(method="POST", uri="/fin/loan/request")
 	public void sendLoanRequest(Map<String, Object> request) {
@@ -196,9 +210,7 @@ public class FinanceService implements Tenantable {
 	@RestService(method="POST", uri="/fin/loan/list")
 	public Map<String, Object> getLoanRequestList(@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {
 		//首先这里要做一下权限检查
-		
-		
-		return filterCollectoin(COLL_LOANS, filters, skip, limit);
+		return dataSource.filterCollectoin(COLL_LOANS, filters, null, skip, limit);
 	}
 	
 	@RestService(method="POST", uri="/fin/loan/approve")
@@ -209,6 +221,25 @@ public class FinanceService implements Tenantable {
 		dataSource.getCollection(COLL_LOANS).insert(new BasicDBObject(request));
 	}
 	
+	@RestService(method="POST", uri="/fin/news/update")
+	public void updateNews(Map<String, Object> request) {
+		request.put("updated", new Date().getTime());
+		request.put("editor", AuthenticationUtil.getCurrentUser());
+		update(COLL_NEWS, new BasicDBObject(request));
+	}
+	
+	@RestService(method="GET", uri="/fin/news/list")
+	public Map<String, Object> getNewsList(@RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit) {
+		Map<String, Object> sort = new HashMap<String, Object>();
+		sort.put("updated", -1);
+		return getDataSource().filterCollectoin(COLL_NEWS, null, sort, skip, limit);
+		//update(COLL_NEWS, new BasicDBObject(request));
+	}
+
+	@RestService(method="POST", uri="/fin/news/remove")
+	public void removeNews(@RestParam(value="_id") String id) {
+		dataSource.getCollection(COLL_NEWS).remove(new BasicDBObject("_id", new ObjectId(id)));
+	}
 	
 	
 	//检查账户创建请求的合法性
@@ -294,7 +325,7 @@ public class FinanceService implements Tenantable {
 	@RestService(method="POST", uri="/fin/login", authenticated=false, rndcode=true)
 	public RestResult login(@RestParam(value="loginid")String uid, @RestParam(value="pwd") String pwd) {
 		RestResult rr = new RestResult();
-		if (AuthenticationUtil.SESSION_ADMIN.equals(uid) && this.pwd.equals(pwd)) {
+		if (AuthenticationUtil.SYSTEM.equals(uid) && this.pwd.equals(pwd)) {
 			rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
 			rr.setResult(FIN_ROOT + "admin.jsp");
 			rr.setSession(AuthenticationUtil.SESSION_ADMIN, 1);
@@ -308,6 +339,12 @@ public class FinanceService implements Tenantable {
 				throw new HttpStatusException(HttpStatus.FORBIDDEN);
 			}
 			rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
+			if (one.get("type").equals(TYPE_ADMIN)) {
+				rr.setSession(AuthenticationUtil.SESSION_ADMIN, 1);
+				rr.setResult(FIN_ROOT + "orgrequest.jsp");
+			}
+
+			
 			if (one.get("type").equals(TYPE_COMPANY)) {
 				rr.setResult(FIN_ROOT + "orgrequest.jsp");
 			}
@@ -356,7 +393,6 @@ public class FinanceService implements Tenantable {
 		one.put("comment", comment);
 		dataSource.getCollection("finreq").update(new BasicDBObject("_id", new ObjectId(id)), one);
 	}
-	
 	
 	@RestService(method="POST", uri="/fin/admin/request/sec", roles={"appsec"}, authenticated=false)
 	public void approveSecondary(@RestParam("id")String id, @RestParam(value="comment") String comment) {

@@ -82,6 +82,11 @@ function sendLoanRequest() {
 	}
 }
 
+function pRequestNext(p) {
+	$(".lv03").hide();
+	$(p).show();
+}
+
 function saveLoanRequst() {
 	var fo = new formCheck(".r.personRequest ");
 	var r = fo.getRequest();

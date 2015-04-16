@@ -11,16 +11,6 @@ import java.util.logging.Logger;
 
 import org.springframework.util.FileCopyUtils;
 
-import com.baidu.inf.iis.bcs.BaiduBCS;
-import com.baidu.inf.iis.bcs.auth.BCSCredentials;
-import com.baidu.inf.iis.bcs.model.DownloadObject;
-import com.baidu.inf.iis.bcs.model.ObjectMetadata;
-import com.baidu.inf.iis.bcs.model.Resource;
-import com.baidu.inf.iis.bcs.request.CopyObjectRequest;
-import com.baidu.inf.iis.bcs.request.DeleteObjectRequest;
-import com.baidu.inf.iis.bcs.request.GetObjectRequest;
-import com.baidu.inf.iis.bcs.request.PutObjectRequest;
-import com.baidu.inf.iis.bcs.response.BaiduBCSResponse;
 import com.ever365.rest.StreamObject;
 import com.ever365.utils.UUID;
 
@@ -34,15 +24,16 @@ public class LocalContentStore {
 		this.localPath = localPath;
 	}
 
-	public void copyContent(String uid, String newUid) {
+	public String copyContent(String uid) {
 		if (this.localPath != null) {
-			File f = new File(this.localPath, uid);
+			File f = new File(this.localPath + uid);
 			if (f.exists())
 				try {
-					putContent(uid, new FileInputStream(f), null, f.length());
+					return putContent(new FileInputStream(f), null, f.length());
 				} catch (FileNotFoundException localFileNotFoundException) {
 				}
 		} 
+		return null;
 	}
 
 	public void deleteContent(String uid) {
@@ -58,17 +49,41 @@ public class LocalContentStore {
 	public StreamObject getContentData(String uid) {
 		StreamObject so = new StreamObject();
 		if (this.localPath != null) {
-			File f = new File(this.localPath, uid);
+			File f = new File(this.localPath +  uid);
 			if (f.exists()) {
 				try {
 					so.setFileName(f.getName());
 					so.setInputStream(new FileInputStream(f));
 					so.setLastModified(f.lastModified());
 					so.setSize(f.length());
+					so.setRaw(f);
 					return so;
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
 				}
+			}
+		}
+		return null;
+	}
+	
+	public File getEmptyFile() {
+		if (this.localPath != null) {
+			Date d = new Date();
+			String path = "/" + d.getYear() + "/" + d.getMonth() + "/" + d.getDate(); 
+			String uid = path + "/" + UUID.generate();
+			File f = new File(this.localPath + uid);
+			if (!f.getParentFile().exists()) {
+				f.getParentFile().mkdirs();
+			}
+			boolean created;
+			try {
+				created = f.createNewFile();
+				if (!created) {
+					throw new IOException("File can not be created");
+				}
+				return f;
+			} catch (IOException e) {
+				e.printStackTrace();
 			}
 		}
 		return null;
@@ -80,8 +95,9 @@ public class LocalContentStore {
 			Date d = new Date();
 			
 			String path = "/" + d.getYear() + "/" + d.getMonth() + "/" + d.getDate(); 
-			String uid = UUID.generate();
-			File f = new File(this.localPath + path, uid);
+			String uid = path + "/" + UUID.generate();
+			
+			File f = new File(this.localPath + uid);
 			try {
 				if (!f.getParentFile().exists()) {
 					f.getParentFile().mkdirs();
@@ -97,6 +113,8 @@ public class LocalContentStore {
 				e.printStackTrace();
 			}
 			return uid;
+		} else {
+			return "";
 		}
 	}
 	

@@ -30,61 +30,25 @@
 	             -->
 	             <!-- 
 	            <ref bean="rest.repost"/>
-	             -->
-	             <ref bean="fin.service"/>
 	            <ref bean="oauth.weibo"/>
+	             -->
+	            <ref bean="fin.service"/>
 	            <ref bean="dido.service"/>
-	            <ref bean="comment.service"/>
+	            <ref bean="common.media"/>
+	            <ref bean="probbo.service"/>
 	        </list>
 	    </property>
 	</bean>
-	
-	<bean id="rest.authority" class="com.ever365.auth.AuthorityService">
-	     <property name="dataSource">
-			<ref bean="mongoDataSource"/>	         
-	     </property>
-	     <property name="authProviders">
-	         <map>
-	             <entry key="/weibo">
-					<ref bean="oauth.weibo"/>
-	             </entry>
-	         </map>
-	     </property>
-	     
-	</bean>
-	
-	<bean id="rest.cookie" class="com.ever365.rest.CookieService">
-	    <property name="dataSource">
-			<ref bean="mongoDataSource"/>	         
-	     </property>
-	</bean>
-	
-	<bean id="oauth.weibo" class="com.ever365.auth.WeiboOAuthProvider">
-	    <property name="dataSource">
-			<ref bean="mongoDataSource"/>	         
-	     </property>
-	</bean>
-	
-	
-	<bean id="autoIncrementingHelper" class="com.ever365.mongo.AutoIncrementingHelper">
-  		<property name="dataSource" ref="mongoDataSource"></property>
-  	</bean>
-	
-	<bean id="mongoDataSource" class="com.ever365.mongo.LocalMongoDataSource">
+
+	<bean id="commonDataSource" class="com.ever365.mongo.LocalMongoDataSource">
 	    <property name="db">
-	    	<value>laina</value>
+	    	<value>common</value>
 	    </property>
 	</bean>
 	
 	<bean id="fileStore" class="com.ever365.common.LocalContentStore">
-	 	<property name="localPath" value="/data/content"></property>
-	 </bean>
-	 
-	 <bean id="dido.service" class="com.ever365.dido.DidoService">
-		 <property name="dataSource">
-			<ref bean="didoDataSource"/>	         
-	     </property> 
-	 </bean>
+		<property name="localPath" value="/data/content"></property>
+	</bean>
 	
 	<bean id="didoDataSource" class="com.ever365.mongo.LocalMongoDataSource">
 	    <property name="db">
@@ -92,14 +56,30 @@
 	    </property>
 	</bean>
 	
-	<bean id="comment.service" class="com.ever365.comment.CommentFriendService">
-		<property name="weiboOAuthProvider">  
-			<ref bean="oauth.weibo"/>
-		</property>
-		<property name="mongoDataSource">
-			<ref bean="didoDataSource"/>	    
-		</property>
+	<bean id="rest.cookie" class="com.ever365.rest.CookieService">
+	    <property name="dataSource">
+			<ref bean="commonDataSource"/>	         
+	     </property>
 	</bean>
+	
+	<bean id="autoIncrementingHelper" class="com.ever365.mongo.AutoIncrementingHelper">
+  		<property name="dataSource" ref="commonDataSource"></property>
+  	</bean>
+	 
+	<bean id="common.media" class="com.ever365.common.MediaService">
+		 <property name="dataSource">
+			<ref bean="didoDataSource"/>	         
+	     </property> 
+	       <property name="contentStore">
+	         <ref bean="fileStore"/>
+	     </property>
+	</bean>
+	
+	 <bean id="dido.service" class="com.ever365.dido.DidoService">
+		 <property name="dataSource">
+			<ref bean="didoDataSource"/>	         
+	     </property>
+	 </bean>
 	
 	<bean id="fin.service" class="com.ever365.fin.FinanceService">
 		 <property name="dataSource">
@@ -108,5 +88,11 @@
 	     <property name="contentStore">
 	         <ref bean="fileStore"/>
 	     </property>
+	</bean>
+	
+	<bean id="probbo.service" class="com.ever365.open.ProbboService">
+	     <property name="dataSource">
+			<ref bean="didoDataSource"/>	         
+	     </property> 
 	</bean>
 </beans>

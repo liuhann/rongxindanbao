@@ -1,0 +1,131 @@
+<script>
+function toggleEditOrg() {
+	var c = formCheck(".companyEdit ");
+	c.editable("edit");
+	$(".companyEdit #loginid").attr("disabled", true);
+	$(".companyEdit #loginid").css("border", "none");
+}
+
+function saveOrg() {
+	var c = formCheck(".companyEdit ");
+	if(c.test()==true) {
+		var account = c.getRequest();
+		account.type = "company";
+		account.vip = true;
+		$.post("/service/fin/account/save", account, function() {
+			alert("保存完成");
+			pageCompanys();
+		}).fail(function(error) {
+			alert("用户名称1");
+		});
+	}
+}
+
+
+</script>
+<div class="form companyEdit">
+		<div class="title">
+			<h3>增加/编辑企业信息</h3> 
+			<div class="ops">
+				<a class="btn read" onclick="toggleEditOrg();">编辑</a>
+			</div>
+		</div>
+		<div class="fcg">
+			<label>公司全称（同营业执照）</label> 
+			<div class="fc">
+				<input id="company" type="text" value="" data-checked="notnull" data-inval="公司全称 不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>用户名</label> 
+			<div class="fc">
+				<input id="loginid" type="text" value="" data-checked="notnull"  data-inval="用户名不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>密码</label> 
+			<div class="fc">
+				<input id="pwd" type="text" value="" data-checked="length-6" data-inval="密码要大于6位"> <a class="btn edit" href="javascript:$('#pwd').val(genPass());">自动生成</a>
+			</div>
+		</div>
+		<div class="fcg">
+			<label>联系人</label> 
+			<div class="fc">
+				<input id="contact" type="text" data-checked="notnull" data-inval="请输入姓名">	
+			</div>
+		</div>
+		<div class="fcg">
+			<label>联系人手机</label> 
+			<div class="fc">
+				<input id="mobile" type="text" data-checked="mobile" data-inval="请输入有效的手机号码">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>联系人邮箱</label> 
+			<div class="fc">
+				<input id="email" type="text" data-checked="email" data-inval="请输入有效的电子邮件地址">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>注册地址</label> 
+			<div class="fc">
+				<input type="text" id="location" data-checked="notnull" data-inval="注册地址不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>成立时间</label> 
+			<div class="fc">
+				<input type="text" id="established" data-checked="notnull" data-inval="成立时间不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>企业法人</label> 
+			<div class="fc">
+				<input type="text" id="legalperson" data-checked="notnull" data-inval="企业法人姓名不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>注册资本</label> 
+			<div class="fc">
+				<input type="text" id="capital" data-checked="notnull" data-inval="请输入注册资本">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>营业执照号</label>
+			<div class="fc">
+				<input id="bizlicence" type="text" data-checked="notnull" data-inval="营业执照号不能为空" >
+			</div>
+		</div>
+		<div class="fcg">
+			<label>组织机构代码证号</label> 
+			<div class="fc">
+				<input id="groupcode" type="text" data-checked="notnull" data-inval="组织机构代码证号不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>税务登记证号</label> 
+			<div class="fc">
+				<input type="text" id="taxcode" data-checked="notnull" data-inval="税务登记证号不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>基本开户行</label> 
+			<div class="fc">
+				<input type="text" id="bank" data-checked="notnull" data-inval="基本开户行不能为空">
+			</div>
+		</div>
+		
+		<div class="fcg">
+			<label>信用评级</label> 
+			<div class="fc">
+				<input type="text" id="crating" data-checked="notnull" data-inval="信用评级不能为空">
+			</div>
+		</div>
+		<div class="hidden">
+			<input type="text" id="_id" value="">
+		</div>
+		
+		<div class="fcg">
+			<a class="btn edit" onclick="saveOrg();">保存</a>
+		</div>
+	</div>

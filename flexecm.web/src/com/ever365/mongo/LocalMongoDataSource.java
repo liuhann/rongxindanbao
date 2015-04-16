@@ -101,41 +101,55 @@ import com.mongodb.ServerAddress;
          }
        }
      }
-     try
-     {
-       DB pools = (DB)this.dbconnections.get(dbName);
-       if (pools == null) {
-         return getCollection(dbName);
-       }
- 
-       CommandResult r = pools.command("ping");
+     try {
+    	 DB pools = (DB)this.dbconnections.get(dbName);
+    	 if (pools == null) {
+    		 return getCollection(dbName);
+    	 }
+    	 CommandResult r = pools.command("ping");
        if (!r.ok()) throw new HttpStatusException(HttpStatus.INTERNAL_SERVER_ERROR);
        return pools.getCollection(collName);
      } catch (Exception e) {
-       this.logger.info(System.currentTimeMillis() + "  ping fail, goto re-init" + e.getMessage());
-       this.dbconnections.remove(dbName);
-     }return getCollection(dbName);
+    	 this.logger.info(System.currentTimeMillis() + "  ping fail, goto re-init" + e.getMessage());
+    	 this.dbconnections.remove(dbName);
+     }
+     return getCollection(dbName);
    }
- 
    
-   public Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters,
+   public Map<String, Object> filterCollectoin(String collection , Map<String, Object> filters, Map<String, Object> sort,
 			Integer skip, Integer limit) {
-		Map<String, Object> result = new HashMap<String, Object>();
-		DBObject query = new BasicDBObject();
-		if (filters!=null) {
-			query.putAll(filters);
-		}
-		DBCursor cursor = getCollection(collection).find(query);
-		result.put("size", cursor.count());
-		cursor.skip(skip).limit(limit);
-		List<Map> list = new ArrayList<Map>();
-		while(cursor.hasNext()) {
-			Map m = cursor.next().toMap();
-			m.remove("pwd");
-			list.add(m);
-		}
-		result.put("list", list);
-		return result;
+
+	   if (limit==0) {
+		   limit = 50;
+	   }
+	   
+	   Map<String, Object> result = new HashMap<String, Object>();
+		
+	   DBObject query = new BasicDBObject();
+		
+	   if (filters!=null) {
+		   query.putAll(filters);
+	   }
+
+	   DBCursor cursor = getCollection(collection).find(query).skip(skip).limit(limit);
+		
+	   if (sort!=null) {
+		   cursor.sort(new BasicDBObject(sort));
+	   } else {
+		   cursor.sort(new BasicDBObject("_id", -1));
+	   }
+		
+	   result.put("size", cursor.count());
+	   cursor.skip(skip).limit(limit);
+	   List<Map> list = new ArrayList<Map>();
+	   while(cursor.hasNext()) {
+		   Map m = cursor.next().toMap();
+		   list.add(m);
+	   }
+	   result.put("start", skip);
+	   result.put("per", limit);
+	   result.put("list", list);
+	   return result;
 	}
 
    

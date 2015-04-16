@@ -5,18 +5,18 @@
 }
 html {
  	height: 100%;  
+    font-size:14px;
 }
 
 body {
     -webkit-touch-callout: none;               
     -webkit-text-size-adjust: none;            
     -webkit-user-select: none;                 
-    font-size:14px;
 	margin:0px;
     padding:0px;
 	 height: 100%;
 }
-
+.w7{width:7rem;}
 
 body, input, textarea {
   font-family: '微软雅黑','Helvetica Neue',sans-serif,SimHei;
@@ -109,7 +109,6 @@ ul,p {
 }
 
 .panel .content input, .panel .content select, .panel .content option {
-	width: 17rem;
 	border: 1px solid #efefef;
 	padding: .5rem;
 }
@@ -154,20 +153,35 @@ ul,p {
 	border: 1px solid #666;
 }
 
+.actors  {
+}
+.actors  ul li {
+	padding: 6px 0px;;
+}
+.actors  ul li.selected {
+	background-color: #ddd;
+}
+.actors  ul li i.vis {
+	width: 20px;
+	height: 20px;
+}
+
 .deviceShell {
-	border: 2px solid #ccc;
+	--border: 2px solid #ccc;
 	border-radius: 30px;
 	position: absolute;
  	left: 10rem;
 	top: 7rem;
 	background: #fff;
 }
+
 .deviceShell .extra {
 	display: none;
 }
 .deviceShell.y16x9 {
 	width: 20rem;
 	height: 40rem;
+	left: 20rem;
 }
 
 .deviceShell.y16x9 .screen {
@@ -285,12 +299,12 @@ ul,p {
 
 .screen {
 	font-size: 14px;	
+	background-color: #fff;
 }
 
 .screen div {
 	position: absolute;
-	border: 1px solid #fff;
-	cursor: pointer;
+	border: 1px solid transparent;
 }
 
 .screen div.text {
@@ -298,8 +312,7 @@ ul,p {
 }
 
 .screen div.focus {
-	border: 1px solid #444;
+	border: 1px dashed #444;
 }
-
 
 

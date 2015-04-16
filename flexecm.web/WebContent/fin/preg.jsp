@@ -262,6 +262,50 @@ $(function() {
                         </td>
                     </tr>
                     
+                     <!-- -->                      
+                    <!--循环行 -->
+                	<tr>
+                    	<td style="text-align:right">
+                        	<b>*</b><span>真实姓名</span>
+                        </td>
+                        <td style="padding-left:20px;">
+                        	<input id="rname" type="text" data-checked="notnull" data-inval="请输入个人真实姓名">
+                        </td>
+                    </tr>
+                   <!--错误提示信息 -->
+                	<tr>
+                    	<td>
+                        </td>
+                        <td style="padding-left:20px;">
+                        	<em class="rname"></em>
+                        </td>
+                    </tr>
+                    
+                      <!-- -->                      
+                    <!--循环行 -->
+                	<tr>
+                    	<td style="text-align:right">
+                        	<b>*</b><span>证件类型</span>
+                        </td>
+                        <td style="padding-left:20px;">
+                        	<select id="idtype">
+                        		<option>身份证</option>
+                        		<option>军官证</option>
+                        		<option>武警警官证</option>
+                        		<option>护照</option>
+                        	</select>
+                        </td>
+                    </tr>
+                     <!-- -->                      
+                    <!--循环行 -->
+                	<tr>
+                    	<td style="text-align:right">
+                        	<b>*</b><span>证件号</span>
+                        </td>
+                        <td style="padding-left:20px;">
+                        	<input id="idcode" type="text" >
+                        </td>
+                    </tr>
                     
                      <!--循环行 -->
                 	<tr>

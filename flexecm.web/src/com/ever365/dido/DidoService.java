@@ -1,30 +1,30 @@
  package com.ever365.dido;
  
- import com.ever365.mongo.MongoDataSource;
- import com.ever365.rest.AuthenticationUtil;
- import com.ever365.rest.HttpStatus;
- import com.ever365.rest.HttpStatusException;
- import com.ever365.rest.RestParam;
- import com.ever365.rest.RestResult;
- import com.ever365.rest.RestService;
- import com.ever365.rest.WebContext;
- import com.ever365.sale.CollectRepostService;
- import com.ever365.utils.MapUtils;
- import com.ever365.utils.WebUtils;
- import com.mongodb.BasicDBObject;
- import com.mongodb.BasicDBObjectBuilder;
- import com.mongodb.DBCollection;
- import com.mongodb.DBCursor;
- import com.mongodb.DBObject;
  import java.util.ArrayList;
- import java.util.Date;
- import java.util.HashMap;
- import java.util.Iterator;
- import java.util.List;
- import java.util.Map;
- import java.util.logging.Logger;
- import org.json.JSONArray;
- import org.json.JSONException;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.logging.Logger;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
+import com.ever365.mongo.MongoDataSource;
+import com.ever365.rest.AuthenticationUtil;
+import com.ever365.rest.HttpStatus;
+import com.ever365.rest.HttpStatusException;
+import com.ever365.rest.RestParam;
+import com.ever365.rest.RestResult;
+import com.ever365.rest.RestService;
+import com.ever365.rest.WebContext;
+import com.ever365.utils.MapUtils;
+import com.ever365.utils.WebUtils;
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
  
  public class DidoService
  {
@@ -33,7 +33,7 @@
    private static final String COLL_TIMES = "times";
    private static final String COLL_USERS = "users";
    private MongoDataSource dataSource;
-   Logger logger = Logger.getLogger(CollectRepostService.class.getName());
+   Logger logger = Logger.getLogger(DidoService.class.getName());
  
    public void setDataSource(MongoDataSource dataSource) {
      this.dataSource = dataSource;

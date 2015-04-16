@@ -1,0 +1,40 @@
+<head>
+<script type="text/javascript">
+$(function() {
+	$.getJSON("/service/fin/news/list", {}, function(result) {
+		initTable("#news-table",result);
+	});
+});
+</script>
+
+</head>
+	<div class="list-news">
+		<div class="panel">
+			<div class="title">
+				新闻公告列表
+			</div>
+		</div>
+
+		<div class="table" id="news-table">
+		    <div class="row header">
+		      <div class="cell" style="width: 80px;">
+		        	标题
+		      </div>
+		      <div class="cell">
+		       		更新时间
+		      </div>
+		      <div class="cell">
+		       		编辑者
+		      </div>
+		    </div>
+		    
+		    <div class="template">
+				<div class="cell" data-f="news-title">
+				</div>
+				<div class="cell" data-eval="var d=new Date(entry['updated']); d.format('yyyy-MM-dd hh:mm')">
+				</div>
+				<div class="cell" data-f="editor">
+				</div>
+			</div>
+		</div>
+	</div>

@@ -63,14 +63,13 @@ var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
 
 <script type="text/javascript" src="js/home.js"></script>
 
-
 <div id="content">
     <!--内容开始 -->
     	<div class="zhanghuguanli_001 zhanghuguanli_jksq_001">
 			<div class="l">
             	<div class="icon">
                 	<img src="img/zhanghuguanli_001.png">
-                    <span><a href="javascript:void(0)"><%=currentUser.get("loginid") %></a>您好!</span>
+                    <span><a href="javascript:void(0)"><%=currentUser.get("rname") %></a>您好!</span>
                 </div>
                 <div class="menu_list">
                 	<ul>
@@ -145,16 +144,31 @@ var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
                 </div>
             </div>
             
-			<div class="r form personEdit hidden">
+		<div class="r form personEdit hidden">
 			<div class="title">
 				<h3>编辑个人信息</h3> 
 			</div>
 			<div class="fcg">
-				<label>用户名</label> 
+				<label>登录帐号</label> 
 				<div class="fc">
 					<%=currentUser.get("loginid") %>
 				</div>
 			</div>
+			
+			<div class="fcg">
+				<label>真实姓名</label> 
+				<div class="fc">
+					<input id="rname" type="text" data-checked="notnull" value="<%=currentUser.get("rname") %>" data-inval="请输入个人姓名">
+				</div>
+			</div>
+			
+			<div class="fcg">
+				<label>身份证号码</label> 
+				<div class="fc">
+					<input id="pcode" type="text" data-checked="pcode" value="<%=currentUser.get("pcode") %>" data-inval="请输入有效的身份证号码">
+				</div>
+			</div>
+			
 			<div class="fcg">
 				<label>重设密码</label> 
 				<div class="fc">
@@ -173,18 +187,19 @@ var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
 					<input id="email" type="text" data-checked="email" value="<%=currentUser.get("email") %>" data-inval="请输入有效的电子邮件地址">  
 				</div>
 			</div>
+			
 			<div class="fcg">
 				<a class="btn edit" onclick="saveOrg();">保存</a>
 			</div>
 		</div>
 
-            <div class="r  personRequest hidden">
-            	<div class="lv01">
-                	<a href="#" class="sele-bg">继续填写</a>
-                    <a href="#">新填一个</a>
-                </div>
+        <div class="r  personRequest hidden">
+           	<div class="lv01">
+               	<a href="#" class="sele-bg">继续填写</a>
+                   <a href="#">新填一个</a>
+             </div>
                 
-                <div class="lv02">
+			<div class="lv02">
                	  <ul>
                     	<li>
                        		<span class="first sele"><a href="#">基本信息</a></span><!--sele即为选中的样式 -->
@@ -201,72 +216,33 @@ var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
                   </ul>
                 </div>
                 
-              <div class="lv03">
+              <div class="lv03 p11">
                 	<table>
                     	<!--表单项 -->
                     	<tr>
-                        	<td style="width:82px; text-align:right;">
-                            	<span>贷款金额</span>
-                            </td>
-                            <td style="width:383px;">
-                            	<input class="form-text" id="loan" type="text" value="" data-checked="number+"  data-inval="贷款金额必须是数字">
-                                <b>万元</b>
-                            </td>
-                        </tr>
-                        <!--错误提示信息 -->
-                    	<tr>
-                        	<td>
-                            	
-                            </td>
-                            <td>
-                           		<em class="loan"></em>
-                            </td>
-                        </tr>
-                        <!-- -->                        
-                    	<!--表单项 -->
-                    	<tr>
                         	<td style="text-align:right;">
-                            	<span>贷款期限</span>
+                            	<span>贷款用途</span>
                             </td>
                             <td>
-                            	<input class="form-text" type="text" id="until" value="" data-checked="number+"  data-inval="贷款期限必须是数字">
-                                <b>个月</b>
-                            </td>
-                        </tr>
-                        <!--错误提示信息 -->
-                    	<tr>
-                        	<td>
-                            	
-                            </td>
-                            <td>
-                           		<em class="until"></em>
-                            </td>
-                        </tr>
-                        <!-- -->                         
-                  	<!--表单项 -->
-                    	<tr>
-                        	<td style="text-align:right;">
-                            	<span>居住城市</span>
-                            </td>
-                            <td>
-								<select name="" id="provinces" class="form-select">
+								<select  id="purpose" class="form-select">
+									<option>购车贷款</option>
+									<option>购房按揭</option>
+									<option>个人消费</option>
                                 </select>
-                                
-								<select id="cities" name="" class="form-select">
-                                </select>                                
                             </td>
                         </tr>
-                        <!--错误提示信息 -->
+                        
+                        <!--表单项 -->
                     	<tr>
-                        	<td>
-                            	
+                        	<td style="text-align:right;">
+                            	<span>真实姓名</span>
                             </td>
                             <td>
-                           		<em></em>
+                            	<%=currentUser.get("rname") %>
                             </td>
                         </tr>
-                        <!-- -->                        
-                  	<!--表单项 -->
+                        
+                        <!--表单项 -->
                     	<tr>
                         	<td style="text-align:right;">
                             	<span>您的称谓</span>
@@ -276,36 +252,18 @@ var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
 								<input name="appellation" type="radio" checked="checked"><i>先生</i>                                
                             </td>
                         </tr>
-                        <!--错误提示信息 -->
-                    	<tr>
-                        	<td>
-                            	
-                            </td>
-                            <td>
-                           		<em></em>
-                            </td>
-                        </tr>
-                        <!-- -->                         
-                    	<!--表单项 -->
+
+						<!--表单项 -->
                     	<tr>
                         	<td style="text-align:right;">
-                            	<span>您的姓名</span>
+                            	<span>身份证件</span>
                             </td>
                             <td>
-                            	<input id="name" class="form-text" type="text" value="" data-checked="notnull"  data-inval="请输入您的姓名">
+								<%=currentUser.get("idtype") %> 号码 <%=currentUser.get("idcode") %>                         
                             </td>
                         </tr>
-                        <!--错误提示信息 -->
-                    	<tr>
-                        	<td>
-                            	
-                            </td>
-                            <td>
-                           		<em class="name"></em>
-                            </td>
-                        </tr>
-                        <!-- -->                         
-                    	<!--表单项 -->
+						
+						<!--表单项 -->
                     	<tr>
                         	<td style="text-align:right;">
                             	<span>手机号码</span>
@@ -315,16 +273,6 @@ var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
                                 <a href="#">不用这个手机？</a>
                             </td>
                         </tr>
-                        <!--错误提示信息 -->
-                    	<tr>
-                        	<td>
-                            	
-                            </td>
-                            <td>
-                           		<em></em>
-                            </td>
-                        </tr>
-                        <!-- -->  
                     	<!--表单项 -->
                     	<tr>
                         	<td style="text-align:right;">
@@ -335,36 +283,206 @@ var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
                                 <a href="#">不用这个邮箱？</a>
                             </td>
                         </tr>
-                        <!--错误提示信息 -->
-                    	<tr>
-                        	<td>
-                            	
-                            </td>
-                            <td>
-                           		<em></em>
-                            </td>
-                        </tr>
-                        <!-- -->
                     	<!--表单项 -->
                     	<tr>
                         	<td style="text-align:right;">
-
+							
                             </td>
                             <td>
 								<input class="form-button" onclick="saveLoanRequest();" name="" type="button" value="保存">
-                                <input class="form-button" onclick="sendLoanRequest();" type="button" value="提交请求">
+                                <input class="form-button" onclick="pRequestNext('.p12');" type="button" value="下一步">
                             </td>
                         </tr>
                         <!-- -->                                                           
-                                      
-                        
                     </table>
                 </div>
+                
+                <div class="lv03 hidden p12">
+                
+                	<table>
+                		<!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>贷款类型</span>
+                            </td>
+                            <td style="width:383px;" >
+								<span class="loan-type"></span>	                            
+                            </td>
+                        </tr>
+                        
+                    	<!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>贷款金额</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<select  id="loan-scope" class="form-select">
+									<option>5万及以下</option>
+									<option>5-10万(含)</option>
+									<option>10-20万(含)</option>
+									<option>20万以上</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                        <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>手工录入金额</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input class="form-text" id="loan" type="text" value="" data-checked="number+"  data-inval="贷款金额必须是数字">
+                                <b>万元</b>    <em class="loan"></em>
+                            </td>
+                        </tr>
+                        <!-- -->                        
+                    	<!--表单项 -->
+                    	<tr>
+                        	<td style="text-align:right;">
+                            	<span>贷款期限</span>
+                            </td>
+                            <td>
+                            	<select  id="duration-scope" class="form-select">
+									<option value="1">1个月</option>
+									<option value="3">3个月</option>
+									<option value="6">6个月</option>
+									<option value="12">12个月</option>
+									<option value="24">24个月</option>
+									<option value="36">36个月</option>
+									<option value="0" >手工录入</option>
+                                </select>
+                            	<input class="form-text hidden" type="text" id="duration" value="0" data-checked="number+"  data-inval="贷款期限必须是数字">
+                                <em class="duration"></em>
+                            </td>
+                        </tr>
+                    	<!--表单项 -->
+                    	<tr>
+                        	<td style="text-align:right;">
+                            	<span>还款方式</span>
+                            </td>
+                            <td>
+                            	<select  id="repayment-type" class="form-select">
+									<option value="1">按月等额本息</option>
+									<option value="2">按月还息到期还本</option>
+                                </select>
+                            </td>
+                        </tr>
+                    	<!--表单项 -->
+                    	<tr>
+                        	<td style="text-align:right;">
+                            	<span>婚姻状况</span>
+                            </td>
+                            <td>
+                            	<input name="maritalStatus" type="radio" value="1" checked="checked"><i>未婚</i>
+								<input name="maritalStatus" type="radio" value="2" ><i>已婚</i>    
+								<input name="maritalStatus" type="radio" value="3"><i>离异</i>
+								<input name="maritalStatus" type="radio" value="4"><i>丧偶</i>    
+                            </td>
+                        </tr>
+                    	<!--表单项 -->
+                    	<tr>
+                        	<td style="text-align:right;">
+                            </td>
+                            <td>
+								<input class="form-button" onclick="saveLoanRequest();" name="" type="button" value="保存">
+                                <input class="form-button" onclick="pRequestNext('.p13');" type="button" value="下一步">
+                            </td>
+                        </tr>
+                        <!-- -->    
+                	</table>
+                </div>
+                
+                <div class="lv03 hidden p13">
+                	<table>
+                		  <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>月收入</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input class="form-text" id="m-income" type="text" value="" data-checked="number+"  data-inval="月收入必须是数字">
+                                <b>元</b><em class="m-income"></em>
+                            </td>
+                        </tr>
+                          <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>工作单位</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input class="form-text" id="company" type="text" value="" >
+                                <em class="company"></em>
+                            </td>
+                        </tr>
+                        <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>职务</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input class="form-text" id="ctitle" type="text" value="" data-checked="notnull"  data-inval="职务不能为空">
+                               <em class="ctitle"></em>
+                            </td>
+                        </tr>
+                        <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>是否有房</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input name="hashp" type="radio" value="1" checked="checked"><i>是</i>
+								<input name="hashp" type="radio" value="0"><i>否</i>    
+                            </td>
+                        </tr>
+                        
+                        <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>房产性质</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<select  id="hp-type" class="form-select">
+									<option value="1">大产权</option>
+									<option value="2">小产权</option>
+									<option value="3">经济适用房</option>
+                                </select>
+                            </td>
+                        </tr>
+                        
+                            <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>房产坐落地址</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input class="form-text" id="hploc" type="text" value="" data-checked="notnull"  data-inval="地址不能为空"> <em class="hploc"></em>
+                            </td>
+                        </tr>
+                             <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>房产面积</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input class="form-text" id="hpsize" type="text" value="" data-checked="number+"  data-inval="地址不能为空"> 平方米 <em class="hpsize"></em>
+                            </td>
+                        </tr>
+          				 <!--表单项 -->
+                    	<tr>
+                        	<td style="width:82px; text-align:right;">
+                            	<span>购房合同上房产价值</span>
+                            </td>
+                            <td style="width:383px;">
+                            	<input class="form-text" id="hpprice" type="text" value="" data-checked="number+"  data-inval="价值不能为空">  <em class="hpprice"></em>
+                            </td>
+                        </tr>                    
+                        
+                	</table>
+                </div>
             </div>
+
            
-           
-           
-	<div class="r lprogress hidden">
+		<div class="r lprogress hidden">
 		
 		<div class="table" id="loan-prgress-table">
 		    <div class="row header">

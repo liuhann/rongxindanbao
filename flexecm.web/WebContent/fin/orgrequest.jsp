@@ -70,7 +70,6 @@ $(function(){
 });
 
 
-
 function save(n, cb) {
 	cb();
 }
@@ -286,7 +285,7 @@ function initUploader(container,btnid) {
                                 	<td style="padding-top:5px;">借款主体</td>
                                     <td>
                                     	<div class="form-item">
-                                        	<input class="form-text" type="text" value="白璐">
+                                        	<input class="form-text" type="text" id= value="白璐">
                                         </div>
                                         <div class="err">
                                         </div>

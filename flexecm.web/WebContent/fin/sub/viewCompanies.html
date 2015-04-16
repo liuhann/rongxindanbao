@@ -1,0 +1,69 @@
+
+<script>
+
+$(function() {
+	$("#vip-companies .empty").html("正在读取列表");
+	
+	var filter = {
+		"vip": "true",
+		"type": "company"
+	};
+	$.post("/service/fin/account/filter", {
+		"filter": JSON.stringify(filter)
+	}, function(data) {
+		var result = JSON.parse(data);
+		$("#vip-companies .empty").html("无绿色通道企业");
+		initTable("#vip-companies-table",result);
+	});
+})
+
+</script>
+<div class="org" id="vip-companies">
+		<div class="panel">
+			<a class="gbtn" onclick="addGreenOrg();">增加绿色通道企业</a>
+			<div class="fr">
+				<input class="search" placeholder="输入企业名称"><a class="find">查找</a>
+			</div>
+		</div>
+
+		<div class="table" id="vip-companies-table">
+		    <div class="row header">
+		      <div class="cell" style="width: 100px;">
+		        	所在区
+		      </div>
+		      <div class="cell">
+		       		企业名称
+		      </div>
+		      <div class="cell">
+		       		营业执照号
+		      </div>
+		      <div class="cell">
+		       		 借款人平台账号
+		      </div>
+		      <div class="cell">
+		      		借款次数
+		      </div>
+		      <div class="cell">
+		      		信用等级
+		      </div>
+		    </div>
+	    <div class="template">
+	      <div class="cell " data-f="location">
+	      </div>
+	      <div class="cell" data-f="company">
+	      </div>
+	      <div class="cell" data-f="bizlicence">
+	      </div>
+	      <div class="cell" data-f="loginid">
+	      </div>
+	      <div class="cell" data-f="projects" data-default="0">
+	      </div>
+	      <div class="cell" data-f="crating" data-default="E">
+	      </div>
+	    </div>
+	</div>
+	
+	 <div class="empty">
+	    	列表内容为空
+	</div>
+	</div>  

@@ -1,0 +1,44 @@
+
+<script type="text/javascript">
+	function saveAdmin() {
+	var c = formCheck(".adminEdit ");
+	if(c.test()==true) {
+		var account = c.getRequest();
+		account.type = "admin";
+
+		$.post("/service/fin/account/save", account, function() {
+			alert("保存完成");
+			backAccountList();
+		}).fail(function(error) {
+			alert("未知错误");
+		});
+	}
+}
+</script>
+
+<div class="form adminEdit">
+		<div class="title">
+			<h3>增加/编辑管理员信息</h3> 
+		</div>
+		<div class="fcg">
+			<label>管理员账号</label> 
+			<div class="fc">
+				<input id="loginid" type="text" value="" data-checked="notnull" data-inval="用户名不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>密码</label> 
+			<div class="fc">
+				<input id="pwd" type="text" value="" data-checked="length-6" data-inval="密码要大于6位"> <a class="btn edit" href="javascript:$('#pwd').val(genPass());">自动生成</a>
+			</div>
+		</div>
+
+		<div class="hidden">
+			<input type="text" id="_id" value="">
+			<input type="text" id="type" value="admin">
+		</div>
+		
+		<div class="fcg">
+			<a class="btn edit" onclick="saveAdmin();">保存</a>
+		</div>
+</div>

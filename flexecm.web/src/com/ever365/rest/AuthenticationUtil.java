@@ -14,12 +14,6 @@ public class AuthenticationUtil {
 	private static ThreadLocal<String> currentUser = new ThreadLocal();
 	private static ThreadLocal<String> realName = new ThreadLocal();
 
-	public static List<String> getCurrentAuthorities() {
-		List r = new ArrayList();
-		r.add((String) currentUser.get());
-		return r;
-	}
-
 	public static void setRealName(String user) {
 		realName.set(user);
 	}
@@ -29,9 +23,13 @@ public class AuthenticationUtil {
 	}
 
 	public static boolean isAdmin() {
-		return SESSION_ADMIN.equals(currentUser.get());
+		return SESSION_ADMIN.equals(currentUser.get())||SYSTEM.equals(currentUser.get());
 	}
 
+	public static boolean isSystem() {
+		return SYSTEM.equals(currentUser.get());
+	}
+	
 	public static void setCurrentUser(String user) {
 		currentUser.set(user);
 	}

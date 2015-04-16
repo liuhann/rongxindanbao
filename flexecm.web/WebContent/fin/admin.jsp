@@ -31,13 +31,11 @@
 			<li class="navcontent" onclick="navTo(this);">内容管理</li>
 			<li class="navmanage" onclick="navTo(this);">后台管理</li>
 		</ul>
-		
-		<a>退出系统</a>
+		<a href="/service/fin/logout">退出系统</a>
 	</div>
 </div>
 
 <div class="wrapper">
-
 <div class="gridl clearfix">
 	<div class="box navuser">
 		<div class="title">
@@ -57,11 +55,11 @@
 		</div>
 		<ul>
 			<li onclick="pageAllLoans();">项目库</li>
-			<li>初审列表</li>
-			<li>复审列表</li>
-			<li>未通过项目</li>
-			<li>已通过项目</li>
-			<li>还款完结项目列表</li>
+			<li onclick="pageFirstAudit();">初审列表</li>
+			<li onclick="pageFinalAudit();">复审列表</li>
+			<li onclick="pageKilledLoans();">未通过项目</li>
+			<li onclick="pagePassedLoans();">已通过项目</li>
+			<li onclick="pageFinishedLoans();">还款完结项目列表</li>
 		</ul>
 	</div>
 	
@@ -80,211 +78,31 @@
 		</div>
 		<ul>
 			<li onclick="addNews();">增加新闻公告</li>
-			<li>新闻列表</li>
+			<li onclick="listNews();">新闻列表</li>
+		</ul>
+		
+		<div class="title">
+			<h2>资源管理</h2>
+		</div>
+		<ul>
+			<li onclick="showPics();">图片库</li>
+		</ul>
+	</div>
+	<div class="box navmanage hidden">
+		<div class="title">
+			<h2>理财产品来源管理</h2>
+		</div>
+		<ul>
+			<li onclick="editAdmin();">增加管理员</li>
+			<li onclick="adminList();">管理员列表</li>
+			<li onclick="backAccountList();">用户管理</li>
+			<li onclick="editRole();">角色管理</li>
+			<li>用户授权</li>
 		</ul>
 	</div>
 </div>
 
-<div class="gridr clearfix">
-	<div class="form companyEdit hidden">
-		<div class="title">
-			<h3>增加/编辑企业信息</h3> 
-			<div class="ops">
-				<a class="btn read" onclick="toggleEditOrg();">编辑</a>
-			</div>
-		</div>
-		<div class="fcg">
-			<label>公司全称（同营业执照）</label> 
-			<div class="fc">
-				<input id="company" type="text" value="" data-checked="notnull" data-inval="公司全称 不能为空">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>用户名</label> 
-			<div class="fc">
-				<input id="loginid" type="text" value="" data-checked="notnull"  data-inval="用户名不能为空">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>密码</label> 
-			<div class="fc">
-				<input id="pwd" type="text" value="" data-checked="length-6" data-inval="密码要大于6位"> <a class="btn edit" href="javascript:$('#pwd').val(genPass());">自动生成</a>
-			</div>
-		</div>
-		<div class="fcg">
-			<label>联系人</label> 
-			<div class="fc">
-				<input id="contact" type="text" data-checked="notnull" data-inval="请输入姓名">	
-			</div>
-		</div>
-		<div class="fcg">
-			<label>联系人手机</label> 
-			<div class="fc">
-				<input id="mobile" type="text" data-checked="mobile" data-inval="请输入有效的手机号码">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>联系人邮箱</label> 
-			<div class="fc">
-				<input id="email" type="text" data-checked="email" data-inval="请输入有效的电子邮件地址">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>注册地址</label> 
-			<div class="fc">
-				<input type="text" id="location" data-checked="notnull" data-inval="注册地址不能为空">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>成立时间</label> 
-			<div class="fc">
-				<input type="text" id="established" data-checked="notnull" data-inval="成立时间不能为空">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>企业法人</label> 
-			<div class="fc">
-				<input type="text" id="legalperson" data-checked="notnull" data-inval="企业法人姓名不能为空">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>注册资本</label> 
-			<div class="fc">
-				<input type="text" id="capital" data-checked="notnull" data-inval="请输入注册资本">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>营业执照号</label>
-			<div class="fc">
-				<input id="bizlicence" type="text" data-checked="notnull" data-inval="营业执照号不能为空" >
-			</div>
-		</div>
-		<div class="fcg">
-			<label>组织机构代码证号</label> 
-			<div class="fc">
-				<input id="groupcode" type="text" data-checked="notnull" data-inval="组织机构代码证号不能为空">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>税务登记证号</label> 
-			<div class="fc">
-				<input type="text" id="taxcode" data-checked="notnull" data-inval="税务登记证号不能为空">
-			</div>
-		</div>
-		<div class="fcg">
-			<label>基本开户行</label> 
-			<div class="fc">
-				<input type="text" id="bank" data-checked="notnull" data-inval="基本开户行不能为空">
-			</div>
-		</div>
-		
-		<div class="fcg">
-			<label>信用评级</label> 
-			<div class="fc">
-				<input type="text" id="crating" data-checked="notnull" data-inval="信用评级不能为空">
-			</div>
-		</div>
-		<div class="hidden">
-			<input type="text" id="_id" value="">
-		</div>
-		
-		<div class="fcg">
-			<a class="btn edit" onclick="saveOrg();">保存</a>
-		</div>
-	</div>
-	<div class="accounts">
-		<div class="panel">
-			<div class="fr">
-				<input class="search" placeholder="输入用户ID"><a class="find">查找</a>
-			</div>
-		</div>
-		
-		<div class="table" id="uncfmAccount">
-		    <div class="row header">
-		      <div class="cell" style="width: 100px;">
-		        	帐号
-		      </div>
-		      <div class="cell">
-		       		姓名
-		      </div>
-		      <div class="cell">
-		       		身份证
-		      </div>
-		      <div class="cell">
-		       		 手机
-		      </div>
-		      <div class="cell">
-		      		邮箱
-		      </div>
-		      <div class="cell">
-		      		状态
-		      </div>
-		    </div>
-		    <div class="template">
-		      <div class="cell" data-f="loginid">
-		      </div>
-		      <div class="cell" data-f="name">
-		      </div>
-		      <div class="cell" data-f="personcode">
-		      </div>
-		      <div class="cell" data-f="mobile">
-		      </div>
-		      <div class="cell" data-f="email">
-		      </div>
-		      <div class="cell" data-cal="type">
-		      </div>
-		    </div>
-		</div>	
-	</div>
-	<div class="org hidden" id="vip-companies">
-		<div class="panel">
-			<a class="btn" onclick="addGreenOrg();">增加绿色通道企业</a>
-			<div class="fr">
-				<input class="search" placeholder="输入企业名称"><a class="find">查找</a>
-			</div>
-		</div>
-
-		<div class="table">
-		    <div class="row header">
-		      <div class="cell" style="width: 100px;">
-		        	所在区
-		      </div>
-		      <div class="cell">
-		       		企业名称
-		      </div>
-		      <div class="cell">
-		       		营业执照号
-		      </div>
-		      <div class="cell">
-		       		 借款人平台账号
-		      </div>
-		      <div class="cell">
-		      		借款次数
-		      </div>
-		      <div class="cell">
-		      		信用等级
-		      </div>
-		    </div>
-	    <div class="template">
-	      <div class="cell " data-f="location">
-	      </div>
-	      <div class="cell" data-f="company">
-	      </div>
-	      <div class="cell" data-f="bizlicence">
-	      </div>
-	      <div class="cell" data-f="loginid">
-	      </div>
-	      <div class="cell" data-f="projects" data-default="0">
-	      </div>
-	      <div class="cell" data-f="crating" data-default="E">
-	      </div>
-	    </div>
-	</div>
-	
-	 <div class="empty">
-	    	列表内容为空
-	</div>
-	</div>    
+<div class="gridr clearfix" id="ccontent">
 	<div class="loans" id="loans-list">
 		<div class="panel">
 			<div class="title">
@@ -320,7 +138,7 @@
 			      </div>
 			      <div class="cell" data-f="email">
 			      </div>
-			      <div class="cell" data-eval="(entry['audit']==1)?'初审中':'复审中'">
+			      <div class="cell" data-cal="audit">
 			      </div>
 			</div>
 	</div>
@@ -330,18 +148,80 @@
 	</div>
 	</div> 
 
-	<div class="form add-news hidden">
-	
-		<div class="empty">
-	    	正在初始化编辑器..
-		</div>
-	   <!-- 加载编辑器的容器 -->
-   		<script id="umcontainer" name="content" type="text/plain">
-			</script>
-	</div>
-	
-</div>
 
+	<div id="view-company-loan" class="form">
+		<div class="title">
+			<h3>申请项目信息</h3> 
+			<div class="ops">
+				<a class="btn read" onclick="toggleEditOrg();">编辑</a>
+				<a class="btn read" onclick="toggleEditOrg();">编辑</a>
+			</div>
+		</div>
+		<div class="subtitle">
+			<h3>基本资料</h3>
+		</div>
+		<div class="fcg">
+			<label>贷款金额 </label> 
+			<div class="fc">
+				<input style="width:4rem;" id="loan" type="text" value="" data-checked="number+" data-inval="金额必须为正整数"> 万元
+			</div>
+		</div>
+		<div class="fcg">
+			<label>贷款期限</label> 
+			<div class="fc">
+				<input style="width:4rem;" id="duration" type="text" value="" data-checked="number+" data-inval="贷款时间为正整数"> 个月
+			</div>
+		</div>
+		<div class="fcg">
+			<label>居住城市</label> 
+			<div class="fc">
+				<select class="form-sele1" id="provinces"></select>
+				<select class="form-sele1" id="cities">
+				  <option >请选择</option>
+				</select>                 
+			</div>
+		</div>
+		<div class="fcg">
+			<label>您的称谓</label> 
+			<div class="fc">
+				<input name="appellation" type="radio" value=""><span>女士</span>
+				<input name="appellation" type="radio" checked="checked"><span>先生</span>         
+			</div>
+		</div>
+		<div class="fcg">
+			<label>您的姓名</label> 
+			<div class="fc">
+				<input class="form-text" type="text" value="" id="name" data-checked="notnull" data-inval="姓名不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>手机号码</label> 
+			<div class="fc">
+				<input class="form-text" type="text" value="" id="mobile" data-checked="mobile" data-inval="请输入正确的手机号码">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>	</label> 
+			<div class="fc">
+				<input class="form-text" type="text" value="" id="email" data-checked="email" data-inval="请输入正确的电子邮件">
+			</div>
+		</div>
+		
+		<div class="subtitle">
+			<h3>借款主体</h3>
+		</div>
+		
+		<div class="fcg">
+			<label>借款主体</label> 
+			<div class="fc">
+				<input class="form-text" type="text" value="" id="email" data-checked="email" data-inval="请输入正确的电子邮件">
+			</div>
+		</div>
+		
+		
+	</div>
+		
+</div>
 </div> <!-- wrapper end -->
 </body>
 </html>

@@ -40,13 +40,16 @@
   <listener>
     <listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
   </listener>
+  <listener>
+        <listener-class>com.ever365.rest.OnlineListener</listener-class>                        
+   </listener>
+  
   <context-param>
     <param-name>contextConfigLocation</param-name>
     <param-value>  
            classpath:rest-registry-context.xml
         </param-value>
   </context-param>
-  
   
   <servlet>
     <servlet-name>OAuthServlet</servlet-name>

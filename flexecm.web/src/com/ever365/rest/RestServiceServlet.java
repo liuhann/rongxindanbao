@@ -37,12 +37,11 @@ public class RestServiceServlet extends HttpServlet {
 	Logger logger = Logger.getLogger(RestServiceServlet.class.getName());
 
 	public void init(ServletConfig config) throws ServletException {
-		this.registry = ((HttpServiceRegistry) ContextLoaderListener
-				.getCurrentWebApplicationContext().getBean("http.registry"));
-		Object o = ContextLoaderListener.getCurrentWebApplicationContext()
-				.getBean("rest.cookie");
-		if (o != null)
+		this.registry = ((HttpServiceRegistry) ContextLoaderListener.getCurrentWebApplicationContext().getBean("http.registry"));
+		Object o = ContextLoaderListener.getCurrentWebApplicationContext().getBean("rest.cookie");
+		if (o != null) {
 			this.cookieService = ((CookieService) o);
+		}
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -122,13 +121,11 @@ public class RestServiceServlet extends HttpServlet {
 			
 			Map args = new HashMap();
 
-			if ((handler.isMultipart())
-					&& (ServletFileUpload.isMultipartContent(request))) {
+			if ((handler.isMultipart()) && (ServletFileUpload.isMultipartContent(request))) {
 				DiskFileItemFactory factory = new DiskFileItemFactory();
 				ServletFileUpload upload = new ServletFileUpload(factory);
 
 				List<FileItem> items = upload.parseRequest(request);
-
 				args = new HashMap();
 
 				for (FileItem item : items)
@@ -200,7 +197,6 @@ public class RestServiceServlet extends HttpServlet {
 			WebContext.setRemoteAddr(WebContext.getRemoteAddr(request));
 			WebContext.setSessionId(request.getSession().getId());
 		}
-		
  
 		if (request.getServerName().equals("127.0.0.1"))
 			WebContext.setLocal(Boolean.valueOf(true));
@@ -240,12 +236,11 @@ public class RestServiceServlet extends HttpServlet {
 				HttpSession session = request.getSession();
 				for (String key : rr.getSession().keySet()) {
 					session.setAttribute(key, rr.getSession().get(key));
-					if ((!key.equals(AuthenticationUtil.SESSION_CURRENT_USER))
-							|| (this.cookieService == null))
+					if ((!key.equals(AuthenticationUtil.SESSION_CURRENT_USER)) || (this.cookieService == null))
 						continue;
-					if (rr.getSession().get(key) == null)
+					if (rr.getSession().get(key) == null) {
 						this.cookieService.removeCookieTicket(request, response);
-					else {
+					} else {
 						this.cookieService.bindUserCookie(request, response, rr.getSession().get(key).toString());
 					}
 				}

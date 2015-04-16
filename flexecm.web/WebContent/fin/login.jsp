@@ -155,8 +155,13 @@ function login() {
 	var rq = fc.getRequest();
 	$.post("/service/fin/login", rq, function(data) {
 		location.href = data;
-	}).fail(function() {
-		alert("用户名或密码错误");
+	}).fail(function(e) {
+		if (e.status==412) {
+			alert("验证码错误");
+			$("#rnd-code-img").attr("src", "/rndimg?" + new Date().getTime());
+		} else {
+			alert("用户名或密码错误");
+		}
 	});
 }
 
@@ -171,7 +176,7 @@ function login() {
     	<div class="regform step1">
         	<!-- -->
             <div class="title">
-            	<span>欢迎来到融信担保！ 请登陆</span>
+            	<span>欢迎来到融信担保！ 请登录</span>
             </div>
             
             <div class="form-content">
@@ -238,7 +243,7 @@ function login() {
                     	<td>                       	
                         </td>
                         <td style="padding-left:20px;">
-                        	<input class="active-btn" id="login-btn" onclick="login();" type="button" value="登陆">
+                        	<input class="active-btn" id="login-btn" onclick="login();" type="button" value="登录">
                         	<a>忘记密码？</a>
                         </td>
                     </tr>

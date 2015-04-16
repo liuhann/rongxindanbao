@@ -6,10 +6,14 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 public class HttpServiceRegistry {
 	public static final String METHOD_POST = "post";
 	public static final String METHOD_GET = "get";
+	
+	Logger logger = Logger.getLogger(HttpServiceRegistry.class.getName());
+	
 	private Map<String, MethodInvocation> posts = new HashMap();
 
 	private Map<String, MethodInvocation> gets = new HashMap();
@@ -72,6 +76,7 @@ public class HttpServiceRegistry {
 						throw new RuntimeException("uri:" + rs.uri()
 								+ "already been injected by other class ");
 					}
+					logger.info("[rest service at]  POST " + rs.uri() + "  " + mi.getMethod().toString());
 					this.posts.put(rs.uri(), mi);
 				}
 				if (("get".equalsIgnoreCase(rs.method())) && (rs.uri() != null)
@@ -83,6 +88,8 @@ public class HttpServiceRegistry {
 						throw new RuntimeException("uri:" + rs.uri()
 								+ "already been injected by other class ");
 					}
+					
+					logger.info("[rest service at]  GET " + rs.uri() + "  " + mi.getMethod().toString());
 					this.gets.put(rs.uri(), mi);
 				}
 			}

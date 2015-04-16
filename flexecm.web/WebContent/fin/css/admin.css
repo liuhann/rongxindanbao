@@ -37,6 +37,20 @@ a.btn {
   line-height: 16px;
 }
 
+a.gbtn {
+  font-size: 12px;
+  display: inline-block;
+  background-color: #f1f1f1;
+  padding: 5px 15px;
+  border: 1px solid #e6e7ec;
+  border-radius: 3px;
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 16px;
+  margin-right: 10px;
+}
+
 .hidden, .template {
 	display: none;
 }
@@ -138,7 +152,7 @@ color: #eee;
 }
 
 .gridl .box ul li:HOVER{
-	background-color: #f8f8f8;
+  	background-color: #fefef2;
 	cursor: pointer;
 }
 
@@ -157,6 +171,7 @@ color: #eee;
 .gridr .panel .title {
 	font-size: 16px;
 	color: #2980b9;
+	float: left;
 }
 
 
@@ -192,7 +207,6 @@ color: #eee;
 }
 .row:HOVER {
 	cursor: pointer;
-	background-color: #abdddd;
 }
 
 .row.header {
@@ -208,6 +222,7 @@ color: #eee;
   background: #2980b9;
 }
 
+
 @media screen and (max-width: 580px) {
   .row {
     padding: 8px 0;
@@ -220,6 +235,7 @@ color: #eee;
   display: table-cell;
   border-top: 1px solid #ccc;
   border-left: 1px solid #ccc;
+  vertical-align: middle;
 }
 
 @media screen and (max-width: 580px) {
@@ -228,21 +244,50 @@ color: #eee;
     display: block;
   }
 }
+.pager {
+  float: left;
+  width: 600px;
+  margin: 5px 10px;
+}
+.pager  li {
+  float: left;
+  border: 1px solid #ccc;
+  padding: 8px;
+  margin: 0 5px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.pager  li.pgEmpty {
+	color: #ccc;
+	cursor: auto;
+}
+
+.pager  li.pgCurrent {
+	font-weight: bold;
+	border: none;
+}
 
 .form {
   background: #fff;
   padding: 20px;
 }
 
-.form input {
-  margin: 4px 0;
-  padding: 8px;
+.form input[type="text"] {
+  margin: 4px;
+  padding: 5px;
   background-color: transparent;
   outline: 0;
-  width: 100%;
+  width: 240px;
   border: 1px solid #ddd;
 }
-
+.form .subtitle h3{
+  font-weight: normal;
+  font-size: 16px;
+  border-bottom: 1px solid #35B558;
+  padding: 10px;
+  color: #35B558;
+}
 .form.readOnly input {
 	border: none;
 }
@@ -258,8 +303,8 @@ color: #eee;
 }
 
 .form .fcg {
-	margin-left: 10px;
-	margin-top: 20px;
+  margin-left: 10px;
+  margin-top: 10px;
 }
 
 .form .fcg label {
@@ -267,14 +312,12 @@ color: #eee;
   width: 10rem;
   line-height: 40px;
   margin-right: 10px;
-  font-weight: bold;
 }
 
 .form .fcg div.fc {
 	display: table-cell;
   	vertical-align: top;
   	float: none;
-  	width: 400px;
   	line-height: 40px;
 }
 
@@ -293,6 +336,31 @@ color: #eee;
 	margin: 0 4px;
 }
 
+
+#media-table .row {
+	float: left;
+	position: relative;
+	width: 150px;
+	height: 150px;
+	margin: 10px;
+}
+#media-table .row .cell {
+	padding: 10px;
+	border: 1px solid #ddd;
+}
+
+#media-table .row .cell.remove {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  background-color: #35B558;
+  color: white;
+}
+  
+#media-table .row .cell img {
+	width: 120px;
+	height: 120px;
+}
 .clearfix:after {
 	visibility: hidden;
 	display: block;
@@ -301,6 +369,7 @@ color: #eee;
 	clear: both;
 	height: 0;
 }
+
 .clearfix { display: inline-table; }
 /* Hides from IE-mac \*/
 * html .clearfix { height: 1%; }

@@ -1,0 +1,105 @@
+
+<style>
+	
+.roleEdit .group {
+  border-bottom: 1px dashed #ccc;
+  padding: 10px;
+}
+.roleEdit .group .main {
+	padding: 10px;
+}
+.roleEdit .group .main h3 {
+  font-size: 16px;
+  font-weight: normal;
+}
+.roleEdit .group .sub {
+	padding: 10px;
+}
+</style>
+
+
+<div class="roleEdit area">
+	<div class="group">
+		<div class="main">
+			<h3>用户管理</h3>
+		</div>
+		<div class="sub">
+			<ul>
+				<li>
+					<input id="core" type="checkbox"  data-coll="account">
+					<span>认证用户</span>
+					<span></span>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+
+	<div class="group">
+		<div class="main">
+			<h3>项目管理</h3>
+		</div>
+		<div class="sub">
+			<ul>
+				<li>
+					<input id="audit1" type="checkbox" data-coll="proj">
+					<span>初审</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="audit2" type="checkbox" data-coll="proj">
+					<span>复审</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="allproj" type="checkbox" data-coll="proj">
+					<span>查看所有项目</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="passedproj" type="checkbox" data-coll="proj">
+					<span>查看已通过项目</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="unpassproj" type="checkbox" data-coll="proj">
+					<span>查看未通过项目</span>
+					<span></span>
+				</li>
+			</ul>
+		</div>
+	</div>
+	
+	<div class="group">
+		<div class="main">
+			<h3>内容管理</h3>
+		</div>
+		<div class="sub">
+			<ul>
+				<li>
+					<input id="p2pfina" type="checkbox" data-coll="content">
+					<span>P2P产品来源管理</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="bankfina" type="checkbox" data-coll="content">
+					<span>银行理财</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="rmbfina" type="checkbox" data-coll="content">
+					<span>货币基金</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="newsman" type="checkbox" data-coll="content">
+					<span>新闻公告</span>
+					<span></span>
+				</li>
+				
+			</ul>
+		</div>
+	</div>
+	
+
+</div>

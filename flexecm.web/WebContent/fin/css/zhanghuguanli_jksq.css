@@ -204,9 +204,12 @@
 	margin-right: auto;
 	margin-left: auto;
 	padding-top: 28px;
+	  width: 865px;
 }
 .zhanghuguanli_jksq_001 .r .lv03 table tr td {
+	height: 60px;
 	font-size: 14px;
+	padding: 8px 10px;
 	color: #333;
 	padding-right: 16px;
 }
@@ -241,10 +244,8 @@
 	float: left;
 }
 .zhanghuguanli_jksq_001 .r .lv03 table tr td em {
-	font-size: 12px;
-	color: #D53939;
-	display: block;
-	min-height:18px;
+  line-height: 30px;
+  margin-left: 20px;
 }
 .zhanghuguanli_jksq_001 .r .lv03 table tr td .form-select {
 	float: left;
