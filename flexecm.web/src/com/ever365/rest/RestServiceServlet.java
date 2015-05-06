@@ -150,6 +150,7 @@ public class RestServiceServlet extends HttpServlet {
 				}
 				String rightCode = (String)request.getSession().getAttribute(RandomCodeServlet.RANDOMCODEKEY);
 				
+				System.out.println("args " + args.get("rndcode") + "    ri " + rightCode);
 				if (!rightCode.equalsIgnoreCase((String)args.get("rndcode"))) {
 					throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
 				}

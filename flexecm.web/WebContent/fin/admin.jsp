@@ -96,7 +96,7 @@
 			<li onclick="editAdmin();">增加管理员</li>
 			<li onclick="adminList();">管理员列表</li>
 			<li onclick="backAccountList();">用户管理</li>
-			<li onclick="editRole();">角色管理</li>
+			<li onclick="rolesList();">角色管理</li>
 			<li>用户授权</li>
 		</ul>
 	</div>

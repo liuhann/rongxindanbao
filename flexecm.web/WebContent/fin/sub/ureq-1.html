@@ -1,0 +1,76 @@
+  
+<div class="lv03 p11">
+	<table><!--表单项 -->
+  	<tr>
+      	<td style="text-align:right;">
+          	<span>贷款用途</span>
+        </td>
+        <td>
+		<select id="purpose" class="form-select">
+			<option>购车贷款</option>
+			<option>购房按揭</option>
+			<option>个人消费</option>
+        </select>
+        </td>
+    </tr>
+	                
+       <!--表单项 -->
+   	<tr>
+       	<td style="text-align:right;">
+           	<span>真实姓名</span>
+           </td>
+   	       <td class="rname">
+   	       	<input id="rname" type="text"  readonly="readonly" class="readonly">
+           </td>
+	</tr>
+	
+   	<tr>
+	<td style="text-align:right;">
+		<span>您的称谓</span>
+	</td>
+	<td>
+	<input name="appellation" type="radio" value=""><i>女士</i>
+	<input name="appellation" type="radio" checked="checked"><i>先生</i>                                
+	</td>
+	</tr>
+	
+	<!--表单项 -->
+	<tr>
+       <td style="text-align:right;">
+           	<span>身份证件</span>
+		</td>
+		<td>
+			<input id="idtype"  readonly="readonly" class="readonly"> 号码: <input id="idcode" readonly="readonly" class="readonly">                    
+		</td>
+	</tr>
+	
+	<tr>
+		<td style="text-align:right;">
+			<span>手机号码</span>
+		</td>	                	
+	<td>
+      	<span><input id="mobile"  readonly="readonly" class="readonly">  </span>
+         <a href="#">不用这个手机？</a>
+	</td>
+	</tr>
+
+	<tr>
+		<td style="text-align:right;">
+		<span>常用邮箱</span>
+		</td>
+		<td>
+	       <input id="email"  readonly="readonly" class="readonly">          	
+			<a href="#">不用这个邮箱？</a>
+		</td>
+	</tr>
+	            	
+	<tr>
+		<td style="text-align:right;">
+		</td>
+		<td>
+			<input class="form-button" onclick="saveMerge();" name="" type="button" value="保存">
+			<input class="form-button" onclick="requestNext('ureq-2');" type="button" value="下一步">
+		</td>
+	</tr>
+	</table>
+</div>

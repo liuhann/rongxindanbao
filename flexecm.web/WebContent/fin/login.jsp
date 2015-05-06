@@ -148,9 +148,12 @@
 
 <script type="text/javascript">
 
-var fc = formCheck("");
+$(function() {
+	formCheck("#content");
+})
 
 function login() {
+	var fc = new formCheck("#content");
 	if (!fc.test()) return;
 	var rq = fc.getRequest();
 	$.post("/service/fin/login", rq, function(data) {

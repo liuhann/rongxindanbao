@@ -1,0 +1,148 @@
+<html>
+<head>
+<script type="text/javascript" src="datepicker/jquery.datetimepicker.js"></script>
+<link type="text/css" rel="stylesheet" href="datepicker/jquery.datetimepicker.css">
+
+
+<script type="text/javascript">
+
+$(function() {
+	$("input[type='radio']").click(function() {
+		if ($(this).val() == "1") {
+			$("." + $(this).attr("name")).show();
+		} else {
+			$("." + $(this).attr("name")).hide();
+		}
+	});
+	
+	$("select.switch").change(function() {
+		if ($(this).val() == "-1") {
+			$("." + $(this).attr("id")).show();
+		} else {
+			$("." + $(this).attr("id")).hide();
+		}
+	});
+	
+	$("input.date").datetimepicker({
+		format:'Y-m-d',
+		timepicker:false,
+		lang:'ch'
+	});
+});
+
+</script>
+</head>
+<body>
+
+<table id="step4"> 
+    <!--表单项 --> 
+    <tbody>
+     <tr> 
+      <td style="width:82px; text-align:right;"> <span>个人名下有无其他贷款</span> </td> 
+      <td style="width:383px;"> 
+      	<input type="radio" name="hasloan" value="1" checked="checked"> 有
+      	<input type="radio" name="hasloan" value="0">  无
+     	</td> 
+     </tr> 
+     
+     <tr class="hasloan">
+     	<td colspan="2">
+			  <div class="table" id="existingLoans" class="sublist">
+			  	<div class="row head">
+			  		<div class="cell">贷款类型</div>
+			  		<div class="cell">贷款银行</div>
+			  		<div class="cell">贷款金额(万元)</div>
+			  		<div class="cell">贷款起自</div>
+			  		<div class="cell">贷款截至</div>
+			  		<div class="cell">还款额</div>
+			  		<div class="cell">操作</div>
+			  	</div>
+			  	<div class="row template">
+			  		<div class="cell fill" data-field="loanhistype"></div>
+			  		<div class="cell fill" data-field="loanhisbank"></div>
+			  		<div class="cell fill" data-field="loanhisaccount"></div>
+			  		<div class="cell fill" data-field="loanhiststart"></div>
+			  		<div class="cell fill" data-field="loanhistend"></div>
+			  		<div class="cell fill" data-field="loanhisrepay"></div>
+			  		<div class="cell"><a class="removesub">删除</a></div>
+			  	</div>
+			  	
+			  	<div class="row editable">
+			  		<div class="cell"><input id="loanhistype" type="text" class="small"></div>
+			  		<div class="cell"><input id="loanhisbank" type="text" class="small"></div>
+			  		<div class="cell"><input id="loanhisaccount" type="text" class="small"></div>
+			  		<div class="cell"><input id="loanhiststart" type="text" class="small date"></div>
+			  		<div class="cell"><input id="loanhistend" type="text" class="small date"></div>
+			  		<div class="cell"><input id="loanhisrepay" type="text" class="small"></div>
+			  		<div class="cell"><a class="addsub">增加</a></div>
+			  	</div>
+			  </div>   		
+     	</td>
+     </tr>
+     
+     <tr> 
+      <td style="width:82px; text-align:right;"> <span>个人名下有无担保</span> </td> 
+      <td style="width:383px;"> 
+      	<input type="radio" name="persongrt" value="1" checked="checked"> 有
+      	<input type="radio" name="persongrt" value="0">  无
+     	</td> 
+     </tr> 
+     <!--表单项 --> 
+     <tr> 
+      <td style="width:82px; text-align:right;"> <span>担保额</span> </td> 
+      <td style="width:383px;"> 
+		<input class="form-text" id="grttotal" type="text" value="" data-checked="number+" data-inval="担保金额必须是数字" /> <b>万元</b> <em class="grttotal"></em>
+      </td> 
+     </tr> 
+     <!--表单项 --> 
+     <tr> 
+      <td style="width:82px; text-align:right;"> <span>被担保人名称</span> </td> 
+      <td style="width:383px;"> 
+      	<input class="form-text" id="grtperson" type="text" value="" data-checked="notnull" data-inval="被担保人不能为空" /> <em class="grtperson"></em>
+      </td> 
+     </tr> 
+     <!-- --> 
+     <!--表单项 --> 
+     <tr> 
+      <td style="text-align:right;"> <span>担保到期日</span> </td> 
+      <td> 
+      	<input class="form-text" id="grtuntil" type="text" value="" data-checked="notnull" data-inval="担保到期日不能为空" /> <em class="grtuntil"></em> 
+     </tr> 
+      <!--表单项 --> 
+     <tr> 
+      <td style="text-align:right;"> <span>银行存款</span> </td> 
+      <td> 
+      	<input class="form-text" id="bankdep" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr> 
+     <!--表单项 --> 
+     <tr> 
+      <td style="text-align:right;"> <span>股票价值</span> </td> 
+      <td> 
+      	<input class="form-text" id="stock" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr> 
+  	 <tr> 
+      <td style="text-align:right;"> <span>基金</span> </td> 
+      <td> 
+      	<input class="form-text" id="fund" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr>
+     <tr> 
+      <td style="text-align:right;"> <span>债券</span> </td> 
+      <td> 
+      	<input class="form-text" id="bond" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr>
+     <tr> 
+      <td style="text-align:right;"> </td> 
+      <td> <input class="form-button" onclick="saveMerge();" name="" type="button" value="保存" /> 
+      <input class="form-button" onclick="requestNext('ureq-5');" type="button" value="下一步" /> </td> 
+     </tr> 
+     <!-- --> 
+    </tbody>
+   </table> 
+   
+
+</body>
+</html>

@@ -1,0 +1,167 @@
+
+<script>
+	$(function() {
+		$("input[type='radio']").click(function() {
+			if ($(this).val() == "1") {
+				$("." + $(this).attr("name")).show();
+			} else {
+				$("." + $(this).attr("name")).hide();
+			}
+		});
+
+		$("select.switch").change(function() {
+			if ($(this).val() == "-1") {
+				$("." + $(this).attr("id")).show();
+			} else {
+				$("." + $(this).attr("id")).hide();
+			}
+		});
+	})
+</script>
+
+<table>
+	<!--表单项 -->
+	<tr>
+		<td style="width: 82px; text-align: right;"><span>月收入</span></td>
+		<td style="width: 383px;"><input class="form-text" id="m-income"
+			type="text" value="" data-checked="number+" data-inval="月收入必须是数字">
+			<b>元</b><em class="m-income"></em></td>
+	</tr>
+	<!--表单项 -->
+	<tr>
+		<td style="width: 82px; text-align: right;"><span>工作单位</span></td>
+		<td style="width: 383px;"><input class="form-text" id="company"
+			type="text" value=""> <em class="company"></em></td>
+	</tr>
+	<!--表单项 -->
+	<tr>
+		<td style="width: 82px; text-align: right;"><span>职务</span></td>
+		<td style="width: 383px;"><input class="form-text" id="ctitle"
+			type="text" value="" data-checked="notnull" data-inval="职务不能为空">
+			<em class="ctitle"></em></td>
+	</tr>
+	<!--表单项 -->
+	<tr>
+		<td style="width: 82px; text-align: right;"><span>是否有房</span></td>
+		<td style="width: 383px;"><input name="hases" type="radio"
+			value="1" checked="checked"><i>是</i> <input name="hases"
+			type="radio" value="0"><i>否</i></td>
+	</tr>
+
+	<!--表单项 -->
+	<tr class="hases">
+		<td style="width: 82px; text-align: right;"><span>房产性质</span></td>
+		<td style="width: 383px;"><select id="est-type"
+			class="form-select">
+				<option value="1">大产权</option>
+				<option value="2">小产权</option>
+				<option value="3">经济适用房</option>
+		</select></td>
+	</tr>
+
+	<!--表单项 -->
+	<tr class="hases">
+		<td style="width: 82px; text-align: right;"><span>房产坐落地址</span></td>
+		<td style="width: 383px;"><input class="form-text"
+			id="est-location" type="text" value="" data-checked="notnull"
+			data-inval="地址不能为空"> <em class="hploc"></em></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hases">
+		<td style="width: 82px; text-align: right;"><span>房产面积</span></td>
+		<td style="width: 383px;"><input class="form-text" id="est-size"
+			type="text" value="" data-checked="number+" data-inval="地址不能为空">
+			平方米 <em class="hpsize"></em></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hases">
+		<td style="width: 82px; text-align: right;"><span>购房合同上房产价值</span>
+		</td>
+		<td style="width: 383px;"><input class="form-text" id="est-value"
+			type="text" value="" data-checked="number+" data-inval="价值不能为空">
+			<em class="hpprice"></em></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hases">
+		<td style="width: 82px; text-align: right;"><span>是否有贷款</span></td>
+		<td style="width: 383px;"><select id="est-hasloan"
+			class="form-select switch">
+				<option value="0">无</option>
+				<option value="-1">有</option>
+				<option value="2">有但已还完</option>
+		</select> <span class="hidden est-hasloan" style="float: left">贷款余额: </span> <input
+			placeholder="请输入贷款余额" style="width: 100px;"
+			class="form-text hidden est-hasloan" id="est-loanremain" type="text"
+			value="0" data-checked="number+" data-inval="贷款余额不能为空">万元 <em
+			class="est-loanremain"></em></td>
+	</tr>
+
+	<!--表单项 -->
+	<tr class="hases">
+		<td style="width: 82px; text-align: right;"><span>房产是否在本人名下</span>
+		</td>
+		<td style="width: 383px;"><select id="est-own"
+			class="form-select">
+				<option value="1">是</option>
+				<option value="0">否</option>
+		</select></td>
+	</tr>
+
+	<!--表单项 -->
+	<tr>
+		<td style="width: 82px; text-align: right;"><span>是否有车</span></td>
+		<td style="width: 383px;"><input name="hasveh" type="radio"
+			value="1" checked="checked"><i>是</i> <input name="hasveh"
+			type="radio" value="0"><i>否</i></td>
+	</tr>
+
+	<!--表单项 -->
+	<tr class="hasveh">
+		<td style="width: 82px; text-align: right;"><span>车辆类型</span></td>
+		<td style="width: 383px;"><input class="form-text" id="vehtype"
+			type="text" value=""></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hasveh">
+		<td style="width: 82px; text-align: right;"><span>车牌号</span></td>
+		<td style="width: 383px;"><input class="form-text" id="vehlicene"
+			type="text" value=""></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hasveh">
+		<td style="width: 82px; text-align: right;"><span>购置年限</span></td>
+		<td style="width: 383px;"><input class="form-text" id="vehbought"
+			type="text" value=""></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hasveh">
+		<td style="width: 82px; text-align: right;"><span>是否有贷款</span></td>
+		<td style="width: 383px;"><select id="vehbloan"
+			class="form-select switch">
+				<option value="1">是</option>
+				<option value="0">否</option>
+		</select></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hasveh vehbloan">
+		<td style="width: 82px; text-align: right;"><span>贷款余额</span></td>
+		<td style="width: 383px;"><input class="form-text" id="vehremain"
+			type="text" value="" data-checked="number+" data-inval="贷款余额不能为空">
+			<em class="vehremain"></em></td>
+	</tr>
+	<!--表单项 -->
+	<tr class="hasveh">
+		<td style="width: 82px; text-align: right;"><span>车辆是否在本人名下</span>
+		</td>
+		<td style="width: 383px;"><select id="vehown" class="form-select">
+				<option value="1">是</option>
+				<option value="0">否</option>
+		</select></td>
+	</tr>
+	<tr>
+		<td style="text-align: right;"></td>
+		<td><input class="form-button" onclick="saveMerge();" name=""
+			type="button" value="保存" /> <input class="form-button"
+			onclick="requestNext('ureq-4');" type="button" value="下一步" /></td>
+	</tr>
+</table>

@@ -157,7 +157,8 @@
 	display: block;
 	float: left;
 	height: auto;
-	width: 232px;
+	width: 150px;
+	font-size: 14px;
 }
 .zhanghuguanli_jksq_001 .r .lv02 ul li span {
 	display: block;

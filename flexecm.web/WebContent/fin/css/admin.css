@@ -21,6 +21,21 @@ body, input, textarea {
 }
 
 
+input.small {
+	padding: 5px;
+	width: 80px;	
+}
+
+input.medium {
+	padding: 5px;
+	width: 160px;	
+}
+input.large {
+	padding: 5px;
+	width: 240px;	
+}
+
+
 a {
 	text-decoration:none
 }

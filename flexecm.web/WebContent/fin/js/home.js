@@ -82,10 +82,39 @@ function sendLoanRequest() {
 	}
 }
 
-function pRequestNext(p) {
-	$(".lv03").hide();
-	$(p).show();
+
+function personNewRequest() {
+	
+	$("#content .r").hide();
+	$(".personRequest").show();
+	
+	loanRequest = {};
+	//自动填写的个人信息
+	loanRequest.rname = uinfo.rname;
+	loanRequest.idtype = uinfo.idtype;
+	loanRequest.idcode = uinfo.idcode;
+	
+	loanRequest.mobile = uinfo.mobile;
+	loanRequest.email = uinfo.email;
+	
+	requestNext("ureq-1");
 }
+
+var loanRequest = {};
+
+function requestNext(page) {
+	saveMerge();
+	$("#form-content").load("sub/" + page + ".html?" + new Date().getTime(), function() {
+		var fc = new formCheck("#form-content ");
+		fc.init(loanRequest);
+	});
+}
+
+function saveMerge() {
+	var fc = new formCheck("#form-content ");
+	$.extend(loanRequest, fc.getRequest());
+}
+
 
 function saveLoanRequst() {
 	var fo = new formCheck(".r.personRequest ");
@@ -97,4 +126,3 @@ function saveLoanRequst() {
 		alert("保存成功");
 	});
 }
-

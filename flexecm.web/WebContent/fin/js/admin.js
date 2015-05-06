@@ -81,6 +81,9 @@ function pageCompanys() {
 function addNews() {
 	$("#ccontent").load("sub/addNews.html");
 }
+function rolesList() {
+	$("#ccontent").load("sub/roles.html");
+}
 
 function editRole() {
 	$("#ccontent").load("sub/roleEdit.html");

@@ -1,0 +1,33 @@
+<head>
+<script type="text/javascript">
+$(function() {
+	$.getJSON("/service/fin/roles/list", {}, function(result) {
+		initTable("#role-table",result);
+	});
+});
+</script>
+
+</head>
+
+<div class="accounts">
+	<div class="panel">
+		<div class="title">角色管理</div>
+		<a class="gbtn fr" onclick="editRole();">增加角色</a>
+	</div>
+	<div class="table" id="role-table">
+	    <div class="row header">
+	      <div class="cell" style="width: 100px;">
+	        	角色名称
+	      </div>
+	      <div class="cell">
+	       		权限
+	      </div>
+	    </div>
+	    <div class="template">
+	      <div class="cell" data-f="rname">
+	      </div>
+	      <div class="cell" data-f="rname">
+	      </div>
+	    </div>
+	</div>	
+</div>
