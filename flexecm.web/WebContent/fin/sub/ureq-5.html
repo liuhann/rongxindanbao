@@ -1,75 +1,76 @@
+<html>
 <head>
+
 <script type="text/javascript">
 
 $(function() {
-	$("input[name='haschild']").click(function() {
-		if($(this).val()=="1") {
-			$("tr.haschild").show();
-		} else {
-			$("tr.hide").show();
-		}
-	});
+		
 });
+
+function page5Next() {
+	if (loanRequest.maritalStatus=="2") {
+		if ($("#form-content").data("field")) {
+			requestNext('ureq-9','ureq-6');
+		} else {
+			requestNext('ureq-6','ureq-3', "mate");
+		}
+	} else {
+		requestNext('ureq-9','ureq-6');
+	}
+}
 
 </script>
 </head>
+<body>
 
 <table> 
     <!--表单项 --> 
     <tbody>
      <tr> 
-      <td style="width:82px; text-align:right;"> <span>有无子女</span> </td> 
+      <td style="width:82px; text-align:right;"> <span>是否有其他金融资产</span> </td> 
       <td style="width:383px;"> 
-      	<input type="radio" name="haschild" value="1" checked="checked"> 有
-      	<input type="radio" name="haschild" value="0">  无
+      	<input type="radio" name="hasotherfv" value="1" checked="checked"> 有
+      	<input type="radio" name="hasotherfv" value="0">  无
      	</td> 
      </tr> 
-     <!--表单项 --> 
-     <tr class="haschild"> 
-      <td style="width:82px; text-align:right;"> <span>子女年龄</span> </td> 
-      <td style="width:383px;"> 
-		<input class="form-text" id="childage" type="text" value=""  /> <b>岁</b>
+   
+     <tr class="hasotherfv"> 
+      <td style="text-align:right;"> <span>银行存款</span> </td> 
+      <td> 
+      	<input class="form-text" id="bankdep" type="text" value="" /> <b>万元</b>
       </td> 
      </tr> 
      <!--表单项 --> 
-     <tr class="haschild"> 
-      <td style="width:82px; text-align:right;"> <span>学业状况</span> </td> 
-      <td style="width:383px;"> 
-		<select  id="est-type" class="form-select">
-			<option value="1">在读</option>
-			<option value="2">已就业</option>
-		</select>
+     <tr class="hasotherfv"> 
+      <td style="text-align:right;"> <span>股票</span>
+      	<select id="stocktype">
+      		<option>A股</option>
+      	</select> </td> 
+      <td> 
+      	<input class="form-text" id="stock" type="text" value="" /> <b>万元</b>
       </td> 
      </tr> 
-     
-        <!--表单项 --> 
-     <tr class="haschild"> 
-      <td style="width:82px; text-align:right;"> <span>在读院校名称</span> </td> 
-      <td style="width:383px;"> 
-		<input class="form-text" id="childcoll" type="text" value=""  /> <b></b>
+  	 <tr> 
+      <td style="text-align:right;"> <span>基金</span> </td> 
+      <td> 
+      	<input class="form-text" id="fund" type="text" value="" /> <b>万元</b>
       </td> 
-     </tr> 
-     <!--表单项 --> 
-     <tr class="haschild"> 
-      <td style="width:82px; text-align:right;"> <span>工作单位</span> </td> 
-      <td style="width:383px;"> 
-		<input class="form-text" id="childcomp" type="text" value=""  /> <b></b>
+     </tr>
+     <tr> 
+      <td style="text-align:right;"> <span>债券</span> </td> 
+      <td> 
+      	<input class="form-text" id="bond" type="text" value="" /> <b>万元</b>
       </td> 
-     </tr>      
-     
-     <!--表单项 --> 
-     <tr class="haschild"> 
-      <td style="width:82px; text-align:right;"> <span>子女月收入</span> </td> 
-      <td style="width:383px;"> 
-		<input class="form-text" id="childincome" type="text" value=""  /> <b></b>
-      </td> 
-     </tr> 
-     
+     </tr>
      <tr> 
       <td style="text-align:right;"> </td> 
-      <td> <input class="form-button" onclick="saveMerge();" name="" type="button" value="保存" /> 
-      <input class="form-button" onclick="requestLoan();" type="button" value="提交申请" /> </td> 
+      <td> <input class="form-button savemerge" type="button" value="保存">
+			<input class="form-button pagenext" type="button" value="下一步"> </td> 
      </tr> 
      <!-- --> 
     </tbody>
    </table> 
+   
+
+</body>
+</html>

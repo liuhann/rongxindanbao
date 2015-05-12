@@ -1,23 +1,13 @@
 
-<script>
-	$(function() {
-		$("input[type='radio']").click(function() {
-			if ($(this).val() == "1") {
-				$("." + $(this).attr("name")).show();
-			} else {
-				$("." + $(this).attr("name")).hide();
-			}
-		});
+<head>
+<script type="text/javascript">
 
-		$("select.switch").change(function() {
-			if ($(this).val() == "-1") {
-				$("." + $(this).attr("id")).show();
-			} else {
-				$("." + $(this).attr("id")).hide();
-			}
-		});
-	})
+$(function() {
+})
+
 </script>
+
+</head>
 
 <table>
 	<!--表单项 -->
@@ -71,14 +61,15 @@
 		<td style="width: 82px; text-align: right;"><span>房产面积</span></td>
 		<td style="width: 383px;"><input class="form-text" id="est-size"
 			type="text" value="" data-checked="number+" data-inval="地址不能为空">
-			平方米 <em class="hpsize"></em></td>
+			<b>平方米</b>
+			 <em class="hpsize"></em></td>
 	</tr>
 	<!--表单项 -->
 	<tr class="hases">
 		<td style="width: 82px; text-align: right;"><span>购房合同上房产价值</span>
 		</td>
 		<td style="width: 383px;"><input class="form-text" id="est-value"
-			type="text" value="" data-checked="number+" data-inval="价值不能为空">
+			type="text" value="" data-checked="number+" data-inval="价值不能为空"><b>万元</b>
 			<em class="hpprice"></em></td>
 	</tr>
 	<!--表单项 -->
@@ -92,7 +83,7 @@
 		</select> <span class="hidden est-hasloan" style="float: left">贷款余额: </span> <input
 			placeholder="请输入贷款余额" style="width: 100px;"
 			class="form-text hidden est-hasloan" id="est-loanremain" type="text"
-			value="0" data-checked="number+" data-inval="贷款余额不能为空">万元 <em
+			value="0" data-checked="number+" data-inval="贷款余额不能为空"><b class="est-hasloan">万元</b> <em
 			class="est-loanremain"></em></td>
 	</tr>
 
@@ -138,7 +129,7 @@
 		<td style="width: 82px; text-align: right;"><span>是否有贷款</span></td>
 		<td style="width: 383px;"><select id="vehbloan"
 			class="form-select switch">
-				<option value="1">是</option>
+				<option value="-1">是</option>
 				<option value="0">否</option>
 		</select></td>
 	</tr>
@@ -160,8 +151,7 @@
 	</tr>
 	<tr>
 		<td style="text-align: right;"></td>
-		<td><input class="form-button" onclick="saveMerge();" name=""
-			type="button" value="保存" /> <input class="form-button"
-			onclick="requestNext('ureq-4');" type="button" value="下一步" /></td>
+		<td><input class="form-button savemerge" type="button" value="保存">
+			<input class="form-button pagenext" type="button" value="下一步"></td>
 	</tr>
 </table>

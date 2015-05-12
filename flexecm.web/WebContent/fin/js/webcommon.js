@@ -5,6 +5,29 @@ $(document).ready(function() {
 	});
 });
 
+var forme = function(selector) {
+	
+} 
+
+
+;$(function() {
+	$.fn.forme = function(data) {
+		var fc = new formCheck($(this));
+			
+		fc.form = $(this);
+		fc.data = data;
+		
+		fc.addValidate = function() {
+			
+		}
+		fc.readOnly = function() {
+			
+		}
+		return fc;
+	};
+});
+
+
 var formCheck = function(selector) {
 	var form = $(selector);
 	
@@ -16,21 +39,38 @@ var formCheck = function(selector) {
 		}
 	});
 	
+	form.find("input[type='radio']").click(function() {
+		if ($(this).val() == "1") {
+			$("." + $(this).attr("name")).show();
+		} else {
+			$("." + $(this).attr("name")).hide();
+		}
+	});
+	
+	form.find("select.switch").change(function() {
+		if ($(this).val() == "-1") {
+			$("." + $(this).attr("id")).show();
+		} else {
+			$("." + $(this).attr("id")).hide();
+		}
+	});
+	
 	form.find(".sublist").each(function() {
 		var tb = $(this);
-		tb.find(".template").hide();
 		
-		tb.find("a.addsub").click(function() {
-			var fc = new formCheck(tb.find(".editable"));
-			var r = fc.getRequest();
-			var cloned = tb.find(".tepmplate").removeClass("template").clone();
+		tb.find("a.addsub").unbind().click(function() {
+			var ff1 = new formCheck($(this).parents(".editable"));
+			var r = ff1.getRequest();
+			var cloned = tb.find(".template").clone().removeClass("template").addClass("row item");
+			tb.find(".head").after(cloned);
+			
+			cloned.find("a.removesub").click(function(){
+				$(this).parents(".item").remove();
+			});
+			
 			var ww = new formCheck(cloned);
 			ww.init(r);
-			cloned.after(tb.find(".head"));
-		});
-		
-		tb.find("a.removesub").click(function(){
-			
+			ff1.clear();
 		});
 	})
 	
@@ -49,6 +89,14 @@ var formCheck = function(selector) {
 			$(form + "input").attr("disabled", false);
 			$(form + "input").css("border", "1px solid #ddd");
 		},
+		
+		clear: function() {
+			$(form).find("input").each(function() {
+				if ($(this).attr("type")=="text") {
+					$(this).val("");
+				}
+			});
+		},
 		init:function(data) { //用data初始化这个表单
 			if (data) {
 				$(form).find("input").each(function() {
@@ -58,6 +106,10 @@ var formCheck = function(selector) {
 					if ($(this).attr("id")!=null && data[$(this).attr("id")]) {
 						$(this).val(data[$(this).attr("id")]);
 					}
+				});
+				
+				$(form).find(".fill").each(function() {
+					$(this).html(data[$(this).data("field")]);
 				});
 				
 				$(form).find(".sublist").each(function(){
@@ -77,21 +129,21 @@ var formCheck = function(selector) {
 		getRequest: function() { //从表单抽取请求数据
 			var request = {};
 			$(form).find("input, select").each(function() {
-				if ($(this).parents(".sublist").length!=0) return;
+				//过滤掉子表单的情况
+				if ($(this).parentsUntil($(form), ".sublist").length!=0) return;
 				if ($(this).attr("id")!=null) {
 					request[$(this).attr("id")] = $(this).val();
 				}
-				if ($(this).attr("name")!=null) {
-					request[$(this).attr("name")] = $(this).val();
+				if ($(this).attr("type")=="radio") {
+					request[$(this).attr("name")] = $("input[name='" + $(this).attr("name") + "']:checked").val()
 				}
 			});
 			
 			$(form).find(".sublist").each(function(){
+				//抽取子表单的
 				var listData = [];
 				$(this).find(".row.item").each(function(){
-					
 					var o = {};
-					
 					$(this).find(".fill").each(function() {
 						o[$(this).data("field")] = $(this).html();
 					});
@@ -99,6 +151,7 @@ var formCheck = function(selector) {
 				});
 				request[$(this).attr("id")] = listData;
 			});
+			
 			return request;
 		},
 		test: function() {
@@ -162,7 +215,6 @@ function initTable(tbid, data, cell, cb) {
 			if ($(this).data("f")) {
 				$(this).html(entry[$(this).data("f")]);
 			}
-			
 			if ($(this).data("eval")) {
 				$(this).html(eval($(this).data("eval")));
 			}

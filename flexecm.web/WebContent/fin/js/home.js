@@ -74,7 +74,6 @@ function sendLoanRequest() {
 		r.type = 2;
 		$.post("/service/fin/loan/request",  r , function() {
 			alert("融资申请已提交");
-			
 			navTo();
 		});
 	} else {
@@ -84,7 +83,6 @@ function sendLoanRequest() {
 
 
 function personNewRequest() {
-	
 	$("#content .r").hide();
 	$(".personRequest").show();
 	
@@ -96,33 +94,71 @@ function personNewRequest() {
 	
 	loanRequest.mobile = uinfo.mobile;
 	loanRequest.email = uinfo.email;
-	
-	requestNext("ureq-1");
+	loanRequest.type = 2;
+	requestNext("ureq-1", "ureq-1");
 }
 
 var loanRequest = {};
 
-function requestNext(page) {
+var currentTab = 0;
+var currentPage = 0;
+
+//翻到下一页方法。 用户选择了有配偶，则配偶也要编写 3、4、5三栏的信息
+function ureqPageNext() {
+	if (currentTab==5) {
+		if (loanRequest.maritalStatus=="2") {
+			currentTab = 6
+			currentPage = 3;
+		} else {
+			currentTab = 9;
+			currentPage = 6;
+		}
+	} else {
+		currentTab ++;
+		currentPage ++;
+	}
+	
+	if (currentTab>=6 && currentTab<=8) {
+		requestNext("ureq-" + currentTab, "ureq-" + currentPage, "mate" + currentPage);
+	} else {
+		requestNext("ureq-" + currentTab, "ureq-" + currentPage);
+	}
+}
+
+function requestNext(tab, page, pre) {
 	saveMerge();
+	
+	$(".steps .sele").removeClass("sele")
+	$(".steps ." + tab).addClass("sele");
+	
 	$("#form-content").load("sub/" + page + ".html?" + new Date().getTime(), function() {
 		var fc = new formCheck("#form-content ");
-		fc.init(loanRequest);
+		$("#form-content").data("field", pre);
+		
+		$("#form-content .savemerge").click(saveMerge);
+		$("#form-content .pagenext").click(ureqPageNext);
+		
+		if (pre) {
+			fc.init(loanRequest[pre]);
+		} else {
+			fc.init(loanRequest);
+		}
 	});
 }
 
 function saveMerge() {
 	var fc = new formCheck("#form-content ");
-	$.extend(loanRequest, fc.getRequest());
+	if ($("#form-content").data("field")) {
+		loanRequest[$("#form-content").data("field")] = fc.getRequest();
+	} else {
+		$.extend(loanRequest, fc.getRequest());
+	}
 }
 
-
 function saveLoanRequst() {
-	var fo = new formCheck(".r.personRequest ");
-	var r = fo.getRequest();
-	
-	r.type = 2;
-	
-	$.post("/service/fin/loan/request/save",  r , function() {
+	saveMerge();
+	$.post("/service/fin/loan/request/save",  loanRequest , function() {
 		alert("保存成功");
 	});
 }
+

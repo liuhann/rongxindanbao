@@ -28,6 +28,16 @@
 <link type="text/css" rel="stylesheet" href="css/zhanghuguanli_jksq.css">
 <style>
 
+.zhanghuguanli_jksq_001 .r .lv02 ul li {
+  width: 100px;
+}
+.zhanghuguanli_jksq_001 .r .lv02 ul li.sele {
+}
+
+.zhanghuguanli_jksq_001 .r .lv02 ul li span {
+	width: auto;
+}
+
 .active-btn {
 	cursor: pointer;
 }
@@ -51,7 +61,10 @@ li {
 	display: inline-block;
 }
 .readonly {
-	 border: none;
+	border: none;
+}
+.template, .hidden {
+	display: none;
 }
 </style>
 </head>
@@ -215,10 +228,10 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                    <a href="#">新填一个</a>
              </div>
                 
-			<div class="lv02">
+			<div class="lv02 steps">
 				<ul>
-                   	<li>
-						<span class="first ureq-1 sele">基本信息</span><!--sele即为选中的样式 -->
+                   	<li class="sele">
+						<span class="first ureq-1">基本信息</span><!--sele即为选中的样式 -->
 					</li>
                    	<li>
 						<span class="ureq-2">贷款需求</span>
@@ -232,8 +245,17 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                     <li>
                     	<span class="ureq-5">其他金融资产</span>
                     </li>
+                    <li style="display: none;">
+						<span class="ureq-6">配偶资产情况</span>
+					</li>
+                   	<li style="display: none;">
+                    	<span class="ureq-7">配偶借款历史</span>
+                    </li>
+                    <li style="width: 120px; display: none;">
+                    	<span class="ureq-8">配偶其他金融资产</span>
+                    </li>
                    	<li>
-						<span class="end ureq-6">家庭成员状况</span>
+						<span class="end ureq-9">家庭成员状况</span>
 					</li>                                                                        
                   </ul>
              </div>
