@@ -31,6 +31,11 @@
 .zhanghuguanli_jksq_001 .r .lv02 ul li {
   width: 100px;
 }
+
+.zhanghuguanli_jksq_001 .r .lv02.csteps ul li {
+  width: 170px;
+}
+
 .zhanghuguanli_jksq_001 .r .lv02 ul li.sele {
 }
 
@@ -66,6 +71,8 @@ li {
 .template, .hidden {
 	display: none;
 }
+
+
 </style>
 </head>
 <body class="bg">
@@ -83,11 +90,7 @@ li {
 %>
 
 <script type="text/javascript">
-var currentUser = "<%=AuthenticationUtil.getCurrentUser()%>";
-
-
 var uinfo = <%=new JSONObject(currentUser)%>;
-
 </script>
 
 <script type="text/javascript" src="js/home.js"></script>
@@ -98,14 +101,14 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 			<div class="l">
             	<div class="icon">
                 	<img src="img/zhanghuguanli_001.png">
-                    <span><a href="javascript:void(0)"><%=currentUser.get("rname") %></a>您好!</span>
+                    <span><a href="javascript:void(0)"><%=("company".equals(currentUser.get("type")))?currentUser.get("contact"):currentUser.get("rname") %></a>您好!</span>
                 </div>
                 <div class="menu_list">
                 	<ul>
                     	<li class="current" onclick="dashboard(this);">
                         	账户总览
                         </li>
-                    	<li onclick="personNewRequest();">
+                    	<li onclick="startLoanRequest();">
                         	借款申请&gt;
                         </li>
                     	<li onclick="loanProgress(this);">
@@ -222,13 +225,13 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 			</div>
 		</div>
 
-        <div class="r personRequest hidden">
+        <div class="r loanRequest hidden">
            	<div class="lv01">
                	<a href="#" class="sele-bg">继续填写</a>
                    <a href="#">新填一个</a>
              </div>
                 
-			<div class="lv02 steps">
+			<div class="psteps lv02 steps">
 				<ul>
                    	<li class="sele">
 						<span class="first ureq-1">基本信息</span><!--sele即为选中的样式 -->
@@ -260,10 +263,29 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                   </ul>
              </div>
              
+             <div class="csteps lv02 steps">
+				<ul>
+                   	<li class="sele">
+						<span class="first creq-1">基本资料</span><!--sele即为选中的样式 -->
+					</li>
+                   	<li>
+						<span class="creq-2">您的借款历史</span>
+					</li>
+					<li>
+						<span class="creq-3">借款担保情况</span>
+					</li>
+                   	<li>
+                    	<span class="creq-4">进一步完善资料</span>
+                    </li>
+                    <li>
+                    	<span class="creq-5">最后一些资料，加油</span>
+                    </li>
+                  </ul>
+             </div>
+             
              <div class="lv03" id="form-content">
              </div>
         </div>
-
            
 		<div class="r lprogress hidden">
 		

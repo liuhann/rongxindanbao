@@ -296,6 +296,15 @@ $(function() {
                         	</select>
                         </td>
                     </tr>
+                      <!--错误提示信息 -->
+                	<tr>
+                    	<td>
+                        </td>
+                        <td style="padding-left:20px;">
+                        	<em class="rname"></em>
+                        </td>
+                    </tr>
+                    
                      <!-- -->                      
                     <!--循环行 -->
                 	<tr>
@@ -304,6 +313,14 @@ $(function() {
                         </td>
                         <td style="padding-left:20px;">
                         	<input id="idcode" type="text" >
+                        </td>
+                    </tr>
+                      <!--错误提示信息 -->
+                	<tr>
+                    	<td>
+                        </td>
+                        <td style="padding-left:20px;">
+                        	<em class="rname"></em>
                         </td>
                     </tr>
                     

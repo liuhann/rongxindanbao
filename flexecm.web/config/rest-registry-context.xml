@@ -3,11 +3,6 @@
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xsi:schemaLocation="http://www.springframework.org/schema/beans
            http://www.springframework.org/schema/beans/spring-beans-3.0.xsd">
-	<!--
-	<import resource="classpath:ecm-service-context.xml"/> 
-	<import resource="classpath:sale-service-context.xml"/>
-	 -->
-
 	<!-- 
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">  
         <property name="location" value="classpath:config.properties"/>  
@@ -17,25 +12,8 @@
 	<bean id="http.registry" class="com.ever365.rest.HttpServiceRegistry">
 	    <property name="injectedServices">
 	        <list>
-	            <!-- 
-	            <ref bean="rest.seller"/>
-	            <ref bean="rest.repository"/>
-	            <ref bean="rest.faceted"/>
-	            <ref bean="rest.public"/>
-	            <ref bean="rest.manage"/>
-	            <ref bean="rest.authority"/>
-	             <ref bean="rest.hufen"></ref>
-	             <ref bean="rest.gift"></ref>
-	             <ref bean="rest.collect"></ref>
-	             -->
-	             <!-- 
-	            <ref bean="rest.repost"/>
-	            <ref bean="oauth.weibo"/>
-	             -->
 	            <ref bean="fin.service"/>
-	            <ref bean="dido.service"/>
 	            <ref bean="common.media"/>
-	            <ref bean="probbo.service"/>
 	        </list>
 	    </property>
 	</bean>
@@ -52,7 +30,7 @@
 	
 	<bean id="didoDataSource" class="com.ever365.mongo.LocalMongoDataSource">
 	    <property name="db">
-	    	<value>dido</value>
+	    	<value>rxdb</value>
 	    </property>
 	</bean>
 	
@@ -75,12 +53,6 @@
 	     </property>
 	</bean>
 	
-	 <bean id="dido.service" class="com.ever365.dido.DidoService">
-		 <property name="dataSource">
-			<ref bean="didoDataSource"/>	         
-	     </property>
-	 </bean>
-	
 	<bean id="fin.service" class="com.ever365.fin.FinanceService">
 		 <property name="dataSource">
 			<ref bean="didoDataSource"/>	         
@@ -88,11 +60,5 @@
 	     <property name="contentStore">
 	         <ref bean="fileStore"/>
 	     </property>
-	</bean>
-	
-	<bean id="probbo.service" class="com.ever365.open.ProbboService">
-	     <property name="dataSource">
-			<ref bean="didoDataSource"/>	         
-	     </property> 
 	</bean>
 </beans>

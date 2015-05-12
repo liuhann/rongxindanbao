@@ -67,24 +67,37 @@ function resendEmail() {
 }
 
 function sendLoanRequest() {
-	var fo = new formCheck(".r.personRequest ");
+	$.post("/service/fin/loan/request",  loanRequest , function() {
+		alert("融资申请已提交");
+		navTo();
+	});
+}
+
+function startLoanRequest() {
+	$("#content .r").hide();
+	$(".loanRequest").show();
 	
-	if (fo.test()) {
-		var r = fo.getRequest();
-		r.type = 2;
-		$.post("/service/fin/loan/request",  r , function() {
-			alert("融资申请已提交");
-			navTo();
-		});
+	$(".steps").hide();
+	if (uinfo.type=="company") {
+		companyNewRequest();
+		$(".csteps").show();
 	} else {
-		
+		$(".psteps").show();
+		personNewRequest();
 	}
 }
 
+function companyNewRequest() {
+	loanRequest = {};
+	currentTab = 0;
+	currentPage = 0;
+	
+	creqPageNext();
+}
 
 function personNewRequest() {
-	$("#content .r").hide();
-	$(".personRequest").show();
+	currentTab = 0;
+	currentPage = 0;
 	
 	loanRequest = {};
 	//自动填写的个人信息
@@ -95,13 +108,19 @@ function personNewRequest() {
 	loanRequest.mobile = uinfo.mobile;
 	loanRequest.email = uinfo.email;
 	loanRequest.type = 2;
-	requestNext("ureq-1", "ureq-1");
+	ureqPageNext();
 }
 
 var loanRequest = {};
 
 var currentTab = 0;
 var currentPage = 0;
+
+function creqPageNext() {
+	currentTab ++;
+	currentPage ++;
+	requestNext("creq-" + currentTab, "creq-" + currentPage);
+}
 
 //翻到下一页方法。 用户选择了有配偶，则配偶也要编写 3、4、5三栏的信息
 function ureqPageNext() {
@@ -131,12 +150,15 @@ function requestNext(tab, page, pre) {
 	$(".steps .sele").removeClass("sele")
 	$(".steps ." + tab).addClass("sele");
 	
+	$("#form-content").html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
+	
 	$("#form-content").load("sub/" + page + ".html?" + new Date().getTime(), function() {
 		var fc = new formCheck("#form-content ");
 		$("#form-content").data("field", pre);
 		
 		$("#form-content .savemerge").click(saveMerge);
 		$("#form-content .pagenext").click(ureqPageNext);
+		$("#form-content .cpagenext").click(creqPageNext);
 		
 		if (pre) {
 			fc.init(loanRequest[pre]);

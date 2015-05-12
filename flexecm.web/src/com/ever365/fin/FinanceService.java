@@ -32,7 +32,7 @@ public class FinanceService implements Tenantable {
 	public static final String COLL_NEWS = "news";
 	public static final String COLL_TEMPORARY = "temporary";
 	public static final String COLL_LOANS = "loans";
-	private static final String FIN_ROOT = "/fin/";
+	private static final String FIN_ROOT = "/";
 	
 	//五种类型  用户  企业  管理员  后台用户 信贷经理
 	private static final String TYPE_PERSON = "person";
@@ -54,12 +54,12 @@ public class FinanceService implements Tenantable {
 		return dataSource;
 	}
 
-	@RestService(uri="/fa/upload", method="POST", multipart=true, authenticated=false)
+	@RestService(uri="/fin/upload", method="POST", multipart=true, authenticated=false)
 	public String uploadPreview(@RestParam("file") InputStream is, @RestParam("size") Long size) {
 		return this.contentStore.putContent(is, "image/png", size.longValue());
 	}
 	
-	@RestService(uri="/fa/preview", method="GET", authenticated=false)
+	@RestService(uri="/fin/preview", method="GET", authenticated=false)
 	public StreamObject getPreview(@RestParam("id") String id) {
 		return this.contentStore.getContentData(id);
 	}
@@ -254,7 +254,7 @@ public class FinanceService implements Tenantable {
 	public RestResult logout() {
 		RestResult rr = new RestResult();
 		rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, null);
-		rr.setRedirect("/fin/index.jsp");
+		rr.setRedirect("/");
 		return rr;
 	}
 	
@@ -341,16 +341,9 @@ public class FinanceService implements Tenantable {
 			rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
 			if (one.get("type").equals(TYPE_ADMIN)) {
 				rr.setSession(AuthenticationUtil.SESSION_ADMIN, 1);
-				rr.setResult(FIN_ROOT + "orgrequest.jsp");
+				rr.setResult(FIN_ROOT + "admin.jsp");
 			}
-
-			
-			if (one.get("type").equals(TYPE_COMPANY)) {
-				rr.setResult(FIN_ROOT + "orgrequest.jsp");
-			}
-			if (one.get("type").equals(TYPE_PERSON)) {
-				rr.setResult(FIN_ROOT + "home.jsp");
-			}
+			rr.setResult(FIN_ROOT + "home.jsp");
 			return rr;
 		}
 	}
