@@ -159,6 +159,7 @@ function requestNext(tab, page, pre) {
 		$("#form-content .savemerge").click(saveMerge);
 		$("#form-content .pagenext").click(ureqPageNext);
 		$("#form-content .cpagenext").click(creqPageNext);
+		$("#form-content .submitloan").click(sendLoanRequest);
 		
 		if (pre) {
 			fc.init(loanRequest[pre]);
