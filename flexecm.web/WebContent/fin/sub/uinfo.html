@@ -1,0 +1,48 @@
+<div class="title">
+	<h3>编辑个人信息</h3>
+</div>
+<div class="fcg">
+	<label>登录帐号</label>
+	<div class="fc">
+		<input id="loginid" class="readonly" readonly="readonly">
+	</div>
+</div>
+
+<div class="fcg">
+	<label>真实姓名</label>
+	<div class="fc">
+		<input id="rname" type="text" data-checked="notnull" value="">
+	</div>
+</div>
+
+<div class="fcg">
+	<label>身份证号码</label>
+	<div class="fc">
+		<input id="idcode" type="text" data-checked="pcode" value="" data-inval="请输入有效的身份证号码">
+	</div>
+</div>
+
+<div class="fcg">
+	<label>重设密码</label>
+	<div class="fc">
+		<input id="pwd" type="password" value="" data-checked="length-6"
+			data-inval="密码要大于6位"> <a class="btn edit"
+			href="javascript:resetPwd();">重设</a>
+	</div>
+</div>
+<div class="fcg">
+	<label>手机号码</label>
+	<div class="fc">
+		<input id="mobile" type="text" data-checked="mobile" data-inval="请输入有效的手机号码">
+	</div>
+</div>
+<div class="fcg">
+	<label>电子邮箱</label>
+	<div class="fc">
+		<input id="email" type="text" data-checked="email" data-inval="请输入有效的电子邮件地址">
+	</div>
+</div>
+
+<div class="fcg">
+	<a class="btn edit" onclick="saveUInfo();">保存</a>
+</div>

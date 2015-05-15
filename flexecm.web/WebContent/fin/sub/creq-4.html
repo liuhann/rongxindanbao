@@ -4,54 +4,60 @@
 
 <script>
 
-$(function(){
-	initUploader(".fileUploader1Container", "fileUploader1");
-	initUploader(".fileUploader2Container", "fileUploader2");
-	initUploader(".fileUploader3Container", "fileUploader3");
-	initUploader(".fileUploader4Container", "fileUploader4");
-	initUploader(".fileUploader5Container", "fileUploader5");
-});
-
-
-function initUploader(container,btnid) {
-	var uploader = new plupload.Uploader({
-	 	runtimes : 'html5,flash,silverlight,html4',
-	    browse_button : btnid, // you can pass in id...
-	    url : "/service/fin/upload",
-	    filters : {
-	        max_file_size : '10mb',
-	        mime_types: [
-	            {title : "选择图形格式文件", extensions : "jpg,gif,png"}
-	        ]
-	    },
-
-	    // Flash settings
-	    flash_swf_url : '/plupload/js/Moxie.swf',
-	 
-	    // Silverlight settings
-	    silverlight_xap_url : '/plupload/js/Moxie.xap',
-	 
-	    init: {
-	        FilesAdded: function(up, files) {
-	        	 uploader.start();
-	        },
-	 
-	        UploadProgress: function(up, file) {
-	        	//$(".fileUploader1Container span").html(file.percent + "%");
-	        },
-	 
-	        Error: function(up, err) {
-	        	$(container).find("span").html("Error");
-	        },
-	        FileUploaded: function(up,file,r) {
-	        	$(container).append('<img style="height:40px; width: 50px;" src="/service/fin/preview?id=' + r.response + '">');
-	        }
-	    }
+/*
+	$(function() {
+		initUploader(".fileUploader1Container", "legaldoc");
+		initUploader(".fileUploader2Container", "actpermit");
+		initUploader(".fileUploader3Container", "bizlicence");
+		initUploader(".fileUploader4Container", "orgcodecert");
+		initUploader(".fileUploader5Container", "taxregcert");
 	});
-	 
-	uploader.init();	
-}
 
+	function initUploader(container, btnid) {
+		var uploader = new plupload.Uploader(
+				{
+					runtimes : 'html5,flash,silverlight,html4',
+					browse_button : btnid, // you can pass in id...
+					url : "/service/fin/upload",
+					filters : {
+						max_file_size : '10mb',
+						mime_types : [ {
+							title : "选择图形格式文件",
+							extensions : "jpg,gif,png"
+						} ]
+					},
+
+					// Flash settings
+					flash_swf_url : '/plupload/js/Moxie.swf',
+
+					// Silverlight settings
+					silverlight_xap_url : '/plupload/js/Moxie.xap',
+
+					init : {
+						FilesAdded : function(up, files) {
+							up.start();
+						},
+
+						UploadProgress : function(up, file) {
+							//$(".fileUploader1Container span").html(file.percent + "%");
+						},
+
+						Error : function(up, err) {
+							$(container).find("span").html("Error");
+						},
+						FileUploaded : function(up, file, r) {
+							var img = $('<img class="field" style="height:40px; width: 50px;" src="/service/fin/preview?id='
+									+ r.response + '">');
+							img.data("field", btnid);
+							img.data("picdata", r.response);
+							$(container).append(img);
+						}
+					}
+				});
+		uploader.init();
+	}
+	
+	*/
 </script>
 
 </head>
@@ -125,7 +131,7 @@ function initUploader(container,btnid) {
 			<td>
 				<div class="form-item">
 					<div class="fileUploader1Container">
-						<span class="info"></span> <a id="fileUploader1"
+						<span class="info"></span> <a id="legaldoc" class="imgupload"
 							href="javascript:;">[点击上传]</a>
 					</div>
 				</div>
@@ -139,7 +145,7 @@ function initUploader(container,btnid) {
 			<td>
 				<div class="form-item">
 					<div class="fileUploader2Container">
-						<span class="info"></span> <a id="fileUploader2"
+						<span class="info"></span> <a id="actpermit" class="imgupload"
 							href="javascript:;">[点击上传]</a>
 					</div>
 				</div>
@@ -153,7 +159,7 @@ function initUploader(container,btnid) {
 			<td>
 				<div class="form-item">
 					<div class="fileUploader3Container">
-						<span class="info"></span> <a id="fileUploader3"
+						<span class="info"></span> <a id="bizlicence" class="imgupload"
 							href="javascript:;">[点击上传]</a>
 					</div>
 				</div>
@@ -167,7 +173,7 @@ function initUploader(container,btnid) {
 			<td>
 				<div class="form-item">
 					<div class="fileUploader4Container">
-						<span class="info"></span> <a id="fileUploader4"
+						<span class="info"></span> <a id="orgcodecert" class="imgupload"
 							href="javascript:;">[点击上传]</a>
 					</div>
 				</div>
@@ -181,7 +187,7 @@ function initUploader(container,btnid) {
 			<td>
 				<div class="form-item">
 					<div class="fileUploader5Container">
-						<span class="info"></span> <a id="fileUploader5"
+						<span class="info"></span> <a id="taxregcert" class="imgupload"
 							href="javascript:;">[点击上传]</a>
 					</div>
 				</div>

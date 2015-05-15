@@ -29,7 +29,7 @@
 		<td style="padding-top: 5px;">贷款金额</td>
 		<td>
 			<div class="form-item">
-				<input class="form-text" type="text" value="5"> <span>万元</span>
+				<input class="form-text" id="loan" type="text" value="5"> <span>万元</span>
 			</div>
 			<div class="err"></div>
 		</td>
@@ -39,9 +39,15 @@
 		<td>贷款期限</td>
 		<td>
 			<div class="form-item">
-				<select class="form-sele" name="">
-					<option value="12个月">12个月</option>
+				<select class="form-sele" id="duration">
+					 <option value="1">1个月</option>
+			      	  <option value="3">3个月</option>
+			      	  <option value="6">6个月</option>
+			      	  <option value="12">12个月</option>
+			      	  <option value="24">24个月</option>
+			      	  <option value="36">36个月</option>
 				</select>
+				<em class="duration"></em>
 			</div>
 			<div class="err"></div>
 		</td>
@@ -100,7 +106,7 @@
 		</td>
 	</tr>
 	<!-- -->
-	<tr>
+	<tr class="edita">
 		<td></td>
 		<td><input class="form-button savemerge" type="button" value="保存">
 			<input class="form-button cpagenext" type="button" value="下一步">

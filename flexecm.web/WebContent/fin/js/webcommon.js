@@ -181,6 +181,15 @@ var formCheck = function(selector) {
 						addSubListItem($(this), listData[i])
 					}
 				});
+				
+				$(form).find("a.imgupload").each(function() {
+					if (data[$(this).attr("id")]) {
+						var img = $('<img class="field" style="height:45px; width: 60px;" src="/service/fin/preview?id='
+								+ data[$(this).attr("id")] + '">');
+						$(this).after(img);
+					}
+				});
+				
 			}
 		},
 		getRequest: function() { //从表单抽取请求数据
@@ -207,6 +216,12 @@ var formCheck = function(selector) {
 					listData.push(o);
 				});
 				request[$(this).attr("id")] = listData;
+			});
+			
+			$(form).find("img.field").each(function() {
+				if ($(this).data("field")) {
+					request[$(this).data("field")] = $(this).data("picdata");
+				}
 			});
 			
 			return request;

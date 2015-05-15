@@ -213,12 +213,24 @@ function requestNext(tab, page, pre) {
 		$("#form-content .cpagenext").click(creqPageNext);
 		$("#form-content .submitloan").click(sendLoanRequest);
 		
-		
 		if ($("input.date").length>0) {
 			$("input.date").datetimepicker({
 				format:'Y-m-d',
 				timepicker:false,
 				lang:'ch'
+			});
+		}
+		
+		if ($("a.imgupload").length>0) {
+			$("a.imgupload").each(function() {
+				var btnid = $(this).attr("id");
+				initUploader(btnid, "/service/fin/upload", function(up, file, r) {
+					var img = $('<img class="field" style="height:40px; width: 50px;" src="/service/fin/preview?id='
+							+ r.response + '">');
+					img.data("field", btnid);
+					img.data("picdata", r.response);
+					$("#" + btnid).after(img);
+				});
 			});
 		}
 		

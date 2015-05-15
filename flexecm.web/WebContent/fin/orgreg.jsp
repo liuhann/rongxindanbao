@@ -175,8 +175,8 @@ function reg() {
 		request.type = "company";
 		$.post("/service/fin/account/reg",  request , function() {
 			alert("注册成功");
-			location.href = "orgrequest.jsp";
-		}).fail(function() {
+			location.href = "home.jsp";
+		}).fail(function(error) {
 			if (error.status==412) {
 				alert("验证码输入错误");
 			} else {
