@@ -177,11 +177,15 @@ function reg() {
 			alert("注册成功");
 			location.href = "orgrequest.jsp";
 		}).fail(function() {
-			alert("用户名已经被注册了，请更换");
+			if (error.status==412) {
+				alert("验证码输入错误");
+			} else {
+				alert("用户名已经被注册了，请更换");
+				$(".step2").hide();
+				$(".step1").show();
+			}
 			$("#register-btn").html("去借款");
 			$("#register-btn").removeClass("unactive-btn").addClass("active-btn");
-			$(".step2").hide();
-			$(".step1").show();
 		});
 	}
 }

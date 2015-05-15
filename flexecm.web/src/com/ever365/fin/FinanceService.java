@@ -191,11 +191,11 @@ public class FinanceService implements Tenantable {
 	*/
 
 	@RestService(method="POST", uri="/fin/loan/request")
-	public void sendLoanRequest(Map<String, Object> request) {
+	public void sendLoanRequest(@RestParam(value="map") Map<String, Object> request) {
 		request.put("uid", AuthenticationUtil.getCurrentUser());
 		request.put("rtime", new Date().getTime());
-		request.put("email", getCurrentUser().get("email"));
-		request.put("mobile", getCurrentUser().get("mobile"));
+		//request.put("email", getCurrentUser().get("email"));
+		//request.put("mobile", getCurrentUser().get("mobile"));
 		request.put("audit", 1);
 		dataSource.getCollection(COLL_LOANS).insert(new BasicDBObject(request));
 	}

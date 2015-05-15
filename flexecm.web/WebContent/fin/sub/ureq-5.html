@@ -7,18 +7,6 @@ $(function() {
 		
 });
 
-function page5Next() {
-	if (loanRequest.maritalStatus=="2") {
-		if ($("#form-content").data("field")) {
-			requestNext('ureq-9','ureq-6');
-		} else {
-			requestNext('ureq-6','ureq-3', "mate");
-		}
-	} else {
-		requestNext('ureq-9','ureq-6');
-	}
-}
-
 </script>
 </head>
 <body>
@@ -50,19 +38,19 @@ function page5Next() {
       	<input class="form-text" id="stock" type="text" value="" /> <b>万元</b>
       </td> 
      </tr> 
-  	 <tr> 
+  	 <tr class="hasotherfv"> 
       <td style="text-align:right;"> <span>基金</span> </td> 
       <td> 
       	<input class="form-text" id="fund" type="text" value="" /> <b>万元</b>
       </td> 
      </tr>
-     <tr> 
-      <td style="text-align:right;"> <span>债券</span> </td> 
+     <tr class="hasotherfv"> 
+      <td style="text-align:right;" > <span>债券</span> </td> 
       <td> 
       	<input class="form-text" id="bond" type="text" value="" /> <b>万元</b>
       </td> 
      </tr>
-     <tr> 
+     <tr class="edita"> 
       <td style="text-align:right;"> </td> 
       <td> <input class="form-button savemerge" type="button" value="保存">
 			<input class="form-button pagenext" type="button" value="下一步"> </td> 

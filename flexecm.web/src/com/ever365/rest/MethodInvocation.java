@@ -116,7 +116,6 @@ import org.json.JSONObject;
      if ((this.paramsMap.size() == 0) && (this.method.getParameterTypes().length == 1)) {
        return new Object[] { map };
      }
- 
      Set<String> requiredParams = this.paramsRequired.keySet();
      for (String key : requiredParams) {
        if (map.get(key) == null) {

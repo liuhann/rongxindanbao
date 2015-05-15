@@ -7,7 +7,6 @@ function dashboard(t) {
 	
 	$("#content .r").hide();
 	$(".r.dashboard").show();
-	
 }
 
 function loanProgress(t) {
@@ -16,7 +15,7 @@ function loanProgress(t) {
 	$(".r.lprogress").show();	
 	
 	var filter = {
-		"uid": currentUser
+		"uid": uinfo.loginid
 	}
 	$.post("/service/fin/loan/list", {
 		"filter": JSON.stringify(filter)
@@ -30,9 +29,12 @@ function loanProgress(t) {
 function config(t) {
 	navTo(t);
 	$("#content .r").hide();
-	$(".r.personEdit").show();
+	$("#person-edit").show();
+	$("#person-edit").load("sub/uinfo.html", function() {
+		var fc = new formCheck("#person-edit ");
+		fc.init(uinfo);
+	});
 }
-
 
 function goRequest(t) {
 	navTo(t);
@@ -67,7 +69,17 @@ function resendEmail() {
 }
 
 function sendLoanRequest() {
-	$.post("/service/fin/loan/request",  loanRequest , function() {
+	saveMerge();
+
+	if (loanRequest.maritalStatus != "2") {
+		delete loanRequest.mate3;
+		delete loanRequest.mate4;
+		delete loanRequest.mate5;
+	}
+	
+	$.post("/service/fin/loan/request",{
+		'map': JSON.stringify(loanRequest)
+	}, function() {
 		alert("融资申请已提交");
 		navTo();
 	});
@@ -91,7 +103,10 @@ function companyNewRequest() {
 	loanRequest = {};
 	currentTab = 0;
 	currentPage = 0;
-	
+	loanRequest.type = 1;
+	loanRequest.mobile = uinfo.mobile;
+	loanRequest.email = uinfo.email;
+	loanRequest.rname = uinfo.contact;
 	creqPageNext();
 }
 
@@ -101,13 +116,50 @@ function personNewRequest() {
 	
 	loanRequest = {};
 	//自动填写的个人信息
+	loanRequest.type = 2;
 	loanRequest.rname = uinfo.rname;
 	loanRequest.idtype = uinfo.idtype;
 	loanRequest.idcode = uinfo.idcode;
 	
 	loanRequest.mobile = uinfo.mobile;
 	loanRequest.email = uinfo.email;
-	loanRequest.type = 2;
+	
+	loanRequest.loan = 28;
+	loanRequest.duration = 4;
+	
+	loanRequest["duration-scope"] = "6";
+	var step3 = {
+		"m-income" : "14000",
+		"company": "北京龙腾世纪股份有限公司",
+		"ctitle": "部门经理",
+		"est-location": "新海家园",
+		"est-size": "188",
+		"vehtype": "特斯拉T101",
+		"vehlicene": "京A NB1250"
+	};
+	var step4 = {
+			"grttotal": "100",
+			"grtperson": "韩文",
+			"grtuntil": "2016-05-26",
+			"existingLoans" : [{loanhisaccount: "20",loanhisbank: "上海浦东发展银行",loanhisrepay: "15",loanhistend: "2015-05-26",loanhiststart: "2015-05-01",loanhistype: "车辆贷款"},
+			                   {loanhisaccount: "20",loanhisbank: "上海浦东发展银行",loanhisrepay: "15",loanhistend: "2015-05-26",loanhiststart: "2015-05-01",loanhistype: "车辆贷款"}],
+	};
+	var step5 = {
+			"bankdep": "240",
+			"stock": "122",
+			"fund": "22",
+			"bond": "10"
+	};
+	$.extend(loanRequest, step3);
+	$.extend(loanRequest, step4);
+	$.extend(loanRequest, step5);
+	loanRequest.mate3 = step3;
+	loanRequest.mate4 = step4;
+	loanRequest.mate5 = step5;
+	
+	loanRequest["childage"] = "23";
+	loanRequest["childcoll"] = "北京科技大学";
+	
 	ureqPageNext();
 }
 
@@ -161,6 +213,15 @@ function requestNext(tab, page, pre) {
 		$("#form-content .cpagenext").click(creqPageNext);
 		$("#form-content .submitloan").click(sendLoanRequest);
 		
+		
+		if ($("input.date").length>0) {
+			$("input.date").datetimepicker({
+				format:'Y-m-d',
+				timepicker:false,
+				lang:'ch'
+			});
+		}
+		
 		if (pre) {
 			fc.init(loanRequest[pre]);
 		} else {
@@ -176,12 +237,8 @@ function saveMerge() {
 	} else {
 		$.extend(loanRequest, fc.getRequest());
 	}
+	
+	
+	
+	
 }
-
-function saveLoanRequst() {
-	saveMerge();
-	$.post("/service/fin/loan/request/save",  loanRequest , function() {
-		alert("保存成功");
-	});
-}
-

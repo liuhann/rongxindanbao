@@ -288,7 +288,7 @@ color: #eee;
   padding: 20px;
 }
 
-.form input[type="text"] {
+.form input[type="text"],.form input[type="password"] {
   margin: 4px;
   padding: 5px;
   background-color: transparent;
@@ -296,7 +296,7 @@ color: #eee;
   width: 240px;
   border: 1px solid #ddd;
 }
-.form .subtitle h3{
+.form .subtitle h3 {
   font-weight: normal;
   font-size: 16px;
   border-bottom: 1px solid #35B558;
@@ -376,6 +376,39 @@ color: #eee;
 	width: 120px;
 	height: 120px;
 }
+
+#ccontent h2 {
+  height: 40px;
+  line-height: 40px;
+  border: 1px solid #e7e7eb;
+  padding: 0 20px;
+  font-size: 14px;
+  font-weight: 400;
+  font-style: normal;
+  background-color: #f4f5f9;
+}
+#ccontent table {
+	width: 100%;
+}
+#ccontent table tr td {
+	padding: 8px;
+	font-size: 14px;
+}
+#ccontent table tr td:FIRST-CHILD {
+	width: 240px;
+	text-align: right;
+} 
+
+#ccontent table tr td:last-child {
+	width: 640px;
+} 
+
+#ccontent input.disabled {
+	background-color: #FAFAFA;
+	border: none;
+}
+
+
 .clearfix:after {
 	visibility: hidden;
 	display: block;

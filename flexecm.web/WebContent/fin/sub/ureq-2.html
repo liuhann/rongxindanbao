@@ -18,13 +18,13 @@
     <!--表单项 --> 
     <tbody>
      <tr> 
-      <td style="width:82px; text-align:right;"> <span>贷款类型</span> </td> 
-      <td style="width:383px;"> <input type="text" class="readonly" readonly="readonly"  id="purpose"> </td> 
+      <td > <span>贷款类型</span> </td> 
+      <td > <input type="text" class="readonly" readonly="readonly"  id="purpose"> </td> 
      </tr> 
      <!--表单项 --> 
      <tr> 
-      <td style="width:82px; text-align:right;"> <span>贷款金额</span> </td> 
-      <td style="width:383px;"> 
+      <td > <span>贷款金额</span> </td> 
+      <td > 
       	<select id="loan-scope" class="form-select"> 
       		<option>5万及以下</option> 
       		<option>5-10万(含)</option> 
@@ -34,15 +34,15 @@
      </tr> 
      <!--表单项 --> 
      <tr> 
-      <td style="width:82px; text-align:right;"> <span>手工录入金额</span> </td> 
-      <td style="width:383px;"> 
+      <td > <span>手工录入金额</span> </td> 
+      <td > 
       	<input class="form-text" id="loan" type="text" value="" data-checked="number+" data-inval="贷款金额必须是数字" /> <b>万元</b> <em class="loan"></em>
       </td> 
      </tr> 
      <!-- --> 
      <!--表单项 --> 
      <tr> 
-      <td style="text-align:right;"> <span>贷款期限</span> </td> 
+      <td > <span>贷款期限</span> </td> 
       <td> 
       	<select id="duration-scope" class="form-select switch"> 
       	  <option value="1">1个月</option>
@@ -57,16 +57,16 @@
      </tr> 
      <!--表单项 --> 
      <tr> 
-      <td style="text-align:right;"> <span>还款方式</span> </td> 
+      <td > <span>还款方式</span> </td> 
       <td> <select id="repayment-type" class="form-select"> <option value="1">按月等额本息</option> <option value="2">按月还息到期还本</option> </select> </td> 
      </tr> 
      <!--表单项 --> 
      <tr> 
-      <td style="text-align:right;"> <span>婚姻状况</span> </td> 
+      <td > <span>婚姻状况</span> </td> 
       <td> <input name="maritalStatus" type="radio" value="1" checked="checked"/><i>未婚</i> <input name="maritalStatus" type="radio" value="2" /><i>已婚</i> <input name="maritalStatus" type="radio" value="3" /><i>离异</i> <input name="maritalStatus" type="radio" value="4" /><i>丧偶</i> </td> 
      </tr> 
      <!--表单项 --> 
-     <tr> 
+     <tr class="edita"> 
       <td style="text-align:right;"> </td> 
       <td> <input class="form-button savemerge" type="button" value="保存">
 			<input class="form-button pagenext" type="button" value="下一步"> </td> 

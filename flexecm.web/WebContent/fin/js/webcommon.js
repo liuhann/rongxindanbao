@@ -5,28 +5,65 @@ $(document).ready(function() {
 	});
 });
 
-var forme = function(selector) {
+var _cached_html = {};
+
+function cachePage(url) {
+	var id = "rnd" + genPass();
+	var div = $("<div></div");
+	div.attr("id", id);
+	div.appendTo("body");
+	div.load(url, function() {
+		_cached_html[url] = id;
+	});
+}
+
+function loadPage(container, url, callback) {
+	if (_cached_html[url]!=null) {
+		$(container).html($("#" + _cached_html[url]).html());
+		callback();
+	} else {
+		$(container).html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
+		$(container).load(url, function() {
+			var id = "rnd" + genPass();
+			_cached_html[url] = id;
+			if (callback) {
+				callback();
+			}
+		});
+	}
+}
+
+function loadPages(container, urls, titles, callback) {
+	if (urls.length==0) {
+		if (callback) {
+			callback();
+		}
+		return;
+	}
 	
-} 
-
-
-;$(function() {
-	$.fn.forme = function(data) {
-		var fc = new formCheck($(this));
-			
-		fc.form = $(this);
-		fc.data = data;
-		
-		fc.addValidate = function() {
-			
+	var url = urls.shift();
+	if (titles) {
+		var title = titles.shift();
+		if (title) {
+			container.append("<h2>" + title +"</h2>");
 		}
-		fc.readOnly = function() {
-			
-		}
-		return fc;
-	};
-});
-
+	}
+	
+	if (_cached_html[url]!=null) {
+		container.append($("#" + _cached_html[url]).html());
+	} else {
+		var div = $("<div></div>");
+		div.attr("id", "rnd" + genPass());
+		container.append(div);
+		$(div).load(url, function() {
+			loadPages(container, urls, titles, callback);
+			if (callback) {
+				callback(url, $(div));
+			}
+		});
+	}
+	
+}
 
 var formCheck = function(selector) {
 	var form = $(selector);
@@ -60,24 +97,38 @@ var formCheck = function(selector) {
 		
 		tb.find("a.addsub").unbind().click(function() {
 			var ff1 = new formCheck($(this).parents(".editable"));
-			var r = ff1.getRequest();
-			var cloned = tb.find(".template").clone().removeClass("template").addClass("row item");
-			tb.find(".head").after(cloned);
-			
-			cloned.find("a.removesub").click(function(){
-				$(this).parents(".item").remove();
-			});
-			
-			var ww = new formCheck(cloned);
-			ww.init(r);
+			var data = ff1.getRequest();
+			addSubListItem(tb, data);
 			ff1.clear();
 		});
-	})
+	});
+	
+	function addSubListItem(list, data) {
+		var cloned = $(list).find(".template").clone().removeClass("template").addClass("row item");
+		cloned.find(".fill").each(function() {
+			$(this).html(data[$(this).data("field")]);
+		});
+		cloned.find("a.removesub").click(function(){
+			$(this).parents(".row.item").remove();
+		});
+		$(list).find(".head").after(cloned);
+	}
 	
 	return {
 		readOnly: function(btn) {
 			$(form).find("input").attr("disabled", true);
-			$(form).find("input").css("border", "none");
+			$(form).find("input").addClass("disabled");
+			$(".edita").hide();
+			
+			/*
+			$(form).find("input[type='text']").each(function() {
+				$(this).replaceWith($(this).val());
+			});
+			*/
+			$(form).find("select").each(function() {
+				var text = $(this).find("option:selected").text();
+				$(this).replaceWith(text);
+			});
 		},
 		
 		showBtn: function(btn) {
@@ -106,6 +157,17 @@ var formCheck = function(selector) {
 					if ($(this).attr("id")!=null && data[$(this).attr("id")]) {
 						$(this).val(data[$(this).attr("id")]);
 					}
+					
+					if ($(this).attr("type")=="radio") {
+						if ($(this).attr("value")==data[$(this).attr("name")]) {
+							$(this).attr("checked", "checked");
+						}
+						if (data[$(this).attr("name")] == "1") {
+							$("." + $(this).attr("name")).show();
+						} else {
+							$("." + $(this).attr("name")).hide();
+						}
+					}
 				});
 				
 				$(form).find(".fill").each(function() {
@@ -116,12 +178,7 @@ var formCheck = function(selector) {
 					var listData = data[$(this).attr("id")];
 					if (listData==null) return;
 					for(var i=0; i<listData.length; i++) {
-						var listItem = listData[i];
-						var cloned = $(this).find(".tepmplate").removeClass("template").clone();
-						$(this).find(".fill").each(function() {
-							$(this).html(listItem[$(this).data("field")]);
-						});
-						cloned.after($(this).find(".head"));
+						addSubListItem($(this), listData[i])
 					}
 				});
 			}
@@ -179,7 +236,7 @@ function genPass(){
  	}
  	return tmp;
 }
-
+/*
 var subItemTable = function(tbid, list) {
 	var tb = $(tbid);
 	tb.find(".template").hide();
@@ -200,6 +257,7 @@ var subItemTable = function(tbid, list) {
 		
 	});
 };
+*/
 
 function initTable(tbid, data, cell, cb) {
 	$(tbid + " .row.item").remove();
@@ -503,7 +561,6 @@ function initUploader(btnid, uploadurl, cb) {
 	});
 	uploader.init();	
 }
-
 
 (function($) {
 

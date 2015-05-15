@@ -72,7 +72,13 @@ li {
 	display: none;
 }
 
-
+#form-content td:FIRST-CHILD {
+	width: 220px;
+	text-align: right;
+}
+#form-content td:LAST-CHILD {
+	width: 600px;
+}
 </style>
 </head>
 <body class="bg">
@@ -176,53 +182,8 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                 </div>
             </div>
             
-		<div class="r form personEdit hidden">
-			<div class="title">
-				<h3>编辑个人信息</h3> 
-			</div>
-			<div class="fcg">
-				<label>登录帐号</label> 
-				<div class="fc">
-					<%=currentUser.get("loginid") %>
-				</div>
-			</div>
+		<div class="r form personEdit hidden" id="person-edit">
 			
-			<div class="fcg">
-				<label>真实姓名</label> 
-				<div class="fc">
-					<input id="rname" type="text" data-checked="notnull" value="<%=currentUser.get("rname") %>" data-inval="请输入个人姓名">
-				</div>
-			</div>
-			
-			<div class="fcg">
-				<label>身份证号码</label> 
-				<div class="fc">
-					<input id="pcode" type="text" data-checked="pcode" value="<%=currentUser.get("pcode") %>" data-inval="请输入有效的身份证号码">
-				</div>
-			</div>
-			
-			<div class="fcg">
-				<label>重设密码</label> 
-				<div class="fc">
-					<input id="pwd" type="password" value="" data-checked="length-6" data-inval="密码要大于6位"> <a class="btn edit" href="javascript:resetPwd();">重设</a>
-				</div>
-			</div>
-			<div class="fcg">
-				<label>手机号码</label> 
-				<div class="fc">
-					<input id="mobile" type="text" data-checked="mobile" value="<%=currentUser.get("mobile") %>" data-inval="请输入有效的手机号码">
-				</div>
-			</div>
-			<div class="fcg">
-				<label>电子邮箱</label> 
-				<div class="fc">
-					<input id="email" type="text" data-checked="email" value="<%=currentUser.get("email") %>" data-inval="请输入有效的电子邮件地址">  
-				</div>
-			</div>
-			
-			<div class="fcg">
-				<a class="btn edit" onclick="saveOrg();">保存</a>
-			</div>
 		</div>
 
         <div class="r loanRequest hidden">
@@ -312,7 +273,7 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 			      </div>
 			      <div class="cell" data-eval="entry['loan'] + '万元'">
 			      </div>
-			      <div class="cell" data-eval="entry['until'] + '个月'">
+			      <div class="cell" data-eval="entry['duration'] + '个月'">
 			      </div>
 			      <div class="cell" data-f="email">
 			      </div>

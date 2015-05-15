@@ -122,10 +122,11 @@ function pageFirstAudit() {
 		"audit": 1
 	};
 	viewLoanTable(filter, "初审列表", function(t, data, field) {
-		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
-			var data = $(this).parents(".row").data("entry");
-			viewLoan(data);
-		});
+		if (field=="open") {
+			$("<a class='gbtn'>查看</a>").data("loan", data).appendTo($(t)).click(function() {
+				viewLoan($(this).data("loan"));
+			});
+		}
 	});
 }
 
@@ -147,6 +148,7 @@ function pageKilledLoans() {
 	var filter = {
 		"audit": -1
 	};
+	
 	viewLoanTable(filter, "未通过列表", function(t, data, field) {
 		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
 			var data = $(this).parents(".row").data("entry");
@@ -180,28 +182,113 @@ function pageFinishedLoans() {
 	});
 }
 
-function viewLoanTable(filter, txt, cb) {
-	$(".gridr>div").hide();
-	$("#loans-list").show();
-	
-	$.post("/service/fin/loan/list", {
-		"filter": JSON.stringify(filter)
-	}, function(data) {
-		var result = JSON.parse(data);
-		$("#loans-list .panel .title").html(txt)
-		initTable("#loans-table", result, function(t,data,field) {
-			if (field=="audit") {
-				cb(t, data, field);
-			}
+function viewLoanTable(filter, txt, cellfunc) {
+	$("#ccontent").show();
+	$("#ccontent").load("sub/loanList.html", function() {
+		$.post("/service/fin/loan/list", {
+			"filter": JSON.stringify(filter)
+		}, function(data) {
+			var result = JSON.parse(data);
+			$("#loans-list .panel .title").html(txt);
+			initTable("#loans-table", result, function(t,data,cal) {
+				if (cal=="open") {
+					cellfunc(t, data, cal);
+				}
+			});
 		});
 	});
 }
 
 function viewLoan(loan) {
-	$(".gridr>div").hide();
-	$("#view-company-loan").show();
+	if (loan.type==1) { //company
+		
+		$("#ccontent").html("");
+		loadPages($("#ccontent"), 
+				["sub/creq-1.html",
+				 "sub/creq-2.html",
+				 "sub/creq-3.html",
+				 "sub/creq-4.html",
+				 "sub/creq-5.html"],
+				 null,
+				function() {
+					var c = new formCheck("#ccontent ");
+					c.init(loan);
+					c.readOnly();
+				});
+	} else if (loan.type==2) { //person
+		
+		$("#ccontent").html("");
+		if (loan.mate3) {
+			loadPages($("#ccontent"), 
+					[
+					 "sub/ureq-1.html",
+					 "sub/ureq-2.html",
+					 "sub/ureq-3.html",
+					 "sub/ureq-4.html",
+					 "sub/ureq-5.html",
+					 "sub/ureq-3.html?mate=1",
+					 "sub/ureq-4.html?mate=1",
+					 "sub/ureq-5.html?mate=1",
+					 "sub/ureq-6.html"
+					],
+					[
+					 "基本信息",
+					 "贷款需求",
+					 "资产情况",
+					 "借款历史",
+					 "其他金融资产",
+					 "配偶资产情况",
+					 "配偶借款历史",
+					 "配偶其他金融资产",
+					 "家庭成员状况"
+					],
+					function(url,div) {
+						if (url=="sub/ureq-3.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate3);
+						} else if (url=="sub/ureq-4.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate4);
+						} else if (url=="sub/ureq-5.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate5);
+						} else {
+							var c = new formCheck(div);
+							c.init(loan);
+						}
+ 						if (url==null) {
+ 							var c = new formCheck("#ccontent");
+							c.readOnly();
+						}
+				});
+		} else {
+			loadPages($("#ccontent"), 
+					[
+					 "sub/ureq-1.html",
+					 "sub/ureq-2.html",
+					 "sub/ureq-3.html",
+					 "sub/ureq-4.html",
+					 "sub/ureq-5.html",
+					 "sub/ureq-6.html"
+					],
+					[
+					 "基本信息",
+					 "贷款需求",
+					 "资产情况",
+					 "借款历史",
+					 "其他金融资产",
+					 "家庭成员状况"
+					],
+					function(url,div) {
+						if (url==null) {
+							var c = new formCheck("#ccontent");
+							c.init(loan);
+							c.readOnly();
+						}
+				});
+		}
+	}
 }
-
 
 function listNews() {
 	$("#ccontent").load("sub/newslist.html");
@@ -222,9 +309,9 @@ function initUploaders() {
 				$("#new-splash").val(r.response);
 			});
 		});
-		
 	}
 }
+
 function showPics() {
 	$("#ccontent").load("sub/pics.html");
 }

@@ -103,52 +103,7 @@
 </div>
 
 <div class="gridr clearfix" id="ccontent">
-	<div class="loans" id="loans-list">
-		<div class="panel">
-			<div class="title">
-				项目库
-			</div>
-		</div>
-
-		<div class="table" id="loans-table">
-		    <div class="row header">
-		      <div class="cell">
-		        	借款人
-		      </div>
-		      <div class="cell">
-		       		借款金额
-		      </div>
-		      <div class="cell">
-		       		借款期限
-		      </div>
-		      <div class="cell">
-		       		联系方式
-		      </div>
-		      <div class="cell">
-		      		处理状态
-		      </div>
-		    </div>
-		    
-		    <div class="template">
-				<div class="cell" data-f="name">
-			     </div>
-			      <div class="cell" data-eval="entry['loan'] + '万元'">
-			      </div>
-			      <div class="cell" data-eval="entry['until'] + '个月'">
-			      </div>
-			      <div class="cell" data-f="email">
-			      </div>
-			      <div class="cell" data-cal="audit">
-			      </div>
-			</div>
-	</div>
-	
-	 <div class="empty">
-	    	列表内容为空
-	</div>
-	</div> 
-
-
+	<!-- 
 	<div id="view-company-loan" class="form">
 		<div class="title">
 			<h3>申请项目信息</h3> 
@@ -217,10 +172,8 @@
 				<input class="form-text" type="text" value="" id="email" data-checked="email" data-inval="请输入正确的电子邮件">
 			</div>
 		</div>
-		
-		
 	</div>
-		
+		 -->
 </div>
 </div> <!-- wrapper end -->
 </body>

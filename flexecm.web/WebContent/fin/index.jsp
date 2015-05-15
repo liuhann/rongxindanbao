@@ -51,7 +51,7 @@ Date date = new Date();
                 	<%if(AuthenticationUtil.getCurrentUser()==null) { %>
                 		<span><a style="color:#666;" href="preg.jsp">个人注册</a></span>
 	                	<img src="img/index_004.png" class="sep">
-	                	<span><a style="color:#666;" href="/fin/orgreg.jsp">企业注册</a></span>
+	                	<span><a style="color:#666;" href="orgreg.jsp">企业注册</a></span>
 	                	<img src="img/index_004.png" class="sep">
 	                    <span class="nohot"><a style="color:#666;" href="login.jsp">快速登录</a></span>
                     <%} else { %>            
