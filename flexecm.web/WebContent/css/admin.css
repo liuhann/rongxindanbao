@@ -169,10 +169,16 @@ color: #eee;
   position: relative;
 }
 
-.gridl .box ul li:HOVER{
-  	background-color: #fefef2;
+.gridl .box ul li:HOVER {
+	background-color: #f4f5f9;
 	cursor: pointer;
 }
+
+.gridl .box ul li.selected {
+	background-color: #44b549;
+	color: white;
+}
+
 
 .gridr {
 	padding: 20px;

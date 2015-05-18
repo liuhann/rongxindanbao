@@ -6,22 +6,6 @@ function toggleEditOrg() {
 	$(".companyEdit #loginid").css("border", "none");
 }
 
-function saveOrg() {
-	var c = formCheck(".companyEdit ");
-	if(c.test()==true) {
-		var account = c.getRequest();
-		account.type = "company";
-		account.vip = true;
-		$.post("/service/fin/account/save", account, function() {
-			alert("保存完成");
-			pageCompanys();
-		}).fail(function(error) {
-			alert("用户名称1");
-		});
-	}
-}
-
-
 </script>
 <div class="form companyEdit">
 		<div class="title">

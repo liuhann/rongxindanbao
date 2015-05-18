@@ -30,10 +30,19 @@ function config(t) {
 	navTo(t);
 	$("#content .r").hide();
 	$("#person-edit").show();
-	$("#person-edit").load("sub/uinfo.html", function() {
-		var fc = new formCheck("#person-edit ");
-		fc.init(uinfo);
-	});
+	
+	if (uinfo.type=="company") {
+		loadPage($("#person-edit"), "sub/cinfo.html", function() {
+			var fc = new formCheck("#person-edit ");
+			fc.init(uinfo);
+			fc.showBtn("edit");
+		});
+	} else {
+		loadPage($("#person-edit"), "sub/uinfo.html", function() {
+			var fc = new formCheck("#person-edit ");
+			fc.init(uinfo);
+		});
+	}
 }
 
 function goRequest(t) {
@@ -68,9 +77,8 @@ function resendEmail() {
 	});
 }
 
-function sendLoanRequest() {
+function sendLoanRequest(t) {
 	saveMerge();
-
 	if (loanRequest.maritalStatus != "2") {
 		delete loanRequest.mate3;
 		delete loanRequest.mate4;
@@ -85,10 +93,10 @@ function sendLoanRequest() {
 	});
 }
 
-function startLoanRequest() {
+function startLoanRequest(t) {
 	$("#content .r").hide();
 	$(".loanRequest").show();
-	
+	navTo(t);
 	$(".steps").hide();
 	if (uinfo.type=="company") {
 		companyNewRequest();
@@ -256,8 +264,19 @@ function saveMerge() {
 	} else {
 		$.extend(loanRequest, fc.getRequest());
 	}
-	
-	
-	
-	
 }
+
+function saveOrg() {
+	var c = formCheck("#person-edit ");
+	if(c.test()==true) {
+		var account = c.getRequest();
+		account.type = "company";
+		$.post("/service/fin/account/self/save", account, function() {
+			alert("保存完成");
+		}).fail(function(error) {
+			
+		});
+	}
+}
+
+

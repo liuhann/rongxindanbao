@@ -114,7 +114,7 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                     	<li class="current" onclick="dashboard(this);">
                         	账户总览
                         </li>
-                    	<li onclick="startLoanRequest();">
+                    	<li onclick="startLoanRequest(this);">
                         	借款申请&gt;
                         </li>
                     	<li onclick="loanProgress(this);">

@@ -3,6 +3,11 @@
 $(document).ready(function() {
 	$(".gridr>div").hide();
 	navTo($("ul.nav li.navuser"));
+	
+	$(".gridl li").click(function() {
+		$(".gridl li.selected").removeClass("selected");
+		$(this).addClass("selected");
+	});
 });
 
 
@@ -21,10 +26,11 @@ KindEditor.ready(function(K) {
 
 
 function navTo(t) {
-	//$(".top ul.nav li").removeClass("current");
+	$(".top ul.nav li").removeClass("current");
 	$(".gridl .box").hide();
 	$(".gridl .box." + $(t).attr("class")).show();
 	eval($(".gridl .box." + $(t).attr("class")).find("li").first().attr("onclick"));
+	$(".gridl .box." + $(t).attr("class")).find("li").first().addClass("selected");
 	$(t).addClass("current");
 }
 
