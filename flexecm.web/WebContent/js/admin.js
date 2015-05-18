@@ -1,206 +1,339 @@
-
-$(document).ready(function(){
-	$("*[onclick]").each(function() {
-		$(this).data("event", $(this).attr("onclick"));
-		$(this).removeAttr("onclick");
-		attachEvent($(this), function(t) {
-			eval($(t).data("event"));
-		});
-	});
-	initUi();
-	pageBasic();
+/**
+ */
+$(document).ready(function() {
+	$(".gridr>div").hide();
+	navTo($("ul.nav li.navuser"));
 });
 
-function clean() {
-	$.getJSON("/service/reset", {
-		pw : $("#confirm-clean-pwd").val()
-	}, function() {
-		location.href  = "boot.html";
-	}).fail(function() {
-		showAlert("密码不正确");
-	});
-}
-function resetEmail () {
-	var email = $("#email").val();
-	var smtp = $("#smtp").val();
-	var smtpport = $("#smtp-port").val();
-	var smtppass= $("#smtp-password").val();
-	
-	if (email==""||smtp==""||smtpport==""||smtppass=="") {
-		showAlert("输入不能为空");
-		return;
-	}
 
-	if (!Utils.isEmail(email)) {
-		showAlert("邮件地址格式不正确");
-		return;
-	}
-	
-	$.post("/service/person/email", {
-		'email': email,
-		'smtp': smtp,
-		'port': smtpport,
-		'emailpass': smtppass
-	}, function() {
-		pageBasic();
+var editor;
+KindEditor.ready(function(K) {
+	editor = K.create('textarea[name="kind-editor"]', {
+		resizeType : 1,
+		allowPreviewEmoticons : false,
+		allowImageUpload : false,
+		items : [
+		         'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+		         'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+		         'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+	});
+});
+
+
+function navTo(t) {
+	//$(".top ul.nav li").removeClass("current");
+	$(".gridl .box").hide();
+	$(".gridl .box." + $(t).attr("class")).show();
+	eval($(".gridl .box." + $(t).attr("class")).find("li").first().attr("onclick"));
+	$(t).addClass("current");
+}
+
+function pageUnConfirmed() {
+	$("#ccontent").load("sub/accounts.html", function() {
+		filterAccount({"ecfm":{"$ne":true}});
 	});
 }
 
-function setSmtp() {
-	pageBasic();
+function pageConfirmed() {
+	$("#ccontent").load("sub/accounts.html", function() {
+		filterAccount({"ecfm":true});
+	});
 }
 
-function pageBasic() {
-	clear();
-	$("#basic").show();
-	
-	$.getJSON("/service/admin/config", null, function (data) {
-		if (data.defaultstore==null) {
-			location.href = "boot.html";
-		} else {
-			if (data.adminemailok) {
-				$("#admin-email").html(data.adminemail);
-			} else {
-				$("#admin-email").html(data.adminemail  +"<font color='red'>邮箱不可用</font>");
+function adminList() {
+	$("#ccontent").load("sub/backAccounts.html", function() {
+		
+		filterAccount({"type":"admin"});
+	});
+}
+function backAccountList() {
+	$("#ccontent").load("sub/backAccounts.html", function() {
+		filterAccount({"type":"backac"});
+	});
+}
+
+function editAccount(u) {
+	$("#ccontent").load("sub/backAccountEdit.html", function() {
+		var c = formCheck(".adminEdit ");
+		c.init(u);
+		c.editable("edit");
+	});
+}
+
+
+function editAdmin(u) {
+	$("#ccontent").load("sub/adminEdit.html", function() {
+		var c = formCheck(".adminEdit ");
+		c.init(u);
+		c.editable("edit");
+	});
+}
+
+function filterAccount(filter) {
+	$.post("/service/fin/account/filter", {
+		"filter": JSON.stringify(filter)
+	}, function(data) {
+		var result = JSON.parse(data);
+		initTable("#uncfmAccount",result, function(cell, data) {
+			var cal = cell.data("cal");
+			
+			if (cal=="type") {
+				if (data.type=="company") {
+					cell.html("企业");
+				}
+				if (data.type=="person") {
+					cell.html("个人");
+				}
 			}
-			$("#default-store").html(data.defaultstore);
-			$("#tomcat-path").html(data.BASEDIR);
+		});
+	});
+}
+
+function pageCompanys() {
+	$("#ccontent").load("sub/viewCompanies.html");
+}
+
+function addNews() {
+	loadPage($("#ccontent"), "sub/addNews.html", function() {
+		
+	});
+}
+
+
+
+function rolesList() {
+	$("#ccontent").load("sub/roles.html");
+}
+
+function editRole() {
+	$("#ccontent").load("sub/roleEdit.html");
+}
+
+function addGreenOrg() {
+	$("#ccontent").load("sub/companyEdit.html", function() {
+		var c = formCheck(".companyEdit ");
+		c.init({});
+		c.editable("edit");
+	});
+}
+
+function editOrg(company) {
+	$("#ccontent").load("sub/companyEdit.html", function() {
+		var c = formCheck(".companyEdit ");
+		c.init(company);
+		c.readOnly("read");
+	});
+}
+
+function pageAllLoans() {
+	var filter = {
+	};
+	viewLoanTable(filter, "所有项目", function(t, data, field) {
+		if (field=="open") {
+			$("<a class='gbtn'>查看</a>").data("loan", data).appendTo($(t)).click(function() {
+				viewLoan($(this).data("loan"));
+			});
 		}
 	});
 }
 
-function resetPwd() {
-	if ($("#new-password").val()!=$("#re-password").val()) {
-		closeDialog();
-		showAlert("2次输入密码不一致");
-		return;
-	}
-	if ($("#re-password").val()=="") {
-		closeDialog();
-		showAlert("新密码不能为空");
-		return;
-	}
-	$.post("/service/password/modify", {
-		"old": $("#old-password").val(),
-		"new": $("#new-password").val()
-	}, function() {
-		closeDialog();
-		showAlert("密码修改成功");
-	}).fail(function() {
-		closeDialog();
-		showAlert("原密码提供错误");
+
+function pageFirstAudit() {
+	var filter = {
+		"audit": 1
+	};
+	viewLoanTable(filter, "初审列表", function(t, data, field) {
+		if (field=="open") {
+			$("<a class='gbtn'>查看</a>").data("loan", data).appendTo($(t)).click(function() {
+				viewLoan($(this).data("loan"));
+			});
+		}
 	});
 }
 
-function showMessage(m, h) {
-	if (typeof m === 'string') {
-		$("#msg").html(m);
-	} else {
-		$("#msg").html("");
-		$("#msg").append(m);
-	}
-
-	$("#msg").show();
-	if (h) {
-		setTimeout("hideMessage()", h);
-	}
+function pageFinalAudit() {
+	var filter = {
+		"audit": 2
+	};
+	viewLoanTable(filter, "复审列表", function(t, data, field) {
+		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
+			var data = $(this).parents(".row").data("entry");
+			viewLoan(data);
+		});
+		$("<a class='gbtn'>通过</a>").appendTo($(t));
+		$("<a class='gbtn'>驳回</a>").appendTo($(t));
+	});
 }
 
-function pageUsers() {
-	clear();
-	$("#user-list").show();
+function pageKilledLoans() {
+	var filter = {
+		"audit": -1
+	};
 	
-	$.getJSON("/service/person/list", {
-		skip: 0,
-		limit: -1
-	}, function(data) {
-		$("#user-table tr.n").remove();
-		for ( var i = 0; i < data.length; i++) {
-			if (data[i].name=="admin") continue;
-			var tr = $("#user-table tr.template").clone().removeClass("template").addClass("n");
-			tr.data("user", data[i]);
-			tr.find("td.name").html(data[i].name);
-			tr.find("td.email").html(data[i].email);
-			
-			$("#user-table").append(tr);
-			
-			attachEvent(tr.find("td.remove a"), function(t) {
-				var user = $(t).parent().parent().data("user");
-				
-				if (confirm("确认删除用户及其所有资料？") ) {
-					$.post("/service/person/remove", {
-						"id": user.name
-					}, function() {
-						$(t).parent().parent().remove();
-					});
+	viewLoanTable(filter, "未通过列表", function(t, data, field) {
+		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
+			var data = $(this).parents(".row").data("entry");
+			viewLoan(data);
+		});
+	});
+}
+
+function pagePassedLoans() {
+	var filter = {
+		"audit": 5
+	};
+	viewLoanTable(filter, "已通过项目列表", function(t, data, field) {
+		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
+			var data = $(this).parents(".row").data("entry");
+			viewLoan(data);
+		});
+	});
+}
+
+function pageFinishedLoans() {
+	var filter = {
+		"audit": 5,
+		"finished": 1
+	};
+	viewLoanTable(filter, "还款完结项目列表", function(t, data, field) {
+		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
+			var data = $(this).parents(".row").data("entry");
+			viewLoan(data);
+		});
+	});
+}
+
+function viewLoanTable(filter, txt, cellfunc) {
+	$("#ccontent").show();
+	$("#ccontent").load("sub/loanList.html", function() {
+		$.post("/service/fin/loan/list", {
+			"filter": JSON.stringify(filter)
+		}, function(data) {
+			var result = JSON.parse(data);
+			$("#loans-list .panel .title").html(txt);
+			initTable("#loans-table", result, function(t,data,cal) {
+				if (cal=="open") {
+					cellfunc(t, data, cal);
 				}
 			});
-			
-			attachEvent(tr.find("td.edit a"), function(t) {
-				var user = $(t).parent().parent().data("user");
-				editUser(user);
-			});
-		}
+		});
 	});
 }
 
-function saveUser() {
-	var userId = $("#userid").val();
-	var password = $("#password").val();
-	var email  = $("#user-email").val();
-	
-	if (userId=="") {
-		showAlert("用户账号不能为空");
-		return;
+function viewLoan(loan) {
+	if (loan.type==1) { //company
+		$("#ccontent").html("");
+		loadPages($("#ccontent"), 
+				["sub/creq-1.html",
+				 "sub/creq-2.html",
+				 "sub/creq-3.html",
+				 "sub/creq-4.html",
+				 "sub/creq-5.html"],
+				 ["基本信息","借款历史","担保情况","企业信息","经营情况"],
+				function(url,div) {
+					if (url==null) {
+						var c = new formCheck("#ccontent ");
+						c.init(loan);
+						c.readOnly();
+						$("img.field").css("width", "480").css("height", "360");
+					}
+				});
+	} else if (loan.type==2) { //person
+		$("#ccontent").html("");
+		if (loan.mate3) {
+			loadPages($("#ccontent"), 
+					[
+					 "sub/ureq-1.html",
+					 "sub/ureq-2.html",
+					 "sub/ureq-3.html",
+					 "sub/ureq-4.html",
+					 "sub/ureq-5.html",
+					 "sub/ureq-3.html?mate=1",
+					 "sub/ureq-4.html?mate=1",
+					 "sub/ureq-5.html?mate=1",
+					 "sub/ureq-6.html"
+					],
+					[
+					 "基本信息",
+					 "贷款需求",
+					 "资产情况",
+					 "借款历史",
+					 "其他金融资产",
+					 "配偶资产情况",
+					 "配偶借款历史",
+					 "配偶其他金融资产",
+					 "家庭成员状况"
+					],
+					function(url,div) {
+						if (url=="sub/ureq-3.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate3);
+						} else if (url=="sub/ureq-4.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate4);
+						} else if (url=="sub/ureq-5.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate5);
+						} else {
+							var c = new formCheck(div);
+							c.init(loan);
+						}
+ 						if (url==null) {
+ 							var c = new formCheck("#ccontent");
+							c.readOnly();
+						}
+				});
+		} else {
+			loadPages($("#ccontent"), 
+					[
+					 "sub/ureq-1.html",
+					 "sub/ureq-2.html",
+					 "sub/ureq-3.html",
+					 "sub/ureq-4.html",
+					 "sub/ureq-5.html",
+					 "sub/ureq-6.html"
+					],
+					[
+					 "基本信息",
+					 "贷款需求",
+					 "资产情况",
+					 "借款历史",
+					 "其他金融资产",
+					 "家庭成员状况"
+					],
+					function(url,div) {
+						if (url==null) {
+							var c = new formCheck("#ccontent");
+							c.init(loan);
+							c.readOnly();
+						}
+				});
+		}
 	}
+}
 
-	var u = $("#user-dialog").data("u");
-	if (u==null) {
-		$.post("/service/person/add", {
-			"userId": userId,
-			"password": password,
-			"quota": -1,
-			"email": email
-		}, function(data) {
-			pageUsers();
-		}).fail(function() {
-			alert("用户账户冲突");
+_uploaderInit = false;
+function initUploaders() {
+	if (!_uploaderInit) {
+		_uploaderInit = true;
+		loadJS(["js/plupload.full.min.js"], function() {
+			initUploader("btn-media-upload", "/service/attachz/upload", function(up, s, r) {
+				if (r) {
+					listPics();
+				}
+			});
+			initUploader("btn-news-title-img", "/service/attachz/upload", function(up, s, r) {
+				$("#news-title-img").attr("src", "/service/attachz/preview?id=" + r.response);
+				$("#new-splash").val(r.response);
+			});
 		});
-	} else {
-		$.post("/service/person/modify", {
-			"userId": userId,
-			"password": password,
-			"email": email
-		}, function(data) {
-			pageUsers();
-		}).fail(function() {
-		});
 	}
 }
 
-function genPassword() {
-	$("#password").val(Utils.genPass());
+function listNews() {
+	loadPage($("#ccontent"), "sub/newslist.html");
 }
 
-function editUser(u) {
-	$("#user-dialog").data("u", u);
-	if (u!=null) {
-		$("#userid").val(u.name);
-		$("#userid").attr("readonly", 1);
-		$("#userid").css("background", "#ccc");
-		
-		$("#password").val("");
-		$("#user-email").val(u.email);
-	} else {
-		$("#userid").val("");
-		$("#userid").removeAttr("readonly");
-		$("#userid").css("background", "white");
-		$("#password").val("");
-		$("#user-email").val("");
-	}
-	showDialog("user-dialog");
-}
-
-function main() {
-	location.href = "/web/home.html";
+function showPics() {
+	loadPage($("#ccontent"), "sub/pics.html");
 }

@@ -1,0 +1,210 @@
+<head>
+<!-- 文件上传组件 -->
+<SCRIPT type=text/javascript src="js/plupload.full.min.js"></SCRIPT>
+
+<script>
+
+/*
+	$(function() {
+		initUploader(".fileUploader1Container", "legaldoc");
+		initUploader(".fileUploader2Container", "actpermit");
+		initUploader(".fileUploader3Container", "bizlicence");
+		initUploader(".fileUploader4Container", "orgcodecert");
+		initUploader(".fileUploader5Container", "taxregcert");
+	});
+
+	function initUploader(container, btnid) {
+		var uploader = new plupload.Uploader(
+				{
+					runtimes : 'html5,flash,silverlight,html4',
+					browse_button : btnid, // you can pass in id...
+					url : "/service/fin/upload",
+					filters : {
+						max_file_size : '10mb',
+						mime_types : [ {
+							title : "选择图形格式文件",
+							extensions : "jpg,gif,png"
+						} ]
+					},
+
+					// Flash settings
+					flash_swf_url : '/plupload/js/Moxie.swf',
+
+					// Silverlight settings
+					silverlight_xap_url : '/plupload/js/Moxie.xap',
+
+					init : {
+						FilesAdded : function(up, files) {
+							up.start();
+						},
+
+						UploadProgress : function(up, file) {
+							//$(".fileUploader1Container span").html(file.percent + "%");
+						},
+
+						Error : function(up, err) {
+							$(container).find("span").html("Error");
+						},
+						FileUploaded : function(up, file, r) {
+							var img = $('<img class="field" style="height:40px; width: 50px;" src="/service/fin/preview?id='
+									+ r.response + '">');
+							img.data("field", btnid);
+							img.data("picdata", r.response);
+							$(container).append(img);
+						}
+					}
+				});
+		uploader.init();
+	}
+	
+	*/
+</script>
+
+</head>
+
+<table>
+
+	<!-- -->
+	<tbody>
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>企业性质</td>
+			<td>
+				<div class="form-item">
+					<input class="form-text" type="text" value="" id="nature">
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>所属行业</td>
+			<td>
+				<div class="form-item">
+					<input class="form-text" type="text" value="" id="industry">
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>实际控制人</td>
+			<td>
+				<div class="form-item">
+					<input class="form-text" type="text" value="" id="controler">
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>实际经营地址</td>
+			<td>
+				<div class="form-item">
+					<input class="form-text" type="text" value="" id="location">
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>基本开户行</td>
+			<td>
+				<div class="form-item">
+					<input class="form-text" type="text" value="" id="bbank">
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>贷款卡号</td>
+			<td>
+				<div class="form-item">
+					<input class="form-text" type="text" value="" id="crdcard">
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>法人证件上传</td>
+			<td>
+				<div class="form-item">
+					<div class="fileUploader1Container">
+						<span class="info"></span> <a id="legaldoc" class="imgupload"
+							href="javascript:;">[点击上传]</a>
+					</div>
+				</div>
+
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>开户许可证上传</td>
+			<td>
+				<div class="form-item">
+					<div class="fileUploader2Container">
+						<span class="info"></span> <a id="actpermit" class="imgupload"
+							href="javascript:;">[点击上传]</a>
+					</div>
+				</div>
+
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>营业执照上传</td>
+			<td>
+				<div class="form-item">
+					<div class="fileUploader3Container">
+						<span class="info"></span> <a id="bizlicence" class="imgupload"
+							href="javascript:;">[点击上传]</a>
+					</div>
+				</div>
+
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>组织机构代码证上传</td>
+			<td>
+				<div class="form-item">
+					<div class="fileUploader4Container">
+						<span class="info"></span> <a id="orgcodecert" class="imgupload"
+							href="javascript:;">[点击上传]</a>
+					</div>
+				</div>
+
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr>
+			<td style="padding-top: 5px; text-align: right;"><b>*</b>税务登记证上传</td>
+			<td>
+				<div class="form-item">
+					<div class="fileUploader5Container">
+						<span class="info"></span> <a id="taxregcert" class="imgupload"
+							href="javascript:;">[点击上传]</a>
+					</div>
+				</div>
+
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+
+		<tr class="edita">
+			<td></td>
+			<td>
+				<div style="padding-top: 0px;">
+					<input class="form-button savemerge" type="button" value="保存">
+					<input class="form-button cpagenext" type="button" value="下一步">
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>

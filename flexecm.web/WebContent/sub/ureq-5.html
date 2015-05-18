@@ -1,0 +1,64 @@
+<html>
+<head>
+
+<script type="text/javascript">
+
+$(function() {
+		
+});
+
+</script>
+</head>
+<body>
+
+<table> 
+    <!--表单项 --> 
+    <tbody>
+     <tr> 
+      <td style="width:82px; text-align:right;"> <span>是否有其他金融资产</span> </td> 
+      <td style="width:383px;"> 
+      	<input type="radio" name="hasotherfv" value="1" checked="checked"> <i>有</i>
+      	<input type="radio" name="hasotherfv" value="0"> <i>无</i> 
+     	</td> 
+     </tr> 
+   
+     <tr class="hasotherfv"> 
+      <td style="text-align:right;"> <span>银行存款</span> </td> 
+      <td> 
+      	<input class="form-text" id="bankdep" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr> 
+     <!--表单项 --> 
+     <tr class="hasotherfv"> 
+      <td style="text-align:right;"> <span>股票</span>
+      	<select id="stocktype">
+      		<option>A股</option>
+      	</select> </td> 
+      <td> 
+      	<input class="form-text" id="stock" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr> 
+  	 <tr class="hasotherfv"> 
+      <td style="text-align:right;"> <span>基金</span> </td> 
+      <td> 
+      	<input class="form-text" id="fund" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr>
+     <tr class="hasotherfv"> 
+      <td style="text-align:right;" > <span>债券</span> </td> 
+      <td> 
+      	<input class="form-text" id="bond" type="text" value="" /> <b>万元</b>
+      </td> 
+     </tr>
+     <tr class="edita"> 
+      <td style="text-align:right;"> </td> 
+      <td> <input class="form-button savemerge" type="button" value="保存">
+			<input class="form-button pagenext" type="button" value="下一步"> </td> 
+     </tr> 
+     <!-- --> 
+    </tbody>
+   </table> 
+   
+
+</body>
+</html>
