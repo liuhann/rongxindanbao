@@ -5,6 +5,127 @@ $(document).ready(function() {
 	});
 });
 
+/**
+ * 通用的查看项目方法。 根据企业和用户项目类型不同，加载不同的内容页。
+ * 只能加载在 #ccontent 中， css设置如此(之后可以修改)
+ * @param loan
+ */
+function viewLoan(loan, finished) {
+	$("#ccontent").show();
+	if (loan.type==1) { //company
+		$("#ccontent").html("");
+		loadPages($("#ccontent"), 
+				["sub/creq-1.html",
+				 "sub/creq-2.html",
+				 "sub/creq-3.html",
+				 "sub/creq-4.html",
+				 "sub/creq-5.html",
+				 "sub/approve-info.html"],
+				 ["基本信息","借款历史","担保情况","企业信息","经营情况", "审批情况"],
+				function(url,div) {
+					if (url==null) {
+						var c = new formCheck("#ccontent ");
+						c.init(loan);
+						c.readOnly();
+						$("img.field").css("width", "480").css("height", "360");
+						if (finished) {
+							finished(loan);
+						}
+					}
+				});
+	} else if (loan.type==2) { //person
+		$("#ccontent").html("");
+		if (loan.mate3) {
+			loadPages($("#ccontent"), 
+					[
+					 "sub/ureq-1.html",
+					 "sub/ureq-2.html",
+					 "sub/ureq-3.html",
+					 "sub/ureq-4.html",
+					 "sub/ureq-5.html",
+					 "sub/ureq-3.html?mate=1",
+					 "sub/ureq-4.html?mate=1",
+					 "sub/ureq-5.html?mate=1",
+					 "sub/ureq-6.html",
+					 "sub/approve-info.html"
+					],
+					[
+					 "基本信息",
+					 "贷款需求",
+					 "资产情况",
+					 "借款历史",
+					 "其他金融资产",
+					 "配偶资产情况",
+					 "配偶借款历史",
+					 "配偶其他金融资产",
+					 "家庭成员状况",
+					 "审批情况"
+					],
+					function(url,div) {
+						if (url=="sub/ureq-3.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate3);
+							c.readOnly();
+						} else if (url=="sub/ureq-4.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate4);
+							c.readOnly();
+						} else if (url=="sub/ureq-5.html?mate=1") {
+							var c = new formCheck(div);
+							c.init(loan.mate5);
+							c.readOnly();
+						} else {
+							var c = new formCheck(div);
+							c.init(loan);
+							c.readOnly();
+						}
+ 						if (url==null) {
+ 							var c = new formCheck("#ccontent");
+							c.readOnly();
+							if (finished) {
+								finished(loan);
+							}
+						}
+				});
+		} else {
+			loadPages($("#ccontent"), 
+					[
+					 "sub/ureq-1.html",
+					 "sub/ureq-2.html",
+					 "sub/ureq-3.html",
+					 "sub/ureq-4.html",
+					 "sub/ureq-5.html",
+					 "sub/ureq-6.html",
+					 "sub/approve-info.html"
+					],
+					[
+					 "基本信息",
+					 "贷款需求",
+					 "资产情况",
+					 "借款历史",
+					 "其他金融资产",
+					 "家庭成员状况",
+					 "审批情况"
+					],
+					function(url,div) {
+						if (url==null) {
+							var c = new formCheck("#ccontent");
+							c.init(loan);
+							c.readOnly();
+							if (finished) {
+								finished(loan);
+							}
+						}
+				});
+		}
+	}
+}
+
+function loadAuditInfo(loan) {
+	
+}
+
+
 var _cached_html = {};
 
 function cachePage(url) {
@@ -17,10 +138,19 @@ function cachePage(url) {
 	});
 }
 
+/**
+ * 在容器中加载一个单一页面。  目前加入了缓存机制(考虑以后可以去除？) 
+ * 加载过程中展示正在载入页面 信息
+ * @param container
+ * @param url      加载的url
+ * @param callback  页面加载完成后调用
+ */
 function loadPage(container, url, callback) {
 	if (_cached_html[url]!=null) {
 		$(container).html($("#" + _cached_html[url]).html());
-		callback();
+		if (callback) {
+			callback();
+		}
 	} else {
 		$(container).html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
 		$(container).load(url, function() {
@@ -33,6 +163,14 @@ function loadPage(container, url, callback) {
 	}
 }
 
+
+/**
+ * 在一个容器中先后加载、初始化多个页面
+ * @param container  容器
+ * @param urls     页面url列表
+ * @param titles   每个页面的标题 (目前主要是因为个人和配偶的表单相同而标题不同才产生了这个需求)
+ * @param callback  每个页面加载后产生的回调函数。 有n个页面就触发n次。返回的是 刚刚加载的url和页面$(dom)。全部页面都加载完再触发一次，2个参数都为null
+ */
 function loadPages(container, urls, titles, callback) {
 	if (urls.length==0) {
 		if (callback) {
@@ -118,7 +256,6 @@ var formCheck = function(selector) {
 			$(form).find("input,textarea").attr("disabled", true);
 			$(form).find("input,textarea").addClass("disabled");
 			$(".edita").hide();
-			
 			$(form).find("select").each(function() {
 				var text = $(this).find("option:selected").text();
 				$(this).replaceWith(text);
@@ -272,6 +409,15 @@ function genPass(){
  	}
  	return tmp;
 }
+
+
+/**
+ * 
+ * @param tbid table 的selector
+ * @param data 表格数据 list
+ * @param cell  每个单元格回调函数。 当td 定义cal时进行回调    传入td、entry和data-cal="xxx"的数据
+ * @param cb  当翻页到某个page时，传入当时页码。可以调用获取后台更新表格数据
+ */
 
 function initTable(tbid, data, cell, cb) {
 	$(tbid + " .row.item").remove();
@@ -479,6 +625,12 @@ function check(t) {
 	return true;
 }
 
+function encode(t) {
+	for(var k in t) {
+		t[k] = encodeURI(t[k]).replace(/\+/g,'%2B');
+	}
+	return t;
+}
 
 Date.prototype.format = function(fmt) {         
     var o = {         

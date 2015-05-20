@@ -6,25 +6,11 @@ function toggleEditOrg() {
 	$(".companyEdit #loginid").css("border", "none");
 }
 
-function saveOrg() {
-	var c = formCheck(".companyEdit ");
-	if(c.test()==true) {
-		var account = c.getRequest();
-		console.log(account);
-		account.type = "company";
-		$.post("/service/fin/account/save", account, function() {
-			alert("保存完成");
-		}).fail(function(error) {
-			console.log(error);
-		});
-	}
-}
-
-
 </script>
+
 <div class="form companyEdit">
 		<div class="title">
-			<h3>增加/编辑企业信息</h3> 
+			<h3 style="font-size: 16px; color: #666;">增加/编辑企业信息</h3> 
 			<div class="ops reada">
 				<a class="btn read" onclick="toggleEditOrg();">编辑</a>
 			</div>

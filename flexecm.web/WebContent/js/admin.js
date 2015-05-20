@@ -150,8 +150,16 @@ function pageFirstAudit() {
 	};
 	viewLoanTable(filter, "初审列表", function(t, data, field) {
 		if (field=="open") {
-			$("<a class='gbtn'>查看</a>").data("loan", data).appendTo($(t)).click(function() {
-				viewLoan($(this).data("loan"));
+			$("<a class='gbtn'>初审</a>").data("loan", data).appendTo($(t)).click(function() {
+				viewLoan($(this).data("loan"), function(loan) {
+					if (loan.audit==1) { //初审中
+						loadPages($("#ccontent"), ["sub/approve.html"], ["项目初审"], function(url) {
+							if (url==null) {
+								$("#approve-content").data("loan", loan);
+							}
+						});
+					}
+				});
 			});
 		}
 	});
@@ -162,12 +170,17 @@ function pageFinalAudit() {
 		"audit": 2
 	};
 	viewLoanTable(filter, "复审列表", function(t, data, field) {
-		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
-			var data = $(this).parents(".row").data("entry");
-			viewLoan(data);
-		});
-		$("<a class='gbtn'>通过</a>").appendTo($(t));
-		$("<a class='gbtn'>驳回</a>").appendTo($(t));
+		if (field=="open") {
+			$("<a class='gbtn'>复审</a>").data("loan", data).appendTo($(t)).click(function() {
+				viewLoan($(this).data("loan"), function(loan) {
+					loadPages($("#ccontent"), ["sub/approve.html"], ["项目复审"], function(url) {
+						if (url==null) {
+							$("#approve-content").data("loan", loan);
+						}
+					});
+				});
+			});
+		}
 	});
 }
 
@@ -204,7 +217,11 @@ function pageFinishedLoans() {
 	viewLoanTable(filter, "还款完结项目列表", function(t, data, field) {
 		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
 			var data = $(this).parents(".row").data("entry");
-			viewLoan(data);
+			viewLoan(data, function(loan) {
+				if (loan.audit==1) { //初审中
+					loadPages("#ccontent", ["sub/approve.html"], ["项目初审"]);
+				}
+			});
 		});
 	});
 }
@@ -224,116 +241,6 @@ function viewLoanTable(filter, txt, cellfunc) {
 			});
 		});
 	});
-}
-
-function viewLoan(loan) {
-	if (loan.type==1) { //company
-		$("#ccontent").html("");
-		loadPages($("#ccontent"), 
-				["sub/creq-1.html",
-				 "sub/creq-2.html",
-				 "sub/creq-3.html",
-				 "sub/creq-4.html",
-				 "sub/creq-5.html"],
-				 ["基本信息","借款历史","担保情况","企业信息","经营情况"],
-				function(url,div) {
-					if (url==null) {
-						var c = new formCheck("#ccontent ");
-						c.init(loan);
-						c.readOnly();
-						$("img.field").css("width", "480").css("height", "360");
-					}
-				});
-	} else if (loan.type==2) { //person
-		$("#ccontent").html("");
-		if (loan.mate3) {
-			loadPages($("#ccontent"), 
-					[
-					 "sub/ureq-1.html",
-					 "sub/ureq-2.html",
-					 "sub/ureq-3.html",
-					 "sub/ureq-4.html",
-					 "sub/ureq-5.html",
-					 "sub/ureq-3.html?mate=1",
-					 "sub/ureq-4.html?mate=1",
-					 "sub/ureq-5.html?mate=1",
-					 "sub/ureq-6.html"
-					],
-					[
-					 "基本信息",
-					 "贷款需求",
-					 "资产情况",
-					 "借款历史",
-					 "其他金融资产",
-					 "配偶资产情况",
-					 "配偶借款历史",
-					 "配偶其他金融资产",
-					 "家庭成员状况"
-					],
-					function(url,div) {
-						if (url=="sub/ureq-3.html?mate=1") {
-							var c = new formCheck(div);
-							c.init(loan.mate3);
-						} else if (url=="sub/ureq-4.html?mate=1") {
-							var c = new formCheck(div);
-							c.init(loan.mate4);
-						} else if (url=="sub/ureq-5.html?mate=1") {
-							var c = new formCheck(div);
-							c.init(loan.mate5);
-						} else {
-							var c = new formCheck(div);
-							c.init(loan);
-						}
- 						if (url==null) {
- 							var c = new formCheck("#ccontent");
-							c.readOnly();
-						}
-				});
-		} else {
-			loadPages($("#ccontent"), 
-					[
-					 "sub/ureq-1.html",
-					 "sub/ureq-2.html",
-					 "sub/ureq-3.html",
-					 "sub/ureq-4.html",
-					 "sub/ureq-5.html",
-					 "sub/ureq-6.html"
-					],
-					[
-					 "基本信息",
-					 "贷款需求",
-					 "资产情况",
-					 "借款历史",
-					 "其他金融资产",
-					 "家庭成员状况"
-					],
-					function(url,div) {
-						if (url==null) {
-							var c = new formCheck("#ccontent");
-							c.init(loan);
-							c.readOnly();
-						}
-				});
-		}
-	}
-}
-
-_uploaderInit = false;
-function initUploaders() {
-	if (!_uploaderInit) {
-		_uploaderInit = true;
-		loadJS(["js/plupload.full.min.js"], function() {
-			initUploader("btn-media-upload", "/service/attachz/upload", function(up, s, r) {
-				if (r) {
-					listPics();
-				}
-			});
-			initUploader("btn-news-title-img", "/service/attachz/upload", function(up, s, r) {
-				$("#news-title-img").attr("src", "/service/attachz/preview?id=" + r.response);
-				$("#new-splash").val(r.response);
-			});
-		});
-	}
 }
 
 function listNews() {

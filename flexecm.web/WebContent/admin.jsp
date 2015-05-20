@@ -18,8 +18,6 @@
 <script type="text/javascript" src="js/webcommon.js"></script>
 <script type="text/javascript" src="js/json2.js"></script>
 
-
-<link rel="stylesheet" href="js/kindeditor/default/default.css" />
 <script charset="utf-8" src="js/kindeditor/kindeditor-min.js"></script>
 <script charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
 

@@ -1,73 +1,13 @@
 <head>
 <!-- 文件上传组件 -->
 <SCRIPT type=text/javascript src="js/plupload.full.min.js"></SCRIPT>
-
-<script>
-
-/*
-	$(function() {
-		initUploader(".fileUploader1Container", "legaldoc");
-		initUploader(".fileUploader2Container", "actpermit");
-		initUploader(".fileUploader3Container", "bizlicence");
-		initUploader(".fileUploader4Container", "orgcodecert");
-		initUploader(".fileUploader5Container", "taxregcert");
-	});
-
-	function initUploader(container, btnid) {
-		var uploader = new plupload.Uploader(
-				{
-					runtimes : 'html5,flash,silverlight,html4',
-					browse_button : btnid, // you can pass in id...
-					url : "/service/fin/upload",
-					filters : {
-						max_file_size : '10mb',
-						mime_types : [ {
-							title : "选择图形格式文件",
-							extensions : "jpg,gif,png"
-						} ]
-					},
-
-					// Flash settings
-					flash_swf_url : '/plupload/js/Moxie.swf',
-
-					// Silverlight settings
-					silverlight_xap_url : '/plupload/js/Moxie.xap',
-
-					init : {
-						FilesAdded : function(up, files) {
-							up.start();
-						},
-
-						UploadProgress : function(up, file) {
-							//$(".fileUploader1Container span").html(file.percent + "%");
-						},
-
-						Error : function(up, err) {
-							$(container).find("span").html("Error");
-						},
-						FileUploaded : function(up, file, r) {
-							var img = $('<img class="field" style="height:40px; width: 50px;" src="/service/fin/preview?id='
-									+ r.response + '">');
-							img.data("field", btnid);
-							img.data("picdata", r.response);
-							$(container).append(img);
-						}
-					}
-				});
-		uploader.init();
-	}
-	
-	*/
-</script>
-
 </head>
 
 <table>
-
 	<!-- -->
 	<tbody>
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>企业性质</td>
+			<td style="padding-top: 5px; text-align: right;">企业性质</td>
 			<td>
 				<div class="form-item">
 					<input class="form-text" type="text" value="" id="nature">
@@ -77,7 +17,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>所属行业</td>
+			<td style="padding-top: 5px; text-align: right;">所属行业</td>
 			<td>
 				<div class="form-item">
 					<input class="form-text" type="text" value="" id="industry">
@@ -87,7 +27,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>实际控制人</td>
+			<td style="padding-top: 5px; text-align: right;">实际控制人</td>
 			<td>
 				<div class="form-item">
 					<input class="form-text" type="text" value="" id="controler">
@@ -97,7 +37,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>实际经营地址</td>
+			<td style="padding-top: 5px; text-align: right;">实际经营地址</td>
 			<td>
 				<div class="form-item">
 					<input class="form-text" type="text" value="" id="location">
@@ -107,7 +47,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>基本开户行</td>
+			<td style="padding-top: 5px; text-align: right;">基本开户行</td>
 			<td>
 				<div class="form-item">
 					<input class="form-text" type="text" value="" id="bbank">
@@ -117,7 +57,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>贷款卡号</td>
+			<td style="padding-top: 5px; text-align: right;">贷款卡号</td>
 			<td>
 				<div class="form-item">
 					<input class="form-text" type="text" value="" id="crdcard">
@@ -127,7 +67,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>法人证件上传</td>
+			<td style="padding-top: 5px; text-align: right;">法人证件上传</td>
 			<td>
 				<div class="form-item">
 					<div class="fileUploader1Container">
@@ -141,7 +81,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>开户许可证上传</td>
+			<td style="padding-top: 5px; text-align: right;">开户许可证上传</td>
 			<td>
 				<div class="form-item">
 					<div class="fileUploader2Container">
@@ -155,7 +95,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>营业执照上传</td>
+			<td style="padding-top: 5px; text-align: right;">营业执照上传</td>
 			<td>
 				<div class="form-item">
 					<div class="fileUploader3Container">
@@ -169,7 +109,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>组织机构代码证上传</td>
+			<td style="padding-top: 5px; text-align: right;">组织机构代码证上传</td>
 			<td>
 				<div class="form-item">
 					<div class="fileUploader4Container">
@@ -183,7 +123,7 @@
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;"><b>*</b>税务登记证上传</td>
+			<td style="padding-top: 5px; text-align: right;">税务登记证上传</td>
 			<td>
 				<div class="form-item">
 					<div class="fileUploader5Container">

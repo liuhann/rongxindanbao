@@ -186,6 +186,11 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 			
 		</div>
 
+		<div class="r form  hidden" id="ccontent">
+			
+		</div>
+
+
         <div class="r loanRequest hidden">
            	<div class="lv01">
                	<a href="#" class="sele-bg">继续填写</a>
@@ -267,6 +272,9 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 		      <div class="cell">
 		      		状态
 		      </div>
+		      <div class="cell">
+		      		操作
+		      </div>
 		    </div>
 			    <div class="template">
 			      <div class="cell" data-eval="var d=new Date(entry['rtime']); d.format('yyyy-MM-dd hh:mm')">
@@ -278,6 +286,8 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 			      <div class="cell" data-f="email">
 			      </div>
 			      <div class="cell" data-eval="(entry['audit']==1)?'初审中':'复审中'">
+			      </div>
+			      <div class="cell" data-cal="view">
 			      </div>
 			    </div>
 		</div>	

@@ -22,13 +22,14 @@
 	width: 1150px;
 	margin-right: auto;
 	margin-left: auto;
-	background-color: #FFF;
-}.zhanghuguanli_jksq_001 .l {
+	background-color: #f0f0f0;
+}
+.zhanghuguanli_jksq_001 .l {
 	float: left;
 	height: auto;
 	width: 160px;
 	background-color: #f0f0f0;
-	border: 1px solid #e3e3e3;
+	border: none;
 	padding-top: 20px;
 	padding-bottom: 20px;
 	min-height:639px;
@@ -90,6 +91,8 @@
 	padding-left: 30px;
 	padding-top: 28px;
 	padding-bottom: 90px;
+	min-height: 562px;
+	background-color: #fff;
 }
 .zhanghuguanli_jksq_001 .r .r_block_1 table tr td {
 	height: auto;

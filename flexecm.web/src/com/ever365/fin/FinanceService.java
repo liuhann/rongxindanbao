@@ -77,14 +77,11 @@ public class FinanceService implements Tenantable {
 			throw new HttpStatusException(HttpStatus.CONFLICT);
 		}
 		req.remove("rndcode");
-		
 		DBObject uinf = new BasicDBObject(req);
-
 		sendConfirmEmail(uinf);
 		
 		dataSource.getCollection(COLL_ACCOUNTS).insert(uinf);
 		RestResult rr = new RestResult();
-		
 		rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uinf.get("loginid"));
 		return rr;
 	}
@@ -119,20 +116,20 @@ public class FinanceService implements Tenantable {
 	@RestService(method="GET", uri="/fin/account/email/resend")
 	public void resendEmail() {
 		DBObject uinf = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", AuthenticationUtil.getCurrentUser()));
-
 		sendConfirmEmail(uinf);
 		update(COLL_ACCOUNTS, uinf);
 	}
 	
-	@RestService(method="GET", uri="/fin/account/update")
+	@RestService(method="POST", uri="/fin/account/update")
 	public void updateAccountInfo(Map req) {
 		DBObject uinf = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", AuthenticationUtil.getCurrentUser()));
 
-		if (uinf.get("email").toString()!=req.get("email").toString()) {
+		if (!uinf.get("email").equals(req.get("email"))) {
 			uinf.removeField("ecfm");
 			sendConfirmEmail(uinf);
 		}
 		uinf.putAll(req);
+		uinf.put("loginid", AuthenticationUtil.getCurrentUser());
 		update(COLL_ACCOUNTS, uinf);
 	}
 	
@@ -214,11 +211,26 @@ public class FinanceService implements Tenantable {
 	}
 	
 	@RestService(method="POST", uri="/fin/loan/approve")
-	public void approveRequest(Map<String, Object> request) {
-		request.put("uid", AuthenticationUtil.getCurrentUser());
-		request.put("rtime", new Date().getTime());
-		request.put("audit", 1);
-		dataSource.getCollection(COLL_LOANS).insert(new BasicDBObject(request));
+	public void approveRequest(@RestParam(value="loan") String loanid, @RestParam(value="desc")String desc) {
+		
+		DBObject loan = dataSource.getCollection(COLL_LOANS).findOne(new BasicDBObject("_id", new ObjectId(loanid)));
+		if (loan==null) {
+			throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+		}
+		
+		if (loan.get("audit").toString().equals("1")) { //初审
+			loan.put("audit", 2);
+			loan.put("firstaudit", desc);
+			loan.put("firstauditDate", new Date().getTime());
+			loan.put("firstauditor", AuthenticationUtil.getCurrentUser());
+			update(COLL_LOANS, loan);
+		} else if (loan.get("audit").toString().equals("2")) {
+			loan.put("audit", 3);
+			loan.put("finalaudit", desc);
+			loan.put("finalauditDate", new Date().getTime());
+			loan.put("finalauditor", AuthenticationUtil.getCurrentUser());
+			update(COLL_LOANS, loan);
+		}
 	}
 	
 	@RestService(method="POST", uri="/fin/news/update")
@@ -400,7 +412,14 @@ public class FinanceService implements Tenantable {
 		if (dbo.get("_id")==null) {
 			dataSource.getCollection(coll).insert(dbo);
 		} else {
-			dataSource.getCollection(coll).update(new BasicDBObject("_id", dbo.get("_id")), dbo);
+			DBObject qr = new BasicDBObject();
+			if (dbo.get("_id") instanceof String) {
+				qr = new BasicDBObject("_id", new ObjectId(dbo.get("_id").toString()));
+				dbo.removeField("_id");
+			} else if (dbo.get("_id") instanceof ObjectId) { 
+				qr = new BasicDBObject("_id", (ObjectId)dbo.get("_id"));
+			}
+			dataSource.getCollection(coll).update(qr, dbo, true,false);
 		}
 	}
 }

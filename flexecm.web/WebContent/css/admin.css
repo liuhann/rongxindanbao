@@ -55,6 +55,18 @@ a.btn {
   line-height: 16px;
 }
 
+a.rbtn {
+  background: #df0202;
+  color: #FFF;
+  font-size: 12px;
+  display: inline-block;
+  padding: 8px 16px;
+  border-radius: 3px;
+  text-decoration: none;
+  cursor: pointer;
+  line-height: 16px;
+}
+
 a.gbtn {
   font-size: 12px;
   display: inline-block;

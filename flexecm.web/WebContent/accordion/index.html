@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript" src="js/common.js"></script>
+
+<style type="text/css">
+
+li {
+	list-style: none;
+}
+
+.accordion  {
+	width: 440px;
+	height: 640px;
+	padding: 100px;
+}
+
+.accordion .question {
+  padding: .5rem;
+  border: 1px solid #eee;
+  margin-top: -1px;
+  cursor: pointer;
+  background-color:#fff;
+}
+
+.accordion .question .selected {
+  height: .8rem;
+  line-height: .8rem;
+  margin-top: .3rem;
+}
+.accordion .question .selected span {
+	margin-right: .5rem;
+	border-bottom: 1px solid #444;
+	color: #444;
+}
+
+
+.accordion .selection {
+	z-index: -1;
+}
+
+.accordion .question.pressed {
+	background: #f0f0f0;
+}
+
+.selection ul {
+	display: none;
+}
+
+.nav-hamburger {
+  position: absolute;
+  margin-top: -5px;
+  margin-right: -10px;
+  padding: 10px;
+  right: 0;
+  width: 49px;
+  height: 40px;
+  z-index: 99;
+}
+.nav-hamburger .nav-hamburger-line {
+  display: block;
+  position: relative;
+  width: 100%;
+  height: 4px;
+  background-color: #666;
+  -webkit-transition-property: -webkit-transform,opacity,-webkit-transform;
+  -moz-transition-property: -moz-transform,opacity,-webkit-transform;
+  -ms-transition-property: -ms-transform,opacity,-webkit-transform;
+  transition-property: transform,opacity,-webkit-transform;
+  -webkit-transition-duration: 0.25s;
+  -moz-transition-duration: 0.25s;
+  -ms-transition-duration: 0.25s;
+  transition-duration: 0.25s;
+  -webkit-transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -moz-transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  -ms-transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transition-timing-function: cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+</style>
+</head>
+<body>
+
+
+<div class="accordion">
+	<div class="question">
+		<div class="title">in the northwest corner of the map.</div>
+		<div class="selected"></div>
+	</div>
+	<div class="question">
+		<div class="title">in the northeast corner of the map.</div>
+		<div class="selected"></div>
+	</div>
+	<div class="question">
+		<div class="title">on the east side of the map.</div>
+		<div class="selected"></div>
+	</div>
+	<div class="question">
+		<div class="title">south of Beach Road.</div>
+		<div class="selected"></div>
+	</div>
+	
+	<div class="selection">
+		<ul id="mchoice_1">
+			<li class="anw selected" data-index="0">
+	    		<span class="mar">1</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>a school</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">2</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>theme park</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">3</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Moon Crescent</span>
+	    		<i></i>
+	    	</li>
+	    	
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">4</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>sea life centre</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">5</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Neptune Avenue</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">6</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span> fish market</span>
+	    		<i></i>
+	    	</li>
+		</ul>
+		
+		<ul id="mchoice_2">
+			<li class="anw selected" data-index="0">
+	    		<span class="mar">1</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>a school</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">2</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>theme park</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">3</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Moon Crescent</span>
+	    		<i></i>
+	    	</li>
+	    	
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">4</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>sea life centre</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">5</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Neptune Avenue</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">6</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span> fish market</span>
+	    		<i></i>
+	    	</li>
+		</ul>
+		
+		<ul id="mchoice_3">
+			<li class="anw selected" data-index="0">
+	    		<span class="mar">1</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>a school</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">2</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>theme park</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">3</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Moon Crescent</span>
+	    		<i></i>
+	    	</li>
+	    	
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">4</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>sea life centre</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">5</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Neptune Avenue</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">6</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span> fish market</span>
+	    		<i></i>
+	    	</li>
+		</ul>
+		
+		<ul id="mchoice_4">
+			<li class="anw selected" data-index="0">
+	    		<span class="mar">1</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>a school</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">2</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>theme park</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">3</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Moon Crescent</span>
+	    		<i></i>
+	    	</li>
+	    	
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">4</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>sea life centre</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">5</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span>Neptune Avenue</span>
+	    		<i></i>
+	    	</li>
+	    	<li class="anw selected" data-index="0">
+	    		<span class="mar">6</span>
+	    		<a class="choose choose_b">
+	    			<input type="checkbox" value="1">
+	    		</a>
+	    		<span> fish market</span>
+	    		<i></i>
+	    	</li>
+		</ul>
+		
+	</div>
+</div>
+
+</body>
+</html>

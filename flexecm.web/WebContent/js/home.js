@@ -22,7 +22,14 @@ function loanProgress(t) {
 	}, function(data) {
 		var result = JSON.parse(data);
 		
-		initTable("#loan-prgress-table", result);
+		initTable("#loan-prgress-table", result, function(td, data, data_cal) {
+			if (data_cal=="view") {
+				$("<a class='gbtn'>查看</a>").data("loan", data).appendTo($(td)).click(function() {
+					$("#content .r").hide();
+					viewLoan($(this).data("loan"));
+				});
+			}
+		});
 	});
 }
 
@@ -35,6 +42,8 @@ function config(t) {
 		loadPage($("#person-edit"), "sub/cinfo.html", function() {
 			var fc = new formCheck("#person-edit ");
 			fc.init(uinfo);
+			$("#loginid").replaceWith($("#loginid").val());
+			
 			fc.showBtn("edit");
 		});
 	} else {
@@ -114,7 +123,18 @@ function companyNewRequest() {
 	loanRequest.type = 1;
 	loanRequest.mobile = uinfo.mobile;
 	loanRequest.email = uinfo.email;
-	loanRequest.rname = uinfo.contact;
+	loanRequest.name = uinfo.contact;
+	loanRequest.mpart = uinfo.company;
+	loanRequest.loanlimit = "100万";
+	loanRequest.loanmethod = "担保贷款";
+	loanRequest.loanbank = "中国工商银行";
+	loanRequest.grtpart = uinfo.company;
+	loanRequest.grttotal = "100万";
+	loanRequest.grtmethod = "抵押";
+	loanRequest.grtbank = "中国工商银行";
+	loanRequest.grtextra = "担保合同的从属性，又称附随性、伴随性，是指担保合同的成立和存在必须以一定的合同关系的存在为前提。被担保的合同关系是一种主法律关系，为之而设立的担保关系是一种从法律关系。我国《担保法》第5条第1款规定：“担保合同是主合同的从合同。”";
+	loanRequest["grtcompany-desc"] = "经过两年多的运营，得到了广大投资人的认可和支持。公司规模越来越大，业务量也稳步上升。在探索流程规范化和产品标准化的同时，我们陆续开设了包括深圳、广州、东莞、惠州、佛山、顺德、江门、中山、上海、武汉、南昌、合肥、成都、苏州、无锡、南通、柳州在内的共16家营业部。进一步完善了长三角、珠三角的战略布局，并向内地二三线城市下沉。";
+	
 	creqPageNext();
 }
 
@@ -244,11 +264,11 @@ function requestNext(tab, page, pre) {
 							+ r.response + '">');
 					img.data("field", btnid);
 					img.data("picdata", r.response);
+					$("#" + btnid).next("img").remove();
 					$("#" + btnid).after(img);
 				});
 			});
 		}
-		
 		if (pre) {
 			fc.init(loanRequest[pre]);
 		} else {
@@ -270,13 +290,12 @@ function saveOrg() {
 	var c = formCheck("#person-edit ");
 	if(c.test()==true) {
 		var account = c.getRequest();
-		account.type = "company";
-		$.post("/service/fin/account/self/save", account, function() {
+		$.post("/service/fin/account/update", encode(account), function() {
 			alert("保存完成");
+			location.href = location.href;
 		}).fail(function(error) {
 			
 		});
 	}
 }
-
 

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+
+<script type="text/javascript">
+
+function approve() {
+	var loan = $("#approve-content").data("loan");
+
+	$.post("/service/fin/loan/approve", {
+		"loan": loan._id,
+		"desc" : encodeURI($("#approve-content").val())
+	}, function() {
+		alert($("#approve-title").html() + "通过");
+	});
+}
+
+function reject() {
+	var loan = $("#approve-content").data("loan");
+	$.post("/service/fin/loan/reject", {
+		"loan": loan._id,
+		"desc" : encodeURI($("#approve-content").val())
+	}, function() {
+		alert("融资请求已驳回");
+	});
+}
+
+</script>
+</head>
+<body>
+<textarea id="approve-content" style="width: 880px; height: 140px; margin: 0px 0px 10px; border: 1px solid #e7e7eb;border-top:none;"></textarea>
+<p class="submit"><a class="btn" onclick="approve();">审核通过</a>  <a class="rbtn" onclick="fallback();">审核驳回</a></p>
+
+</body>
+</html>
