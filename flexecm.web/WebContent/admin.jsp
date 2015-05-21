@@ -71,9 +71,9 @@
 			<h2>理财产品来源管理</h2>
 		</div>
 		<ul>
-			<li>P2P</li>
-			<li>银行理财</li>
-			<li>货币基金</li>
+			<li onclick="listLicai('1');">P2P</li>
+			<li onclick="listLicai('2');">银行理财</li>
+			<li onclick="listLicai('3');">定向理财</li>
 		</ul>
 		
 		<div class="title">

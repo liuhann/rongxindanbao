@@ -20,7 +20,7 @@ KindEditor.ready(function(K) {
 		items : [
 		         'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
 		         'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
-		         'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+		         'insertunorderedlist', '|', 'image', 'link']
 	});
 });
 
@@ -96,7 +96,7 @@ function filterAccount(filter) {
 }
 
 function pageCompanys() {
-	$("#ccontent").load("sub/viewCompanies.html");
+	loadPage($("#ccontent"), "sub/viewCompanies.html")
 }
 
 function addNews() {
@@ -113,14 +113,6 @@ function rolesList() {
 
 function editRole() {
 	$("#ccontent").load("sub/roleEdit.html");
-}
-
-function addGreenOrg() {
-	$("#ccontent").load("sub/companyEdit.html", function() {
-		var c = formCheck(".companyEdit ");
-		c.init({});
-		c.editable("edit");
-	});
 }
 
 function editOrg(company) {
@@ -199,7 +191,7 @@ function pageKilledLoans() {
 
 function pagePassedLoans() {
 	var filter = {
-		"audit": 5
+		"audit": 3
 	};
 	viewLoanTable(filter, "已通过项目列表", function(t, data, field) {
 		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {

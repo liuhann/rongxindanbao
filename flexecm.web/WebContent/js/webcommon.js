@@ -12,6 +12,28 @@ $(document).ready(function() {
  */
 function viewLoan(loan, finished) {
 	$("#ccontent").show();
+
+	var auditStatus;
+	switch (loan.audit) {
+	case 1:
+		auditStatus = "<b style='color:#35B558'>等待初审</b>";
+		break;
+	case 2:
+		auditStatus = "<b style='color:#35B558'>等待复审</b>";
+		break;
+	case 3:
+		auditStatus = "<b style='color:#35B558'>审核通过</b>";
+		break;
+	case 10:
+		auditStatus = "<b style='color:#35B558'>还款完结</b>";
+		break;
+	case -1:
+		auditStatus = "<b style='color:#df0202'>已驳回</b>";
+		break;
+	default:
+		break;
+	}
+	
 	if (loan.type==1) { //company
 		$("#ccontent").html("");
 		loadPages($("#ccontent"), 
@@ -21,7 +43,7 @@ function viewLoan(loan, finished) {
 				 "sub/creq-4.html",
 				 "sub/creq-5.html",
 				 "sub/approve-info.html"],
-				 ["基本信息","借款历史","担保情况","企业信息","经营情况", "审批情况"],
+				 ["基本信息","借款历史","担保情况","企业信息","经营情况", "审批情况" + auditStatus],
 				function(url,div) {
 					if (url==null) {
 						var c = new formCheck("#ccontent ");
@@ -59,7 +81,7 @@ function viewLoan(loan, finished) {
 					 "配偶借款历史",
 					 "配偶其他金融资产",
 					 "家庭成员状况",
-					 "审批情况"
+					 "审批情况" + auditStatus
 					],
 					function(url,div) {
 						if (url=="sub/ureq-3.html?mate=1") {
@@ -105,7 +127,7 @@ function viewLoan(loan, finished) {
 					 "借款历史",
 					 "其他金融资产",
 					 "家庭成员状况",
-					 "审批情况"
+					 "审批情况" + auditStatus
 					],
 					function(url,div) {
 						if (url==null) {
@@ -121,7 +143,7 @@ function viewLoan(loan, finished) {
 	}
 }
 
-function loadAuditInfo(loan) {
+function initAuditInfo(loan) {
 	
 }
 
@@ -146,21 +168,15 @@ function cachePage(url) {
  * @param callback  页面加载完成后调用
  */
 function loadPage(container, url, callback) {
-	if (_cached_html[url]!=null) {
-		$(container).html($("#" + _cached_html[url]).html());
+	$(container).show();
+	$(container).html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
+	$(container).load(url, function() {
+		var id = "rnd" + genPass();
+		_cached_html[url] = id;
 		if (callback) {
 			callback();
 		}
-	} else {
-		$(container).html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
-		$(container).load(url, function() {
-			var id = "rnd" + genPass();
-			_cached_html[url] = id;
-			if (callback) {
-				callback();
-			}
-		});
-	}
+	});
 }
 
 
@@ -190,7 +206,7 @@ function loadPages(container, urls, titles, callback) {
 	if (_cached_html[url]!=null) {
 		container.append($("#" + _cached_html[url]).html());
 	} else {
-		var div = $("<div></div>");
+		var div = $("<div class='page'></div>");
 		div.attr("id", "rnd" + genPass());
 		container.append(div);
 		$(div).load(url, function() {
@@ -240,6 +256,14 @@ var formCheck = function(selector) {
 		});
 	});
 	
+	form.find("input.date").each(function() {
+		$("input.date").datetimepicker({
+			format:'Y-m-d',
+			timepicker:false,
+			lang:'ch'
+		});
+	});
+	
 	function addSubListItem(list, data) {
 		var cloned = $(list).find(".template").clone().removeClass("template").addClass("row item");
 		cloned.find(".fill").each(function() {
@@ -250,7 +274,6 @@ var formCheck = function(selector) {
 		});
 		$(list).find(".head").after(cloned);
 	}
-	
 	return {
 		readOnly: function() {
 			$(form).find("input,textarea").attr("disabled", true);
@@ -297,7 +320,12 @@ var formCheck = function(selector) {
 					}
 					if ($(this).attr("id")!=null && data[$(this).attr("id")]) {
 						$(this).val(data[$(this).attr("id")]);
+						if($(this).data("format")=="date") {
+							var d=new Date(data[$(this).attr("id")]); 
+							$(this).val(d.format('yyyy-MM-dd hh:mm'));
+						}
 					}
+					
 					
 					if ($(this).attr("type")=="radio") {
 						if ($(this).attr("value")==data[$(this).attr("name")]) {
@@ -620,7 +648,6 @@ function check(t) {
 	function trim(str) {   
 	    return str.replace(/(^\s*)|(\s*$)/g, "");   
 	}  
-	
 	//不需要验证的返回true
 	return true;
 }

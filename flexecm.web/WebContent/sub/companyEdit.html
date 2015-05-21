@@ -1,4 +1,19 @@
+<script type="text/javascript" src="datepicker/jquery.datetimepicker.js"></script>
+<link type="text/css" rel="stylesheet" href="datepicker/jquery.datetimepicker.css">
+
 <script>
+function saveOrg() {
+	var c = formCheck(".companyEdit ");
+	if (c.test()) {
+		var org = c.getRequest();
+		org.type = "company";
+		org.vip = "true";
+		$.post("/service/fin/account/save", org, function() {
+			alert("保存成功");			
+		});
+	}
+}
+
 function toggleEditOrg() {
 	var c = formCheck(".companyEdit ");
 	c.editable("edit");
@@ -59,7 +74,7 @@ function toggleEditOrg() {
 		<div class="fcg">
 			<label>成立时间</label> 
 			<div class="fc">
-				<input type="text" id="established" data-checked="notnull" data-inval="成立时间不能为空">
+				<input type="text" class="date" id="established" data-checked="notnull" data-inval="成立时间不能为空">
 			</div>
 		</div>
 		<div class="fcg">

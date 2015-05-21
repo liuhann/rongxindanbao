@@ -17,6 +17,15 @@ $(function() {
 	});
 })
 
+
+function addGreenOrg() {
+	loadPage($("#ccontent"), "sub/companyEdit.html", function () {
+		var c = formCheck("#ccontent ");
+		c.init({});
+		c.showBtn("edit");
+	});
+}
+
 </script>
 <div class="org" id="vip-companies">
 		<div class="panel">

@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+</head>
+<body>
+
+<table>
+	<tr>
+		<td>类型</td>
+		<td>
+			<div class="form-item">
+				<select id="type">
+					<option value="1">网贷类投资</option>
+					<option value="2">银行理财</option>
+					<option value="3">定向类理财</option>
+				</select>
+			</div>
+			<i class="err type"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>理财产品名称</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="name" type="text" value="">
+			</div>
+			<i class="err name"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>年化收益</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="profit" type="text" value="">%
+			</div>
+			<i class="err profit"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>投资周期</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="cycle" type="text" value="">
+			</div>
+			<i class="err cycle"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>还款方式</td>
+		<td>
+			<div class="form-item">
+				<select id="type">
+					<option value="1">到期还本息</option>
+					<option value="2">银行理财</option>
+					<option value="3">定向类理财</option>
+				</select>
+			</div>
+			<i class="err cycle"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>首页推荐</td>
+		<td>
+			<div class="form-item">
+				<input class="checkbox" id="index" type="text" value=""> <i>是</i>
+			</div>
+		</td>
+	</tr>
+	<tr>
+		<td>热门推荐</td>
+		<td>
+			<div class="form-item">
+				<input class="checkbox" id="hott" type="text" value=""> <i>是</i>
+			</div>
+		</td>
+	</tr>
+
+	<tr class="edita">
+		<td></td>
+		<td>
+			<input class="form-button savemerge" onclick="saveLicai();" type="button" value="保存">
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>
+

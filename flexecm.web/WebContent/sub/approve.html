@@ -6,17 +6,28 @@
 
 function approve() {
 	var loan = $("#approve-content").data("loan");
-
+	
+	
+	if ($("#approve-content").val().length<6) {
+		alert("请输入审核意见");
+	}
 	$.post("/service/fin/loan/approve", {
 		"loan": loan._id,
 		"desc" : encodeURI($("#approve-content").val())
 	}, function() {
-		alert($("#approve-title").html() + "通过");
+		if (loan.audit==1) {
+			alert("初审通过");
+		} else {
+			alert("复审通过");
+		}
 	});
 }
 
 function reject() {
 	var loan = $("#approve-content").data("loan");
+	if ($("#approve-content").val().length<6) {
+		alert("请输入驳回意见");
+	}
 	$.post("/service/fin/loan/reject", {
 		"loan": loan._id,
 		"desc" : encodeURI($("#approve-content").val())
@@ -28,8 +39,8 @@ function reject() {
 </script>
 </head>
 <body>
-<textarea id="approve-content" style="width: 880px; height: 140px; margin: 0px 0px 10px; border: 1px solid #e7e7eb;border-top:none;"></textarea>
-<p class="submit"><a class="btn" onclick="approve();">审核通过</a>  <a class="rbtn" onclick="fallback();">审核驳回</a></p>
+<textarea id="approve-content" style="width: 850px; height: 140px; margin: 0px 0px 10px; border: 1px solid #e7e7eb;"></textarea>
+<p class="submit"><a class="btn" onclick="approve();">审核通过</a>  <a class="rbtn" onclick="reject();">审核驳回</a></p>
 
 </body>
 </html>

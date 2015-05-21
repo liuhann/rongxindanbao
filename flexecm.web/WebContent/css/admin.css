@@ -44,15 +44,23 @@ a {
 }
 
 a.btn {
+  display: inline-block;
+  overflow: visible;
+  padding: 0 23px;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: middle;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  font-size: 14px;
+  border-width: 1px;
+  border-style: solid;
+  cursor: pointer;
   background: #35B558;
   color: #FFF;
-  font-size: 12px;
-  display: inline-block;
-  padding: 8px 16px;
-  border-radius: 3px;
-  text-decoration: none;
-  cursor: pointer;
-  line-height: 16px;
 }
 
 a.rbtn {
@@ -68,17 +76,24 @@ a.rbtn {
 }
 
 a.gbtn {
-  font-size: 12px;
   display: inline-block;
-  background-color: #f1f1f1;
-  padding: 5px 15px;
-  border: 1px solid #e6e7ec;
-  border-radius: 3px;
-  color: #000;
+  overflow: visible;
+  padding: 0 23px;
+  height: 32px;
+  line-height: 32px;
+  vertical-align: middle;
+  text-align: center;
   text-decoration: none;
+  border-radius: 3px;
+  -moz-border-radius: 3px;
+  border: 1px solid #dedede;
+  -webkit-border-radius: 3px;
+  font-size: 14px;
+  border-width: 1px;
+  border-style: solid;
   cursor: pointer;
-  line-height: 16px;
-  margin-right: 10px;
+  background-color: #f1f1f1;
+  color: #000;
 }
 
 .hidden, .template {
@@ -408,6 +423,19 @@ color: #eee;
   font-style: normal;
   background-color: #f4f5f9;
 }
+
+#ccontent div.page {
+	padding: 10px;
+	border-right: 1px solid #dedede;
+	border-left: 1px solid #dedede;
+}
+
+#ccontent h2 b {
+	margin-left: 8px;
+	font-weight: normal;	
+}
+
+
 #ccontent table {
 	width: 100%;
 }

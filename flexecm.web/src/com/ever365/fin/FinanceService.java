@@ -223,15 +223,35 @@ public class FinanceService implements Tenantable {
 			loan.put("firstaudit", desc);
 			loan.put("firstauditDate", new Date().getTime());
 			loan.put("firstauditor", AuthenticationUtil.getCurrentUser());
-			update(COLL_LOANS, loan);
 		} else if (loan.get("audit").toString().equals("2")) {
 			loan.put("audit", 3);
 			loan.put("finalaudit", desc);
 			loan.put("finalauditDate", new Date().getTime());
 			loan.put("finalauditor", AuthenticationUtil.getCurrentUser());
-			update(COLL_LOANS, loan);
 		}
+		update(COLL_LOANS, loan);
 	}
+	@RestService(method="POST", uri="/fin/loan/reject")
+	public void rejectRequest(@RestParam(value="loan") String loanid, @RestParam(value="desc")String desc) {
+		
+		DBObject loan = dataSource.getCollection(COLL_LOANS).findOne(new BasicDBObject("_id", new ObjectId(loanid)));
+		if (loan==null) {
+			throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+		}
+		if (loan.get("audit").toString().equals("1")) { //初审
+			loan.put("firstaudit", desc);
+			loan.put("firstauditDate", new Date().getTime());
+			loan.put("firstauditor", AuthenticationUtil.getCurrentUser());
+		} else if (loan.get("audit").toString().equals("2")) {
+			loan.put("finalaudit", desc);
+			loan.put("finalauditDate", new Date().getTime());
+			loan.put("finalauditor", AuthenticationUtil.getCurrentUser());
+		}
+		
+		loan.put("audit", -1);
+		update(COLL_LOANS, loan);
+	}
+	
 	
 	@RestService(method="POST", uri="/fin/news/update")
 	public void updateNews(Map<String, Object> request) {

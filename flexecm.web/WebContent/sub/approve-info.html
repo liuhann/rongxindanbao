@@ -2,24 +2,34 @@
 <html>
 <head>
 <meta charset="UTF-8">
+
+<style type="text/css">
+.fistaudit label, .finalaudit label {
+	margin-right: 8px;
+}
+.fistaudit p, .finalaudit p {
+	height: 30px;
+	line-height: 30px;
+}
+</style>
 </head>
 <script type="text/javascript">
 
 </script>
 <body>
 
-<div class="fistaudit" style="padding: 10px;">
-<p>初审</p>
-<textarea id="firstaudit" style="width: 800px;height:auto; margin: 0px 0px 10px; border:none;"></textarea>
-<p><label>时间</label><span id="firstauditDate" > </span><p>
-<p><label>审核者</label><span id="firstauditor" > </span><p>
+<div class="fistaudit" >
+	<p>初审意见</p>
+	<textarea id="firstaudit" style="width: 800px;height:auto; margin: 0px 0px 10px; border:none;"></textarea>
+	<p><label>时间</label><input id="firstauditDate" data-format="date"></p>
+	<p><label>审核者</label><input id="firstauditor" ></p>
 </div>
 
-<div class="finalaudit" style="padding: 10px;">
-<p>复审</p>
-<textarea id="finalaudit" style="width: 800px; height:auto; margin: 0px 0px 10px; border:none;"></textarea>
-<p><label>时间</label><span id="finalauditDate" > </span><p>
-<p><label>审核者</label><span id="finalauditor" > </span><p>
+<div class="finalaudit" >
+	<p>复审意见</p>
+	<textarea id="finalaudit" style="width: 800px; height:auto; margin: 0px 0px 10px; border:none; "></textarea>
+	<p><label>时间</label><input id="finalauditDate" data-format="date"> </p>
+	<p><label>审核者</label><input id="finalauditor" > </p>
 </div>
 
 </body>
