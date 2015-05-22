@@ -418,9 +418,9 @@
 	width: auto;
 }
 .index_top-lv04 .r .box .r_01 span {
-	font-size: 16px;
-	font-weight: bold;
-	color: #000;
+  font-size: 14px;
+  /* font-weight: bold; */
+  color: #FF6500;
 }
 .index_top-lv04 .r .box .r_02 span {
 	float: left;

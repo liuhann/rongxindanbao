@@ -7,11 +7,16 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
+<title>欢迎来到融信担保</title>
+
 <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
 <link type="text/css" rel="stylesheet" href="css/index_top.css">
 
 <style type="text/css">
 
+.hidden {
+	display: none;
+}
 .clearfix:after {
 	visibility: hidden;
 	display: block;
@@ -36,7 +41,50 @@ if (user != null) {
 } 
 Date date = new Date();
 %>
-<title>欢迎来到融信担保</title>
+
+<script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+<script type="text/javascript">
+function login() {
+	var loginid = $("#loginid").val();
+	var pwd = $("#pwd").val();
+	if (loginid=="" || pwd=="" || pwd.length<6) {
+		$("#login-error").show();
+		$("#login-error").html("输入的用户名或密码格式错误");
+		return;
+	}
+	
+	var rnd = null;
+	if ($("p.rndimg:visible").length==1) {
+		rnd = $("#rndcode").val();
+	}
+	
+	$.post("/service/fin/login", {
+		'loginid': loginid,
+		'pwd': pwd,
+		'rndcode': rnd
+	}, function(data) {
+		location.href = location.href;
+	}).fail(function(e) {
+		if (e.status==412) {
+			$("#login-error").show();
+			$("#login-error").html("验证码错误");
+			refreshImg();
+		} else {
+			$("#login-error").show();
+			$("#login-error").html("用户名或密码错误");
+			refreshImg();
+		}
+	});
+	
+}
+
+
+function refreshImg() {
+	$("p.rndimg").show();
+	$("#rnd-img").attr("src", "/rndimg?" + new Date().getTime());
+}
+</script>
+
 </head>
 <body class="bg">
 	<div id="index_top">
@@ -237,29 +285,33 @@ Date date = new Date();
 
             
             <div class="r">
-            	<div class="box">            	
+            	<div class="box"> 
            			<div class="r_01">
-                    	<span>政府扶植企业绿色通道</span>
+                    	<span>享受更多便利？欢迎成为我们的绿色通道企业</span>
                     </div>
-                    
                     <div class="r_02">
-                    	<span class="tab_l current">高新区</span> <!--current为选中的样式 必须要和签满的tab_X样式并存 -->
-                        <span class="tab_r ">其他地区</span>
+                    	<span class="tab_l current">请登录</span> <!--current为选中的样式 必须要和签满的tab_X样式并存 -->
+                        <span class="tab_r ">后台登录</span>
+                         
                     </div>
                     
                     <div class="r_03"><!--这里作为标签切换的页面 我估计可以复制两套，不同的post指向 -->
-                    	<input class="form-text" value="" name="">
+                    	<input class="form-text" value="" id="loginid">
                         <span class="usr">用户名</span>
-                    	<input class="form-text" value="" name="">
-                        <span class="pwd">密&nbsp;&nbsp; 码</span>                        <input type="button" class="form-button" value="登陆" name="">
-                       
+                    	<input class="form-text"  type="password" id="pwd">
+                        <span class="pwd">密&nbsp;&nbsp; 码</span>
+                        <p id="login-error" class="error hidden"></p>
+                        <p class="rndimg hidden"><input id="rndcode"> <img id="rnd-img"> <a href="javascript:refreshImg();">刷新</a></p>                        
+                        <input type="button" class="form-button" value="登录" onclick="login();">
                     </div>
                     
                     <div class="r_04">
                     	<span class="r_04_l">
-                        	<a href="#">注册</a>
+                        	<a href="#">个人注册</a>
                         </span>
-                        
+                        <span class="r_04_l">
+                        	<a href="#">企业注册</a>
+                        </span>
                         <span class="r_04_r">
                         	<a href="#">找回密码？</a>
                         </span>

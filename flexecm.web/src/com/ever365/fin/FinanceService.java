@@ -20,6 +20,7 @@ import com.ever365.rest.RestResult;
 import com.ever365.rest.RestService;
 import com.ever365.rest.StreamObject;
 import com.ever365.utils.EmailUtils;
+import com.ever365.utils.RandomCodeServlet;
 import com.ever365.utils.UUID;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -123,7 +124,7 @@ public class FinanceService implements Tenantable {
 	@RestService(method="POST", uri="/fin/account/update")
 	public void updateAccountInfo(Map req) {
 		DBObject uinf = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", AuthenticationUtil.getCurrentUser()));
-
+		
 		if (!uinf.get("email").equals(req.get("email"))) {
 			uinf.removeField("ecfm");
 			sendConfirmEmail(uinf);
@@ -286,6 +287,7 @@ public class FinanceService implements Tenantable {
 	public RestResult logout() {
 		RestResult rr = new RestResult();
 		rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, null);
+		rr.setSession(RandomCodeServlet.LOGIN_FAILED, null);
 		rr.setRedirect("/");
 		return rr;
 	}
@@ -374,7 +376,7 @@ public class FinanceService implements Tenantable {
 			if (one.get("type").equals(TYPE_ADMIN)) {
 				rr.setSession(AuthenticationUtil.SESSION_ADMIN, 1);
 				rr.setResult(FIN_ROOT + "admin.jsp");
-			}
+			} 
 			rr.setResult(FIN_ROOT + "home.jsp");
 			return rr;
 		}

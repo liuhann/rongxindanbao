@@ -99,6 +99,10 @@ function pageCompanys() {
 	loadPage($("#ccontent"), "sub/viewCompanies.html")
 }
 
+function pageLoanOfficer() {
+	loadPage($("#ccontent"), "sub/credit-mgr-list.html");
+}
+
 function addNews() {
 	loadPage($("#ccontent"), "sub/addNews.html", function() {
 		
@@ -168,6 +172,7 @@ function pageFinalAudit() {
 					loadPages($("#ccontent"), ["sub/approve.html"], ["项目复审"], function(url) {
 						if (url==null) {
 							$("#approve-content").data("loan", loan);
+							$("#risks").show();
 						}
 					});
 				});
@@ -220,7 +225,8 @@ function pageFinishedLoans() {
 
 function viewLoanTable(filter, txt, cellfunc) {
 	$("#ccontent").show();
-	$("#ccontent").load("sub/loanList.html", function() {
+	
+	loadPage($("#ccontent"), "sub/loanList.html", function() {
 		$.post("/service/fin/loan/list", {
 			"filter": JSON.stringify(filter)
 		}, function(data) {

@@ -14,6 +14,9 @@ import javax.servlet.http.HttpServletResponse;
 public class RandomCodeServlet extends HttpServlet {
 	private static final long serialVersionUID = 2238182517022973334L;
 	public static final String RANDOMCODEKEY = "RANDOMVALIDATECODEKEY";//放到session中的key
+	public static final String LOGIN_FAILED = "LOGIN_FAILED";//是否经历过403 (登陆失败)
+
+	
     private Random random = new Random();
     private String randString = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";//随机产生的字符串
     

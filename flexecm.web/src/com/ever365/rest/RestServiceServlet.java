@@ -144,7 +144,7 @@ public class RestServiceServlet extends HttpServlet {
 				}
 			}
 			
-			if (handler.needRandCode()) {
+			if (handler.needRandCode() && request.getSession().getAttribute(RandomCodeServlet.LOGIN_FAILED)!=null) {
 				if (request.getSession().getAttribute(RandomCodeServlet.RANDOMCODEKEY)==null) {
 					throw new HttpStatusException(HttpStatus.BAD_REQUEST);
 				}
@@ -155,7 +155,6 @@ public class RestServiceServlet extends HttpServlet {
 					throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
 				}
 			}
-			
 			Object result = handler.execute(args);
 			if (result == null) {
 				response.setStatus(200);
@@ -164,6 +163,9 @@ public class RestServiceServlet extends HttpServlet {
 			}
 		} catch (Exception e) {
 			if ((e instanceof HttpStatusException)) {
+				if (((HttpStatusException) e).getCode()==HttpStatus.FORBIDDEN.value()) {
+					request.getSession().setAttribute(RandomCodeServlet.LOGIN_FAILED, 1);
+				}
 				response.getWriter().println(extractError(e));
 				response.sendError(((HttpStatusException) e).getCode(),
 						((HttpStatusException) e).getDescription());

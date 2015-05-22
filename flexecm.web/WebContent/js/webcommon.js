@@ -169,6 +169,8 @@ function cachePage(url) {
  */
 function loadPage(container, url, callback) {
 	$(container).show();
+	$(".xdsoft_datetimepicker").remove();
+	
 	$(container).html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
 	$(container).load(url, function() {
 		var id = "rnd" + genPass();
