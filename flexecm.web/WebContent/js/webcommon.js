@@ -10,9 +10,13 @@ $(document).ready(function() {
  * 只能加载在 #ccontent 中， css设置如此(之后可以修改)
  * @param loan
  */
-function viewLoan(loan, finished) {
-	$("#ccontent").show();
-
+function viewLoan(loan, cb) {
+	$("#ccontent").hide();
+	
+	var div = $('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
+	$("#ccontent").after(div);
+	div.show();
+	
 	var auditStatus;
 	switch (loan.audit) {
 	case 1:
@@ -50,9 +54,7 @@ function viewLoan(loan, finished) {
 						c.init(loan);
 						c.readOnly();
 						$("img.field").css("width", "480").css("height", "360");
-						if (finished) {
-							finished(loan);
-						}
+						finished(loan);
 					}
 				});
 	} else if (loan.type==2) { //person
@@ -104,9 +106,7 @@ function viewLoan(loan, finished) {
  						if (url==null) {
  							var c = new formCheck("#ccontent");
 							c.readOnly();
-							if (finished) {
-								finished(loan);
-							}
+							finished(loan);
 						}
 				});
 		} else {
@@ -134,11 +134,17 @@ function viewLoan(loan, finished) {
 							var c = new formCheck("#ccontent");
 							c.init(loan);
 							c.readOnly();
-							if (finished) {
-								finished(loan);
-							}
+							finished(loan);
 						}
 				});
+		}
+	}
+	
+	function finished(loan) {
+		if (cb) {
+			$("#ccontent").next(".loading").remove();
+			$("#ccontent").show();
+			cb(loan);
 		}
 	}
 }

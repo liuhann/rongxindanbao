@@ -48,7 +48,6 @@ function pageConfirmed() {
 
 function adminList() {
 	$("#ccontent").load("sub/backAccounts.html", function() {
-		
 		filterAccount({"type":"admin"});
 	});
 }
@@ -66,7 +65,6 @@ function editAccount(u) {
 	});
 }
 
-
 function editAdmin(u) {
 	$("#ccontent").load("sub/adminEdit.html", function() {
 		var c = formCheck(".adminEdit ");
@@ -75,9 +73,13 @@ function editAdmin(u) {
 	});
 }
 
-function filterAccount(filter) {
+function filterAccount(filter, skip, limit) {
+	if (skip==null) skip = 0;
+	if (limit==null) limit = 15;
 	$.post("/service/fin/account/filter", {
-		"filter": JSON.stringify(filter)
+		"filter": JSON.stringify(filter),
+		'skip': skip,
+		'limit': limit
 	}, function(data) {
 		var result = JSON.parse(data);
 		initTable("#uncfmAccount",result, function(cell, data) {
@@ -91,6 +93,8 @@ function filterAccount(filter) {
 					cell.html("个人");
 				}
 			}
+		}, function(page) {
+			filterAccount(filter, (page-1)*15, 15);
 		});
 	});
 }
@@ -199,8 +203,8 @@ function pagePassedLoans() {
 		"audit": 3
 	};
 	viewLoanTable(filter, "已通过项目列表", function(t, data, field) {
-		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
-			var data = $(this).parents(".row").data("entry");
+		$("<a class='gbtn'>查看</a>").data("loan",data).appendTo($(t)).click(function() {
+			var data = $(this).data("loan");
 			viewLoan(data);
 		});
 	});

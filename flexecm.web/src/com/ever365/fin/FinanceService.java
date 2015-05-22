@@ -81,6 +81,7 @@ public class FinanceService implements Tenantable {
 		DBObject uinf = new BasicDBObject(req);
 		sendConfirmEmail(uinf);
 		
+		uinf.put("registered", true);
 		dataSource.getCollection(COLL_ACCOUNTS).insert(uinf);
 		RestResult rr = new RestResult();
 		rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uinf.get("loginid"));
@@ -99,7 +100,6 @@ public class FinanceService implements Tenantable {
 	
 	@RestService(method="GET", uri="/fin/account/email/confirm")
 	public String confirmEmail(@RestParam("ecfm")String ecfm) {
-
 		if (ecfm==null) {
 			throw new HttpStatusException(HttpStatus.BAD_REQUEST);
 		}
@@ -130,6 +130,7 @@ public class FinanceService implements Tenantable {
 			sendConfirmEmail(uinf);
 		}
 		uinf.putAll(req);
+		uinf.put("registered", true);
 		uinf.put("loginid", AuthenticationUtil.getCurrentUser());
 		update(COLL_ACCOUNTS, uinf);
 	}

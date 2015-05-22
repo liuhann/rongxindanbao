@@ -2,6 +2,21 @@
 <html>
 <head>
 
+<style type="text/css">
+	.form-item .label {
+		padding: 8px;
+		width: 120px;
+		display: inline-block;
+	}
+	
+	.form-item .field {
+		padding: 8px;
+		display: inline-block;
+	}
+
+</style>
+
+
 <script type="text/javascript">
 function approve() {
 	var loan = $("#approve-content").data("loan");
@@ -44,9 +59,9 @@ function reject() {
 </head>
 <body>
 
-<div id="risks" class="hidden">
+<div id="risks" class="hidden form-item">
 	<div class="label">风险评级</div>
-	<div class="label">
+	<div class="field">
 		<select id="riskLevel">
 			<option>A</option>
 			<option>B</option>
