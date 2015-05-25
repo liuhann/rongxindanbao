@@ -1,0 +1,63 @@
+
+<script>
+
+$(function() {
+	$("#vip-companies .empty").html("正在读取列表");
+	
+	var filter = {
+		"type": "creditmgr"
+	};
+	$.post("/service/fin/account/filter", {
+		"filter": JSON.stringify(filter)
+	}, function(data) {
+		var result = JSON.parse(data);
+		$("#credit-mgr-list .empty").html("无信贷经理");
+		initTable("#vip-companies-table",result);
+	});
+})
+
+function addCreditManager() {
+	loadPage($("#ccontent"), "sub/edit-credit-mng.html", function () {
+		var c = formCheck("#ccontent ");
+		c.init({});
+		c.showBtn("edit");
+	});
+}
+
+</script>
+<div class="credit" id="credit-mgr-list">
+		<div class="panel">
+			<a class="gbtn" onclick="addCreditManager();">增加信贷经理</a>
+		</div>
+
+		<div class="table" id="vip-companies-table">
+		    <div class="row header">
+		      <div class="cell" style="width: 100px;">
+		        	登陆账号
+		      </div>
+		      <div class="cell">
+		       		姓名
+		      </div>
+		      <div class="cell">
+		       		手机号码
+		      </div>
+		      <div class="cell">
+		       		邀请码
+		      </div>
+		    </div>
+	    <div class="template">
+	      <div class="cell " data-f="loginid">
+	      </div>
+	      <div class="cell" data-f="contact">
+	      </div>
+	      <div class="cell" data-f="mobile">
+	      </div>
+	      <div class="cell" data-f="inviteCode" data-default="无">
+	      </div>
+	    </div>
+	</div>
+	
+	 <div class="empty">
+	    	列表内容为空
+	</div>
+	</div>  

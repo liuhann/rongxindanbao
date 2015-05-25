@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script type="text/javascript">
+
+function saveCreditManager() {
+	var fc = new formCheck("#edit-credit-manager ");
+	
+	if (fc.test()) {
+		var r = fc.getRequest();
+		r.type = "creditmgr";
+		$.post("/service/fin/account/save", r , function() {
+			alert("保存成功");
+		}).fail(function() {
+			alert("登录账号已存在");
+		});
+	}
+}
+
+</script>
+</head>
+<body>
+
+<div class="form " id="edit-credit-manager">
+		<div class="title">
+			<h3>增加/编辑信贷经理</h3> 
+		</div>
+		<div class="fcg">
+			<label>用户名</label> 
+			<div class="fc">
+				<input id="loginid" type="text" value="" data-checked="notnull"  data-inval="用户名不能为空">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>密码</label> 
+			<div class="fc">
+				<input id="pwd" type="text" value="" data-checked="length-6" data-inval="密码要大于6位"> <a class="btn edit" href="javascript:$('#pwd').val(genPass());">自动生成</a>
+			</div>
+		</div>
+		<div class="fcg">
+			<label>姓名</label> 
+			<div class="fc">
+				<input id="contact" type="text" data-checked="notnull" data-inval="请输入姓名">	
+			</div>
+		</div>
+		<div class="fcg">
+			<label>手机号码</label> 
+			<div class="fc">
+				<input id="mobile" type="text" data-checked="mobile" data-inval="请输入有效的手机号码">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>个人邮箱</label> 
+			<div class="fc">
+				<input id="email" type="text" data-checked="email" data-inval="请输入有效的电子邮件地址">
+			</div>
+		</div>
+		<div class="fcg">
+			<label>个人邀请码</label> 
+			<div class="fc">
+				<input type="text" id="inviteCode">
+			</div>
+		</div>
+		
+		<div class="hidden">
+			<input type="text" id="_id" value="">
+		</div>
+		
+		<div class="fcg">
+			<a class="btn edit" onclick="saveCreditManager();">保存</a>
+		</div>
+	</div>
+
+
+</body>
+</html>
