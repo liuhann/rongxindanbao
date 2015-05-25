@@ -224,8 +224,12 @@ color: #eee;
 	font-size: 16px;
 	color: #44b549;
 	float: left;
+	line-height: 30px;
 }
-
+.gridr .panel .opers {
+	float: right;
+	line-height: 30px;
+} 
 .table {
   width: 100%;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);

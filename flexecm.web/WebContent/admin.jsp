@@ -68,20 +68,17 @@
 	
 	<div class="box navcontent hidden">
 		<div class="title">
-			<h2>理财产品来源管理</h2>
+			<h2>内容管理</h2>
 		</div>
 		<ul>
-			<li onclick="listLicai('1');">P2P</li>
-			<li onclick="listLicai('2');">银行理财</li>
-			<li onclick="listLicai('3');">定向理财</li>
+			<li onclick="listLicai();">理财产品</li>
+			<li onclick="listLicai();">金融超市</li>
+			<li onclick="listLicai();">投资资源</li>
+			<li onclick="listNews();">新闻公告</li>
 		</ul>
 		
-		<div class="title">
-			<h2>新闻公告</h2>
-		</div>
 		<ul>
 			<li onclick="addNews();">增加新闻公告</li>
-			<li onclick="listNews();">新闻列表</li>
 		</ul>
 	</div>
 	<div class="box navmanage hidden">

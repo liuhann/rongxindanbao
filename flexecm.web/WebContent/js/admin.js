@@ -245,7 +245,7 @@ function viewLoanTable(filter, txt, cellfunc) {
 }
 
 function listNews() {
-	loadPage($("#ccontent"), "sub/newslist.html");
+	loadPage($("#ccontent"), "sub/news-list.html");
 }
 
 function showPics() {

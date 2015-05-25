@@ -141,9 +141,9 @@ function viewLoan(loan, cb) {
 	}
 	
 	function finished(loan) {
+		$("#ccontent").next(".loading").remove();
+		$("#ccontent").show();
 		if (cb) {
-			$("#ccontent").next(".loading").remove();
-			$("#ccontent").show();
 			cb(loan);
 		}
 	}
