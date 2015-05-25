@@ -3,6 +3,19 @@
 <head>
 <meta charset="UTF-8">
 
+<script type="text/javascript">
+
+function saveLicai() {
+	var fc = new formCheck("#ccontent");
+	var o = fc,getRequest();
+	o.collection = "investments";
+	
+	$.post("/service/fin/content/update", o, function(){
+		alert("保存完成");
+	});
+	
+}
+</script>
 </head>
 <body>
 
@@ -12,9 +25,9 @@
 		<td>
 			<div class="form-item">
 				<select id="type">
-					<option value="1">网贷类投资</option>
-					<option value="2">银行理财</option>
-					<option value="3">定向类理财</option>
+					<option >网贷类投资</option>
+					<option >银行理财</option>
+					<option >定向类理财</option>
 				</select>
 			</div>
 			<i class="err type"></i>

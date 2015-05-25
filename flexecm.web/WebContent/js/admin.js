@@ -228,7 +228,6 @@ function pageFinishedLoans() {
 
 function viewLoanTable(filter, txt, cellfunc) {
 	$("#ccontent").show();
-	
 	loadPage($("#ccontent"), "sub/loanList.html", function() {
 		$.post("/service/fin/loan/list", {
 			"filter": JSON.stringify(filter)
@@ -246,6 +245,10 @@ function viewLoanTable(filter, txt, cellfunc) {
 
 function listNews() {
 	loadPage($("#ccontent"), "sub/news-list.html");
+}
+
+function listLicai() {
+	loadPage($("#ccontent"), "sub/licai-list.html");
 }
 
 function showPics() {

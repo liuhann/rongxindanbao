@@ -265,27 +265,26 @@ public class FinanceService implements Tenantable {
 		update(COLL_LOANS, loan);
 	}
 	
-	
-	@RestService(method="POST", uri="/fin/news/update")
+	@RestService(method="POST", uri="/fin/content/update")
 	public void updateNews(Map<String, Object> request) {
+		String collectionName = request.get("collection").toString();
 		request.put("updated", new Date().getTime());
 		request.put("editor", AuthenticationUtil.getCurrentUser());
-		update(COLL_NEWS, new BasicDBObject(request));
+		update(collectionName, new BasicDBObject(request));
 	}
 	
-	@RestService(method="GET", uri="/fin/news/list")
-	public Map<String, Object> getNewsList(@RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit) {
+	@RestService(method="POST", uri="/fin/content/list")
+	public Map<String, Object> getNewsList(@RestParam(value="collection")String collection, 
+			@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit) {
 		Map<String, Object> sort = new HashMap<String, Object>();
 		sort.put("updated", -1);
-		return getDataSource().filterCollectoin(COLL_NEWS, null, sort, skip, limit);
-		//update(COLL_NEWS, new BasicDBObject(request));
+		return getDataSource().filterCollectoin(collection, filters, sort, skip, limit);
 	}
 
-	@RestService(method="POST", uri="/fin/news/remove")
-	public void removeNews(@RestParam(value="_id") String id) {
-		dataSource.getCollection(COLL_NEWS).remove(new BasicDBObject("_id", new ObjectId(id)));
+	@RestService(method="POST", uri="/fin/content/remove")
+	public void removeNews(@RestParam(value="collection")String collection, @RestParam(value="_id") String id) {
+		dataSource.getCollection(collection).remove(new BasicDBObject("_id", new ObjectId(id)));
 	}
-	
 	
 	//检查账户创建请求的合法性
 	public void checkAccountValid(Map<String, Object> req) {
