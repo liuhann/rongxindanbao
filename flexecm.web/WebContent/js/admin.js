@@ -10,7 +10,6 @@ $(document).ready(function() {
 	});
 });
 
-
 var editor;
 KindEditor.ready(function(K) {
 	editor = K.create('textarea[name="kind-editor"]', {
@@ -36,13 +35,13 @@ function navTo(t) {
 
 function pageUnConfirmed() {
 	$("#ccontent").load("sub/accounts.html", function() {
-		filterAccount({"ecfm":{"$ne":true}});
+		filterAccount({"ecfm":{"$ne":true},"registered": true});
 	});
 }
 
 function pageConfirmed() {
 	$("#ccontent").load("sub/accounts.html", function() {
-		filterAccount({"ecfm":true});
+		filterAccount({"ecfm":true,"registered": true});
 	});
 }
 

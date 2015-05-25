@@ -203,7 +203,18 @@ public class FinanceService implements Tenantable {
 	public void saveLoanRequest(Map<String, Object> request) {
 		request.put("uid", AuthenticationUtil.getCurrentUser());
 		request.put("rtime", new Date().getTime());
-		dataSource.getCollection(COLL_TEMPORARY).insert(new BasicDBObject(request));
+		dataSource.getCollection(COLL_TEMPORARY).update(new BasicDBObject("uid", AuthenticationUtil.getCurrentUser()),
+				new BasicDBObject(request), true, false);
+	}
+
+	@RestService(method="GET", uri="/fin/loan/recent")
+	public Map<String, Object> getRecentLoan() {
+		DBObject one = dataSource.getCollection(COLL_TEMPORARY).findOne(new BasicDBObject("uid", AuthenticationUtil.getCurrentUser()));
+		if (one!=null) {
+			return one.toMap();
+		} else {
+			return new HashMap<String, Object>(0);
+		}
 	}
 	
 	@RestService(method="POST", uri="/fin/loan/list")
