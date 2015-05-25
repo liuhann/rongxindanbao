@@ -1,0 +1,91 @@
+<head>
+<script type="text/javascript">
+
+$(function() {
+	listLicai(0);
+});
+
+function listLicai(skip) {
+	$.post("/service/fin/content/list", {
+		'collection': 'investments',
+		'skip': skip
+	}, function(data) {
+		var result = JSON.parse(data);
+		initTable("#licai-table",result, null, function(page) {
+			listLicai(page*15);
+		});
+		
+	});
+}
+
+function addLicai() {
+	loadPage($("#ccontent"), "sub/licai-edit.html");
+}
+
+function removeLicai(t) {
+	var entry = $(t).parents(".row").data("entry");
+	
+	$.post("/service/fin/content/remove", {
+		'collection': 'investments',
+		'_id': entry._id
+	}, function() {
+		$(t).parents(".row").slideUp('fast');
+	});
+	
+}
+</script>
+</head>
+	<div class="list-news">
+		<div class="panel">
+			<div class="title">
+				理财产品
+			</div>
+			<div class="opers">
+				<a class="btn" onclick="addLicai();">增加理财产品</a>
+			</div>
+		</div>
+
+		<div class="table" id="licai-table">
+		    <div class="row header">
+		     <div class="cell" >
+		        	类型
+		      </div>
+		      <div class="cell">
+		        	名称
+		      </div>
+		      <div class="cell">
+		       		周期
+		      </div>
+		      <div class="cell">
+		       		参考年收益
+		      </div>
+		      <div class="cell">
+		       		起始金额
+		      </div>
+		      <div class="cell">
+		       		首页
+		      </div>
+		      <div class="cell">
+		       		操作
+		      </div>
+		    </div>
+		    
+		    <div class="template">
+		   		<div class="cell" data-eval="var type=entry['type'];(type=='1')?'网贷类投资':((type=='2')?'银行理财':'定向类理财')">
+				</div>
+				<div class="cell" data-f="name">
+				</div>
+				<div class="cell" data-f="cycle">
+				</div>
+				<div class="cell" data-f="profit">
+				</div>
+				<div class="cell" data-f="min">
+				</div>
+				<div class="cell" data-eval="var home=entry['index'];home?'是':''">
+				</div>
+				<div class="cell">
+					<a onclick="removeLicai(this);">删除</a>
+				</div>
+			</div>
+		</div>
+	</div>

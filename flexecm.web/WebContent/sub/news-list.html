@@ -1,7 +1,9 @@
 <head>
 <script type="text/javascript">
 $(function() {
-	$.getJSON("/service/fin/news/list", {}, function(result) {
+	$.getJSON("/service/fin/content/list", {
+		'collection': "news"
+	}, function(result) {
 		initTable("#news-table",result);
 	});
 });

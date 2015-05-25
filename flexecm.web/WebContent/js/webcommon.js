@@ -180,7 +180,6 @@ function loadPage(container, url, callback) {
 	$(container).html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
 	$(container).load(url, function() {
 		var id = "rnd" + genPass();
-		_cached_html[url] = id;
 		if (callback) {
 			callback();
 		}
@@ -397,6 +396,12 @@ var formCheck = function(selector) {
 				if ($(this).attr("type")=="radio") {
 					request[$(this).attr("name")] = $("input[name='" + $(this).attr("name") + "']:checked").val()
 				}
+				if ($(this).attr("type")=="checkbox") {
+					if (!$(this).has(":checked")) {
+						request[$(this).attr("id")] = null;
+					}
+				}
+				
 			});
 			
 			$(form).find(".sublist").each(function(){
@@ -462,8 +467,8 @@ function initTable(tbid, data, cell, cb) {
 		$(tbid).next(".empty").hide();
 		var cloned = $(tbid + " .template").clone().removeClass("template").addClass("item row");
 
-		cloned.data("entry", entry);
 		var entry = data.list[i];
+		cloned.data("entry", entry);
 		
 		cloned.find("div.cell").each(function() {
 			if ($(this).data("f")) {
@@ -475,8 +480,8 @@ function initTable(tbid, data, cell, cb) {
 			if ($(this).data("cal") && cell) {
 				cell($(this), entry, $(this).data("cal"));
 			}
-			$(tbid).append(cloned);
 		});
+		$(tbid).append(cloned);
 	}
 	
 	var number = Math.floor(data.start/data.per) + 1;

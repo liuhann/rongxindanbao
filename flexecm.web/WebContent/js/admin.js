@@ -243,14 +243,10 @@ function viewLoanTable(filter, txt, cellfunc) {
 	});
 }
 
-function listNews() {
+function pageNews() {
 	loadPage($("#ccontent"), "sub/news-list.html");
 }
 
-function listLicai() {
+function pageLicai() {
 	loadPage($("#ccontent"), "sub/licai-list.html");
-}
-
-function showPics() {
-	loadPage($("#ccontent"), "sub/pics.html");
 }

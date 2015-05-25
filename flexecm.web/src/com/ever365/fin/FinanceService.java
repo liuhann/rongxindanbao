@@ -54,7 +54,22 @@ public class FinanceService implements Tenantable {
 	public MongoDataSource getDataSource() {
 		return dataSource;
 	}
-
+	
+	@RestService(uri="/fin/index", authenticated=false)
+	public Map<String, Object> getIndexPageInfo() {
+		Map<String, Object> m =  new HashMap<String, Object>();
+		
+		Map<String, Object> wdFilter = new HashMap<String, Object>();
+		wdFilter.put("index", "1");
+		wdFilter.put("type", "1");
+		m.put("wd", filterCollection("investments", wdFilter, 0, 2));
+		wdFilter.put("type", "2");
+		m.put("yh", filterCollection("investments", wdFilter, 0, 2));
+		wdFilter.put("type", "3");
+		m.put("dx", filterCollection("investments", wdFilter, 0, 2));
+		
+		return m;
+	}
 	@RestService(uri="/fin/upload", method="POST", multipart=true, authenticated=false)
 	public String uploadPreview(@RestParam("file") InputStream is, @RestParam("size") Long size) {
 		return this.contentStore.putContent(is, "image/png", size.longValue());
@@ -266,7 +281,7 @@ public class FinanceService implements Tenantable {
 	}
 	
 	@RestService(method="POST", uri="/fin/content/update")
-	public void updateNews(Map<String, Object> request) {
+	public void updateContent(Map<String, Object> request) {
 		String collectionName = request.get("collection").toString();
 		request.put("updated", new Date().getTime());
 		request.put("editor", AuthenticationUtil.getCurrentUser());
@@ -274,7 +289,7 @@ public class FinanceService implements Tenantable {
 	}
 	
 	@RestService(method="POST", uri="/fin/content/list")
-	public Map<String, Object> getNewsList(@RestParam(value="collection")String collection, 
+	public Map<String, Object> filterCollection(@RestParam(value="collection")String collection, 
 			@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit) {
 		Map<String, Object> sort = new HashMap<String, Object>();
 		sort.put("updated", -1);

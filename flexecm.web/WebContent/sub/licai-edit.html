@@ -7,7 +7,7 @@
 
 function saveLicai() {
 	var fc = new formCheck("#ccontent");
-	var o = fc,getRequest();
+	var o = fc.getRequest();
 	o.collection = "investments";
 	
 	$.post("/service/fin/content/update", o, function(){
@@ -25,9 +25,9 @@ function saveLicai() {
 		<td>
 			<div class="form-item">
 				<select id="type">
-					<option >网贷类投资</option>
-					<option >银行理财</option>
-					<option >定向类理财</option>
+					<option value="1">网贷类投资</option>
+					<option value="2">银行理财</option>
+					<option value="3">定向类理财</option>
 				</select>
 			</div>
 			<i class="err type"></i>
@@ -40,6 +40,24 @@ function saveLicai() {
 				<input class="form-text" id="name" type="text" value="">
 			</div>
 			<i class="err name"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>平台</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="platform" type="text" value="">
+			</div>
+			<i class="err platform"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>平台Logo</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="logo" type="text" value="">
+			</div>
+			<i class="err logo"></i>
 		</td>
 	</tr>
 	<tr>
@@ -61,23 +79,19 @@ function saveLicai() {
 		</td>
 	</tr>
 	<tr>
-		<td>还款方式</td>
+		<td>起始金额</td>
 		<td>
 			<div class="form-item">
-				<select id="type">
-					<option value="1">到期还本息</option>
-					<option value="2">银行理财</option>
-					<option value="3">定向类理财</option>
-				</select>
+				<input class="form-text" id="min" type="text" value="">
 			</div>
-			<i class="err cycle"></i>
+			<i class="err min"></i>
 		</td>
 	</tr>
 	<tr>
 		<td>首页推荐</td>
 		<td>
 			<div class="form-item">
-				<input class="checkbox" id="index" type="text" value=""> <i>是</i>
+				<input class="checkbox" id="index" type="checkbox" value="1"> <i>是</i>
 			</div>
 		</td>
 	</tr>
@@ -85,7 +99,7 @@ function saveLicai() {
 		<td>热门推荐</td>
 		<td>
 			<div class="form-item">
-				<input class="checkbox" id="hott" type="text" value=""> <i>是</i>
+				<input class="checkbox" id="hott" type="checkbox" value="1"> <i>是</i>
 			</div>
 		</td>
 	</tr>

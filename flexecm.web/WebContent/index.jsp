@@ -1,6 +1,16 @@
+<%@page import="java.util.List"%>
+<%@page import="java.util.Map"%>
+<%@page import="org.springframework.web.context.ContextLoaderListener"%>
+<%@page import="com.ever365.fin.FinanceService"%>
 <%@page import="com.ever365.rest.AuthenticationUtil"%>
 <%@page import="java.util.Date"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
+<%
+FinanceService finService = ((FinanceService) ContextLoaderListener
+		.getCurrentWebApplicationContext().getBean("fin.service"));
+
+Map<String, Object> pageInfo = finService.getIndexPageInfo();
+%>
 <!doctype html>
 <html>
 <head>
@@ -405,30 +415,31 @@ function refreshImg() {
                             	网贷类投资
                             </div>
                             <div class="r">
-                            	<a href="#">388款&gt;</a>
+                            	<a href="#"><%=((Map)pageInfo.get("wd")).get("size").toString() %>款&gt;</a>
                             </div>
                         </div>
                         <div class="box_1_foot">
-                        	<div class="item">
-                            	<div class="l">
-                                	<img src="img/index_025.png">
-                                    <span>e利友</span>
-                                </div>
-                                <div class="r">
-                                	<cite>好利息</cite>
-                                    <span>年化<b>10%</b></span>
-                                </div>
-                            </div>
-                        	<div class="item cls_b">
-                            	<div class="l">
-                                	<img src="img/index_026.png">
-                                    <span>e利友</span>
-                                </div>
-                                <div class="r">
-                                	<cite>好利息</cite>
-                                    <span>年化<b>10%</b></span>
-                                </div>
-                            </div>                            
+                        	<%
+                        		
+                        		Object list = ((Map)pageInfo.get("wd")).get("list");
+                        		System.out.println(list);
+                        		List<Map> wdlist =  (List) list;
+                        		for(Map wd :wdlist) {
+                        	%>
+	                        	<div class="item">
+	                            	<div class="l">
+	                                	<img src="<%=wd.get("logo").toString()%>">
+	                                    <span><%=wd.get("platform").toString()%></span>
+	                                </div>
+	                                <div class="r">
+	                                	<cite><%=wd.get("name").toString() %></cite>
+	                                    <span>年化<b><%=wd.get("profit").toString()%>%</b></span>
+	                                </div>
+	                            </div>
+                        	
+                        	<%
+                        		}
+                        	%>
                         </div>
                     </div>
                     <!-- -->
@@ -438,20 +449,29 @@ function refreshImg() {
                             	银行理财
                             </div>
                             <div class="r">
-                            	<a href="#">431款&gt;</a>
+                            	<a href="#"><%=((Map)pageInfo.get("yh")).get("size").toString() %>款&gt;</a>
                             </div>
                         </div>
                         <div class="box_1_foot">
-                        	<div class="item">
-                            	<div class="l">
-                                	<img src="img/index_027.png">
-                                    <span>齐商银行</span>
-                                </div>
-                                <div class="r">
-                                	<cite>银龙理财</cite>
-                                    <span>年化<b>10%</b></span>
-                                </div>
-                            </div>
+                        
+                        <%
+                        		
+                        	List<Map> yhlist = (List)  (((Map)pageInfo.get("yh")).get("list"));
+                        		for(Map wd :yhlist) {
+                        	%>
+	                        	<div class="item">
+	                            	<div class="l">
+	                                	<img src="<%=wd.get("logo").toString()%>">
+	                                    <span><%=wd.get("platform").toString()%></span>
+	                                </div>
+	                                <div class="r">
+	                                	<cite><%=wd.get("name").toString() %></cite>
+	                                    <span>年化<b><%=wd.get("profit").toString()%>%</b></span>
+	                                </div>
+	                            </div>
+                        	<%
+                        		}
+                        	%>
                         	<div class="item cls_b">
                             	<div class="l">
                                 	<img src="img/index_028.png">
@@ -471,7 +491,7 @@ function refreshImg() {
                             	定向类理财
                             </div>
                             <div class="r">
-                            	<a href="#">14款&gt;</a>
+                            <a href="#"><%=((Map)pageInfo.get("dx")).get("size").toString() %>款&gt;</a>
                             </div>
                         </div>
                         <div class="box_1_foot">
