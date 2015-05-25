@@ -250,3 +250,7 @@ function pageNews() {
 function pageLicai() {
 	loadPage($("#ccontent"), "sub/licai-list.html");
 }
+
+function pageFinaMarket() {
+	loadPage($("#ccontent"), "sub/fina-markets.html");
+}

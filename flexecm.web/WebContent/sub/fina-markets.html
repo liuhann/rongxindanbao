@@ -19,19 +19,18 @@ function listFinaMarkets(skip) {
 }
 
 function addFinaMarket() {
-	loadPage($("#ccontent"), "sub/licai-edit.html");
+	loadPage($("#ccontent"), "sub/fina-market-edit.html");
 }
 
-function removeLicai(t) {
+function removeMarket(t) {
 	var entry = $(t).parents(".row").data("entry");
 	
 	$.post("/service/fin/content/remove", {
-		'collection': 'investments',
+		'collection': 'finamarkets',
 		'_id': entry._id
 	}, function() {
 		$(t).parents(".row").slideUp('fast');
 	});
-	
 }
 </script>
 </head>
@@ -54,16 +53,16 @@ function removeLicai(t) {
 		        	名称
 		      </div>
 		      <div class="cell">
-		       		周期
+		       		金额
 		      </div>
 		      <div class="cell">
-		       		参考年收益
+		       		期限
 		      </div>
 		      <div class="cell">
-		       		起始金额
+		       		利率
 		      </div>
 		      <div class="cell">
-		       		首页
+		       		合作机构
 		      </div>
 		      <div class="cell">
 		       		操作
@@ -71,20 +70,20 @@ function removeLicai(t) {
 		    </div>
 		    
 		    <div class="template">
-		   		<div class="cell" data-eval="var type=entry['type'];(type=='1')?'网贷类投资':((type=='2')?'银行理财':'定向类理财')">
+		   		<div class="cell" data-f="type">
 				</div>
 				<div class="cell" data-f="name">
 				</div>
+				<div class="cell" data-f="quota">
+				</div>
 				<div class="cell" data-f="cycle">
 				</div>
-				<div class="cell" data-f="profit">
+				<div class="cell" data-f="rates">
 				</div>
-				<div class="cell" data-f="min">
-				</div>
-				<div class="cell" data-eval="var home=entry['index'];home?'是':''">
+				<div class="cell" data-f="corporg">
 				</div>
 				<div class="cell">
-					<a onclick="removeLicai(this);">删除</a>
+					<a onclick="removeMarket(this);">删除</a>
 				</div>
 			</div>
 		</div>

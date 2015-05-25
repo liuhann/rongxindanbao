@@ -72,7 +72,7 @@
 		</div>
 		<ul>
 			<li onclick="pageLicai();">理财产品</li>
-			<li onclick="listLicai();">金融超市</li>
+			<li onclick="pageFinaMarket();">金融超市</li>
 			<li onclick="listLicai();">投资资源</li>
 			<li onclick="listNews();">新闻公告</li>
 		</ul>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script type="text/javascript">
+
+function saveFinaMarket() {
+	var fc = new formCheck("#ccontent");
+	var o = fc.getRequest();
+	o.collection = "finamarkets";
+	
+	$.post("/service/fin/content/update", o, function(){
+		alert("保存完成");
+	});
+	
+}
+</script>
+</head>
+<body>
+
+<table>
+	<tr>
+		<td>类型</td>
+		<td>
+			<div class="form-item">
+				<select id="type">
+					<option value="1">企业借款类</option>
+					<option value="2">个人借款类</option>
+				</select>
+			</div>
+			<i class="err type"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>名称</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="name" type="text" value="">
+			</div>
+			<i class="err name"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>金额</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="quota" type="text" value="">
+			</div>
+			<i class="err quota"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>期限</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="cycle" type="text" value="">
+			</div>
+			<i class="err logo"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>利率</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="rates" value="">%
+			</div>
+			<i class="err rates"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>合作机构</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="corporg" type="text" value="">
+			</div>
+			<i class="err corporg"></i>
+		</td>
+	</tr>
+	
+	<tr>
+		<td>首页推荐</td>
+		<td>
+			<div class="form-item">
+				<input class="checkbox" id="index" type="checkbox" value="1"> <i>是</i>
+			</div>
+		</td>
+	</tr>
+	
+	<tr class="edita">
+		<td></td>
+		<td>
+			<input class="form-button savemerge" onclick="saveFinaMarket();" type="button" value="保存">
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>
+

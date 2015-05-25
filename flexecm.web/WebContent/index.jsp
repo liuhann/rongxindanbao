@@ -454,7 +454,7 @@ function refreshImg() {
                         </div>
                         <div class="box_1_foot">
                         
-                        <%
+                        	<%
                         		
                         	List<Map> yhlist = (List)  (((Map)pageInfo.get("yh")).get("list"));
                         		for(Map wd :yhlist) {
@@ -560,48 +560,24 @@ function refreshImg() {
                                 <td style="width:20%;">利率</td>
                                 <td style="width:20%;">合作机构</td>
                             </tr>
-							<!-- -->                            
-                        	<tr>
-                            	<td class="fix1">流动资金贷款</td>
-                                <td class="fix2">￥100,000,000.00</td>
-                                <td class="fix1">1-3个月</td>
-                                <td class="fix1">12%</td>
-                                <td class="fix1">e利友</td>
-                            </tr>                            
-                            <!-- -->
-                        	<tr>
-                            	<td class="fix1">流动资金贷款</td>
-                                <td class="fix2">￥100,000,000.00</td>
-                                <td class="fix1">1-3个月</td>
-                                <td class="fix1">12%</td>
-                                <td class="fix1">e利友</td>
-                            </tr>                            
-                            <!-- -->
-                        	<tr>
-                            	<td class="fix1">流动资金贷款</td>
-                                <td class="fix2">￥100,000,000.00</td>
-                                <td class="fix1">1-3个月</td>
-                                <td class="fix1">12%</td>
-                                <td class="fix1">e利友</td>
-                            </tr>                            
-                            <!-- -->
-                        	<tr>
-                            	<td class="fix1">流动资金贷款</td>
-                                <td class="fix2">￥100,000,000.00</td>
-                                <td class="fix1">1-3个月</td>
-                                <td class="fix1">12%</td>
-                                <td class="fix1">e利友</td>
-                            </tr>                            
-                            <!-- -->
-                        	<tr>
-                            	<td class="fix1">流动资金贷款</td>
-                                <td class="fix2">￥100,000,000.00</td>
-                                <td class="fix1">1-3个月</td>
-                                <td class="fix1">12%</td>
-                                <td class="fix1">e利友</td>
-                            </tr>                            
-                            <!-- -->                                                                                                                
-                            
+
+                    	
+                    		<%
+                        		
+                        	List<Map> fmlist = (List)  (((Map)pageInfo.get("fm")).get("list"));
+                        		for(Map fm :fmlist) {
+                        	%>
+	                        	<!-- -->                            
+                        		<tr>
+                            	<td class="fix1"><%=fm.get("name").toString() %></td>
+                                <td class="fix2"><%=fm.get("quota").toString() %></td>
+                                <td class="fix1"><%=fm.get("cycle").toString() %></td>
+                                <td class="fix1"><%=fm.get("rates").toString() %>%</td>
+                                <td class="fix1"><%=fm.get("corporg").toString() %></td>
+                            </tr>    
+                        	<%
+                        		}
+                        	%>
                         </table>
                     </div>
                 </div>

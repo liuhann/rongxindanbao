@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import org.bson.types.ObjectId;
 
@@ -18,6 +19,7 @@ import com.ever365.rest.HttpStatusException;
 import com.ever365.rest.RestParam;
 import com.ever365.rest.RestResult;
 import com.ever365.rest.RestService;
+import com.ever365.rest.RestServiceServlet;
 import com.ever365.rest.StreamObject;
 import com.ever365.utils.EmailUtils;
 import com.ever365.utils.RandomCodeServlet;
@@ -47,6 +49,8 @@ public class FinanceService implements Tenantable {
 	private LocalContentStore contentStore;
 	private String pwd = "123456";
 	
+	Logger logger = Logger.getLogger(FinanceService.class.getName());
+	
 	public void setContentStore(LocalContentStore contentStore) {
 		this.contentStore = contentStore;
 	}
@@ -68,6 +72,8 @@ public class FinanceService implements Tenantable {
 		wdFilter.put("type", "3");
 		m.put("dx", filterCollection("investments", wdFilter, 0, 2));
 		
+		
+		m.put("fm", filterCollection("finamarkets", null, 0, 10));
 		return m;
 	}
 	@RestService(uri="/fin/upload", method="POST", multipart=true, authenticated=false)
@@ -393,9 +399,11 @@ public class FinanceService implements Tenantable {
 		} else {
 			DBObject one = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", uid));
 			if (one==null) {
+				logger.info("login with user " + uid + ": user Not Found");
 				throw new HttpStatusException(HttpStatus.FORBIDDEN);
 			}
 			if (!one.get("pwd").equals(pwd)) {
+				logger.info("login with user " + uid + ": pass not match");
 				throw new HttpStatusException(HttpStatus.FORBIDDEN);
 			}
 			rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
