@@ -19,9 +19,9 @@ import com.ever365.rest.HttpStatusException;
 import com.ever365.rest.RestParam;
 import com.ever365.rest.RestResult;
 import com.ever365.rest.RestService;
-import com.ever365.rest.RestServiceServlet;
 import com.ever365.rest.StreamObject;
 import com.ever365.utils.EmailUtils;
+import com.ever365.utils.MapUtils;
 import com.ever365.utils.RandomCodeServlet;
 import com.ever365.utils.UUID;
 import com.mongodb.BasicDBObject;
@@ -42,12 +42,18 @@ public class FinanceService implements Tenantable {
 	private static final String TYPE_COMPANY = "company";
 	public static final String TYPE_ADMIN = "admin";
 	public static final String TYPE_BACK_USER = "backuser";
-	
 	public static final String COLL_ACCOUNTS = "accounts";
-	
 	private MongoDataSource dataSource;
 	private LocalContentStore contentStore;
 	private String pwd = "123456";
+	
+	public static Map<Integer, String> PERSON_LOAN_TYPES = new HashMap<Integer, String>();
+	
+	static {
+		PERSON_LOAN_TYPES.put(1, "购车贷款");
+		PERSON_LOAN_TYPES.put(1, "购房按揭贷款");
+		PERSON_LOAN_TYPES.put(1, "个人消费贷款");
+	}
 	
 	Logger logger = Logger.getLogger(FinanceService.class.getName());
 	
@@ -73,6 +79,10 @@ public class FinanceService implements Tenantable {
 		m.put("dx", filterCollection("investments", wdFilter, 0, 2));
 		
 		
+		Map<String, Object> loanFilter = new HashMap<String, Object>();
+		loanFilter.put("audit", MapUtils.newMap("$gt", 1));
+		
+		m.put("rc", dataSource.filterCollectoin(COLL_LOANS, loanFilter,null, 0, 12));
 		m.put("fm", filterCollection("finamarkets", null, 0, 10));
 		return m;
 	}
@@ -218,17 +228,19 @@ public class FinanceService implements Tenantable {
 		//request.put("mobile", getCurrentUser().get("mobile"));
 		request.put("audit", 1);
 		dataSource.getCollection(COLL_LOANS).insert(new BasicDBObject(request));
+		dataSource.getCollection(COLL_TEMPORARY).remove(new BasicDBObject("uid", AuthenticationUtil.getCurrentUser()));
 	}
 	
-	@RestService(method="POST", uri="/fin/loan/save")
-	public void saveLoanRequest(Map<String, Object> request) {
+	@RestService(method="POST", uri="/fin/loan/temp/save")
+	public void saveLoanRequest(@RestParam(value="map") Map<String, Object> request) {
 		request.put("uid", AuthenticationUtil.getCurrentUser());
 		request.put("rtime", new Date().getTime());
+		request.remove("_id");
 		dataSource.getCollection(COLL_TEMPORARY).update(new BasicDBObject("uid", AuthenticationUtil.getCurrentUser()),
 				new BasicDBObject(request), true, false);
 	}
 
-	@RestService(method="GET", uri="/fin/loan/recent")
+	@RestService(method="GET", uri="/fin/loan/temp/get")
 	public Map<String, Object> getRecentLoan() {
 		DBObject one = dataSource.getCollection(COLL_TEMPORARY).findOne(new BasicDBObject("uid", AuthenticationUtil.getCurrentUser()));
 		if (one!=null) {
@@ -335,9 +347,13 @@ public class FinanceService implements Tenantable {
 			if (uinf!=null) {
 				result.putAll(uinf.toMap());
 			}
+			
+			
 		}
 		return result;
 	}
+	
+	
 	
 	@RestService(method="GET", uri="/fin/org/list")
 	public Map<String, Object> getOrgList(@RestParam(value="skip") Integer skip) {

@@ -363,7 +363,7 @@ function isChina(s) {//判断字符是否是中文字符
                         	<b>*</b><span>联系人</span>
                         </td>
                         <td style="padding-left:20px;">
-                        	<input id="contact" type="text" data-checked="notnull" data-inval="请输入姓名">
+                        	<input id="rname" type="text" data-checked="notnull" data-inval="请输入姓名">
                         </td>
                     </tr>
                    <!--错误提示信息 -->

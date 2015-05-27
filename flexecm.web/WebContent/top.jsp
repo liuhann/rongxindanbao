@@ -1,3 +1,6 @@
+<%@page import="java.util.Map"%>
+<%@page import="org.springframework.web.context.ContextLoaderListener"%>
+<%@page import="com.ever365.fin.FinanceService"%>
 <%@page import="java.util.Date"%>
 <%@page import="com.ever365.rest.AuthenticationUtil"%>
 <%@ page contentType="text/html;charset=UTF-8"%>
@@ -37,8 +40,11 @@ Date date = new Date();
 	                	<img src="img/index_004.png" class="sep">
 	                    <span class="nohot"><a style="color:#666;" href="login.jsp">快速登录</a>
                     </span>
-                    <%} else { %>            
-	                    <span class="cls-mr"><a class="u-line" href="#"><%=AuthenticationUtil.getCurrentUser() %></a></span>
+                    <%} else { 
+                    	FinanceService finService = ((FinanceService) ContextLoaderListener
+                    			.getCurrentWebApplicationContext().getBean("fin.service"));
+                    %>            
+	                    <span class="cls-mr"><a class="u-line" href="#"><%=finService.getCurrentUser().get("rname") %></a></span>
                     	<span>欢迎您来融信融资网</span>
                     	<span><a href="/service/fin/logout">【安全退出】</a></span>
                     <%} %>

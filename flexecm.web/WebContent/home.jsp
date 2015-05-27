@@ -107,7 +107,7 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 			<div class="l">
             	<div class="icon">
                 	<img src="img/zhanghuguanli_001.png">
-                    <span><a href="javascript:void(0)"><%=("company".equals(currentUser.get("type")))?currentUser.get("contact"):currentUser.get("rname") %></a>您好!</span>
+                    <span><a href="javascript:void(0)"><%=currentUser.get("rname") %></a>您好!</span>
                 </div>
                 <div class="menu_list">
                 	<ul>
@@ -193,7 +193,7 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 
         <div class="r loanRequest hidden">
            	<div class="lv01">
-               	<a href="#" class="sele-bg">继续填写</a>
+               	<a href="javascript:continueLoanEdit();" class="sele-bg">继续填写</a>
                    <a href="#">新填一个</a>
              </div>
                 

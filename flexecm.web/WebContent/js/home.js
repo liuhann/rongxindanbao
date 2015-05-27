@@ -86,6 +86,7 @@ function resendEmail() {
 	});
 }
 
+
 function sendLoanRequest(t) {
 	saveMerge();
 	if (loanRequest.maritalStatus != "2") {
@@ -114,6 +115,24 @@ function startLoanRequest(t) {
 		$(".psteps").show();
 		personNewRequest();
 	}
+}
+
+function continueLoanEdit() {
+	$.getJSON("/service/fin/loan/temp/get", {
+		
+	}, function(data){
+		currentTab = 0;
+		currentPage = 0;
+		loanRequest = data;
+		if (uinfo.type=="company") {
+			creqPageNext();
+			$(".csteps").show();
+		} else {
+			ureqPageNext();
+			$(".psteps").show();
+		}
+	});
+	
 }
 
 function companyNewRequest() {
@@ -233,7 +252,6 @@ function ureqPageNext() {
 
 function requestNext(tab, page, pre) {
 	saveMerge();
-	
 	$(".steps .sele").removeClass("sele")
 	$(".steps ." + tab).addClass("sele");
 	
@@ -243,7 +261,10 @@ function requestNext(tab, page, pre) {
 		var fc = new formCheck("#form-content ");
 		$("#form-content").data("field", pre);
 		
-		$("#form-content .savemerge").click(saveMerge);
+		$("#form-content .savemerge").click(function() {
+			saveMerge();
+			saveAsTemp();
+		});
 		$("#form-content .pagenext").click(ureqPageNext);
 		$("#form-content .cpagenext").click(creqPageNext);
 		$("#form-content .submitloan").click(sendLoanRequest);
@@ -277,13 +298,24 @@ function requestNext(tab, page, pre) {
 	});
 }
 
-function saveMerge() {
+function saveMerge(showal) {
 	var fc = new formCheck("#form-content ");
 	if ($("#form-content").data("field")) {
 		loanRequest[$("#form-content").data("field")] = fc.getRequest();
 	} else {
 		$.extend(loanRequest, fc.getRequest());
 	}
+}
+
+function saveAsTemp() {
+	$.post("/service/fin/loan/temp/save", 
+		{
+			'map': JSON.stringify(loanRequest)
+		},
+		function() {
+			alert("保存成功");
+		}
+	);
 }
 
 function saveOrg() {

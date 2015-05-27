@@ -1,3 +1,4 @@
+<%@page import="java.util.HashMap"%>
 <%@page import="java.util.List"%>
 <%@page import="java.util.Map"%>
 <%@page import="org.springframework.web.context.ContextLoaderListener"%>
@@ -9,7 +10,18 @@
 FinanceService finService = ((FinanceService) ContextLoaderListener
 		.getCurrentWebApplicationContext().getBean("fin.service"));
 
+AuthenticationUtil.setCurrentUser(null);
+Object user = request.getSession().getAttribute(AuthenticationUtil.SESSION_CURRENT_USER);
+if (user != null) {
+	AuthenticationUtil.setCurrentUser((String) user);
+}
+Map<String, Object> currentUser = finService.getCurrentUser();
+
 Map<String, Object> pageInfo = finService.getIndexPageInfo();
+
+Date date = new Date();
+
+
 %>
 <!doctype html>
 <html>
@@ -24,6 +36,18 @@ Map<String, Object> pageInfo = finService.getIndexPageInfo();
 
 <style type="text/css">
 
+.uinfo i { 
+  color: #e03121;
+  font-style: normal;
+}
+
+.uinfo p {
+  line-height: 40px;
+  color: #999;
+  font-size: 14px;
+ }
+ 
+ 
 .hidden {
 	display: none;
 }
@@ -40,17 +64,8 @@ Map<String, Object> pageInfo = finService.getIndexPageInfo();
 * html .clearfix { height: 1%; }
 .clearfix { display: block; }
 /* End hide from IE-mac */
-
-
 </style>
-<%
-AuthenticationUtil.setCurrentUser(null);
-Object user = request.getSession().getAttribute(AuthenticationUtil.SESSION_CURRENT_USER);
-if (user != null) {
-	AuthenticationUtil.setCurrentUser((String) user);
-} 
-Date date = new Date();
-%>
+
 
 <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
 <script type="text/javascript">
@@ -113,7 +128,7 @@ function refreshImg() {
 	                	<img src="img/index_004.png" class="sep">
 	                    <span class="nohot"><a style="color:#666;" href="login.jsp">快速登录</a></span>
                     <%} else { %>            
-	                    <span class="cls-mr"><a class="u-line" href="home.jsp"><%=AuthenticationUtil.getCurrentUser() %></a></span>
+	                    <span class="cls-mr"><a class="u-line" href="home.jsp"><%=currentUser.get("rname") %></a></span>
                     	<span>欢迎您来融信融资网</span>
                     	<span><a href="/service/fin/logout">【安全退出】</a></span>
                     <%} %>
@@ -201,16 +216,14 @@ function refreshImg() {
         <!-- -->
         <div class="index_top-lv03">
         	<ul>
-            	<li><a href="#">首页</a></li>
-            	<li><a href="#">融资入口</a></li>
-            	<li><a href="#">账号管理</a></li>
+            	<li><a href="index.jsp">首页</a></li>
+            	<li><a href="home.jsp">融资入口</a></li>
+            	<li><a href="home.jsp">账号管理</a></li>
             	<li><a href="#">投资资源</a></li>
             	<li><a href="#">理财产品</a></li>
             	<li><a href="#">金融超市</a></li>                                                                                
             </ul>
         </div>
-        
-
 
    		<div class="index_top-lv04">
         	<!-- -->
@@ -225,61 +238,58 @@ function refreshImg() {
                         </div>
                     </div>
                     <div class="l_02">
+                         <%
+	                        Map<String, Object> recentProjects = (Map)pageInfo.get("rc");
+                         	List<Map> projLists = (List<Map>)recentProjects.get("list");
+                         	int i = 0;
+                         %>
                         <div class="list_l clearfix"><!--左 -->
                             <ul>
+                            	<%
+                            	while(i<6 && i<projLists.size()) {
+                            		Map proj = projLists.get(i);
+                            		
+                            		String title = "";
+                            		if ((Integer)proj.get("type")==1) {
+                            			title = proj.get("mpart") + "企业经营贷款项目" + proj.get("loan") + "万元";
+                            		} else {
+                            			title = "[个人]" + proj.get("rname") 
+                            					+ proj.get("purpose") + "申请,贷款额"+ proj.get("loan") + "万元";
+                            		}
+                            		i++;
+                            	%>
                                 <li>
                                     <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
+                                    <span><a href="#"><%=title %> </a></span>
                                 </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>                                                                                                                                            
+                            	<%
+                            	}
+                            	%>
                             </ul>
                         </div>
                         <!-- -->
                         <div class="list_r"><!--右 -->
                             <ul>
+                                <%
+                            	while(i<12 && i<projLists.size()) {
+                            		Map proj = projLists.get(i);
+                            		
+                            		String title = "";
+                            		if ((Integer)proj.get("type")==1) {
+                            			title = proj.get("mpart") + "企业经营贷款项目" + proj.get("loan") + "万元";
+                            		} else {
+                            			title = "[个人]" + proj.get("rname") 
+                            					+ proj.get("purpose") + "申请,贷款额"+ proj.get("loan") + "万元";
+                            		}
+                            		i++;
+                            	%>
                                 <li>
                                     <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
+                                    <span><a href="#"><%=title %> </a></span>
                                 </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#">淄博市融资金融有限公司企业经营贷款项目</a></span>
-                                </li>                                                                                                                                            
+                            	<%
+                            	}
+                            	%>                                                                                                                                          
                             </ul>                    
                         </div>
                         <!-- -->
@@ -295,6 +305,8 @@ function refreshImg() {
 
             
             <div class="r">
+            
+            	<%if (AuthenticationUtil.getCurrentUser()==null) { %>
             	<div class="box"> 
            			<div class="r_01">
                     	<span>享受更多便利？欢迎成为我们的绿色通道企业</span>
@@ -327,6 +339,37 @@ function refreshImg() {
                         </span>
                     </div>
            		</div>
+           		<% } else { %>
+	           		<div class="box uinfo"  style="  height: 262px;">
+						<%=currentUser.get("rname") %>您好!
+						
+						<%
+						Map<String, Object> filters = new HashMap<String, Object>();
+						filters.put("uid", AuthenticationUtil.getCurrentUser());
+						Map<String, Object> myloans = finService.getLoanRequestList(filters, 0, 2000);
+						List<Map> loanlist = (List<Map>)myloans.get("list");
+						Integer audit1 = 0;
+						Integer audit2 = 0;
+						Integer audit3 = 0;
+						for(Map loan: loanlist) {
+							Integer audit = (Integer)loan.get("audit");
+							if (audit==1) {
+								audit1++;
+							}
+							if (audit==2) {
+								audit2++;
+							}
+							if (audit==3) {
+								audit3++;
+							}
+						}
+						%>
+						<p>您有<i><%=loanlist.size() %></i>个项目</p>	           			
+						<p>其中初审<i><%=audit1 %></i>个,复审<i><%=audit2 %></i>个,通过<i><%=audit3 %></i>个</p>	      
+						
+						<p><a href="home.jsp">进入我的账户</a></p>     			
+	           		</div>
+           		<% } %>
                 <!-- -->
                 <div class="yinying">
                 </div>                     
