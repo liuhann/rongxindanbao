@@ -184,6 +184,13 @@ public class FinanceService implements Tenantable {
 		}
 		return "1";
 	}
+	
+
+	@RestService(method="POST", uri="/fin/account/delete", authenticated=true, runAsAdmin=true)
+	public void deleteAccount(@RestParam(value="loginid")String loginid) {
+		dataSource.getCollection(COLL_ACCOUNTS).remove(new BasicDBObject("loginid", loginid));
+	}
+	
 
 	@RestService(method="POST", uri="/fin/account/filter", authenticated=true)
 	public Map<String, Object> filterAccount(@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {

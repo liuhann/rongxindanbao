@@ -19,6 +19,16 @@ function saveCreditManager() {
 	}
 }
 
+function removeCreditManager() {
+	var entry = $("#ccontent").data("entry");
+	
+	$.post("/service/fin/account/delete", {
+		'loginid' : entry.loginid
+	}, function() {
+		alert("删除成功");
+	});
+}
+
 </script>
 </head>
 <body>
@@ -69,13 +79,13 @@ function saveCreditManager() {
 				<input type="text" id="inviteCode">
 			</div>
 		</div>
-		
 		<div class="hidden">
-			<input type="text" id="_id" value="">
+				<input type="text" id="_id">
 		</div>
 		
 		<div class="fcg">
 			<a class="btn edit" onclick="saveCreditManager();">保存</a>
+			<a class="btn delete" onclick="removeCreditManager();">删除</a>
 		</div>
 	</div>
 

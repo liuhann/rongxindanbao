@@ -302,7 +302,10 @@ var formCheck = function(selector) {
 		
 		showBtn: function(btn) {
 			(form).find("a.btn").hide();
-			$(form).find("a." + btn).show();
+			var btns = btn.split(" ");
+			for (var i = 0; i < btns.length; i++) {
+				$(form).find("a." + btns[i]).show();
+			}
 		},
 		
 		editable: function(btn) {
