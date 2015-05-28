@@ -152,7 +152,7 @@ function pageFirstAudit() {
 			$("<a class='gbtn'>初审</a>").data("loan", data).appendTo($(t)).click(function() {
 				viewLoan($(this).data("loan"), function(loan) {
 					if (loan.audit==1) { //初审中
-						loadPages($("#ccontent"), ["sub/approve.html"], ["项目初审"], function(url) {
+						loadPages($("#ccontent"), ["sub/loan-approve.html"], ["项目初审"], function(url) {
 							if (url==null) {
 								$("#approve-content").data("loan", loan);
 							}
@@ -172,7 +172,7 @@ function pageFinalAudit() {
 		if (field=="open") {
 			$("<a class='gbtn'>复审</a>").data("loan", data).appendTo($(t)).click(function() {
 				viewLoan($(this).data("loan"), function(loan) {
-					loadPages($("#ccontent"), ["sub/approve.html"], ["项目复审"], function(url) {
+					loadPages($("#ccontent"), ["sub/loan-approve.html"], ["项目复审"], function(url) {
 						if (url==null) {
 							$("#approve-content").data("loan", loan);
 							$("#risks").show();

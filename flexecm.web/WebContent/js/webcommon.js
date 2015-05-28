@@ -46,7 +46,7 @@ function viewLoan(loan, cb) {
 				 "sub/creq-3.html",
 				 "sub/creq-4.html",
 				 "sub/creq-5.html",
-				 "sub/approve-info.html"],
+				 "sub/loan-approve-info.html"],
 				 ["基本信息","借款历史","担保情况","企业信息","经营情况", "审批情况" + auditStatus],
 				function(url,div) {
 					if (url==null) {
@@ -71,7 +71,7 @@ function viewLoan(loan, cb) {
 					 "sub/ureq-4.html?mate=1",
 					 "sub/ureq-5.html?mate=1",
 					 "sub/ureq-6.html",
-					 "sub/approve-info.html"
+					 "sub/loan-approve-info.html"
 					],
 					[
 					 "基本信息",

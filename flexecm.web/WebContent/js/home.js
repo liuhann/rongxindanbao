@@ -1,16 +1,16 @@
 $(function() {
-	
+	$(".menu_list li").click(function() {
+		$(".menu_list li.current").removeClass("current");
+		$(this).addClass("current");
+	});
 });
 
-function dashboard(t) {
-	navTo(t);
-	
+function dashboard() {
 	$("#content .r").hide();
 	$(".r.dashboard").show();
 }
 
-function loanProgress(t) {
-	navTo(t);	
+function loanProgress() {
 	$("#content .r").hide();
 	$(".r.lprogress").show();	
 	
@@ -33,8 +33,7 @@ function loanProgress(t) {
 	});
 }
 
-function config(t) {
-	navTo(t);
+function config() {
 	$("#content .r").hide();
 	$("#person-edit").show();
 	
@@ -54,18 +53,13 @@ function config(t) {
 	}
 }
 
-function goRequest(t) {
-	navTo(t);
+function goRequest() {
 	$("#content .r").hide();
 	$(".r.personRequest").show();
 	
 	var fo = new formCheck(".r.personRequest ");
 }
 
-function navTo(t) {
-	$(".menu_list li.current").removeClass("current");
-	$(t).addClass("current");
-}
 
 function checkEmail() {
 	$.getJSON("/service/fin/account/email/confirm", {
@@ -99,14 +93,13 @@ function sendLoanRequest(t) {
 		'map': JSON.stringify(loanRequest)
 	}, function() {
 		alert("融资申请已提交");
-		navTo();
+		loanProgress();
 	});
 }
 
 function startLoanRequest(t) {
 	$("#content .r").hide();
 	$(".loanRequest").show();
-	navTo(t);
 	$(".steps").hide();
 	if (uinfo.type=="company") {
 		companyNewRequest();

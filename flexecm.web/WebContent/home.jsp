@@ -111,13 +111,13 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                 </div>
                 <div class="menu_list">
                 	<ul>
-                    	<li class="current" onclick="dashboard(this);">
+                    	<li class="current" onclick="dashboard();">
                         	账户总览
                         </li>
-                    	<li onclick="startLoanRequest(this);">
+                    	<li onclick="startLoanRequest();">
                         	借款申请&gt;
                         </li>
-                    	<li onclick="loanProgress(this);">
+                    	<li onclick="loanProgress();">
                         	借款进度&gt;
                         </li>
                     	<li>
@@ -126,7 +126,7 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                     	<li>
                         	<a href="#">信用评级&gt;</a>
                         </li>
-                    	<li onclick="config(this);">
+                    	<li onclick="config();">
                         	信息设置&gt;
                         </li>                        
                                                                                                 
