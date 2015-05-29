@@ -39,6 +39,7 @@ Date date = new Date();
 .uinfo i { 
   color: #e03121;
   font-style: normal;
+  font-size: 20px; margin: 0 5px;
 }
 
 .uinfo p {
@@ -47,7 +48,24 @@ Date date = new Date();
   font-size: 14px;
  }
  
+.udesc {
+	width: 100%;text-align: center; border-top: 1px solid #ccc; border-bottom: 1px solid #ccc;
+}
+.udesc td {
+	padding: 10px 0px;
+}
  
+.uinfo .button {
+  display: block;
+  text-align: center;
+  border: 1px solid #20A2DF;
+  margin-top: 25px;
+  color: #20A2DF;
+  font-size: 16px;
+  font-weight: 500;
+  cursor: pointer;
+}
+
 .hidden {
 	display: none;
 }
@@ -341,8 +359,8 @@ function refreshImg() {
            		</div>
            		<% } else { %>
 	           		<div class="box uinfo"  style="  height: 262px;">
-						<%=currentUser.get("rname") %>您好!
-						
+						Hi,<%=currentUser.get("rname") %>
+							
 						<%
 						Map<String, Object> filters = new HashMap<String, Object>();
 						filters.put("uid", AuthenticationUtil.getCurrentUser());
@@ -364,10 +382,16 @@ function refreshImg() {
 							}
 						}
 						%>
-						<p>您有<i><%=loanlist.size() %></i>个项目</p>	           			
-						<p>其中初审<i><%=audit1 %></i>个,复审<i><%=audit2 %></i>个,通过<i><%=audit3 %></i>个</p>	      
+						<p>您有<i style=""><%=loanlist.size() %></i>个项目</p>
+						<table class="udesc" style="">
+							<tr>
+								<td ><p>初审中</p><i><%=audit1 %></i></td>
+								<td ><p>复审中</p><i><%=audit2 %></i></td>
+								<td><p>通过</p><i><%=audit3 %></i></td>
+							</tr>
+						</table>	           			
 						
-						<p><a href="home.jsp">进入我的账户</a></p>     			
+						<p><a class="button flax" href="home.jsp">进入我的账户</a></p>     			
 	           		</div>
            		<% } %>
                 <!-- -->

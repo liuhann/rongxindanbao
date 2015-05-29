@@ -281,7 +281,7 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 			      </div>
 			      <div class="cell" data-eval="entry['loan'] + '万元'">
 			      </div>
-			      <div class="cell" data-eval="entry['duration'] + '个月'">
+			      <div class="cell" data-eval="(entry['duration-scope']=='-1'?entry['duration']:entry['duration-scope']) + '个月'">
 			      </div>
 			      <div class="cell" data-f="email">
 			      </div>

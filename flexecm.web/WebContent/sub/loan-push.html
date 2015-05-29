@@ -1,15 +1,87 @@
+
+<head>
+<script type="text/javascript" src="datepicker/jquery.datetimepicker.js"></script>
+<link type="text/css" rel="stylesheet" href="datepicker/jquery.datetimepicker.css">
+
+
+<script type="text/javascript">
+	
+	var creditmgrs = null;
+	
+	var banks = [];
+	$(function() {
+		var filter = {
+				"type": "creditmgr"
+		};
+		$.post("/service/fin/account/filter", {
+				"filter": JSON.stringify(filter)
+		}, function(data) {
+			var json = JSON.parse(data);
+			creditmgrs = json.list;
+			for(var i=0; i<creditmgrs.length;i++) {
+				if (banks.indexOf(creditmgrs[i].bank)==-1) {
+					banks.push(creditmgrs[i].bank);
+				}
+			}
+			for(var i=0; i<banks.length; i++) {
+				var option = $("<option>" + banks[i] + "</option>");
+				$("#bank-of-credit-mgr").append(option);
+			}
+			if (banks.length>0) {
+				filterByBank(banks[0]);
+			}
+			$("#bank-of-credit-mgr").change(function() {
+				filterByBank($(this).val());
+			});
+		});
+		$("#untils").datetimepicker({
+			format:'Y-m-d',
+			timepicker:false,
+			lang:'ch'
+		});
+	});
+	
+	function filterByBank(bank) {
+		$("#credit-mgr-name option").remove();
+		for(var i=0; i<creditmgrs.length;i++) {
+			if (bank==creditmgrs[i].bank) {
+				$("#credit-mgr-name").append("<option value='" + creditmgrs[i].loginid + "'>" + creditmgrs[i].rname + "</option>");
+			}
+		}
+	}
+
+</script>
+</head>
+
 <table>
 	<tbody>
 		<tr>
-			<td style="padding-top: 5px; text-align: right;">推送给项目经理</td>
+			<td style="padding-top: 5px; text-align: right;">已选择的项目经理</td>
 			<td>
 				<div class="form-item">
-					<input class="form-text" type="text" value="" id="creditmanagers">
+					<ul id="selectedCreditMgrs">
+						
+					</ul>
 				</div>
 				<div class="err"></div>
 			</td>
 		</tr>
-		
+
+		<tr>
+			<td style="padding-top: 5px; text-align: right;">选择信贷经理</td>
+			<td>
+				<div class="form-item">
+					银行: <select id="bank-of-credit-mgr">
+					     </select>
+					     
+					     <select id="credit-mgr-name"></select>
+					     
+					     <a href="javascript:addCurrent();">增加</a>
+					     
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
 		<tr>
 			<td style="padding-top: 5px; text-align: right;">截至到</td>
 			<td>
@@ -27,7 +99,7 @@
 				<div class="notice">
 				</div>
 				<div style="padding-top: 20px;">
-					<input class="form-button savemerge" onclick="confirmPush();" type="button" value="确定">
+					<input class="btn savemerge" onclick="confirmPush();" type="button" value="确定">
 				</div>
 			</td>
 		</tr>

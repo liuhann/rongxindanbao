@@ -146,6 +146,13 @@ function viewLoan(loan, cb) {
 		if (cb) {
 			cb(loan);
 		}
+		
+		if (loan.audit==3) {
+			loadPages($("#ccontent"), ["sub/loan-push.html"], ["推送给信贷经理"], function() {
+				
+			});
+		}
+		
 	}
 }
 
@@ -225,6 +232,7 @@ function loadPages(container, urls, titles, callback) {
 	}
 }
 
+
 var formCheck = function(selector) {
 	var form = $(selector);
 	
@@ -264,7 +272,7 @@ var formCheck = function(selector) {
 	});
 	
 	form.find("input.date").each(function() {
-		$("input.date").datetimepicker({
+		$(this).datetimepicker({
 			format:'Y-m-d',
 			timepicker:false,
 			lang:'ch'
