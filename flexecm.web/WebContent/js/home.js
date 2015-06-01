@@ -3,6 +3,9 @@ $(function() {
 		$(".menu_list li.current").removeClass("current");
 		$(this).addClass("current");
 	});
+	
+	
+	$(".menu_list." + uinfo.type).show();
 });
 
 function dashboard() {

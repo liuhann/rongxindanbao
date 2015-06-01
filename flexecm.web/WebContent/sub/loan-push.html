@@ -2,7 +2,12 @@
 <head>
 <script type="text/javascript" src="datepicker/jquery.datetimepicker.js"></script>
 <link type="text/css" rel="stylesheet" href="datepicker/jquery.datetimepicker.css">
-
+<style type="text/css">
+.addedpush a {
+	margin-left: 20px;
+	color: blue;
+}
+</style>
 
 <script type="text/javascript">
 	
@@ -33,6 +38,12 @@
 			$("#bank-of-credit-mgr").change(function() {
 				filterByBank($(this).val());
 			});
+			
+			var loan = $("#credit-push-content").data("loan");
+			$("#push-untils").val(loan.pushuntil);
+			for(var i=0; i<loan.pushcredits.length; i++) {
+				addPushed(getCm(loan.pushcredits[i]));
+			} 
 		});
 		$("#untils").datetimepicker({
 			format:'Y-m-d',
@@ -49,11 +60,64 @@
 			}
 		}
 	}
-
+	
+	function addCurrent() {
+		var loginid = $("#credit-mgr-name").val();
+		var m = getCm(loginid);
+		addPushed(m);
+	}
+	
+	function addPushed(m) {
+		var added = false; 
+		$("#selectedCreditMgrs li").each(function() {
+			if ($(this).data("m").loginid==m.loginid) {
+				added = true;
+			}
+		});
+		
+		if (!added) {
+			var li = $("<li class='addedpush'><span></span><a>移除</a></li>");
+			li.data("m", m);
+			li.find("span").html(m.rname);
+			li.find("a").click(function() {
+				$(this).parent().remove();
+			})
+			$("#selectedCreditMgrs").append(li);
+		}
+	}
+	
+	
+	function getCm(loginid) {
+		for(var i=0; i<creditmgrs.length; i++) {
+			if (creditmgrs[i].loginid==loginid) {
+				return creditmgrs[i];
+			}
+		}
+	}
+	
+	function confirmPush() {
+		var loginids = [];
+		$("#selectedCreditMgrs li").each(function() {
+			loginids.push($(this).data("m").loginid);
+		});
+		var loan = $("#credit-push-content").data("loan");
+		var request = {
+				"loan": loan._id,
+				"pushuntil" : $("#push-untils").val(),
+				"ids": loginids.join(",")
+		};
+		
+		$.post("/service/fin/loan/push",
+				request 
+		, function() {
+			alert("已提交信贷经理");	
+		});
+	}
+	
 </script>
 </head>
 
-<table>
+<table id="credit-push-content">
 	<tbody>
 		<tr>
 			<td style="padding-top: 5px; text-align: right;">已选择的项目经理</td>
@@ -86,20 +150,20 @@
 			<td style="padding-top: 5px; text-align: right;">截至到</td>
 			<td>
 				<div class="form-item">
-					<input class="form-text" type="text" value="" id="untils">
+					<input class="form-text" type="text" value="" id="push-untils">
 				</div>
 				<div class="err"></div>
 			</td>
 		</tr>
 		
 		<!-- -->
-		<tr class="edita">
+		<tr class="edita" style="height: 120px;">
 			<td></td>
 			<td>
 				<div class="notice">
 				</div>
 				<div style="padding-top: 20px;">
-					<input class="btn savemerge" onclick="confirmPush();" type="button" value="确定">
+					<a class="btn savemerge" onclick="confirmPush();" > 确定</a>
 				</div>
 			</td>
 		</tr>

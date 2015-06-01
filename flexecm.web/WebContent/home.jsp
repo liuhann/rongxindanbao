@@ -79,6 +79,9 @@ li {
 #form-content td:LAST-CHILD {
 	width: 600px;
 }
+.menu_list {
+	display: none;
+}
 </style>
 </head>
 <body class="bg">
@@ -109,7 +112,7 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                 	<img src="img/zhanghuguanli_001.png">
                     <span><a href="javascript:void(0)"><%=currentUser.get("rname") %></a>您好!</span>
                 </div>
-                <div class="menu_list">
+                <div class="menu_list person company">
                 	<ul>
                     	<li class="current" onclick="dashboard();">
                         	账户总览
@@ -132,9 +135,20 @@ var uinfo = <%=new JSONObject(currentUser)%>;
                                                                                                 
                     </ul>
                 </div>
+                <div class="menu_list creditmgr">
+                	<ul>
+                    	<li onclick="pushedLoans();">
+                        	推送的项目&gt;
+                        </li>
+                    	<li onclick="intendedLoans();">
+                        	跟进的项目&gt;
+                        </li>
+                    	                                                         
+                    </ul>
+                </div>
             </div>
 
-			<div class="r dashboard">
+		<div class="r dashboard">
 				
 				<%if (!Boolean.TRUE.equals(currentUser.get("ecfm"))) { %>
 				<div class="warn">
@@ -189,7 +203,6 @@ var uinfo = <%=new JSONObject(currentUser)%>;
 		<div class="r form  hidden" id="ccontent">
 			
 		</div>
-
 
         <div class="r loanRequest hidden">
            	<div class="lv01">

@@ -146,13 +146,6 @@ function viewLoan(loan, cb) {
 		if (cb) {
 			cb(loan);
 		}
-		
-		if (loan.audit==3) {
-			loadPages($("#ccontent"), ["sub/loan-push.html"], ["推送给信贷经理"], function() {
-				
-			});
-		}
-		
 	}
 }
 

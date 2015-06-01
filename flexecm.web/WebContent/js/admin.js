@@ -204,7 +204,15 @@ function pagePassedLoans() {
 	viewLoanTable(filter, "已通过项目列表", function(t, data, field) {
 		$("<a class='gbtn'>查看</a>").data("loan",data).appendTo($(t)).click(function() {
 			var data = $(this).data("loan");
-			viewLoan(data);
+			viewLoan(data, 
+				function(loan) {
+					//已通过则需要推送给项目经理
+					loadPages($("#ccontent"), ["sub/loan-push.html"], ["推送给信贷经理"], function(url) {
+						if (url==null) {
+							$("#credit-push-content").data("loan", loan);
+						}
+					});
+			});
 		});
 	});
 }

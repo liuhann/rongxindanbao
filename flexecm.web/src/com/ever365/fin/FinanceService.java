@@ -23,6 +23,7 @@ import com.ever365.rest.StreamObject;
 import com.ever365.utils.EmailUtils;
 import com.ever365.utils.MapUtils;
 import com.ever365.utils.RandomCodeServlet;
+import com.ever365.utils.StringUtils;
 import com.ever365.utils.UUID;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
@@ -284,6 +285,8 @@ public class FinanceService implements Tenantable {
 		}
 		update(COLL_LOANS, loan);
 	}
+	
+	
 	@RestService(method="POST", uri="/fin/loan/reject")
 	public void rejectRequest(@RestParam(value="loan") String loanid, @RestParam(value="desc")String desc) {
 		
@@ -302,6 +305,23 @@ public class FinanceService implements Tenantable {
 		}
 		
 		loan.put("audit", -1);
+		update(COLL_LOANS, loan);
+	}
+	
+	@RestService(method="POST", uri="/fin/loan/push")
+	public void pushLoanTocreditManager(@RestParam(value="loan") String loanid,
+			@RestParam(value="pushuntil")String pushuntil, 
+			@RestParam(value="ids")String credits 
+			) {
+		
+		DBObject loan = dataSource.getCollection(COLL_LOANS).findOne(new BasicDBObject("_id", new ObjectId(loanid)));
+		if (loan==null) {
+			throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+		}
+		
+		loan.put("pushuntil", pushuntil);
+		loan.put("pushcredits", credits.split(","));
+		
 		update(COLL_LOANS, loan);
 	}
 	
