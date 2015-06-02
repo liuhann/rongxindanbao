@@ -1,0 +1,72 @@
+
+<head>
+<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+	$(function() {
+		var filter = {
+			"pushcredits": uinfo.loginid
+		}
+		$.post("/service/fin/loan/list", {
+			"filter": JSON.stringify(filter)
+		}, function(data) {
+			var result = JSON.parse(data);
+			initTable("#view-pushed-loans", result);
+		});
+	});
+	
+	function uvloan(t) {
+		 var entry = $(t).parents(".row").data("entry");
+		 viewLoan(entry);
+	}
+</script>
+</head>
+
+<div class="list-news">
+		<div class="panel">
+			<div class="title">
+				理财产品列表
+			</div>
+		</div>
+
+		<div class="table" id="view-pushed-loans">
+		    <div class="row header">
+		     <div class="cell" >
+		        	姓名
+		      </div>
+		      <div class="cell">
+		        	用途
+		      </div>
+		      <div class="cell">
+		        	金额
+		      </div>
+		      <div class="cell">
+		       		期限
+		      </div>
+		      <div class="cell">
+		       		截止时间
+		      </div>
+		      <div class="cell">
+		       		操作
+		      </div>
+		    </div>
+		    
+		    <div class="template">
+		   		<div class="cell" data-f="rname">
+				</div>
+				<div class="cell" data-f="purpose">
+				</div>
+				<div class="cell" data-f="loan">
+				</div>
+				<div class="cell" data-eval="entry['duration'] + '个月'">
+				</div>
+				<div class="cell" data-f="pushuntil">
+				</div>
+				<div class="cell">
+					<a onclick="uvloan(this);">查看详情</a>
+				</div>
+			</div>
+		</div>
+	</div>

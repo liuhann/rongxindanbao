@@ -15,26 +15,14 @@ function dashboard() {
 
 function loanProgress() {
 	$("#content .r").hide();
-	$(".r.lprogress").show();	
-	
-	var filter = {
-		"uid": uinfo.loginid
-	}
-	$.post("/service/fin/loan/list", {
-		"filter": JSON.stringify(filter)
-	}, function(data) {
-		var result = JSON.parse(data);
-		
-		initTable("#loan-prgress-table", result, function(td, data, data_cal) {
-			if (data_cal=="view") {
-				$("<a class='gbtn'>查看</a>").data("loan", data).appendTo($(td)).click(function() {
-					$("#content .r").hide();
-					viewLoan($(this).data("loan"));
-				});
-			}
-		});
-	});
+	loadPage($("#ccontent"), "sub/loan-progress-user.html");
 }
+
+function pushedLoans() {
+	$("#content .r").hide();
+	loadPage($("#ccontent"), "sub/loan-received.html");
+}
+
 
 function config() {
 	$("#content .r").hide();

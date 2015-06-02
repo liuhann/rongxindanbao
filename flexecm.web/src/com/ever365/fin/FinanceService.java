@@ -325,6 +325,14 @@ public class FinanceService implements Tenantable {
 		update(COLL_LOANS, loan);
 	}
 	
+	@RestService(method="GET", uri="/fin/loan/credit/list")
+	public Map<String, Object> getPushedLoans() {
+		Map<String, Object> filters = new HashMap<String, Object>();
+		filters.put("pushcredits", AuthenticationUtil.getCurrentUser());
+		return dataSource.filterCollectoin(COLL_LOANS, filters, null, 0, 100);
+	}
+	
+	
 	@RestService(method="POST", uri="/fin/content/update")
 	public void updateContent(Map<String, Object> request) {
 		String collectionName = request.get("collection").toString();

@@ -86,7 +86,6 @@ li {
 </head>
 <body class="bg">
 <%@ include file="top.jsp"%> 
-
 <%
 	FinanceService finService = ((FinanceService) ContextLoaderListener
 			.getCurrentWebApplicationContext().getBean("fin.service"));
@@ -265,48 +264,6 @@ var uinfo = <%=new JSONObject(currentUser)%>;
              <div class="lv03" id="form-content">
              </div>
         </div>
-           
-		<div class="r lprogress hidden">
-		
-		<div class="table" id="loan-prgress-table">
-		    <div class="row header">
-		      <div class="cell">
-		        	申请时间
-		      </div>
-		      <div class="cell">
-		       		金额
-		      </div>
-		      <div class="cell">
-		       		期限
-		      </div>
-		       <div class="cell">
-		       		联系方式
-		      </div>
-		      <div class="cell">
-		      		状态
-		      </div>
-		      <div class="cell">
-		      		操作
-		      </div>
-		    </div>
-			    <div class="template">
-			      <div class="cell" data-eval="var d=new Date(entry['rtime']); d.format('yyyy-MM-dd hh:mm')">
-			      </div>
-			      <div class="cell" data-eval="entry['loan'] + '万元'">
-			      </div>
-			      <div class="cell" data-eval="(entry['duration-scope']=='-1'?entry['duration']:entry['duration-scope']) + '个月'">
-			      </div>
-			      <div class="cell" data-f="email">
-			      </div>
-			      <div class="cell" data-eval="(entry['audit']==1)?'初审中':'复审中'">
-			      </div>
-			      <div class="cell" data-cal="view">
-			      </div>
-			    </div>
-		</div>	
-		<div class="empty">列表内容为空</div>
-
-	</div>
            
     <div class="yinying">
     </div>
