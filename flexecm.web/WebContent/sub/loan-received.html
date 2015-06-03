@@ -19,7 +19,9 @@
 	
 	function uvloan(t) {
 		 var entry = $(t).parents(".row").data("entry");
-		 viewLoan(entry);
+		 viewLoan(entry, function() {
+			 loadPages($("#ccontent"), ["sub/loan-add-intrest.html"]);
+		 });
 	}
 </script>
 </head>
@@ -27,7 +29,7 @@
 <div class="list-news">
 		<div class="panel">
 			<div class="title">
-				理财产品列表
+				我收到的项目
 			</div>
 		</div>
 

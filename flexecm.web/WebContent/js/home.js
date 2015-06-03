@@ -23,7 +23,6 @@ function pushedLoans() {
 	loadPage($("#ccontent"), "sub/loan-received.html");
 }
 
-
 function config() {
 	$("#content .r").hide();
 	$("#person-edit").show();

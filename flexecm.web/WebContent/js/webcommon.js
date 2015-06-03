@@ -17,6 +17,8 @@ function viewLoan(loan, cb) {
 	$("#ccontent").after(div);
 	div.show();
 	
+	$("#ccontent").data("loan", loan);
+	
 	var auditStatus;
 	switch (loan.audit) {
 	case 1:
@@ -185,7 +187,6 @@ function loadPage(container, url, callback) {
 		}
 	});
 }
-
 
 /**
  * 在一个容器中先后加载、初始化多个页面

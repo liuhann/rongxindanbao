@@ -2,6 +2,7 @@ package com.ever365.fin;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -324,6 +325,22 @@ public class FinanceService implements Tenantable {
 		
 		update(COLL_LOANS, loan);
 	}
+	
+	@RestService(method="POST", uri="/fin/loan/intrest")
+	public void placeIntrestOn(@RestParam(value="id") String id) {
+		DBObject loan = dataSource.getCollection(COLL_LOANS).findOne(new BasicDBObject("_id", new ObjectId(id)));
+		if (loan==null) {
+			throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+		}
+		Collection<String> intrests = new ArrayList<String>();
+		if (loan.containsField("intrests")) {
+			intrests = (Collection)loan.get("intrests");
+		}
+		intrests.add(AuthenticationUtil.getCurrentUser());
+		loan.put("intrests", intrests);
+		update(COLL_LOANS, loan);
+	}
+	
 	
 	@RestService(method="GET", uri="/fin/loan/credit/list")
 	public Map<String, Object> getPushedLoans() {

@@ -1,0 +1,33 @@
+
+<head>
+<style type="text/css">
+
+</style>
+
+<script type="text/javascript">
+	function placeIntest() {
+		var loan = $("#ccontent").data("loan");
+		
+		$.post("/service/fin/loan/intrest", {
+			"id": loan._id
+		}, function() {
+			
+		});
+	}
+	
+	$(function() {
+		var loan = $("#ccontent").data("loan");
+		if (loan.intrests && loan.intrests.indexOf(uinfo.loginid)>-1) {
+			$("#followon").show();
+			$("#followbtn").hide();
+		}
+		
+		$("#intrest-info").prependTo($("#ccontent"));
+	});
+</script>
+</head>
+
+<div id="intrest-info" class="list-news" style="padding: 10px; font-size: 16px; color: green;">
+	<p id="followon" class="hidden">您已跟进当前项目</p>
+	<a id="followbtn" class="gbtn" onclick="placeIntest();">跟进项目</a>		
+</div>
