@@ -331,7 +331,7 @@ function refreshImg() {
                     </div>
                     <div class="r_02">
                     	<span class="tab_l current">请登录</span> <!--current为选中的样式 必须要和签满的tab_X样式并存 -->
-                        <span class="tab_r ">后台登录</span>
+                        <span class="tab_r "><a href="login.jsp">后台登录</a></span>
                          
                     </div>
                     

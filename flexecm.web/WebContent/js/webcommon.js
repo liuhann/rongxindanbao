@@ -3,6 +3,10 @@ $(document).ready(function() {
 	$("#rnd-code-img").click(function() {
 		$("#rnd-code-img").attr("src", "/rndimg?" + new Date().getTime());
 	});
+	$.ajaxSetup ({
+		// Disable caching of AJAX responses
+		cache: false
+	});
 });
 
 /**

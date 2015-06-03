@@ -179,7 +179,7 @@ function login() {
     	<div class="regform step1">
         	<!-- -->
             <div class="title">
-            	<span>欢迎来到融信担保！ 请登录</span>
+            	<span>欢迎来到融信担保！请登录</span>
             </div>
             
             <div class="form-content">

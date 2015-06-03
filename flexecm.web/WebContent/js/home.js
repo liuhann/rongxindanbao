@@ -23,6 +23,11 @@ function pushedLoans() {
 	loadPage($("#ccontent"), "sub/loan-received.html");
 }
 
+function intendedLoans() {
+	$("#content .r").hide();
+	loadPage($("#ccontent"), "sub/loan-intended.html");
+}
+
 function config() {
 	$("#content .r").hide();
 	$("#person-edit").show();

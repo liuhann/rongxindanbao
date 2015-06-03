@@ -1,0 +1,77 @@
+
+<head>
+<script type="text/javascript" src="datepicker/jquery.datetimepicker.js"></script>
+<link type="text/css" rel="stylesheet" href="datepicker/jquery.datetimepicker.css">
+<style type="text/css">
+.addedpush a {
+	margin-left: 20px;
+	color: blue;
+    cursor: pointer;
+}
+
+.addedpush i {
+	margin-left: 20px;
+	color: green;
+}
+
+</style>
+
+<script type="text/javascript">
+	$(function(){
+		var loan = $("#ccontent").data("loan");
+		$("#project-progress").val(loan.progress);
+	});
+
+
+function saveProjectProgress() {
+	var loan = $("#ccontent").data("loan");
+	$.post("/service/fin/loan/progress", {
+		id: loan._id,
+		progress: $("#project-progress").val()
+	}, function() {
+		alert("项目进度信息已保存");
+	});
+}
+
+function finishedProject() {
+	var loan = $("#ccontent").data("loan");
+
+	$.post("/service/fin/loan/finish", {
+		id: loan._id,
+		progress: $("#project-progress").val()
+	}, function() {
+		alert("已设置项目为完成");
+	});
+
+}
+	
+</script>
+</head>
+
+<table>
+	<tbody>
+		<tr>
+		<td style="padding-top: 5px; text-align: right;">项目进展情况</td>
+			<td>
+				<div class="form-item">
+						<textarea id="project-progress">
+
+						</textarea>
+				</div>
+				<div class="err"></div>
+			</td>
+		</tr>
+		<!-- -->
+		<tr class="edita" style="height: 120px;">
+			<td></td>
+			<td>
+				<div class="notice">
+				</div>
+				<div style="padding-top: 20px;">
+					<a class="btn savemerge" onclick="saveProjectProgress();" > 保存项目进展</a>
+					<a class="btn savemerge" onclick="finishedProject();" > 还款完毕</a>
+				</div>
+			</td>
+		</tr>
+	</tbody>
+</table>

@@ -6,13 +6,20 @@
 .addedpush a {
 	margin-left: 20px;
 	color: blue;
+    cursor: pointer;
 }
+
+.addedpush i {
+	margin-left: 20px;
+	color: green;
+}
+
 </style>
 
 <script type="text/javascript">
 	
 	var creditmgrs = null;
-	
+
 	var banks = [];
 	$(function() {
 		var filter = {
@@ -76,12 +83,19 @@
 		});
 		
 		if (!added) {
-			var li = $("<li class='addedpush'><span></span><a>移除</a></li>");
+			var loan = $("#ccontent").data("loan");
+
+			var li = $("<li class='addedpush'><span></span><i></i><a>移除</a></li>");
 			li.data("m", m);
 			li.find("span").html(m.rname);
+
+			if (loan.intrests && loan.intrests.indexOf(m.loginid)>-1) {
+				li.find("i").html("(已跟进)");
+			}
+
 			li.find("a").click(function() {
 				$(this).parent().remove();
-			})
+			});
 			$("#selectedCreditMgrs").append(li);
 		}
 	}
@@ -155,7 +169,6 @@
 				<div class="err"></div>
 			</td>
 		</tr>
-		
 		<!-- -->
 		<tr class="edita" style="height: 120px;">
 			<td></td>

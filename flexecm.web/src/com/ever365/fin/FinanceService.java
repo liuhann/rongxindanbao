@@ -340,8 +340,35 @@ public class FinanceService implements Tenantable {
 		loan.put("intrests", intrests);
 		update(COLL_LOANS, loan);
 	}
-	
-	
+
+	/*
+	 设置项目进度。 （只修改1个字段）
+	 */
+	@RestService(method="POST", uri="/fin/loan/progress")
+	public void setLoanProgress(@RestParam(value="id") String id,@RestParam(value="progress") String progress) {
+
+		DBObject loan = dataSource.getCollection(COLL_LOANS).findOne(new BasicDBObject("_id", new ObjectId(id)));
+		if (loan==null) {
+			throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+		}
+		loan.put("progress", progress);
+		update(COLL_LOANS, loan);
+	}
+
+	/*
+	 	完成项目进度。 将audit设置为10
+	 */
+	@RestService(method="POST", uri="/fin/loan/finish")
+	public void finishLoan(@RestParam(value="id") String id,@RestParam(value="progress") String progress) {
+		DBObject loan = dataSource.getCollection(COLL_LOANS).findOne(new BasicDBObject("_id", new ObjectId(id)));
+		if (loan==null) {
+			throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+		}
+		loan.put("progress", progress);
+		loan.put("audit", 10);
+		update(COLL_LOANS, loan);
+	}
+
 	@RestService(method="GET", uri="/fin/loan/credit/list")
 	public Map<String, Object> getPushedLoans() {
 		Map<String, Object> filters = new HashMap<String, Object>();
