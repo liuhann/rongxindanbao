@@ -1,17 +1,14 @@
 <%@page import="com.ever365.rest.AuthenticationUtil"%>
+<%@ page import="com.ever365.fin.FinanceService" %>
+<%@ page import="java.util.Map" %>
+<%@ page import="org.json.JSONObject" %>
+<%@ page import="org.springframework.web.context.ContextLoaderListener" %>
 <%@ page contentType="text/html;charset=UTF-8"%>
 
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>融信担保-后台管理</title>
-
-<%
-	if(request.getSession().getAttribute(AuthenticationUtil.SESSION_ADMIN)==null) {
-		response.getWriter().println("用户已失效，请点击<a href='login.jsp'>重新登陆</a>");
-		return;
-	}
-%>
 
 <link type="text/css" rel="stylesheet" href="css/admin.css">
 <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
@@ -22,6 +19,26 @@
 <script charset="utf-8" src="js/kindeditor/zh_CN.js"></script>
 
 <script type="text/javascript" src="js/admin.js"></script>
+	<%
+		FinanceService finService = ((FinanceService) ContextLoaderListener
+				.getCurrentWebApplicationContext().getBean("fin.service"));
+		AuthenticationUtil.setCurrentUser(null);
+		Object user = request.getSession().getAttribute(AuthenticationUtil.SESSION_CURRENT_USER);
+		if (user != null) {
+			AuthenticationUtil.setCurrentUser((String) user);
+		}
+		Map<String, Object> currentUser = finService.getCurrentUser();
+
+		if (currentUser.get("cu")==null) {
+			response.getWriter().println("用户已失效，请点击<a href='login.jsp'>重新登陆</a>");
+			return;
+		}
+	%>
+
+	<script type="text/javascript">
+		var uinfo =<%=new JSONObject(currentUser)%>;
+	</script>
+
 </head>
 <body>
 
@@ -73,12 +90,8 @@
 		<ul>
 			<li onclick="pageLicai();">理财产品</li>
 			<li onclick="pageFinaMarket();">金融超市</li>
-			<li onclick="listLicai();">投资资源</li>
-			<li onclick="listNews();">新闻公告</li>
-		</ul>
-		
-		<ul>
-			<li onclick="addNews();">增加新闻公告</li>
+			<li onclick="pageFinResource();">投资资源</li>
+			<li onclick="pageNews();">新闻公告</li>
 		</ul>
 	</div>
 	<div class="box navmanage hidden">
@@ -86,11 +99,9 @@
 			<h2>理财产品来源管理</h2>
 		</div>
 		<ul>
-			<li onclick="editAdmin();">增加管理员</li>
-			<li onclick="adminList();">管理员列表</li>
-			<li onclick="backAccountList();">用户管理</li>
+			<li onclick="backAccountList();">后台账号列表</li>
 			<li onclick="rolesList();">角色管理</li>
-			<li>用户授权</li>
+			<li onclick="backAccountList();">用户管理</li>
 		</ul>
 	</div>
 </div>

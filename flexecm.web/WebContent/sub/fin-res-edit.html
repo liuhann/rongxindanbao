@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+
+<script type="text/javascript">
+
+function saveFinRes() {
+	var fc = new formCheck("#ccontent");
+	var o = fc.getRequest();
+	o.collection = "finres";
+	
+	$.post("/service/fin/content/update", o, function(){
+		alert("保存完成");
+		loadPage($("#ccontent"), "sub/fin-res-list.html");
+	});
+}
+</script>
+</head>
+<body>
+
+<table>
+	<tr>
+		<td>投资资源名称</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="name" type="text" value="">
+			</div>
+			<i class="err name"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>Logo</td>
+		<td>
+			<div class="form-item">
+				<input class="form-text" id="logo" type="text" value="">
+			</div>
+			<i class="err logo"></i>
+		</td>
+	</tr>
+	<tr>
+		<td>描述</td>
+		<td>
+			<div class="form-item">
+				<textarea id="desc" style="width: 400px; height: 250px;"></textarea>
+			</div>
+		</td>
+	</tr>
+
+	<tr class="edita">
+		<td></td>
+		<td>
+			<input class="form-button savemerge" onclick="saveFinRes();" type="button" value="保存">
+		</td>
+	</tr>
+</table>
+
+</body>
+</html>
+

@@ -45,19 +45,14 @@ function pageConfirmed() {
 	});
 }
 
-function adminList() {
-	$("#ccontent").load("sub/backAccounts.html", function() {
-		filterAccount({"type":"admin"});
-	});
-}
 function backAccountList() {
-	$("#ccontent").load("sub/backAccounts.html", function() {
-		filterAccount({"type":"backac"});
+	$("#ccontent").load("sub/admin-list.html", function() {
+		filterAccount({"type":{"$in":["admin","bkuser"]}});
 	});
 }
 
 function editAccount(u) {
-	$("#ccontent").load("sub/backAccountEdit.html", function() {
+	$("#ccontent").load("sub/account-edit.html", function() {
 		var c = formCheck(".adminEdit ");
 		c.init(u);
 		c.editable("edit");
@@ -65,7 +60,7 @@ function editAccount(u) {
 }
 
 function editAdmin(u) {
-	$("#ccontent").load("sub/adminEdit.html", function() {
+	$("#ccontent").load("sub/admin-edit.html", function() {
 		var c = formCheck(".adminEdit ");
 		c.init(u);
 		c.editable("edit");
@@ -106,20 +101,12 @@ function pageLoanOfficer() {
 	loadPage($("#ccontent"), "sub/credit-mgr-list.html");
 }
 
-function addNews() {
-	loadPage($("#ccontent"), "sub/addNews.html", function() {
-		
-	});
-}
-
-
-
 function rolesList() {
-	$("#ccontent").load("sub/roles.html");
+	$("#ccontent").load("sub/role-list.html");
 }
 
 function editRole() {
-	$("#ccontent").load("sub/roleEdit.html");
+	$("#ccontent").load("sub/role-edit.html");
 }
 
 function editOrg(company) {
@@ -151,13 +138,13 @@ function pageFirstAudit() {
 		if (field=="open") {
 			$("<a class='gbtn'>初审</a>").data("loan", data).appendTo($(t)).click(function() {
 				viewLoan($(this).data("loan"), function(loan) {
-					if (loan.audit==1) { //初审中
+					//if (loan.audit==1) { //初审中
 						loadPages($("#ccontent"), ["sub/loan-approve.html"], ["项目初审"], function(url) {
 							if (url==null) {
 								$("#approve-content").data("loan", loan);
 							}
 						});
-					}
+					//}
 				});
 			});
 		}
@@ -214,21 +201,26 @@ function pagePassedLoans() {
 					});
 			});
 		});
+
+		$("<a class='gbtn'>设置进展</a>").data("loan",data).appendTo($(t)).click(function() {
+			var data = $(this).data("loan");
+			$("#ccontent").data("loan", data);
+			$("#ccontent").html("");
+			loadPages($("#ccontent"), ["sub/loan-finish.html"], ["编写项目进度情况"]);
+		});
 	});
 }
 
 function pageFinishedLoans() {
 	var filter = {
-		"audit": 5,
-		"finished": 1
+		"audit": 10
 	};
 	viewLoanTable(filter, "还款完结项目列表", function(t, data, field) {
 		$("<a class='gbtn'>查看</a>").appendTo($(t)).click(function() {
 			var data = $(this).parents(".row").data("entry");
 			viewLoan(data, function(loan) {
-				if (loan.audit==1) { //初审中
-					loadPages("#ccontent", ["sub/approve.html"], ["项目初审"]);
-				}
+				$("#ccontent").append('<h2>后续进度</h2>');
+				$("#ccontent").append("<div class='page'>" + data.progress + "</div>");
 			});
 		});
 	});
@@ -256,9 +248,13 @@ function pageNews() {
 }
 
 function pageLicai() {
-	loadPage($("#ccontent"), "sub/licai-list.html");
+	loadPage($("#ccontent"), "sub/fin-product-list.html");
 }
 
 function pageFinaMarket() {
-	loadPage($("#ccontent"), "sub/fina-markets.html");
+	loadPage($("#ccontent"), "sub/fin-markets-list.html");
+}
+
+function pageFinResource() {
+	loadPage($("#ccontent"), "sub/fin-res-list.html");
 }

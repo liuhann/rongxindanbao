@@ -25,31 +25,17 @@ KindEditor.ready(function(K) {
 			'insertunorderedlist', '|', 'emoticons', 'image', 'link']
 	});
 });
-/*
-	var _ue = null;
-	$(function() {
-		initUploader("btn-news-title-img", "/service/attachz/upload", function(up, s, r) {
-				$("#news-title-img").attr("src", "/service/attachz/preview?id=" + r.response);
-				$("#new-splash").val(r.response);
-		});
-		
-		_ue = UM.getEditor('umcontainer');
-	});
-	
-
-	*/
-	
 	function saveNews() {
-		alert(editor.html());
-		var c = formCheck(".add-news ");
-		if (c.test()) {
-			var news =  c.getRequest();
-			news.html = encodeURI(editor.html());
-			
-			$.post("/service/fin/news/update", news, function() {
-				listNews();
-			});
-		}
+		var news = {};
+		news.title = encodeURI($("#news-title").val());
+		news.from = encodeURI($("#news-from").val());
+		news.html = encodeURI(editor.html());
+		news.collection = "news";
+
+		$.post("/service/fin/content/update", news, function(){
+			alert("保存完成");
+			pageNews();
+		});
 	}
 </script>
 
@@ -69,10 +55,7 @@ KindEditor.ready(function(K) {
 		<div class="empty">
 	    	正在初始化编辑器..
 		</div>
-	   <!-- 加载编辑器的容器 -->
-   		<script id="umcontainer" type="text/plain" >
-		</script>
-		
+
 		<textarea name="kind-editor" style="width:780px;height:400px;visibility:hidden;"></textarea>
 		<div class="fcg" style="margin-bottom: 1rem;">
 				<label style="width: 4rem;">来源</label> 

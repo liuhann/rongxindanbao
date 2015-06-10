@@ -1,0 +1,69 @@
+<head>
+<script type="text/javascript">
+
+$(function() {
+	listFinResources(0);
+});
+
+function listFinResources() {
+	$.post("/service/fin/content/list", {
+		'collection': 'finres'
+	}, function(data) {
+		var result = JSON.parse(data);
+		initTable("#fina-market-table",result, null, function(page) {
+			listFinaMarkets(page*15);
+		});
+		
+	});
+}
+
+function addFinRes() {
+	loadPage($("#ccontent"), "sub/fin-res-edit.html");
+}
+
+function removeFinRes(t) {
+	var entry = $(t).parents(".row").data("entry");
+	
+	$.post("/service/fin/content/remove", {
+		'collection': 'finres',
+		'_id': entry._id
+	}, function() {
+		$(t).parents(".row").slideUp('fast');
+	});
+}
+</script>
+</head>
+	<div class="list-news">
+		<div class="panel">
+			<div class="title">
+				投资资源
+			</div>
+			<div class="opers">
+				<a class="btn" onclick="addFinRes();">增加投资资源</a>
+			</div>
+		</div>
+
+		<div class="table" id="fina-market-table">
+		    <div class="row header">
+		     <div class="cell" >
+		        	名称
+		      </div>
+		      <div class="cell">
+		        	Logo
+		      </div>
+			<div class="cell">
+			</div>
+		    </div>
+		    
+		    <div class="template">
+		   		<div class="cell" data-f="name">
+				</div>
+				<div class="cell" data-t="true">
+					<img src="{{logo}}">
+				</div>
+				<div class="cell">
+					<a onclick="removeFinRes(this);">删除</a>
+				</div>
+			</div>
+		</div>
+	</div>

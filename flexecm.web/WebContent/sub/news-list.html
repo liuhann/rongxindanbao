@@ -1,12 +1,19 @@
 <head>
 <script type="text/javascript">
 $(function() {
-	$.getJSON("/service/fin/content/list", {
+	$.post("/service/fin/content/list", {
 		'collection': "news"
-	}, function(result) {
+	}, function(data) {
+		var result = JSON.parse(data);
 		initTable("#news-table",result);
 	});
 });
+
+
+function addNews() {
+	loadPage($("#ccontent"), "sub/news-edit.html");
+}
+
 </script>
 
 </head>
@@ -16,7 +23,7 @@ $(function() {
 				<span>新闻公告列表</span>
 			</div>
 			<div class="opers">
-				<a class="gbtn">增加新闻</a>
+				<a class="gbtn" onclick="addNews();">增加新闻</a>
 			</div>
 		</div>
 
@@ -34,7 +41,7 @@ $(function() {
 		    </div>
 		    
 		    <div class="template">
-				<div class="cell" data-f="news-title">
+				<div class="cell" data-f="title">
 				</div>
 				<div class="cell" data-eval="var d=new Date(entry['updated']); d.format('yyyy-MM-dd hh:mm')">
 				</div>

@@ -16,12 +16,38 @@
 	padding: 10px;
 }
 </style>
+<script>
 
+	function saveRole() {
+		var perms = [];
+
+		$("input[type='checkbox']").each(function() {
+			if ($(this).is(":checked")) {
+				perms.push($(this).attr("id"));
+			}
+		});
+
+		$.post("/service/fin/role/add", {
+			name: $("#role-name").val(),
+			perms: JSON.stringify(perms)
+		}, function() {
+			alert("角色保存完成");
+			rolesList();
+		});
+
+	}
+
+</script>
 
 <div class="roleEdit area">
 	
 	<div class="title">
 			<h3>角色编辑</h3> 
+	</div>
+
+	<div>
+		<label>角色名称</label>
+		<input type="text" id="role-name">
 	</div>
 
 	<div class="group">
@@ -32,10 +58,20 @@
 			<ul>
 				<li>
 					<input id="core" type="checkbox"  data-coll="account">
-					<span>认证用户</span>
+					<span>查看用户</span>
 					<span></span>
 				</li>
-				
+				<li>
+					<input id="greenorg" type="checkbox"  data-coll="account">
+					<span>管理绿色通道企业</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="crmng" type="checkbox"  data-coll="account">
+					<span>信贷经理管理</span>
+					<span></span>
+				</li>
+
 			</ul>
 		</div>
 	</div>
@@ -57,18 +93,23 @@
 					<span></span>
 				</li>
 				<li>
-					<input id="allproj" type="checkbox" data-coll="proj">
+					<input id="projall" type="checkbox" data-coll="proj">
 					<span>查看所有项目</span>
 					<span></span>
 				</li>
 				<li>
-					<input id="passedproj" type="checkbox" data-coll="proj">
+					<input id="projpass" type="checkbox" data-coll="proj">
 					<span>查看已通过项目</span>
 					<span></span>
 				</li>
 				<li>
-					<input id="unpassproj" type="checkbox" data-coll="proj">
+					<input id="projunp" type="checkbox" data-coll="proj">
 					<span>查看未通过项目</span>
+					<span></span>
+				</li>
+				<li>
+					<input id="projfinished" type="checkbox" data-coll="proj">
+					<span>查看完成项目</span>
 					<span></span>
 				</li>
 			</ul>
@@ -82,22 +123,22 @@
 		<div class="sub">
 			<ul>
 				<li>
-					<input id="p2pfina" type="checkbox" data-coll="content">
-					<span>P2P产品来源管理</span>
+					<input id="invest" type="checkbox" data-coll="content">
+					<span>理财产品管理</span>
 					<span></span>
 				</li>
 				<li>
 					<input id="bankfina" type="checkbox" data-coll="content">
-					<span>银行理财</span>
+					<span>金融超市</span>
 					<span></span>
 				</li>
 				<li>
-					<input id="rmbfina" type="checkbox" data-coll="content">
-					<span>货币基金</span>
+					<input id="res" type="checkbox" data-coll="content">
+					<span>投资资源</span>
 					<span></span>
 				</li>
 				<li>
-					<input id="newsman" type="checkbox" data-coll="content">
+					<input id="news" type="checkbox" data-coll="content">
 					<span>新闻公告</span>
 					<span></span>
 				</li>
@@ -105,6 +146,8 @@
 			</ul>
 		</div>
 	</div>
-	
+	<div>
+		<a class="btn" onclick="saveRole();">保存</a>
+	</div>
 
 </div>

@@ -237,9 +237,9 @@ function refreshImg() {
             	<li><a href="index.jsp">首页</a></li>
             	<li><a href="home.jsp">融资入口</a></li>
             	<li><a href="home.jsp">账号管理</a></li>
-            	<li><a href="#">投资资源</a></li>
-            	<li><a href="#">理财产品</a></li>
-            	<li><a href="#">金融超市</a></li>                                                                                
+            	<li><a href="res.jsp">投资资源</a></li>
+            	<li><a href="invests.jsp">理财产品</a></li>
+            	<li><a href="markets.jsp">金融超市</a></li>
             </ul>
         </div>
 
@@ -404,7 +404,7 @@ function refreshImg() {
         <div class="index_top-lv05">
 
               <div class="l">
-                  <div class="box">
+                  <div class="box" style="height: 236px;">
                     <div class="l_top">
                         <div class="l_top_l">
                             <span>
@@ -412,24 +412,21 @@ function refreshImg() {
                             </span>
                         </div>    
                         <div class="l_top_r">
-                            <a href="#">更多&gt;</a>
+                            <a href="res.jsp">更多&gt;</a>
                         </div>
                     </div>
                     
                     <div class="content">
                        <ul>
-                       	<li><a href="#"><img src="img/index_020.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_021.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_022.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_023.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_020.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_021.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_022.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_023.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_020.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_021.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_022.png" alt=""></a></li>
-                       	<li><a href="#"><img src="img/index_023.png" alt=""></a></li>                        
+                       	<%
+							List<Map> finres = (List)((Map)pageInfo.get("finres")).get("list");
+							for(Map res : finres) {
+						%>
+							<li><a href="#"><img src="<%=res.get("logo")%>" alt=""></a></li>
+
+						<%
+							}
+						%>
                        </ul>
                     </div>
                   </div>
@@ -439,21 +436,23 @@ function refreshImg() {
           
           
               <div class="r">
-                  <div class="box">
+                  <div class="box" style="height: 236px;">
                     <div class="title">
                         <div class="title_l">新闻公告</div>
-                        <div class="title_r"><a href="#">更多&gt;</a></div>
+                        <div class="title_r"><a href="news.jsp">更多&gt;</a></div>
                     
                     </div>
                     
                     <div class="content">
                         <ul>
-                        	<li><img src="img/index_024.png" alt=""><a href="">机构称央行今年信贷额度贷额度已部已...</a></img></li>
-                        	<li><img src="img/index_024.png" alt=""><a href="">机构称央行今年信贷额度贷额度已部已...</a></img></li>
-                        	<li><img src="img/index_024.png" alt=""><a href="">机构称央行今年信贷额度贷额度已部已...</a></img></li>
-                        	<li><img src="img/index_024.png" alt=""><a href="">机构称央行今年信贷额度贷额度已部已...</a></img></li>
-                        	<li><img src="img/index_024.png" alt=""><a href="">机构称央行今年信贷额度贷额度已部已...</a></img></li>
-                        	<li><img src="img/index_024.png" alt=""><a href="">机构称央行今年信贷额度贷额度已部已...</a></img></li>
+                        	<%
+								List<Map> newslist = (List)((Map)pageInfo.get("news")).get("list");
+								for(Map news : newslist) {
+							%>
+                        		<li><img src="img/index_024.png" alt=""><a href=""><%=news.get("title")%></a></img></li>
+							<%
+								}
+							%>
                         </ul>
                     </div>
                   
@@ -472,7 +471,7 @@ function refreshImg() {
                         理财产品
                     </div>
                     <div class="r">
-                        <a href="#">更多&gt;</a>
+                        <a href="invests.jsp">更多&gt;</a>
                     </div>
                 </div>
                 <div class="content">
@@ -489,7 +488,6 @@ function refreshImg() {
                         	<%
                         		
                         		Object list = ((Map)pageInfo.get("wd")).get("list");
-                        		System.out.println(list);
                         		List<Map> wdlist =  (List) list;
                         		for(Map wd :wdlist) {
                         	%>
@@ -603,7 +601,7 @@ function refreshImg() {
                     	金融超市
                     </div>
                     <div class="r">
-                    	<a href="#">更多&gt;</a>
+                    	<a href="markets.jsp">更多&gt;</a>
                     </div>
                 </div>
                 <div class="content">
@@ -627,8 +625,6 @@ function refreshImg() {
                                 <td style="width:20%;">利率</td>
                                 <td style="width:20%;">合作机构</td>
                             </tr>
-
-                    	
                     		<%
                         		
                         	List<Map> fmlist = (List)  (((Map)pageInfo.get("fm")).get("list"));

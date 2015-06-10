@@ -14,12 +14,11 @@ function listLicai(skip) {
 		initTable("#licai-table",result, null, function(page) {
 			listLicai(page*15);
 		});
-		
 	});
 }
 
 function addLicai() {
-	loadPage($("#ccontent"), "sub/licai-edit.html");
+	loadPage($("#ccontent"), "sub/fin-product-edit.html");
 }
 
 function removeLicai(t) {

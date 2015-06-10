@@ -21,8 +21,9 @@
 function approve() {
 	var loan = $("#approve-content").data("loan");
 	
-	if ($("#approve-content").val().length<6) {
-		alert("请输入审核意见");
+	if ($("#approve-content").val().length<20) {
+		alert("请输入审核意见,内容不能小于20个字");
+		return;
 	}
 	
 	var request = {
@@ -44,8 +45,9 @@ function approve() {
 
 function reject() {
 	var loan = $("#approve-content").data("loan");
-	if ($("#approve-content").val().length<6) {
-		alert("请输入驳回意见");
+	if ($("#approve-content").val().length<20) {
+		alert("请输入驳回意见，内容不能小于20个字");
+		return;
 	}
 	$.post("/service/fin/loan/reject", {
 		"loan": loan._id,

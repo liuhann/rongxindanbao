@@ -76,6 +76,8 @@ a.rbtn {
 }
 
 a.gbtn {
+  margin-right: 5px;
+  /*
   display: inline-block;
   overflow: visible;
   padding: 0 23px;
@@ -94,6 +96,7 @@ a.gbtn {
   cursor: pointer;
   background-color: #f1f1f1;
   color: #000;
+  */
 }
 
 .hidden, .template {

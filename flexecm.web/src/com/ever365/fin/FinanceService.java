@@ -56,6 +56,13 @@ public class FinanceService implements Tenantable {
 		PERSON_LOAN_TYPES.put(1, "购房按揭贷款");
 		PERSON_LOAN_TYPES.put(1, "个人消费贷款");
 	}
+
+	public static Map<String, String> INVESTMENT_TYPES = new HashMap<String, String>();
+	static {
+		INVESTMENT_TYPES.put("1", "网贷类投资");
+		INVESTMENT_TYPES.put("2", "银行理财");
+		INVESTMENT_TYPES.put("3", "定向类理财");
+	}
 	
 	Logger logger = Logger.getLogger(FinanceService.class.getName());
 	
@@ -79,13 +86,15 @@ public class FinanceService implements Tenantable {
 		m.put("yh", filterCollection("investments", wdFilter, 0, 2));
 		wdFilter.put("type", "3");
 		m.put("dx", filterCollection("investments", wdFilter, 0, 2));
-		
-		
+
 		Map<String, Object> loanFilter = new HashMap<String, Object>();
 		loanFilter.put("audit", MapUtils.newMap("$gt", 1));
 		
 		m.put("rc", dataSource.filterCollectoin(COLL_LOANS, loanFilter,null, 0, 12));
 		m.put("fm", filterCollection("finamarkets", null, 0, 10));
+
+		m.put("finres", dataSource.filterCollectoin("finres",null,null,0,8));
+		m.put("news", dataSource.filterCollectoin("news",null,null,0,8));
 		return m;
 	}
 	@RestService(uri="/fin/upload", method="POST", multipart=true, authenticated=false)
@@ -167,7 +176,7 @@ public class FinanceService implements Tenantable {
 		uinf.put("loginid", AuthenticationUtil.getCurrentUser());
 		update(COLL_ACCOUNTS, uinf);
 	}
-	
+
 	@RestService(method="POST", uri="/fin/account/save", authenticated=true, runAsAdmin=true)
 	public String saveAccount(Map<String, Object> req) {
 		checkAccountValid(req);
@@ -186,13 +195,15 @@ public class FinanceService implements Tenantable {
 		}
 		return "1";
 	}
-	
 
-	@RestService(method="POST", uri="/fin/account/delete", authenticated=true, runAsAdmin=true)
+	@RestService(method="POST", uri="/fin/account/remove", authenticated=true, runAsAdmin=true)
 	public void deleteAccount(@RestParam(value="loginid")String loginid) {
-		dataSource.getCollection(COLL_ACCOUNTS).remove(new BasicDBObject("loginid", loginid));
+		DBObject exsited = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", loginid));
+
+		if (exsited.get("type").equals("admin")||exsited.get("type").equals("bkuser")) {
+			dataSource.getCollection(COLL_ACCOUNTS).remove(new BasicDBObject("loginid", loginid));
+		}
 	}
-	
 
 	@RestService(method="POST", uri="/fin/account/filter", authenticated=true)
 	public Map<String, Object> filterAccount(@RestParam(value="filter")Map<String, Object> filters, @RestParam(value="skip") Integer skip, @RestParam(value="limit") Integer limit ) {
@@ -205,6 +216,28 @@ public class FinanceService implements Tenantable {
 			}
 		}
 		return m;
+	}
+
+	@RestService(method="POST", uri="/fin/role/add", authenticated=true, runAsAdmin=true)
+	public void addRole(@RestParam(value="name")String rolename, @RestParam(value="perms")List<String> pers) {
+
+		DBObject role = dataSource.getCollection("roles").findOne(new BasicDBObject("role", rolename));
+		dataSource.getCollection("roles").update(new BasicDBObject("role", rolename),
+				BasicDBObjectBuilder.start().add("role", rolename).add("pers",pers).get(), true, false);
+	}
+
+	@RestService(method="POST", uri="/fin/role/remove", authenticated=true, runAsAdmin=true)
+	public void removeRole(@RestParam(value="name")String rolename) {
+		dataSource.getCollection("roles").remove(new BasicDBObject("role", rolename));
+	}
+
+	@RestService(method="POST", uri="/fin/account/role", authenticated=true, runAsAdmin=true)
+	public void setAccountRole(@RestParam(value="loginid")String loginid, @RestParam(value="roles")List<String> roles) {
+		DBObject account = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", loginid));
+		if (account!=null) {
+			account.put("roles", roles);
+			update(COLL_ACCOUNTS, account);
+		}
 	}
 
 	/*
@@ -394,8 +427,15 @@ public class FinanceService implements Tenantable {
 	}
 
 	@RestService(method="POST", uri="/fin/content/remove")
-	public void removeNews(@RestParam(value="collection")String collection, @RestParam(value="_id") String id) {
+	public void removeContent(@RestParam(value="collection")String collection, @RestParam(value="_id") String id) {
 		dataSource.getCollection(collection).remove(new BasicDBObject("_id", new ObjectId(id)));
+	}
+
+
+	@RestService(method="GET", uri="/fin/content/get")
+	public Map getContent(@RestParam(value="collection")String collection, @RestParam(value="_id") String id) {
+		DBObject one = dataSource.getCollection(collection).findOne(new BasicDBObject("_id", new ObjectId(id)));
+		return one.toMap();
 	}
 	
 	//检查账户创建请求的合法性

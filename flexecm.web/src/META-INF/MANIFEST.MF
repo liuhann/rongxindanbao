@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Class-Path: commons-fileupload-1.2.2.jar validation-api-1.0.0.GA.jar s
+ pring-asm-3.0.5.RELEASE.jar spring-beans-3.0.5.RELEASE.jar jsoup-1.7.
+ 3.jar thumbnialator.jar commons-httpclient-3.1.jar spring-web-3.0.5.R
+ ELEASE.jar log4j-1.2.16.jar slf4j-log4j12-1.6.1.jar mongo-java-driver
+ -2.11.1.jar bcs-sdk-java_1.4.5.jar spring-context-support-3.0.5.RELEA
+ SE.jar spring-context-3.0.5.RELEASE.jar spring-expression-3.0.5.RELEA
+ SE.jar commons-io-1.4.jar spring-core-3.0.5.RELEASE.jar json.jar aopa
+ lliance-1.0.jar jcl-over-slf4j-1.6.1.jar jstl-1.2.jar servlet-api.jar
+  commons-email-1.3.3.jar commons-codec-1.3.jar slf4j-api-1.6.1.jar fl
+ exjson-2.1.jar mail.jar
+

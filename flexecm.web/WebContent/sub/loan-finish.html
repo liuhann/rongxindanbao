@@ -16,10 +16,28 @@
 
 </style>
 
-<script type="text/javascript">
+	<script charset="utf-8" src="../js/kindeditor/kindeditor-min.js"></script>
+	<script charset="utf-8" src="../js/kindeditor/zh_CN.js"></script>
+	<script type="text/javascript">
+
+		var editor;
+		KindEditor.ready(function(K) {
+			$(".add-news .empty").hide();
+			editor = K.create('textarea[name="project-progress"]', {
+				resizeType : 1,
+				allowPreviewEmoticons : false,
+				allowImageUpload : false,
+				items : [
+					'fontname', 'fontsize', '|', 'forecolor', 'hilitecolor', 'bold', 'italic', 'underline',
+					'removeformat', '|', 'justifyleft', 'justifycenter', 'justifyright', 'insertorderedlist',
+					'insertunorderedlist', '|', 'emoticons', 'image', 'link']
+			});
+
+		});
+
 	$(function(){
 		var loan = $("#ccontent").data("loan");
-		$("#project-progress").val(loan.progress);
+		editor.html(loan.progress);
 	});
 
 
@@ -27,7 +45,7 @@ function saveProjectProgress() {
 	var loan = $("#ccontent").data("loan");
 	$.post("/service/fin/loan/progress", {
 		id: loan._id,
-		progress: $("#project-progress").val()
+		progress: editor.html()
 	}, function() {
 		alert("项目进度信息已保存");
 	});
@@ -38,7 +56,7 @@ function finishedProject() {
 
 	$.post("/service/fin/loan/finish", {
 		id: loan._id,
-		progress: $("#project-progress").val()
+		progress: editor.html()
 	}, function() {
 		alert("已设置项目为完成");
 	});
@@ -48,30 +66,12 @@ function finishedProject() {
 </script>
 </head>
 
-<table>
-	<tbody>
-		<tr>
-		<td style="padding-top: 5px; text-align: right;">项目进展情况</td>
-			<td>
-				<div class="form-item">
-						<textarea id="project-progress">
+<div>
+<textarea id="project-progress" name="project-progress" style="width: 805px;height: 300px;">
 
-						</textarea>
-				</div>
-				<div class="err"></div>
-			</td>
-		</tr>
-		<!-- -->
-		<tr class="edita" style="height: 120px;">
-			<td></td>
-			<td>
-				<div class="notice">
-				</div>
-				<div style="padding-top: 20px;">
-					<a class="btn savemerge" onclick="saveProjectProgress();" > 保存项目进展</a>
-					<a class="btn savemerge" onclick="finishedProject();" > 还款完毕</a>
-				</div>
-			</td>
-		</tr>
-	</tbody>
-</table>
+</textarea>
+</div>
+<div style="padding-top: 20px;">
+	<a class="btn savemerge" onclick="saveProjectProgress();" > 保存项目进展</a>
+	<a class="btn savemerge" onclick="finishedProject();" >确认还款完毕</a>
+</div>

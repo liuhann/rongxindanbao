@@ -489,6 +489,11 @@ function initTable(tbid, data, cell, cb) {
 			if ($(this).data("cal") && cell) {
 				cell($(this), entry, $(this).data("cal"));
 			}
+			if ($(this).data("t")) {
+				for(var k in entry) {
+					$(this).html($(this).html().replace("{{" + k + "}}", entry[k]));
+				}
+			}
 		});
 		$(tbid).append(cloned);
 	}
@@ -499,7 +504,7 @@ function initTable(tbid, data, cell, cb) {
 	$(tbid).find(".pager").remove();
 	
 	if (pc>1 && $(tbid).find(".pager").length==0) {
-		$("<div class='pager'></div").appendTo($(tbid))
+		$("<div class='pager'></div>").appendTo($(tbid))
 		.pager({ pagenumber: number, pagecount: pc, buttonClickCallback: 
 			function(pageclickednumber){
 				if (cb) {
