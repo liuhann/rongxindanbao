@@ -202,16 +202,8 @@
 .zhanghuguanli_jksq_001 .r .lv02 ul li .end {
 	margin-right: 0px;
 }
-.zhanghuguanli_jksq_001 .r .lv03 {
-	height: auto;
-	width: 465px;
-	margin-right: auto;
-	margin-left: auto;
-	padding-top: 28px;
-	  width: 865px;
-}
+
 .zhanghuguanli_jksq_001 .r .lv03 table tr td {
-	height: 60px;
 	font-size: 14px;
 	padding: 8px 10px;
 	color: #333;
@@ -234,7 +226,6 @@
 	width: auto;
 	display: block;
 	float: left;
-	margin-left: -30px;
 }
 .zhanghuguanli_jksq_001 .r .lv03 table tr td a {
 	color: #999;

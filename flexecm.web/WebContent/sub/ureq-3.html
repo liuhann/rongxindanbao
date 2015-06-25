@@ -2,12 +2,13 @@
 <head>
 <script type="text/javascript">
 
-$(function() {
-	
-});
-
 </script>
 
+	<style>
+		.est-hasloan {
+			display: none;
+		}
+	</style>
 </head>
 <table>
 	<!--表单项 -->
@@ -61,7 +62,7 @@ $(function() {
 		<td ><span>房产面积</span></td>
 		<td><input class="form-text" id="est-size"
 			type="text" value="140" data-checked="number+" data-inval="地址不能为空">
-			<b style="margin-left: -40px;">平方米</b>
+			<b>平方米</b>
 			 <em class="hpsize"></em></td>
 	</tr>
 	<!--表单项 -->
@@ -74,17 +75,41 @@ $(function() {
 	</tr>
 	<!--表单项 -->
 	<tr class="hases">
-		<td ><span>是否有贷款</span></td>
-		<td><select id="est-hasloan"
+		<td style="vertical-align: top;"><span>是否有贷款</span></td>
+		<td>
+		<select id="est-hasloan"
 			class="form-select switch">
-				<option value="0">无</option>
+				<option value="0" selected>无</option>
 				<option value="-1">有</option>
 				<option value="2">有但已还完</option>
-		</select> <span class="hidden est-hasloan" style="float: left"><span style="float: left;">贷款余额:</span>  <input
-			style="width: 100px;"
-			class="form-text hidden est-hasloan" id="est-loanremain" type="text"
-			value="0" data-checked="number+" data-inval="贷款余额不能为空"><b>万元</b> <em
-			class="est-loanremain"></em></span></td>
+		</select>
+		</td>
+	</tr>
+
+
+	<tr class="est-hasloan">
+		<td >贷款银行</td>
+		<td><input id="est-loanbank" class="medium"  type="text"></td>
+	</tr>
+
+	<tr class="est-hasloan">
+		<td>贷款期限</td>
+		<td><input id="est-loandate" class="small"  type="text"></td>
+	</tr>
+
+	<tr class="est-hasloan">
+		<td>贷款金额</td>
+		<td><input id="est-loantotal" class="small" type="text"></td>
+	</tr>
+
+	<tr class="est-hasloan">
+		<td>贷款余额</td>
+		<td><input id="est-loanremain"  class="small"  type="text"></td>
+	</tr>
+
+	<tr class="est-hasloan">
+		<td>到期日</td>
+		<td><input id="est-loantil" class="small"  type="text"></td>
 	</tr>
 
 	<!--表单项 -->
@@ -109,9 +134,22 @@ $(function() {
 	<!--表单项 -->
 	<tr class="hasveh">
 		<td ><span>车辆类型</span></td>
-		<td><input class="form-text" id="vehtype"
+		<td>
+			<select id="vehtype">
+				<option>普货车</option>
+				<option>危化品车</option>
+				<option>家用小轿车</option>
+				<option>平板车</option>
+			</select>
+		</td>
+	</tr>
+
+	<tr class="hasveh">
+		<td ><span>车辆型号</span></td>
+		<td><input class="form-text" id="vehname"
 			type="text" value="特斯拉T101"></td>
 	</tr>
+
 	<!--表单项 -->
 	<tr class="hasveh">
 		<td ><span>车牌号</span></td>
@@ -125,21 +163,42 @@ $(function() {
 			type="text" value="2010"></td>
 	</tr>
 	<!--表单项 -->
-	<tr class="hasveh">
+	<tr class="hasveh" style="vertical-align: top;">
 		<td ><span>是否有贷款</span></td>
-		<td><select id="vehbloan"
-			class="form-select switch">
+		<td>
+			<select id="vehbloan"
+				class="form-select switch">
 				<option value="-1">是</option>
 				<option value="0">否</option>
-		</select></td>
+			</select>
+		</td>
 	</tr>
-	<!--表单项 -->
-	<tr class="hasveh vehbloan">
-		<td ><span>贷款余额</span></td>
-		<td><input class="form-text" id="vehremain"
-			type="text" value="12" data-checked="number+" data-inval="贷款余额不能为空">
-			<em class="vehremain"></em></td>
+
+	<tr class="vehbloan">
+		<td style="width: 80px;">贷款银行</td>
+		<td><input id="vehbloanbank" class="medium"  type="text"></td>
 	</tr>
+
+	<tr class="vehbloan">
+		<td>贷款期限</td>
+		<td><input id="vehbloandate" class="small"  type="text"></td>
+	</tr >
+
+	<tr class="vehbloan">
+		<td>贷款金额</td>
+		<td><input id="vehbloantotal" class="small" type="text"></td>
+	</tr>
+
+	<tr class="vehbloan">
+		<td>贷款余额</td>
+		<td><input id="vehbloanremain" class="small" type="text"></td>
+	</tr>
+
+	<tr class="vehbloan">
+		<td>到期日</td>
+		<td><input id="vehbloantil" class="small" type="text"></td>
+	</tr>
+
 	<!--表单项 -->
 	<tr class="hasveh">
 		<td ><span>车辆是否在本人名下</span>
@@ -149,9 +208,19 @@ $(function() {
 				<option value="0">否</option>
 		</select></td>
 	</tr>
+
+	<tr class="hasveh">
+		<td ><span>其他车辆信息</span>
+		</td>
+		<td>
+			<textarea placeholder="有多个车辆的情况下，追加的备注" style="width: 400px;height: 150px;" id="othervehcmt"></textarea>
+		</td>
+	</tr>
+
 	<tr class="edita">
 		<td style="text-align: right;"></td>
 		<td><input class="form-button savemerge" type="button" value="保存">
+			<input class="form-button pageprev" type="button" value="上一步">
 			<input class="form-button pagenext" type="button" value="下一步"></td>
 	</tr>
 </table>

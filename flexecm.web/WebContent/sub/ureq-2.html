@@ -3,6 +3,7 @@
  <script type="text/javascript">
  $(function() {
 	$("input[name='maritalStatus']").click(function() {
+       loanRequest.maritalStatus = $(this).val();
 		if ($(this).val() == "2") {
 			$(".ureq-6,.ureq-7,.ureq-8").parent().show();
 		} else {
@@ -63,12 +64,13 @@
      <!--表单项 --> 
      <tr> 
       <td > <span>婚姻状况</span> </td> 
-      <td> <input name="maritalStatus" type="radio" value="1"/><i>未婚</i> <input name="maritalStatus" type="radio" value="2" /><i>已婚</i> <input name="maritalStatus" type="radio" value="3" /><i>离异</i> <input name="maritalStatus" type="radio" value="4" /><i>丧偶</i> </td> 
+      <td> <input name="maritalStatus" type="radio" value="1"/><i>未婚</i> <input name="maritalStatus" type="radio" value="2" /><i>已婚</i> <input name="maritalStatus" type="radio" value="3" /><i>离异</i> <input name="maritalStatus" type="radio" value="4" /><i>丧偶</i> </td>
      </tr> 
      <!--表单项 --> 
      <tr class="edita"> 
       <td style="text-align:right;"> </td> 
       <td> <input class="form-button savemerge" type="button" value="保存">
+            <input class="form-button pageprev" type="button" value="上一步">
 			<input class="form-button pagenext" type="button" value="下一步"> </td> 
      </tr> 
      <!-- --> 

@@ -16,7 +16,9 @@ $(document).ready(function() {
  */
 function viewLoan(loan, cb) {
 	$("#ccontent").hide();
-	
+
+	console.log(loan);
+
 	var div = $('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
 	$("#ccontent").after(div);
 	div.show();
@@ -278,7 +280,6 @@ var formCheck = function(selector) {
 		});
 	});
 
-
 	$("a.imgupload").each(function() {
 		var btnid = $(this).attr("id");
 		initUploader(btnid, "/service/fin/upload","jpg,gif,png" ,function(up, file, r) {
@@ -315,6 +316,12 @@ var formCheck = function(selector) {
 	}
 	return {
 		readOnly: function() {
+
+			$(form).find("input[type='text']").each(function() {
+				$(this).replaceWith($(this).val());
+			});
+
+
 			$(form).find("input,textarea").attr("disabled", true);
 			$(form).find("input,textarea").addClass("disabled");
 			$(".edita").hide();
@@ -326,7 +333,7 @@ var formCheck = function(selector) {
 			$(form).find("input[type='radio']").each(function() {
 				if ($(this).attr("checked")!="checked") {
 					$(this).next("i").remove();
-				} 
+				}
 				$(this).remove();
 			});
 			$(form).find("a.imgupload").remove();
@@ -368,12 +375,14 @@ var formCheck = function(selector) {
 							$(this).val(d.format('yyyy-MM-dd hh:mm'));
 						}
 					}
-					
-					
 					if ($(this).attr("type")=="radio") {
 						if ($(this).attr("value")==data[$(this).attr("name")]) {
-							$(this).attr("checked", "checked");
+							$(this).prop('checked', true);
+							//$(this).attr("checked", "checked");
+						} else {
+							$(this).prop('checked', false);
 						}
+
 						if (data[$(this).attr("name")] == "1" || data[$(this).attr("name")] == null) {
 							$("." + $(this).attr("name")).show();
 						} else {
@@ -389,8 +398,13 @@ var formCheck = function(selector) {
 						if (!optionExists($(this), data[$(this).attr("id")])) {
 							$(this).append("<option>" + data[$(this).attr("id")] + "</option>");
 						};
-						
 						$(this).val(data[$(this).attr("id")]);
+
+						if (data[$(this).attr("id")] == "-1") {
+							$("." + $(this).attr("id")).show();
+						} else {
+							$("." + $(this).attr("id")).hide();
+						}
 					}
 					function optionExists(t,val) {
 						  return $(t).find("option[value='" + val + "']").length !== 0;

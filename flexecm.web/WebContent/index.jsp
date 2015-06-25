@@ -235,8 +235,8 @@ function refreshImg() {
         <div class="index_top-lv03">
         	<ul>
             	<li><a href="index.jsp">首页</a></li>
-            	<li><a href="home.jsp">融资入口</a></li>
-            	<li><a href="home.jsp">账号管理</a></li>
+            	<li><a href="home.jsp?request">融资入口</a></li>
+            	<li><a href="home.jsp?profile">账号管理</a></li>
             	<li><a href="res.jsp">投资资源</a></li>
             	<li><a href="invests.jsp">理财产品</a></li>
             	<li><a href="markets.jsp">金融超市</a></li>

@@ -235,7 +235,6 @@ color: #eee;
 } 
 .table {
   width: 100%;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
   display: table;
   background: #fff;
 }
@@ -291,8 +290,7 @@ color: #eee;
 .cell {
   padding: 10px 15px;
   display: table-cell;
-  border-top: 1px solid #ccc;
-  border-left: 1px solid #ccc;
+  border: 1px solid #ccc;
   vertical-align: middle;
 }
 
@@ -432,9 +430,6 @@ color: #eee;
 }
 
 #ccontent div.page {
-	padding: 10px;
-	border-right: 1px solid #dedede;
-	border-left: 1px solid #dedede;
 }
 
 #ccontent h2 b {
@@ -447,8 +442,9 @@ color: #eee;
 	width: 100%;
 }
 #ccontent table tr td {
-	padding: 8px;
-	font-size: 14px;
+  padding: 8px;
+  font-size: 14px;
+  border: 1px solid #ccc;
 }
 #ccontent table tr td:FIRST-CHILD {
 	width: 240px;
@@ -464,15 +460,14 @@ color: #eee;
 
 #ccontent table tr td b {
   font-size: 12px;
-  line-height: 32px;
   color: #999;
 }
 #ccontent table tr td i {
 	font-style: normal;
 }
 
-
 #ccontent input.disabled, #ccontent textarea.disabled {
+    padding: 0;
 	background-color: #FAFAFA;
     background-color: rgba(0,0,0,0);
 	border: none;

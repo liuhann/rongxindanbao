@@ -3,9 +3,12 @@ $(function() {
 		$(".menu_list li.current").removeClass("current");
 		$(this).addClass("current");
 	});
-	
-	
+
 	$(".menu_list." + uinfo.type).show();
+
+	if (window.location.href.indexOf("request")>-1) {
+		startLoanRequest();
+	}
 });
 
 function dashboard() {
@@ -15,6 +18,8 @@ function dashboard() {
 
 function loanProgress() {
 	$("#content .r").hide();
+	$(".menu_list li.current").removeClass("current");
+	$(".menu_list li").eq(2).addClass("current");
 	loadPage($("#ccontent"), "sub/loan-progress-user.html");
 }
 
@@ -93,6 +98,8 @@ function sendLoanRequest(t) {
 }
 
 function startLoanRequest(t) {
+	$(".menu_list li.current").removeClass("current");
+	$(".menu_list li").eq(1).addClass("current");
 	$("#content .r").hide();
 	$(".loanRequest").show();
 	$(".steps").hide();
@@ -148,14 +155,16 @@ function companyNewRequest() {
 function personNewRequest() {
 	currentTab = 0;
 	currentPage = 0;
-	
+	$(".ureq-6,.ureq-7,.ureq-8").parent().hide();
 	loanRequest = {};
 	//自动填写的个人信息
 	loanRequest.type = 2;
 	loanRequest.rname = uinfo.rname;
 	loanRequest.idtype = uinfo.idtype;
 	loanRequest.idcode = uinfo.idcode;
-	
+	loanRequest.appellation = "0";
+	loanRequest.maritalStatus = "1";
+
 	loanRequest.mobile = uinfo.mobile;
 	loanRequest.email = uinfo.email;
 	
@@ -171,12 +180,12 @@ function personNewRequest() {
 		"est-location": "新海家园",
 		"est-size": "188",
 		"hasveh": "1",
-		"vehtype": "特斯拉T101",
-		"vehlicene": "京A NB1250"
+		"vehname": "特斯拉T101",
+		"vehlicene": "京A NB1250",
+		"vehbloan": "0"
 	};
 	var step4 = {
 			"hasloan": "1",
-			
 			"grttotal": "100",
 			"grtperson": "韩文",
 			"grtuntil": "2016-05-26",
@@ -184,11 +193,13 @@ function personNewRequest() {
 			                   {loanhisaccount: "20",loanhisbank: "上海浦东发展银行",loanhisrepay: "15",loanhistend: "2015-05-26",loanhiststart: "2015-05-01",loanhistype: "车辆贷款"}]
 	};
 	var step5 = {
+			"hasotherfv": "1",
 			"persongrt": "1",
 			"bankdep": "240",
 			"stock": "122",
 			"fund": "22",
-			"bond": "10"
+			"bond": "10",
+			"hascompany": "0"
 	};
 	
 	$.extend(loanRequest, step3);
@@ -197,7 +208,8 @@ function personNewRequest() {
 	loanRequest.mate3 = step3;
 	loanRequest.mate4 = step4;
 	loanRequest.mate5 = step5;
-	
+
+	loanRequest.haschild = "1";
 	loanRequest.hasotherfv = "1";
 	loanRequest["childage"] = "23";
 	loanRequest["childcoll"] = "北京科技大学";
@@ -244,6 +256,32 @@ function ureqPageNext() {
 	}
 }
 
+//翻到下一页方法。 用户选择了有配偶，则配偶也要编写 3、4、5三栏的信息
+function ureqPagePrev() {
+	if (currentTab==9) {
+		if (loanRequest.maritalStatus=="2") {
+			currentTab = 8
+			currentPage = 5;
+		} else {
+			currentTab = 5;
+			currentPage = 5;
+		}
+	} else if (currentTab==6) {
+		currentTab = 5;
+		currentPage = 5;
+	} else {
+		currentTab --;
+		currentPage --;
+	}
+
+	if (currentTab>=6 && currentTab<=8) {
+		requestNext("ureq-" + currentTab, "ureq-" + currentPage, "mate" + currentPage);
+	} else {
+		requestNext("ureq-" + currentTab, "ureq-" + currentPage);
+	}
+}
+
+
 function requestNext(tab, page, pre) {
 	saveMerge();
 	$(".steps .sele").removeClass("sele");
@@ -253,17 +291,22 @@ function requestNext(tab, page, pre) {
 	
 	$("#form-content").load("sub/" + page + ".html?" + new Date().getTime(), function() {
 		var fc = new formCheck("#form-content ");
-		$("#form-content").data("field", pre);
-		
+
+		if (pre) {
+			$("#form-content").data("field", pre);
+		} else {
+			$("#form-content").data("field", null);
+		}
+
 		$("#form-content .savemerge").click(function() {
 			saveMerge();
 			saveAsTemp();
 		});
 		$("#form-content .pagenext").click(ureqPageNext);
+		$("#form-content .pageprev").click(ureqPagePrev);
 		$("#form-content .cpagenext").click(creqPageNext);
 		$("#form-content .cpagepre").click(creqPagePrev);
 		$("#form-content .submitloan").click(sendLoanRequest);
-
 		/*
 		if ($("input.date").length>0) {
 			$("input.date").datetimepicker({
