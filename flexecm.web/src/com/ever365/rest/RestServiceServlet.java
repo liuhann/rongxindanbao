@@ -133,6 +133,8 @@ public class RestServiceServlet extends HttpServlet {
 						args.put(item.getFieldName(), item.getString("UTF-8"));
 					} else {
 						args.put(item.getFieldName(), item);
+						System.out.println("uploading file " + item.getName() + "  size" + item.getSize());
+						args.put("name", URLDecoder.decode(item.getName(), "UTF-8"));
 						args.put("size", Long.valueOf(item.getSize()));
 					}
 			} else {

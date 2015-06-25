@@ -23,7 +23,7 @@
 
 		$("input[type='checkbox']").each(function() {
 			if ($(this).is(":checked")) {
-				perms.push($(this).attr("id"));
+				perms.push($(this).next("span").html());
 			}
 		});
 

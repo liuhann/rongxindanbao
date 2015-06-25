@@ -60,6 +60,7 @@ function viewLoan(loan, cb) {
 						c.init(loan);
 						c.readOnly();
 						$("img.field").css("width", "480").css("height", "360");
+
 						finished(loan);
 					}
 				});
@@ -276,7 +277,32 @@ var formCheck = function(selector) {
 			lang:'ch'
 		});
 	});
-	
+
+
+	$("a.imgupload").each(function() {
+		var btnid = $(this).attr("id");
+		initUploader(btnid, "/service/fin/upload","jpg,gif,png" ,function(up, file, r) {
+			var img = $('<img class="field" style="height:40px; width: 50px;" src="/service/fin/preview?id='
+				+ r.response + '">');
+			img.data("field", btnid);
+			img.data("picdata", r.response);
+			$("#" + btnid).next("img").remove();
+			$("#" + btnid).after(img);
+		});
+	});
+
+	$("a.attachfile").each(function() {
+		var btnid = $(this).attr("id");
+		initUploader(btnid, "/service/fin/upload","*" ,function(up, file, r) {
+			var a = $('<a class="field" href="/service/fin/preview?id='
+				+ r.response + '"> ' + file.name + '</a>');
+			a.data("field", btnid);
+			a.data("picdata", r.response);
+			$("#" + btnid).next("a.field").remove();
+			$("#" + btnid).after(a);
+		});
+	});
+
 	function addSubListItem(list, data) {
 		var cloned = $(list).find(".template").clone().removeClass("template").addClass("row item");
 		cloned.find(".fill").each(function() {
@@ -304,6 +330,7 @@ var formCheck = function(selector) {
 				$(this).remove();
 			});
 			$(form).find("a.imgupload").remove();
+			$(form).find("a.attachfile").remove();
 		},
 		
 		showBtn: function(btn) {
@@ -390,7 +417,15 @@ var formCheck = function(selector) {
 						$(this).after(img);
 					}
 				});
-				
+
+				$(form).find("a.attachfile").each(function() {
+					if (data[$(this).attr("id")]) {
+						var a = $("<a>下载查看</a>")
+							.attr("href", "/service/fin/preview?id=" + data[$(this).attr("id")])
+							.attr("target", "_blank");
+						$(this).after(a);
+					}
+				});
 			}
 		},
 		getRequest: function() { //从表单抽取请求数据
@@ -410,7 +445,6 @@ var formCheck = function(selector) {
 						request[$(this).attr("id")] = null;
 					}
 				}
-				
 			});
 			
 			$(form).find(".sublist").each(function(){
@@ -426,12 +460,12 @@ var formCheck = function(selector) {
 				request[$(this).attr("id")] = listData;
 			});
 			
-			$(form).find("img.field").each(function() {
+			$(form).find(".field").each(function() {
 				if ($(this).data("field")) {
 					request[$(this).data("field")] = $(this).data("picdata");
 				}
 			});
-			
+
 			return request;
 		},
 		test: function() {
@@ -504,7 +538,7 @@ function initTable(tbid, data, cell, cb) {
 	$(tbid).find(".pager").remove();
 	
 	if (pc>1 && $(tbid).find(".pager").length==0) {
-		$("<div class='pager'></div>").appendTo($(tbid))
+		$("<div class='pager'></div>").insertAfter($(tbid))
 		.pager({ pagenumber: number, pagecount: pc, buttonClickCallback: 
 			function(pageclickednumber){
 				if (cb) {
@@ -748,7 +782,7 @@ function loadCss(css) {
 	}).appendTo("head");
 }
 
-function initUploader(btnid, uploadurl, cb) {
+function initUploader(btnid, uploadurl, types, cb) {
 	var uploader = new plupload.Uploader({
 	 	runtimes : 'html5,flash,silverlight,html4',
 	    browse_button : btnid, // you can pass in id...
@@ -756,7 +790,7 @@ function initUploader(btnid, uploadurl, cb) {
 	    filters : {
 	        max_file_size : '10mb',
 	        mime_types: [
-	            {title : "选择图形格式文件", extensions : "jpg,gif,png"}
+	            {title : "选择文件", extensions : types}
 	        ]
 	    },
 	    // Flash settings

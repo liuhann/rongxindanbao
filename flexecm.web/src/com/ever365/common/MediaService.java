@@ -31,8 +31,8 @@ public class MediaService {
 	}
 
 	@RestService(uri="/attachz/upload", method="POST", multipart=true)
-	public String uploadFile(@RestParam("file") InputStream is, @RestParam("size") Long size) {
-		String uid = this.contentStore.putContent(is, "image/png", size.longValue());
+	public String uploadFile(@RestParam("file") InputStream is,@RestParam("size") Long size, @RestParam("name") String name ) {
+		String uid = this.contentStore.putContent(is, "image/png", size.longValue(), name);
 		
 		DBObject dbo = new BasicDBObject();
 		dbo.put("uid", uid);
@@ -40,7 +40,6 @@ public class MediaService {
 		dbo.put("created", new Date().getTime());
 
 		dataSource.getCollection(COLL_ATTACHMENT).insert(dbo);
-		
 		/*
 		try {
 			Builder<File> of = Thumbnails.of(contentStore.getContentData(uid).getRaw()).size(100, 100);

@@ -1,52 +1,37 @@
+<table class="table sublist" id="loanhistory">
+	<tr class="row head">
+		<td class="cell">借款主体</td>
+		<td class="cell">借款额度</td>
+		<td class="cell">借款方式</td>
+		<td class="cell">合作银行</td>
+		<td class="cell edita">&nbsp;</td>
+	</tr>
+	<tr class="template" >
+		<td class="cell fill" data-field="mpart"></td>
+		<td class="cell fill" data-field="loanlimit"></td>
+		<td class="cell fill" data-field="loanmethod"></td>
+		<td class="cell fill" data-field="loanbank"></td>
+		<td class="cell edita"><a class="removesub">删除</a></td>
+	</tr>
+
+	<tr class="row editable edita">
+		<td class="cell"><input id="mpart" type="text" class="large"></td>
+		<td class="cell"><input id="loanlimit" type="text" class="small"></td>
+		<td class="cell"><input id="loanmethod" type="text" class="small"></td>
+		<td class="cell"><input id="loanbank" type="text" class="medium"></td>
+		<td class="cell "><a class="addsub">增加</a></td>
+	</tr>
+</table>
+
 <table>
 	<!-- -->
 	<tbody>
-		<tr>
-			<td style="padding-top: 5px;">借款主体</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" type="text" id="mpart">
-				</div>
-				<div class="err mpart"></div>
-			</td>
-		</tr>
-		<!-- -->
-		<tr>
-			<td style="padding-top: 5px;">借款额度</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" type="text" id="loanlimit" value="">
-				</div>
-				<div class="err loanlimit"></div>
-			</td>
-		</tr>
-		<!-- -->
-		<tr>
-			<td>借款方式</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" name="" id="loanmethod" type="text"/>
-				</div>
-				<div class="err loanmethod"></div>
-			</td>
-		</tr>
-		<!-- -->
-
-		<tr>
-			<td>合作银行</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" name="" id="loanbank" type="text"/>
-				</div>
-				<div class="err loanbank"></div>
-			</td>
-		</tr>
-		<!-- -->
 		<tr class="edita">
 			<td></td>
 			<td>
 				<input class="form-button savemerge" type="button" value="保存">
-			<input class="form-button cpagenext" type="button" value="下一步">
+				<input class="form-button cpagepre" type="button" value="上一步">
+				<input class="form-button cpagenext" type="button" value="下一步">
 			</td>
 		</tr>
 	</tbody>

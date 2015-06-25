@@ -99,9 +99,8 @@
 			<h2>理财产品来源管理</h2>
 		</div>
 		<ul>
-			<li onclick="backAccountList();">后台账号列表</li>
+			<li onclick="backAccountList();">账号管理</li>
 			<li onclick="rolesList();">角色管理</li>
-			<li onclick="backAccountList();">用户管理</li>
 		</ul>
 	</div>
 </div>

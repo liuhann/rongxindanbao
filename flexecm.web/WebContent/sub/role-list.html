@@ -1,10 +1,23 @@
 <head>
 <script type="text/javascript">
 $(function() {
-	$.getJSON("/service/fin/roles/list", {}, function(result) {
+	$.post("/service/fin/content/list", {
+		"collection": "roles"
+	}, function(data) {
+		var result = JSON.parse(data);
 		initTable("#role-table",result);
 	});
 });
+
+function removeRole(t) {
+	var entry = $(t).parents(".row").data("entry");
+
+	$.post("/service/fin/role/remove", {
+		name : entry.role
+	}, function() {
+		$(t).parents(".row").remove();
+	});
+}
 </script>
 
 </head>
@@ -22,12 +35,18 @@ $(function() {
 	      <div class="cell">
 	       		权限
 	      </div>
+		  <div class="cell">
+
+		  </div>
 	    </div>
 	    <div class="template">
-	      <div class="cell" data-f="rname">
+	      <div class="cell" data-f="role">
 	      </div>
-	      <div class="cell" data-f="perms">
+	      <div class="cell" data-eval="entry['pers'].join(',')">
 	      </div>
+			<div class="cell">
+				<a onclick="removeRole(this);">删除</a>
+			</div>
 	    </div>
 	</div>	
 </div>

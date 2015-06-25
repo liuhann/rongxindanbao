@@ -81,11 +81,11 @@ public class FinanceService implements Tenantable {
 		Map<String, Object> wdFilter = new HashMap<String, Object>();
 		wdFilter.put("index", "1");
 		wdFilter.put("type", "1");
-		m.put("wd", filterCollection("investments", wdFilter, 0, 2));
+		m.put("wd", filterCollection("investments", wdFilter, 0, 3));
 		wdFilter.put("type", "2");
-		m.put("yh", filterCollection("investments", wdFilter, 0, 2));
+		m.put("yh", filterCollection("investments", wdFilter, 0, 3));
 		wdFilter.put("type", "3");
-		m.put("dx", filterCollection("investments", wdFilter, 0, 2));
+		m.put("dx", filterCollection("investments", wdFilter, 0, 3));
 
 		Map<String, Object> loanFilter = new HashMap<String, Object>();
 		loanFilter.put("audit", MapUtils.newMap("$gt", 1));
@@ -98,10 +98,10 @@ public class FinanceService implements Tenantable {
 		return m;
 	}
 	@RestService(uri="/fin/upload", method="POST", multipart=true, authenticated=false)
-	public String uploadPreview(@RestParam("file") InputStream is, @RestParam("size") Long size) {
-		return this.contentStore.putContent(is, "image/png", size.longValue());
+	public String uploadPreview(@RestParam("file") InputStream is, @RestParam("size") Long size, @RestParam("name") String name) {
+		return this.contentStore.putContent(is, "image/png", size.longValue(), name);
 	}
-	
+
 	@RestService(uri="/fin/preview", method="GET", authenticated=false)
 	public StreamObject getPreview(@RestParam("id") String id) {
 		return this.contentStore.getContentData(id);
@@ -114,6 +114,9 @@ public class FinanceService implements Tenantable {
 	@RestService(method="POST", uri="/fin/account/reg", authenticated=false, rndcode=true)
 	public RestResult register(
 			Map<String, Object> req) {
+		if (AuthenticationUtil.SYSTEM.equals(req.get("loginid"))) {
+			throw new HttpStatusException(HttpStatus.CONFLICT);
+		}
 		DBObject u = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", req.get("loginid")));
 		
 		if (u!=null) {
@@ -465,14 +468,23 @@ public class FinanceService implements Tenantable {
 			DBObject uinf = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", AuthenticationUtil.getCurrentUser()));
 			if (uinf!=null) {
 				result.putAll(uinf.toMap());
+				if ("bkuser".equals(uinf.get("type"))) { //获取用户的角色
+					Object rs = uinf.get("roles");
+					List<String> perms = new ArrayList<String>();
+					if (rs!=null) {
+						String[] roleslist = rs.toString().split(",");
+						for (int i = 0; i < roleslist.length; i++) {
+							DBObject role = dataSource.getCollection("roles").findOne(new BasicDBObject("role", roleslist[i]));
+							if (role!=null) {
+
+							}
+						}
+					}
+				}
 			}
-			
-			
 		}
 		return result;
 	}
-	
-	
 	
 	@RestService(method="GET", uri="/fin/org/list")
 	public Map<String, Object> getOrgList(@RestParam(value="skip") Integer skip) {

@@ -26,6 +26,7 @@
 	
 	<bean id="fileStore" class="com.ever365.common.LocalContentStore">
 		<property name="localPath" value="/data/content"></property>
+		<property name="dataSource" ref="didoDataSource"></property>
 	</bean>
 	
 	<bean id="didoDataSource" class="com.ever365.mongo.LocalMongoDataSource">

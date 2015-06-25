@@ -494,7 +494,7 @@ function refreshImg() {
 	                        	<div class="item">
 	                            	<div class="l">
 	                                	<img src="<%=wd.get("logo").toString()%>">
-	                                    <span><%=wd.get("platform").toString()%></span>
+	                                   <!-- <span><%=wd.get("platform").toString()%></span> -->
 	                                </div>
 	                                <div class="r">
 	                                	<cite><%=wd.get("name").toString() %></cite>
@@ -518,15 +518,13 @@ function refreshImg() {
                             </div>
                         </div>
                         <div class="box_1_foot">
-                        
                         	<%
-                        		
                         	List<Map> yhlist = (List)  (((Map)pageInfo.get("yh")).get("list"));
                         		for(Map wd :yhlist) {
                         	%>
 	                        	<div class="item">
 	                            	<div class="l">
-	                                	<img src="<%=wd.get("logo").toString()%>">
+	                                	<img style="width:30px;height: 30px;" src="<%=wd.get("logo").toString()%>">
 	                                    <span><%=wd.get("platform").toString()%></span>
 	                                </div>
 	                                <div class="r">
@@ -537,16 +535,6 @@ function refreshImg() {
                         	<%
                         		}
                         	%>
-                        	<div class="item cls_b">
-                            	<div class="l">
-                                	<img src="img/index_028.png">
-                                    <span>齐商银行</span>
-                                </div>
-                                <div class="r">
-                                	<cite>银龙理财</cite>
-                                    <span>年化<b>10%</b></span>
-                                </div>
-                            </div>                            
                         </div>
                     </div>
                     <!-- -->

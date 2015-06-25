@@ -181,7 +181,7 @@ function personNewRequest() {
 			"grtperson": "韩文",
 			"grtuntil": "2016-05-26",
 			"existingLoans" : [{loanhisaccount: "20",loanhisbank: "上海浦东发展银行",loanhisrepay: "15",loanhistend: "2015-05-26",loanhiststart: "2015-05-01",loanhistype: "车辆贷款"},
-			                   {loanhisaccount: "20",loanhisbank: "上海浦东发展银行",loanhisrepay: "15",loanhistend: "2015-05-26",loanhiststart: "2015-05-01",loanhistype: "车辆贷款"}],
+			                   {loanhisaccount: "20",loanhisbank: "上海浦东发展银行",loanhisrepay: "15",loanhistend: "2015-05-26",loanhiststart: "2015-05-01",loanhistype: "车辆贷款"}]
 	};
 	var step5 = {
 			"persongrt": "1",
@@ -216,6 +216,12 @@ function creqPageNext() {
 	requestNext("creq-" + currentTab, "creq-" + currentPage);
 }
 
+function creqPagePrev() {
+	currentTab --;
+	currentPage --;
+	requestNext("creq-" + currentTab, "creq-" + currentPage);
+}
+
 //翻到下一页方法。 用户选择了有配偶，则配偶也要编写 3、4、5三栏的信息
 function ureqPageNext() {
 	if (currentTab==5) {
@@ -240,7 +246,7 @@ function ureqPageNext() {
 
 function requestNext(tab, page, pre) {
 	saveMerge();
-	$(".steps .sele").removeClass("sele")
+	$(".steps .sele").removeClass("sele");
 	$(".steps ." + tab).addClass("sele");
 	
 	$("#form-content").html('<div class="loading" style="line-height: 400px;text-align: center;font-size: 16px;">正在载入页面</div>');
@@ -255,8 +261,10 @@ function requestNext(tab, page, pre) {
 		});
 		$("#form-content .pagenext").click(ureqPageNext);
 		$("#form-content .cpagenext").click(creqPageNext);
+		$("#form-content .cpagepre").click(creqPagePrev);
 		$("#form-content .submitloan").click(sendLoanRequest);
-		
+
+		/*
 		if ($("input.date").length>0) {
 			$("input.date").datetimepicker({
 				format:'Y-m-d',
@@ -268,7 +276,7 @@ function requestNext(tab, page, pre) {
 		if ($("a.imgupload").length>0) {
 			$("a.imgupload").each(function() {
 				var btnid = $(this).attr("id");
-				initUploader(btnid, "/service/fin/upload", function(up, file, r) {
+				initUploader(btnid, "/service/fin/upload","jpg,gif,png" ,function(up, file, r) {
 					var img = $('<img class="field" style="height:40px; width: 50px;" src="/service/fin/preview?id='
 							+ r.response + '">');
 					img.data("field", btnid);
@@ -278,6 +286,21 @@ function requestNext(tab, page, pre) {
 				});
 			});
 		}
+
+		if ($("a.attachfile").length>0) {
+			$("a.attachfile").each(function() {
+				var btnid = $(this).attr("id");
+				initUploader(btnid, "/service/fin/upload","*" ,function(up, file, r) {
+					var a = $('<a class="field" href="/service/fin/preview?id='
+						+ r.response + '"> ' + file.name + '</a>');
+					a.data("field", btnid);
+					a.data("picdata", r.response);
+					$("#" + btnid).next("a.field").remove();
+					$("#" + btnid).after(a);
+				});
+			});
+		}
+		*/
 		if (pre) {
 			fc.init(loanRequest[pre]);
 		} else {

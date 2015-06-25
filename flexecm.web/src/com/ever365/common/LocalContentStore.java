@@ -9,6 +9,13 @@ import java.io.InputStream;
 import java.util.Date;
 import java.util.logging.Logger;
 
+import com.ever365.mongo.MongoDataSource;
+import com.ever365.rest.AuthenticationUtil;
+import com.ever365.utils.StringUtils;
+import com.ever365.utils.WebUtils;
+import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
+import com.mongodb.DBObject;
 import org.springframework.util.FileCopyUtils;
 
 import com.ever365.rest.StreamObject;
@@ -19,9 +26,13 @@ public class LocalContentStore {
 	private String localPath;
 	private static Logger logger = Logger.getLogger(LocalContentStore.class
 			.getName());
-
+	private MongoDataSource dataSource = null;
 	public void setLocalPath(String localPath) {
 		this.localPath = localPath;
+	}
+
+	public void setDataSource(MongoDataSource dataSource) {
+		this.dataSource = dataSource;
 	}
 
 	public String copyContent(String uid) {
@@ -29,7 +40,7 @@ public class LocalContentStore {
 			File f = new File(this.localPath + uid);
 			if (f.exists())
 				try {
-					return putContent(new FileInputStream(f), null, f.length());
+					return putContent(new FileInputStream(f), null, f.length(), null);
 				} catch (FileNotFoundException localFileNotFoundException) {
 				}
 		} 
@@ -52,15 +63,23 @@ public class LocalContentStore {
 			File f = new File(this.localPath +  uid);
 			if (f.exists()) {
 				try {
-					so.setFileName(f.getName());
+					DBObject dbo = dataSource.getCollection("contents").findOne(new BasicDBObject("url", uid));
 					so.setInputStream(new FileInputStream(f));
-					so.setLastModified(f.lastModified());
+					if (dbo!=null) {
+						so.setFileName((String)dbo.get("name"));
+						so.setLastModified((Long)dbo.get("undated"));
+						so.setMimeType((String)dbo.get("type"));
+					}
 					so.setSize(f.length());
 					so.setRaw(f);
 					return so;
 				} catch (FileNotFoundException e) {
 					e.printStackTrace();
+				} catch (Exception e) {
+					e.printStackTrace();
 				}
+			} else {
+				logger.info("File Not found "  + this.localPath +  uid);
 			}
 		}
 		return null;
@@ -89,13 +108,11 @@ public class LocalContentStore {
 		return null;
 	}
 
-	public String putContent(InputStream inputStream, String contentType, long size) {
+	public String putContent(InputStream inputStream, String contentType, long size, String name) {
 		if (this.localPath != null) {
-			
 			Date d = new Date();
-			
-			String path = "/" + d.getYear() + "/" + d.getMonth() + "/" + d.getDate(); 
-			String uid = path + "/" + UUID.generate();
+			String path = "/" + d.getYear() + "/" + d.getMonth() + "/" + d.getDate() + "/" + StringUtils.getRandString(5);
+			String uid = path + "/file.data";
 			
 			File f = new File(this.localPath + uid);
 			try {
@@ -107,6 +124,9 @@ public class LocalContentStore {
 					throw new IOException("File can not be created");
 				}
 				FileCopyUtils.copy(inputStream, new FileOutputStream(f));
+				dataSource.getCollection("contents").insert(BasicDBObjectBuilder.start().append("undated", System.currentTimeMillis())
+						.append("user", AuthenticationUtil.getCurrentUser())
+						.append("name", name).append("type", contentType).append("size", size).append("url", uid).get());
 			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			} catch (IOException e) {

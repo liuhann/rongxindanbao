@@ -474,9 +474,9 @@ color: #eee;
 
 #ccontent input.disabled, #ccontent textarea.disabled {
 	background-color: #FAFAFA;
+    background-color: rgba(0,0,0,0);
 	border: none;
 }
-
 
 .img-preview {
 	display: none;

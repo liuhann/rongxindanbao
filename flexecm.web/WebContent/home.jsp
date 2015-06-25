@@ -13,7 +13,6 @@
         <SCRIPT type=text/javascript src="js/jquery-1.11.2.min.js"></SCRIPT>
         <script type="text/javascript" src="js/webcommon.js"></script>
 
-
         <script type="text/javascript" src="js/sitedata_bas.js"></script>
 
         <!--css -->

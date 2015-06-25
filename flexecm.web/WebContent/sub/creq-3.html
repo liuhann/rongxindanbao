@@ -3,54 +3,39 @@
 	<!-- -->
 	<tbody>
 		<tr>
-			<td style="padding-top: 5px; text-align: right;">被担保主体</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" type="text" value="" id="grtpart">
-				</div>
-				<div class="err"></div>
-			</td>
+			<td style="padding-top: 5px; text-align: right;" colspan="2">借款担保情况 </td>
 		</tr>
-		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;">担保金额</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" type="text" value="" id="grttotal">
-				</div>
-				<div class="err"></div>
-			</td>
-		</tr>
-		<!-- -->
-		<tr>
-			<td style="padding-top: 5px; text-align: right;">担保期限</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" type="text" value="" id="grtdura">
-				</div>
-				<div class="err"></div>
-			</td>
-		</tr>
-		<!-- -->
-		<tr>
-			<td style="padding-top: 5px; text-align: right;">担保方式</td>
-			<td style="padding-top: 5px;">
-				<div class="form-item">
-					<input class="form-text" type="text" value="" id="grtmethod">
-				</div>
-				<div class="err"></div>
-			</td>
-		</tr>
-		<!-- -->
+			<td colspan="2">
+				<table class="table sublist" id="guarantee">
+					<tr class="row head">
+						<td class="cell">被担保主体</td>
+						<td class="cell">担保金额</td>
+						<td class="cell">担保期限</td>
+						<td class="cell">担保方式</td>
+						<td class="cell">合作银行</td>
+						<td class="cell edita">&nbsp;</td>
+					</tr>
+					<tr class="template" >
+						<td class="cell fill" data-field="grtpart"></td>
+						<td class="cell fill" data-field="grttotal"></td>
+						<td class="cell fill" data-field="grtdura"></td>
+						<td class="cell fill" data-field="grtmethod"></td>
+						<td class="cell fill" data-field="grtbank"></td>
+						<td class="cell edita"><a class="removesub">删除</a></td>
+					</tr>
 
-		<tr>
-			<td style="padding-top: 5px; text-align: right;">合作银行</td>
-			<td style="padding-top: 5px;">
-				<div class="form-item">
-					<input class="form-text" type="text" value="" id="grtbank">
-				</div>
-				<div class="err"></div>
+					<tr class="row editable edita">
+						<td class="cell"><input id="grtpart" type="text" class="large"></td>
+						<td class="cell"><input id="grttotal" type="text" class="small"></td>
+						<td class="cell"><input id="grtdura" type="text" class="small"></td>
+						<td class="cell"><input id="grtmethod" type="text" class="small"></td>
+						<td class="cell"><input id="grtbank" type="text" class="small"></td>
+						<td class="cell "><a class="addsub">增加</a></td>
+					</tr>
+				</table>
 			</td>
+
 		</tr>
 		<!-- -->
 		<tr>
@@ -83,6 +68,7 @@
 				</div>
 				<div style="padding-top: 20px;">
 					<input class="form-button savemerge" type="button" value="保存">
+					<input class="form-button cpagepre" type="button" value="上一步">
 					<input class="form-button cpagenext" type="button" value="下一步">
 				</div>
 			</td>

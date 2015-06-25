@@ -6,24 +6,44 @@
 			$("#admin-check").attr("disabled", true);
 			$("#admin-check").addClass("disabled");
 		}
+
+		$.post("/service/fin/content/list", {
+			"collection": "roles"
+		}, function(data) {
+			var result = JSON.parse(data);
+			for(var i=0; i<result.list.length; i++) {
+				var checkbox = $("<p><input type='checkbox' value='" + result.list[i].role +　"' >" + result.list[i].role + "</p>");
+				$("#roles-list").append(checkbox);
+			}
+		});
+
 	});
 	function saveEditAccount() {
-	var c = formCheck("#ccontent");
-	if(c.test()==true) {
-		var account = c.getRequest();
-		if ($("#admin-check").is(":checked")) {
-			account.type = "admin";
-		} else {
-			account.type = "bkuser";
+		var c = formCheck("#ccontent");
+		if(c.test()==true) {
+			var account = c.getRequest();
+			if ($("#admin-check").is(":checked")) {
+				account.type = "admin";
+			} else {
+				account.type = "bkuser";
+			}
+
+			var roles = [];
+			$("#roles-list input[type='checkbox']").each(function() {
+				if($(this).is(":checked")) {
+					roles.push($(this).val());
+				}
+			});
+			account.roles = encodeURI(roles.join(","));
+
+			$.post("/service/fin/account/save", account, function() {
+				alert("保存完成");
+				backAccountList();
+			}).fail(function(error) {
+				alert("未知错误");
+			});
 		}
-		$.post("/service/fin/account/save", account, function() {
-			alert("保存完成");
-			backAccountList();
-		}).fail(function(error) {
-			alert("未知错误");
-		});
 	}
-}
 </script>
 
 <div class="form adminEdit">
@@ -44,6 +64,14 @@
 		</div>
 
 		<div class="fcg">
+			<label>角色</label>
+			<div class="fc" id="roles-list">
+
+			</div>
+		</div>
+
+
+	<div class="fcg">
 			<label>网站管理员</label>
 			<div class="fc">
 				<input type="checkbox" id="admin-check" checked="checked"> 网站管理员

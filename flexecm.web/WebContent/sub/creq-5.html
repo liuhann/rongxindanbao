@@ -1,3 +1,4 @@
+<SCRIPT type=text/javascript src="js/plupload.full.min.js"></SCRIPT>
 <table>
 	<tbody>
 		<tr>
@@ -44,19 +45,41 @@
 			<td style="padding-top: 5px; text-align: right;">近两年的销售收入分析表</td>
 			<td>
 				<div class="form-item">
-					<input class="form-text" type="text" value="" id="saleanl">
+					<div class="fileUploader6Container">
+						<span class="info"></span> <a id="saleanl" class="attachfile"  href="javascript:;">[点击上传]</a>
+					</div>
 				</div>
 				<div class="err"></div>
 			</td>
 		</tr>
 		<!-- -->
 		<tr>
-			<td style="padding-top: 5px; text-align: right;">五名以上的上下游客户明细表</td>
-			<td>
-				<div class="form-item">
-					<input class="form-text" type="text" value="" id="csmdetail">
+			<td style="padding-top: 5px; text-align: right;" colspan="2">
+				<p>五名以上的上下游客户明细表</p>
+				<div class="table sublist" id="csmdetail">
+					<div class="row head">
+						<div class="cell">客户名称</div>
+						<div class="cell">联系人</div>
+						<div class="cell">联系方式</div>
+						<div class="cell">备注</div>
+						<div class="cell edita">操作</div>
+					</div>
+					<div class="template" >
+						<div class="cell fill" data-field="csmtitle"></div>
+						<div class="cell fill" data-field="csmcontact"></div>
+						<div class="cell fill" data-field="csmmobile"></div>
+						<div class="cell fill" data-field="csmdesc"></div>
+						<div class="cell edita"><a class="removesub">删除</a></div>
+					</div>
+
+					<div class="row editable edita">
+						<div class="cell"><input id="csmtitle" type="text" class="large"></div>
+						<div class="cell"><input id="csmcontact" type="text" class="small"></div>
+						<div class="cell"><input id="csmmobile" type="text" class="small"></div>
+						<div class="cell"><input id="csmdesc" type="text" class="medium"></div>
+						<div class="cell "><a class="addsub">增加</a></div>
+					</div>
 				</div>
-				<div class="err"></div>
 			</td>
 		</tr>
 		<!-- -->
@@ -90,6 +113,7 @@
 				</div>
 				<div style="padding-top: 20px;">
 					<input class="form-button savemerge" type="button" value="保存">
+					<input class="form-button cpagepre" type="button" value="上一步">
 					<input class="form-button submitloan" type="button" value="提交">
 				</div>
 			</td>
