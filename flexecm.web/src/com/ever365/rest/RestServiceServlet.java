@@ -145,18 +145,25 @@ public class RestServiceServlet extends HttpServlet {
 							request.getParameter(name), "UTF-8"));
 				}
 			}
-			
-			if (handler.needRandCode() && request.getSession().getAttribute(RandomCodeServlet.LOGIN_FAILED)!=null) {
-				if (request.getSession().getAttribute(RandomCodeServlet.RANDOMCODEKEY)==null) {
-					throw new HttpStatusException(HttpStatus.BAD_REQUEST);
-				}
-				String rightCode = (String)request.getSession().getAttribute(RandomCodeServlet.RANDOMCODEKEY);
-				
-				System.out.println("args " + args.get("rndcode") + "    ri " + rightCode);
-				if (!rightCode.equalsIgnoreCase((String)args.get("rndcode"))) {
-					throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+
+			if (handler.needRandCode()) {
+				if (handler.getUri().equals("/fin/login") &&  request.getSession().getAttribute(RandomCodeServlet.LOGIN_FAILED)==null) {
+					//第一次登陆请求时 就不验证
+				} else {
+					if (request.getSession().getAttribute(RandomCodeServlet.RANDOMCODEKEY)==null) {
+						throw new HttpStatusException(HttpStatus.BAD_REQUEST);
+					}
+					String rightCode = (String)request.getSession().getAttribute(RandomCodeServlet.RANDOMCODEKEY);
+
+					if (!rightCode.equalsIgnoreCase((String)args.get("rndcode"))) {
+						request.getSession().setAttribute(RandomCodeServlet.LOGIN_FAILED, true);
+						throw new HttpStatusException(HttpStatus.PRECONDITION_FAILED);
+					}
 				}
 			}
+
+			request.getSession().setAttribute(RandomCodeServlet.LOGIN_FAILED, true);
+
 			Object result = handler.execute(args);
 			if (result == null) {
 				response.setStatus(200);

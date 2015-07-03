@@ -32,16 +32,18 @@ public class OAuthServlet extends HttpServlet {
 		}
 		this.authorityService = ((AuthorityService) ContextLoaderListener
 				.getCurrentWebApplicationContext().getBean("rest.authority"));
-
-		this.providers.put("/top", new TopOAuthProvider());
-		this.providers.put("/weibo", (OAuthProvider) ContextLoaderListener
-				.getCurrentWebApplicationContext().getBean("oauth.weibo"));
+		//this.providers.put("/top", new TopOAuthProvider());
+		//this.providers.put("/weibo", (OAuthProvider) ContextLoaderListener.getCurrentWebApplicationContext().getBean("oauth.weibo"));
 	}
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		String servletPath = getServicePath(request);
 		try {
+			if (request.getParameter("code")==null) {
+				response.sendRedirect("/wx/error.html");
+			}
+
 			Map detail = this.authorityService.validate(servletPath,
 					request.getParameter("code"));
 

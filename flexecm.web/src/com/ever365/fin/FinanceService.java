@@ -133,6 +133,53 @@ public class FinanceService implements Tenantable {
 		return rr;
 	}
 
+	@RestService(method="POST", uri="/fin/account/findback", authenticated=false, rndcode=true)
+	public void forgetPassword(
+			Map<String, Object> req) {
+		if (AuthenticationUtil.SYSTEM.equals(req.get("loginid"))) {
+			throw new HttpStatusException(HttpStatus.CONFLICT);
+		}
+		DBObject uinf = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", req.get("loginid")));
+
+		if (uinf==null) {
+			throw new HttpStatusException(HttpStatus.BAD_REQUEST);
+		}
+		if (uinf.get("email").toString().equals(req.get("email"))) {
+			uinf.put("efindback", ("a" + UUID.random(100000000)).substring(1));
+			update(COLL_ACCOUNTS, uinf);
+			EmailUtils.sendEmail("smtp.126.com", "25","liuhann@126.com",  "overlord123!@#", "liuhann@126.com",
+					"融信担保密码找回", "您的验证码是 " + uinf.get("efindback"), uinf.get("email").toString());
+		} else {
+			throw new HttpStatusException(HttpStatus.BAD_REQUEST);
+		}
+	}
+
+	@RestService(method="POST", uri="/fin/account/resetpwd", authenticated=false, rndcode=true)
+	public RestResult resetPassword(
+			Map<String, Object> req) {
+		if (AuthenticationUtil.SYSTEM.equals(req.get("loginid"))) {
+			throw new HttpStatusException(HttpStatus.CONFLICT);
+		}
+		DBObject uinf = dataSource.getCollection(COLL_ACCOUNTS).findOne(new BasicDBObject("loginid", req.get("loginid")));
+
+		if (uinf==null) {
+			throw new HttpStatusException(HttpStatus.BAD_REQUEST);
+		}
+		if (uinf.get("email").toString().equals(req.get("email"))) {
+
+			if (uinf.get("efindback").toString().equals(req.get("emailcode"))) {
+				uinf.removeField("efindback");
+				uinf.put("pwd", req.get("pwd"));
+				update(COLL_ACCOUNTS, uinf);
+				RestResult rr = new RestResult();
+				rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, req.get("loginid").toString());
+				rr.setResult(FIN_ROOT + "home.jsp");
+				return rr;
+			}
+		}
+		throw new HttpStatusException(HttpStatus.BAD_REQUEST);
+	}
+
 	private void sendConfirmEmail(DBObject uinf) {
 		if (uinf.get("email")!=null) {
 			if (uinf.get("ecfm")==null) {

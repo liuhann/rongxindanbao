@@ -482,12 +482,14 @@ var formCheck = function(selector) {
 
 			return request;
 		},
-		test: function() {
+		test: function(bnalert) {
 			var result = true
 			$(form).find("input").each(function() {
 				if (result && $(this).attr("id")!=null) {
 					if (check($(this))!=true) {
-						alert(check($(this)));
+						if (bnalert==null) {
+							alert(check($(this)));
+						}
 						result = false;
 					}
 				}

@@ -353,7 +353,7 @@ function refreshImg() {
                         	<a href="#">企业注册</a>
                         </span>
                         <span class="r_04_r">
-                        	<a href="#">找回密码？</a>
+                        	<a href="/forgot.jsp">找回密码？</a>
                         </span>
                     </div>
            		</div>

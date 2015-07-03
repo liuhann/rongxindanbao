@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+
+    <title></title>
+
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
+
+    <script>
+        $(function() {
+            runToNumber($(".gained"),1120.22);
+            runToNumber($(".showtotal"),2300.23);
+
+            runToNumber($(".mecapital"),10000);
+            runToNumber($(".meprofit"),101.92);
+            runToNumber($(".lockmoney"),0);
+            runToNumber($(".allinvest"),10000);
+
+        });
+
+    </script>
+</head>
+<body>
+<div class="loading">正在加载</div>
+<div class="wrapper">
+    <div class="head">
+        <div class="logo"></div>
+        <div class="navs"><a>投资</a> | <a>账户</a></div>
+    </div>
+
+    <div class="usummary">
+        <div class="showhi">亲爱的土豪，您的累计收益(元)</div>
+        <div class="gained">1,120.22</div>
+    </div>
+
+    <div class="metotal">
+        <div class="showhi1">账户总资产</div>
+        <div class="showtotal">2,300.23</div>
+    </div>
+
+    <div class="megrid">
+        <div class="line">
+            <div>
+                <div class="linetitle">待收本金(元)</div>
+                <div class="linemoney mecapital"></div>
+            </div>
+            <div>
+                <div class="linetitle">待付收益(元)</div>
+                <div class="linemoney meprofit"></div>
+            </div>
+        </div>
+        <div class="line">
+            <div>
+                <div class="linetitle">冻结金额(元)</div>
+                <div class="linemoney lockmoney"></div>
+            </div>
+            <div>
+                <div class="linetitle">累计投资(元)</div>
+                <div class="linemoney allinvest"></div>
+            </div>
+        </div>
+
+
+    </div>
+
+    <div class="foot">
+        ©2015北京易利友信息技术有限公司 京ICP备15011092号
+    </div>
+</div>
+
+</body>
+</html>
