@@ -32,8 +32,7 @@ public class OAuthServlet extends HttpServlet {
 		}
 		this.authorityService = ((AuthorityService) ContextLoaderListener
 				.getCurrentWebApplicationContext().getBean("rest.authority"));
-		//this.providers.put("/top", new TopOAuthProvider());
-		//this.providers.put("/weibo", (OAuthProvider) ContextLoaderListener.getCurrentWebApplicationContext().getBean("oauth.weibo"));
+		this.providers.put("/wx", new WeixinOAuthProvider());
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -41,8 +40,9 @@ public class OAuthServlet extends HttpServlet {
 		String servletPath = getServicePath(request);
 		try {
 			if (request.getParameter("code")==null) {
-				response.sendRedirect("/wx/error.html");
+				response.sendRedirect("/error.html");
 			}
+			setUser(request);
 
 			Map detail = this.authorityService.validate(servletPath,
 					request.getParameter("code"));
@@ -51,18 +51,10 @@ public class OAuthServlet extends HttpServlet {
 				response.sendRedirect("/error/401.html");
 				return;
 			}
-
 			String userId = (String) detail.get("uid");
-			String realName = (String) detail.get("rn");
-
 			request.getSession().setAttribute(
 					AuthenticationUtil.SESSION_CURRENT_USER, userId);
-			request.getSession().setAttribute(
-					AuthenticationUtil.SESSION_CURRENT_USER_RN, realName);
-
 			AuthenticationUtil.setCurrentUser(userId);
-			AuthenticationUtil.setRealName(realName);
-
 			if (this.cookieService != null)
 				this.cookieService.bindUserCookie(request, response, userId);
 		} catch (Throwable t) {
@@ -78,6 +70,29 @@ public class OAuthServlet extends HttpServlet {
 			response.sendRedirect("/");
 		}
 	}
+
+	public void setUser(HttpServletRequest request) {
+		String tuser = request.getParameter("user");
+		if ((tuser != null) && (tuser.startsWith("__"))) {
+			AuthenticationUtil.setCurrentUser(tuser);
+			return;
+		}
+		AuthenticationUtil.setCurrentUser(null);
+
+		Object user = request.getSession().getAttribute(
+				AuthenticationUtil.SESSION_CURRENT_USER);
+		if (user != null) {
+			AuthenticationUtil.setCurrentUser((String) user);
+		} else if (this.cookieService != null) {
+			user = this.cookieService.getCurrentUser(request);
+			if (user != null) {
+				AuthenticationUtil.setCurrentUser((String) user);
+				request.getSession().setAttribute(
+						AuthenticationUtil.SESSION_CURRENT_USER, user);
+			}
+		}
+	}
+
 
 	public String getServicePath(HttpServletRequest request)
 			throws UnsupportedEncodingException {
