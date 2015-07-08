@@ -12,7 +12,12 @@
     <filter-name>encodingFilter</filter-name>
     <url-pattern>/service/*</url-pattern>
   </filter-mapping>
-  
+
+  <servlet-mapping>
+    <servlet-name>RestServlet</servlet-name>
+    <url-pattern>/service/*</url-pattern>
+  </servlet-mapping>
+
   <servlet>
     <servlet-name>RestServlet</servlet-name>
     <servlet-class>com.ever365.rest.RestServiceServlet</servlet-class>
@@ -28,11 +33,7 @@
     <url-pattern>/rndimg</url-pattern>
   </servlet-mapping>
   
-  <servlet-mapping>
-    <servlet-name>RestServlet</servlet-name>
-    <url-pattern>/service/*</url-pattern>
-  </servlet-mapping>
-  
+
   <welcome-file-list>
 	<welcome-file>index.html</welcome-file>
 	<welcome-file>index.jsp</welcome-file>

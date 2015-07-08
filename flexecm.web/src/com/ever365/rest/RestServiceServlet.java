@@ -37,11 +37,8 @@ public class RestServiceServlet extends HttpServlet {
 	Logger logger = Logger.getLogger(RestServiceServlet.class.getName());
 
 	public void init(ServletConfig config) throws ServletException {
-		this.registry = ((HttpServiceRegistry) ContextLoaderListener.getCurrentWebApplicationContext().getBean("http.registry"));
-		Object o = ContextLoaderListener.getCurrentWebApplicationContext().getBean("rest.cookie");
-		if (o != null) {
-			this.cookieService = ((CookieService) o);
-		}
+		this.cookieService = ContextLoaderListener.getCurrentWebApplicationContext().getBean("rest.cookie", CookieService.class);
+		this.registry = ContextLoaderListener.getCurrentWebApplicationContext().getBean("http.registry", HttpServiceRegistry.class);
 	}
 
 	protected void doGet(HttpServletRequest request,
@@ -51,7 +48,6 @@ public class RestServiceServlet extends HttpServlet {
 		Map args = new HashMap();
 		try {
 			handler = getMethod(request);
-
 			Enumeration paramNames = request.getParameterNames();
 			while (paramNames.hasMoreElements()) {
 				String name = (String) paramNames.nextElement();
@@ -98,6 +94,7 @@ public class RestServiceServlet extends HttpServlet {
 		Object user = request.getSession().getAttribute(
 				AuthenticationUtil.SESSION_CURRENT_USER);
 		if (user != null) {
+			logger.info("User from session: " + user);
 			AuthenticationUtil.setCurrentUser((String) user);
 		} else if (this.cookieService != null) {
 			user = this.cookieService.getCurrentUser(request);
@@ -247,6 +244,7 @@ public class RestServiceServlet extends HttpServlet {
 			if (rr.getSession() != null) {
 				HttpSession session = request.getSession();
 				for (String key : rr.getSession().keySet()) {
+					logger.info("set session " + key + "=" + rr.getSession().get(key));
 					session.setAttribute(key, rr.getSession().get(key));
 					if ((!key.equals(AuthenticationUtil.SESSION_CURRENT_USER)) || (this.cookieService == null))
 						continue;

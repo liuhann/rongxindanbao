@@ -13,5 +13,7 @@ public abstract interface OAuthProvider
 
   public abstract Map<String, Object> authorize(String paramString);
 
+  public abstract boolean binding();
+
   public abstract String getName();
 }

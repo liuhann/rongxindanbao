@@ -5,12 +5,19 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Logger;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ever365.mongo.MongoDataSource;
+import com.ever365.rest.HttpStatus;
+import com.ever365.rest.HttpStatusException;
+import com.mongodb.BasicDBObject;
+import com.mongodb.DBObject;
+import com.mongodb.Mongo;
 import org.springframework.web.context.ContextLoaderListener;
 
 import com.ever365.rest.AuthenticationUtil;
@@ -19,19 +26,15 @@ import com.ever365.rest.CookieService;
 public class OAuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CookieService cookieService;
-	private AuthorityService authorityService;
 	public static final String SESSION_REDIRECT = "oauth_redirect";
 	private Map<String, OAuthProvider> providers = new HashMap();
+	private MongoDataSource dataSource = null;
+	Logger logger = Logger.getLogger(OAuthServlet.class.getName());
 
 	public void init() throws ServletException {
 		super.init();
-		Object o = ContextLoaderListener.getCurrentWebApplicationContext()
-				.getBean("rest.cookie");
-		if (o != null) {
-			this.cookieService = ((CookieService) o);
-		}
-		this.authorityService = ((AuthorityService) ContextLoaderListener
-				.getCurrentWebApplicationContext().getBean("rest.authority"));
+		this.cookieService = ContextLoaderListener.getCurrentWebApplicationContext().getBean("rest.cookie", CookieService.class);
+		this.dataSource = ContextLoaderListener.getCurrentWebApplicationContext().getBean("bindingdb", MongoDataSource.class);
 		this.providers.put("/wx", new WeixinOAuthProvider());
 	}
 
@@ -42,32 +45,65 @@ public class OAuthServlet extends HttpServlet {
 			if (request.getParameter("code")==null) {
 				response.sendRedirect("/error.html");
 			}
-			setUser(request);
-
-			Map detail = this.authorityService.validate(servletPath,
-					request.getParameter("code"));
-
-			if (detail == null) {
-				response.sendRedirect("/error/401.html");
-				return;
+			OAuthProvider pr = (OAuthProvider) this.providers.get(servletPath);
+			if (pr == null) {// 不支持这个平台地址的oauth登录
+				throw new HttpStatusException(HttpStatus.BAD_REQUEST);
 			}
-			String userId = (String) detail.get("uid");
-			request.getSession().setAttribute(
-					AuthenticationUtil.SESSION_CURRENT_USER, userId);
+			Map authDetail = pr.authorize(request.getParameter("code"));
+			if (authDetail == null) {// 验证失败
+				throw new HttpStatusException(HttpStatus.UNAUTHORIZED);
+			}
+
+			String userId = null;
+			if (pr.binding()) { //如果要和平台账号绑定
+				setUser(request); //首先设置平台账号信息
+
+				if (AuthenticationUtil.getCurrentUser()!=null) {
+					userId = AuthenticationUtil.getCurrentUser();
+					//当前用户已登录， 执行绑定操作
+					logger.info("binding user  with openid: " +  AuthenticationUtil.getCurrentUser()
+					+ "-->" + authDetail.get("openid"));
+					DBObject binding = new BasicDBObject();
+					binding.put("openid", authDetail.get("openid"));
+					binding.put("userId", AuthenticationUtil.getCurrentUser());
+					dataSource.getCollection(pr.getName()).update(
+						new BasicDBObject("openid", authDetail.get("openid")), binding, true, false);
+				} else {
+					//用户未登录，要通过openid获取平台账号信息
+					logger.info("get user  with openid: " + authDetail.get("openid"));
+					DBObject one = dataSource.getCollection(pr.getName()).findOne(
+							new BasicDBObject("openid", authDetail.get("openid"))
+					);
+					if (one==null) {
+						response.sendRedirect("/wx/login.html");
+						return;
+					}
+					userId = (String)one.get("userId");
+					logger.info("userId : " + userId);
+				}
+			} else {
+				userId = (String) authDetail.get(OAuthProvider.USERID);
+			}
+			request.getSession().setAttribute(AuthenticationUtil.SESSION_CURRENT_USER, userId);
 			AuthenticationUtil.setCurrentUser(userId);
-			if (this.cookieService != null)
+			if (this.cookieService != null) {
 				this.cookieService.bindUserCookie(request, response, userId);
+			}
+
+			if (request.getParameter("state")!=null) {
+				response.sendRedirect(request.getParameter("state"));
+				return;
+			} else if (request.getSession().getAttribute("oauth_redirect") != null) {
+				Object redirect = request.getSession().getAttribute(
+						"oauth_redirect");
+				request.getSession().removeAttribute("oauth_redirect");
+				response.sendRedirect(redirect.toString());
+			} else {
+				response.sendRedirect("/");
+			}
+
 		} catch (Throwable t) {
 			System.out.println(t.getLocalizedMessage());
-		}
-
-		if (request.getSession().getAttribute("oauth_redirect") != null) {
-			Object redirect = request.getSession().getAttribute(
-					"oauth_redirect");
-			request.getSession().removeAttribute("oauth_redirect");
-			response.sendRedirect(redirect.toString());
-		} else {
-			response.sendRedirect("/");
 		}
 	}
 
@@ -82,10 +118,12 @@ public class OAuthServlet extends HttpServlet {
 		Object user = request.getSession().getAttribute(
 				AuthenticationUtil.SESSION_CURRENT_USER);
 		if (user != null) {
+			logger.info("User from session: " + user);
 			AuthenticationUtil.setCurrentUser((String) user);
 		} else if (this.cookieService != null) {
 			user = this.cookieService.getCurrentUser(request);
 			if (user != null) {
+				logger.info("User from cookie: " + user);
 				AuthenticationUtil.setCurrentUser((String) user);
 				request.getSession().setAttribute(
 						AuthenticationUtil.SESSION_CURRENT_USER, user);

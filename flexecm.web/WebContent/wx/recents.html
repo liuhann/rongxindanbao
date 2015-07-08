@@ -28,7 +28,7 @@
                 $(this).find('.left').css('transform', "rotate(" + (num - 180) + "deg)");
             }
         });
-        /*
+
         $(".project").bindtouch(function() {
             var order = $(this).prevAll(".project").length;
 
@@ -49,11 +49,15 @@
             $(".detail").show();
 
             $(this).unbind();
-
+            /*
             $(this).find(".desc, .circle").remove();
             $(this).find(".title").css("top", "1rem").css("border-top", "none").css("border-bottom", "1px dashed #777").css("bottom", "none");
+            */
+            setTimeout(function() {
+                location.href = "project.html";
+            },500);
         });
-        */
+
     });
 </script>
 </head>
@@ -78,7 +82,7 @@
         <div class="circle">
             <div class="pie_left"><div class="left"></div></div>
             <div class="pie_right"><div class="right"></div></div>
-            <div class="mask"><span>88</span>%</div>
+            <div class="mask"><span>88</span><em>%</em></div>
         </div>
         <div class="title">
             <div class="name">购车中转贷</div>

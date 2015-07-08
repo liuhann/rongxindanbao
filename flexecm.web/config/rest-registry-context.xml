@@ -14,40 +14,42 @@
 	        <list>
 	            <ref bean="fin.service"/>
 	            <ref bean="common.media"/>
+				<ref bean="eliyou.service"/>
 	        </list>
 	    </property>
 	</bean>
 
-	<bean id="commonDataSource" class="com.ever365.mongo.LocalMongoDataSource">
-	    <property name="db">
-	    	<value>common</value>
-	    </property>
-	</bean>
-	
 	<bean id="fileStore" class="com.ever365.common.LocalContentStore">
 		<property name="localPath" value="/data/content"></property>
-		<property name="dataSource" ref="didoDataSource"></property>
+		<property name="dataSource" ref="rxdb"></property>
 	</bean>
 	
-	<bean id="didoDataSource" class="com.ever365.mongo.LocalMongoDataSource">
+	<bean id="rxdb" class="com.ever365.mongo.LocalMongoDataSource">
 	    <property name="db">
 	    	<value>rxdb</value>
 	    </property>
 	</bean>
-	
+
+	<bean id="eliyoudb" class="com.ever365.mongo.LocalMongoDataSource">
+		<property name="db">
+			<value>eliyou</value>
+		</property>
+	</bean>
+	<bean id="bindingdb" class="com.ever365.mongo.LocalMongoDataSource">
+		<property name="db">
+			<value>binding</value>
+		</property>
+	</bean>
+
 	<bean id="rest.cookie" class="com.ever365.rest.CookieService">
 	    <property name="dataSource">
-			<ref bean="commonDataSource"/>	         
+			<ref bean="bindingdb"/>
 	     </property>
 	</bean>
-	
-	<bean id="autoIncrementingHelper" class="com.ever365.mongo.AutoIncrementingHelper">
-  		<property name="dataSource" ref="commonDataSource"></property>
-  	</bean>
-	 
+
 	<bean id="common.media" class="com.ever365.common.MediaService">
 		 <property name="dataSource">
-			<ref bean="didoDataSource"/>	         
+			<ref bean="rxdb"/>
 	     </property> 
 	       <property name="contentStore">
 	         <ref bean="fileStore"/>
@@ -56,10 +58,16 @@
 	
 	<bean id="fin.service" class="com.ever365.fin.FinanceService">
 		 <property name="dataSource">
-			<ref bean="didoDataSource"/>	         
+			<ref bean="rxdb"/>
 	     </property> 
 	     <property name="contentStore">
 	         <ref bean="fileStore"/>
 	     </property>
+	</bean>
+
+	<bean id="eliyou.service" class="com.ever365.fin.EliyouService">
+		<property name="dataSource">
+			<ref bean="bindingdb"/>
+		</property>
 	</bean>
 </beans>

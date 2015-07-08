@@ -58,6 +58,10 @@ input.full {
     display: block;
     padding: 1rem;
 }
+.login-form .error {
+    color: red;
+    text-align: center;
+}
 
 a.req {
     background-color: #2d62c8;
@@ -187,7 +191,8 @@ a.req {
     position: absolute;
     top: 0;
     left: 0;
-    -webkit-transition: 1s transform ;
+    transition: .5s transform ease;
+    -webkit-transition: .5s transform ;
     -webkit-transition-timing-function: linear;
 }
 .circle .left {
@@ -205,8 +210,8 @@ a.req {
     height: 6.2rem;
     border-radius: 50%;
     position: absolute;
-    left: 0.5rem;
-    top: 0.5rem;
+    left: 0.4rem;
+    top: 0.4rem;
     background: #fff;
     text-align: center;
     line-height: 6.5rem;
@@ -446,6 +451,9 @@ a.req {
     display: block;
     font-size: 3.2rem;
     text-align: center;
+}
+.detail .rbox .s a em {
+    font-size: 1.75rem;
 }
 .detail .more {
     text-align: center;

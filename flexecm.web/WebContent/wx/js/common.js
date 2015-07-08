@@ -8,7 +8,48 @@ $(function() {
     $(".wrapper").show();
 });
 
+function getCurrentUser() {
+    $.getJSON("/service/fin/current", {}, function(d) {
+        if (d.cu==null) {
+            if (location.href.indexOf("login.html")==-1) {
+                //首先尝试用微信账号登陆, 在回调中， 如果未绑定上会跳转到登陆页面
+                location.href =
+                    "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
+                    + encodeURI("http://eliyou.luckyna.com/oauth/wx")
+                    + "&response_type=code&scope=snsapi_base&state=" + location.pathname;
+            }
+        } else {
+            $(".head .navs").append("<span>" + d.cu + "</span>");
+        }
+    });
+}
 
+function logout() {
+    $.getJSON("/service/eliyou/wx/logout", {}, function() {
+        location.href = "/wx/login.html";
+    }).fail(function() {
+        location.href = "/wx/login.html";
+    })
+}
+
+function login() {
+    $.post("/service/eliyou/wx/login", {
+        "loginid":$("#loginid").val(),
+        "pwd": $("#pwd").val()
+    }, function () {
+        if($("#bindwx").prop("checked")) {
+            location.href =
+                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
+                    + encodeURI("http://eliyou.luckyna.com/oauth/wx")
+                    + "&response_type=code&scope=snsapi_base";
+        } else {
+            location.href = "me.html";
+        }
+    }).fail(function(error){
+        $(".login-form .error").show();
+        alert(JSON.stringify(error));
+    });
+}
 
 function runToNumber(div, money) {
     if (money==0) {
@@ -79,5 +120,12 @@ function attachEvent(src, cb) {
             cb.bind(this)();
         });
     }
+}
 
+
+function querystring(key) {
+    var re=new RegExp('(?:\\?|&)'+key+'=(.*?)(?=&|$)','gi');
+    var r=[], m;
+    while ((m=re.exec(document.location.search)) != null) r.push(m[1]);
+    return r;
 }

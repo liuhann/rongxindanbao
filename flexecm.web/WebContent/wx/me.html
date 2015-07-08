@@ -9,8 +9,7 @@
 
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="-1" />
-
+    <meta http-equiv="Expires" content="0" />
 
     <title></title>
 
@@ -20,6 +19,9 @@
 
     <script>
         $(function() {
+
+            getCurrentUser();
+
             runToNumber($(".gained"),1120.22);
             runToNumber($(".showtotal"),2300.23);
 
@@ -78,7 +80,7 @@
     </div>
 
     <div class="melogout">
-        <a>退出当前账号</a>
+        <a href="javascript:logout()">退出当前账号</a>
     </div>
 
     <div class="foot">
