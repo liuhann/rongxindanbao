@@ -25,7 +25,7 @@ public class WeixinOAuthProvider implements OAuthProvider {
         try {
             logger.info("requesting weixin for at " + code) ;
             JSONObject jso = WebUtils.doGet(url + "?appid=" + cliend_id + "&secret=" + client_secret
-                    + "&code=" + code + "&grant_type=authorization_code");
+                    + "&code=" + code + "&grant_type=authorization_code&stat=/wx/me.html");
             if (jso.has("errcode")) {
                 logger.info("error" + jso.toString());
                 return null;

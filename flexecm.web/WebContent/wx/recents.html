@@ -2,7 +2,7 @@
 <html>
 <head lang="en">
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="viewport" content="width=device-width, target-densitydpi=high-dpi, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
@@ -14,13 +14,26 @@
     <title></title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/velocity.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
 
 <script>
     $(function() {
-        $(".circle").each(function(){
-            var num = parseInt($(this).find(".mask span").html()) * 3.6;
+        getRecents(10,0);
+
+        setTimeout(function() {
+            $(".circle2").each(function(){
+                var num = parseInt($(this).find("span.percent").html()) * 2.5;
+                $(this).find("svg").css("stroke-dasharray", num+ "%,250%")
+            });
+        }, 1000);
+        /*
+        $(".circle2").each(function(){
+            var num = parseInt($(this).find("span.percent").html()) * 2.5;
+
+            $(this).find("svg").css("stroke-dasharray", num+ "%,250%")
             if (num<=180) {
                 $(this).find('.right').css('transform', "rotate(" + num + "deg)");
             } else {
@@ -28,6 +41,7 @@
                 $(this).find('.left').css('transform', "rotate(" + (num - 180) + "deg)");
             }
         });
+        */
 
         $(".project").bindtouch(function() {
             var order = $(this).prevAll(".project").length;
@@ -72,18 +86,21 @@
     <div class="recents">
         <span>最新标的</span>
     </div>
-    <div class="project">
+    <div class="project template" style="display:none;">
         <div class="desc">
             <div class="profit"><span>12</span><em>%</em></div>
             <div class="dura">1个月</div>
             <div class="total">350,000.00</div>
             <div class="retmethod">到期还本付息</div>
         </div>
-        <div class="circle">
-            <div class="pie_left"><div class="left"></div></div>
-            <div class="pie_right"><div class="right"></div></div>
-            <div class="mask"><span>88</span><em>%</em></div>
+
+        <div class="circle2">
+            <svg xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50%" cy="50%" r="40%" stroke-width="6%"/>
+            </svg>
+            <span class="o"><span class="percent">80</span><em>%</em></span>
         </div>
+
         <div class="title">
             <div class="name">购车中转贷</div>
             <em class="ensp"></em>
@@ -93,71 +110,10 @@
         </div>
     </div>
 
-    <div class="project">
-        <div class="desc">
-            <div class="profit"><span>12</span><em>%</em></div>
-            <div class="dura">1个月</div>
-            <div class="total">350,000.00</div>
-            <div class="retmethod">到期还本付息</div>
-        </div>
-        <div class="circle">
-            <div class="pie_left"><div class="left"></div></div>
-            <div class="pie_right"><div class="right"></div></div>
-            <div class="mask"><span>18</span>%</div>
-        </div>
-        <div class="title">
-            <div class="name">购车中转贷</div>
-            <em class="ensp"></em>
-            <em class="ens0"></em>
-            <em class="ens1"></em>
-            <div class="guarantee">淄博融信融资担保有限公司</div>
-        </div>
-    </div>
 
-    <div class="project">
-        <div class="desc">
-            <div class="profit"><span>12</span><em>%</em></div>
-            <div class="dura">1个月</div>
-            <div class="total">350,000.00</div>
-            <div class="retmethod">到期还本付息</div>
-        </div>
-        <div class="circle">
-            <div class="pie_left"><div class="left"></div></div>
-            <div class="pie_right"><div class="right"></div></div>
-            <div class="mask"><span>32</span>%</div>
-        </div>
-        <div class="title">
-            <div class="name">购车中转贷</div>
-            <em class="ensp"></em>
-            <em class="ens0"></em>
-            <em class="ens1"></em>
-            <div class="guarantee">淄博融信融资担保有限公司</div>
-        </div>
+    <div class="more">
+        -查看更多-
     </div>
-
-    <div class="project">
-        <div class="desc">
-            <div class="profit"><span>12</span><em>%</em></div>
-            <div class="dura">1个月</div>
-            <div class="total">350,000.00</div>
-            <div class="retmethod">到期还本付息</div>
-        </div>
-        <div class="circle">
-            <div class="pie_left"><div class="left"></div></div>
-            <div class="pie_right"><div class="right"></div></div>
-            <div class="mask"><span>100</span>%</div>
-        </div>
-        <div class="title">
-            <div class="name">购车中转贷</div>
-            <em class="ensp"></em>
-            <em class="ens0"></em>
-            <em class="ens1"></em>
-            <div class="guarantee">淄博融信融资担保有限公司</div>
-        </div>
-    </div>
-    </div>
-
-
 
     <div class="foot">
         ©2015北京易利友信息技术有限公司 京ICP备15011092号

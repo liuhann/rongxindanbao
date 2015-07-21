@@ -39,6 +39,31 @@ public class WebUtils {
 		return jsonObject;
 	}
 
+
+	public static String getString(String requestUrl) {
+		HttpClient httpClient = new HttpClient(new HttpClientParams(),
+				new SimpleHttpConnectionManager(true));
+
+		GetMethod getMethod = new GetMethod(requestUrl);
+
+		int statusCode = 0;
+		try {
+			statusCode = httpClient.executeMethod(getMethod);
+			if (statusCode != 200) {
+				logger.info("Method failed: request url:" + requestUrl
+						+ "  status:" + getMethod.getStatusLine());
+			}
+			InputStream bodyis = getMethod.getResponseBodyAsStream();
+			return convertStreamToString(bodyis);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			getMethod.releaseConnection();
+		}
+
+		return null;
+	}
+
 	public static String doGetHTML(String requestUrl, String cookie) {
 		HttpClient httpClient = new HttpClient(new HttpClientParams(),
 				new SimpleHttpConnectionManager(true));
@@ -147,7 +172,7 @@ public class WebUtils {
 		JSONObject jsonObject = null;
 		try {
 			int statusCode = httpClient.executeMethod(postMethod);
-
+			logger.info("status: " + statusCode);
 			if (statusCode != 200) {
 				logger.info("Method failed: request url:" + requestUrl
 						+ "  status:" + postMethod.getStatusLine());

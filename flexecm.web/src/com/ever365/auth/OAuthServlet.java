@@ -40,6 +40,7 @@ public class OAuthServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
+		logger.info("OAuthServlet: " + request.getRequestURI() + "? " + request.getQueryString());
 		String servletPath = getServicePath(request);
 		try {
 			if (request.getParameter("code")==null) {
@@ -90,20 +91,28 @@ public class OAuthServlet extends HttpServlet {
 				this.cookieService.bindUserCookie(request, response, userId);
 			}
 
+			if ("/wx".equals(servletPath)) {
+				response.sendRedirect("/wx/me.html");
+				return;
+			}
+
 			if (request.getParameter("state")!=null) {
+				logger.info("redirect to "  + request.getParameter("state"));
 				response.sendRedirect(request.getParameter("state"));
 				return;
 			} else if (request.getSession().getAttribute("oauth_redirect") != null) {
 				Object redirect = request.getSession().getAttribute(
 						"oauth_redirect");
 				request.getSession().removeAttribute("oauth_redirect");
+				logger.info("redirect to "  + redirect.toString());
 				response.sendRedirect(redirect.toString());
 			} else {
-				response.sendRedirect("/");
+				logger.info("redirect to /wx/me.html");
+				response.sendRedirect("/wx/me.html");
 			}
 
-		} catch (Throwable t) {
-			System.out.println(t.getLocalizedMessage());
+		} catch (Exception e) {
+			e.printStackTrace();
 		}
 	}
 

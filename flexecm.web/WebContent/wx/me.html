@@ -9,9 +9,9 @@
 
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
+    <meta http-equiv="Expires" content="-1" />
 
-    <title></title>
+    <title>E利友-我的账户</title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
@@ -21,7 +21,8 @@
         $(function() {
 
             getCurrentUser();
-
+            getStatus();
+/*
             runToNumber($(".gained"),1120.22);
             runToNumber($(".showtotal"),2300.23);
 
@@ -29,7 +30,7 @@
             runToNumber($(".meprofit"),101.92);
             runToNumber($(".lockmoney"),0);
             runToNumber($(".allinvest"),10000);
-
+*/
         });
 
     </script>
@@ -44,12 +45,12 @@
 
     <div class="usummary">
         <div class="showhi">亲爱的土豪，您的累计收益(元)</div>
-        <div class="gained">1,120.22</div>
+        <div class="gained">---</div>
     </div>
 
     <div class="metotal">
         <div class="showhi1">账户总资产</div>
-        <div class="showtotal">2,300.23</div>
+        <div class="showtotal">---</div>
     </div>
 
     <div class="megrid">
@@ -76,7 +77,8 @@
     </div>
 
     <div class="meremains">
-        <span>可用余额(元)：</span> <span class="r">0.00</span> <input placeholder="请输入充值金额" class="add"> <a class="smallbtn">充值</a>
+        <!--<input placeholder="请输入充值金额" class="add">-->
+        <span>可用余额(元)：</span> <span class="ramaintotal">0.00</span>  <a class="smallbtn">充值</a>
     </div>
 
     <div class="melogout">

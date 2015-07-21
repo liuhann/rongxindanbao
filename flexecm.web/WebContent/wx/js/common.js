@@ -3,7 +3,8 @@
  */
 $(function() {
     var size = $(window).width() / 38;
-    $("html").css("font-size", size);
+    $("html").css("font-size", Math.floor(size));
+    alert("width: " + $(window).width() + "  size: " + size + "ua:" + navigator.userAgent);
     $(".loading").hide();
     $(".wrapper").show();
 });
@@ -24,6 +25,95 @@ function getCurrentUser() {
     });
 }
 
+
+
+function getStatus() {
+    $.getJSON("/service/eliyou/wx/uinfos", {}, function(data){
+        if (data.result=="success") {
+            runToNumber($(".gained"),data.ljsy);
+            runToNumber($(".showtotal"),data.zhzzc);
+            runToNumber($(".mecapital"),data.dsbj);
+            runToNumber($(".meprofit"),data.dssy);
+            runToNumber($(".lockmoney"),data.djje);
+            runToNumber($(".allinvest"),data.ljtz);
+            runToNumber($(".ramaintotal"),data.kyje);
+        }
+    });
+}
+
+
+function getRecents(max, page, cb) {
+
+    $(".more").html("加载中......");
+    $(".more").unbind();
+
+    var repayInstalTypes = ["个月","天"];
+    $.getJSON("/service/eliyou/wx/recents", {
+        'maxResult': max,
+        'page': page
+    }, function(data){
+        for(var i=0;i<data.length; i++) {
+            $(".recents").after(cloned);
+
+            var cloned = $(".template").clone().removeClass("template").addClass("project").show();
+
+            if (data[i].projectName) { //项目名称
+                cloned.find(".title .name").html(data[i].projectName);
+            }
+
+            if (data[i].guaranteeCompanyModel && data[i].guaranteeCompanyModel.guaranteeCoName) {//担保机构
+                cloned.find(".guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
+            }
+
+            if (data[i].investorRateYear) {
+                cloned.find(".desc .profit span").html(data[i].investorRateYear); //年化
+            }
+
+            if (data[i].repayInstalNum && data[i].repayInstalNum) {
+                cloned.find(".desc .dura").html(data[i].repayInstalNum + repayInstalTypes[data[i].repayInstalNum-1]); //还款期
+                //cloned.find(".title .guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
+            }
+
+            if (data[i].capitalSumLower) {  //贷款金额
+                cloned.find(".desc .total").html(formatMoney(data[i].capitalSumLower));
+            }
+
+            if (data[i].schedule) {  //申购进度
+                //var num = data[i].schedule * 2.5;
+                //cloned.find("svg").css("stroke-dasharray", num + "%,250%")
+                cloned.find(".percent").html(data[i].schedule);
+            }
+
+            cloned.bindtouch(function(){
+                location.href = "project.html";
+            });
+        }
+        setTimeout(function() {
+            $(".circle2").each(function(){
+                var num = parseInt($(this).find("span.percent").html()) * 2.5;
+                //$(this).find("svg").delay(500).velocity({ "stroke-dasharray": num + "%,250%"});
+                $(this).find("svg").css("stroke-dasharray", num + "%,250%")
+            });
+        }, 300);
+
+        if (data.length>0) {
+            $(".more").html("-查看更多-");
+            $(".more").bindtouch(function() {
+                getRecents(max, page+1);
+            });
+        } else {
+            $(".more").html("没有更多的项目了 -->");
+            $(".more").unbind();
+        }
+        /*
+        $(".circle2").each(function(){
+            var num = parseInt($(this).find("span.percent").html()) * 2.5;
+            $(this).find("svg").css("stroke-dasharray", num+ "%,250%")
+        });
+        */
+    });
+}
+
 function logout() {
     $.getJSON("/service/eliyou/wx/logout", {}, function() {
         location.href = "/wx/login.html";
@@ -41,13 +131,12 @@ function login() {
             location.href =
                 "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
                     + encodeURI("http://eliyou.luckyna.com/oauth/wx")
-                    + "&response_type=code&scope=snsapi_base";
+                    + "&response_type=code&scope=snsapi_base&state=/wx/me.html";
         } else {
             location.href = "me.html";
         }
     }).fail(function(error){
         $(".login-form .error").show();
-        alert(JSON.stringify(error));
     });
 }
 

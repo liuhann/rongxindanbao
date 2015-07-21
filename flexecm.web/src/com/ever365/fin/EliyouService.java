@@ -5,16 +5,22 @@ import com.ever365.rest.*;
 import com.ever365.utils.RandomCodeServlet;
 import com.ever365.utils.WebUtils;
 import com.mongodb.BasicDBObject;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
 public class EliyouService {
 
+
     Logger logger = Logger.getLogger(EliyouService.class.getName());
+
+    private String eliyouServer = "http://221.218.37.133:8086";
 
     private MongoDataSource dataSource;
 
@@ -28,7 +34,6 @@ public class EliyouService {
         if (uid==null || pwd==null) {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST);
         }
-
         checkPassword(uid, pwd);
         rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
         return rr;
@@ -44,8 +49,36 @@ public class EliyouService {
         return rr;
     }
 
+    @RestService(method="GET", uri="/eliyou/wx/recents", authenticated=false, rndcode=false)
+    public List<Object> getRecentProjects(@RestParam(value = "maxResult") Integer max,
+                                          @RestParam(value = "page") Integer page) {
+        String requestUrl = eliyouServer + "/eLiYou/wechat/porductMore.do?maxResult=" + max
+                + "&page=" + page;
+        String json = WebUtils.getString(requestUrl);
+        try {
+            JSONArray ja = new JSONArray(json);
+            return WebUtils.jsonArrayToList(ja);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new ArrayList<Object>(0);
+    }
+
+    @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=true, rndcode=false)
+    public Map<String, Object> getUserInfos() {
+        String requestUrl = eliyouServer + "/eLiYou/wechat/rechargeIndex.do?userAccount=" + AuthenticationUtil.getCurrentUser();
+        String json = WebUtils.getString(requestUrl);
+        try {
+            JSONObject jo = new JSONObject(json);
+            return WebUtils.jsonObjectToMap(jo);
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String,Object>(0);
+    }
+
     private void checkPassword(String uid, String pwd) {
-        String url = "http://111.199.15.26:8086/eLiYou/wechat/loginCheck.do";
+        String url = eliyouServer + "/eLiYou/wechat/loginCheck.do";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", uid);
         params.put("password", pwd);
@@ -55,11 +88,11 @@ public class EliyouService {
 
         logger.info("login result " + result);
 
-        if (result.has("result")) {
+        if (result!=null && result.has("msg")) {
             try {
                 String e = null;
-                e = result.getString("result");
-                if ("success".equals(e)) {
+                e = result.getString("msg");
+                if ("成功".equals(e)) {
                     return;
                 }
             } catch (JSONException e1) {
