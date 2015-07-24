@@ -3,12 +3,14 @@ package com.ever365.fin;
 import com.ever365.mongo.MongoDataSource;
 import com.ever365.rest.*;
 import com.ever365.utils.RandomCodeServlet;
+import com.ever365.utils.StringUtils;
 import com.ever365.utils.WebUtils;
 import com.mongodb.BasicDBObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -62,6 +64,57 @@ public class EliyouService {
             e.printStackTrace();
         }
         return new ArrayList<Object>(0);
+    }
+
+
+    private Long recentTicketTime = 0L;
+    private String jsapiTicket = null;
+
+    @RestService(method="GET", uri="/eliyou/wx/signature", authenticated=false)
+    public Map<String, Object> getWeixinConfigs(@RestParam(value = "url")String url) {
+
+        if (System.currentTimeMillis()-recentTicketTime>7200000) {
+            //重新获取签名
+            String tokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxaeeab45e6d45524b&secret=8c1ad314d1b5cc2508ecb1d1042afe5e";
+            JSONObject tokenJson = WebUtils.doGet(tokenUrl);
+
+            logger.info("token result " + tokenJson.toString());
+            if (tokenJson!=null && tokenJson.has("access_token")) {
+                try {
+                    String apiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + tokenJson.getString("access_token") + "&type=jsapi";
+                    JSONObject ticketJSON = WebUtils.doGet(apiTicketUrl);
+                    logger.info("ticket result  " + ticketJSON.toString());
+                    if (ticketJSON!=null && ticketJSON.has("ticket")) {
+                        jsapiTicket = ticketJSON.getString("ticket");
+                        recentTicketTime = System.currentTimeMillis();
+                    }
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    jsapiTicket = null;
+                    recentTicketTime = 0L;
+                }
+            }
+        }
+
+        if (jsapiTicket!=null) {
+            logger.info("jsapi ticket: " + jsapiTicket);
+            String noncestr = StringUtils.getRandString(10);
+            String timestamp = new Long(System.currentTimeMillis()).toString();
+            Map<String, Object> result = new HashMap<String, Object>();
+            try {
+                String signature = StringUtils.sha1("jsapi_ticket=" + jsapiTicket + "&noncestr=" + noncestr + "&timestamp=" + timestamp + "&url=" + url);
+                logger.info("sig: " + signature + "   ts: " + timestamp + "   ns: " + noncestr);
+                result.put("timestamp", timestamp);
+                result.put("nonceStr", noncestr);
+                result.put("signature", signature);
+                return result;
+            } catch (NoSuchAlgorithmException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return new HashMap<String,Object>(0);
     }
 
     @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=true, rndcode=false)

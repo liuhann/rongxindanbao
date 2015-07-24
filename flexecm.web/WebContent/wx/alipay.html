@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <title></title>
+
+    <script type="text/javascript" src="http://res.wx.qq.com/open/js/jweixin-1.0.0.js"></script>
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/base.css?vv"><!--通用CSS样式 -->
+
+    <script>
+        $(function() {
+            if(navigator.userAgent.indexOf("MicroMessenger")==-1) {
+                //location.href = "https://qr.alipay.com/apan8s1sn60siwgv72";
+                return;
+            }
+
+            $.getJSON("/service/eliyou/wx/signature", {url:"http://eliyou.luckyna.com/wx/alipay.html"}, function(data) {
+
+                wx.config({
+                    debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
+                    appId: 'wxaeeab45e6d45524b', // 必填，公众号的唯一标识
+                    timestamp:  parseInt(data.timestamp), // 必填，生成签名的时间戳
+                    nonceStr: data.nonceStr, // 必填，生成签名的随机串
+                    signature: data.signature,// 必填，签名，见附录1
+                    jsApiList: ["chooseImage", "previewImage","uploadImage"] // 必填，需要使用的JS接口列表，所有JS接口列表见附录2
+                });
+
+                wx.ready(function(){
+
+                });
+                wx.error(function(res){
+                    alert("微信初始化失败 " + JSON.stringify(res));
+                });
+            }).fail(function(error) {
+                alert(JSON.stringify(error));
+            });
+
+            $(".alipy-title").click(function() {
+                window.open("https://qr.alipay.com/apan8s1sn60siwgv72");
+            });
+        });
+
+
+        function choosePic() {
+            wx.chooseImage({
+                count: 1, // 默认9
+                sizeType: ['original', 'compressed'], // 可以指定是原图还是压缩图，默认二者都有
+                sourceType: ['album', 'camera'], // 可以指定来源是相册还是相机，默认二者都有
+                success: function (res) {
+                    var img = $("<img>");
+                    img.css("width", "4rem");
+                    img.css("height", "6rem");
+                    img.attr("src", res.localIds);
+                    $("#pic-preview").append(img);
+                    //var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                }
+            });
+        }
+    </script>
+
+    <style>
+        .alipy-title {
+            width: 19rem;
+            height: 4.2rem;
+            background-image: url('img/alipayd.png');
+            background-size: 19rem 4.2rem;
+            margin-top: .8rem;
+        }
+
+        .upload {
+            padding: .3rem;
+        }
+        .upload a,.otherpay a {
+            color: #2C61C9;
+            text-decoration: underline;
+            font-size: .7rem;
+        }
+
+        .otherpay {
+            margin-top: 1.5rem;
+            font-size: .7rem;
+            color: #8D8D8D;
+        }
+        .comment {
+            color: #959595;
+            font-size: .55rem;
+            line-height: 1.5rem;
+        }
+
+        a.req    {
+            margin: 1.15rem 0 0 0;
+            padding: .6rem 0;
+        }
+
+    </style>
+</head>
+<body>
+<div class="loading">正在加载</div>
+<div class="wrapper">
+    <!--
+    <div class="head">
+        <div class="logo"></div>
+        <div class="navs"><a>投资</a> | <a>账户</a></div>
+    </div>
+-->
+    <div class="alipy-title">
+    </div>
+
+    <div class="content-form" style="  margin-top: .8rem;">
+        <input type="number" class="full"  placeholder="请输您的支付宝已充金额">
+        <input type="text" class="full"  placeholder="请输入您的支付宝账户名">
+
+        <div class="upload"><a  onclick="javascript:choosePic();">点击上传您的充值凭证</a></div>
+        <div class="line" id="pic-preview">
+
+        </div>
+        <a class="req" style="">充值</a>
+
+        <div class="otherpay">
+            <p>选择其他充值方式<a>快捷支付</a> </p>
+            <p class="comment">使用快捷支付充值第三方托管账户将收取0.1%手续费</p>
+        </div>
+    </div>
+
+    <div class="foot">
+        ©2015北京易利友信息技术有限公司 京ICP备15011092号
+    </div>
+</div>
+
+</body>
+</html>

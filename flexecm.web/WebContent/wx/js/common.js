@@ -2,9 +2,9 @@
  * Created by Administrator on 2015/7/2.
  */
 $(function() {
-    var size = $(window).width() / 38;
-    $("html").css("font-size", Math.floor(size));
-    alert("width: " + $(window).width() + "  size: " + size + "ua:" + navigator.userAgent);
+    var size = $(window).width() / 19;
+    $("html").css("font-size", size + "px");
+    $("body").css("font-size", size + "px");
     $(".loading").hide();
     $(".wrapper").show();
 });
@@ -21,6 +21,7 @@ function getCurrentUser() {
             }
         } else {
             $(".head .navs").append("<span>" + d.cu + "</span>");
+            $(".uname").html(d.cu);
         }
     });
 }

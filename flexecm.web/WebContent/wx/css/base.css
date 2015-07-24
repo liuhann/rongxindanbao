@@ -8,66 +8,78 @@ html, body {
     font-family:Tahoma,Arial,Roboto,Helvetica,sans-serif;
     font-size: 10px;
 }
+
 .wrapper {
+    width: 19rem;
 }
 .wrapper.pd {
     background-color: #fff;
 }
 .wrapper .logo {
     background-image: url('../img/logo.png');
-    background-size: 38rem auto;
-    width: 38rem;
-    height: 21rem;
+    background-size: 19rem auto;
+    width: 19rem;
+    height: 10.5rem;
 }
 .content-form {
-    padding: 0 2rem;
+    padding: 0 1rem;
 }
+
+.line {
+    width: 15rem;
+    line-height: 1.5rem;
+}
+
 .login-form {
-    margin-top: 3rem;
-    padding: 2rem;
+    margin-top: 1.5rem;
+    padding: 1rem;
 }
 
 input[type='text'],input[type='password'] {
-    margin-left: 4rem;
-    padding: 1rem;
+    margin-left: 2rem;
+    padding: .5rem;
     border: none;
-    font-size: 1.4rem;
+    font-size: .7rem;
     box-shadow: none;
-    width: 24rem;
-    margin-bottom: 1rem;
+    width: 12rem;
+    margin-bottom: .5rem;
 }
 
 input[type='number'] {
     -webkit-appearance: none;
     background-color: #fff;
-    color: #fff;
-    padding: 1rem;
-    font-size: 1.4rem;
-    width: 24rem;
-    margin-bottom: 1rem;
+    padding: .5rem;
+    font-size: .7rem;
+    width: 12rem;
+    margin-bottom: .5rem;
+}
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0; /* <-- Apparently some margin are still there even though it's hidden */
 }
 
 
 input.full {
     margin-left: 0;
     border: none;
-    width: 32rem;
+    width: 16rem;
 }
 
 .login-form input[type='checkbox'] {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 1.25rem;
+    height: 1.25rem;
 }
 
 .login-form .bindwx {
     vertical-align: super;
     text-align: center;
-    margin-top: 2rem;
+    margin-top: 1rem;
     color: #2d62c8;
-    font-size: 1.5rem;
+    font-size: .75rem;
     font-weight: bold;
     display: block;
-    padding: 1rem;
+    padding: .5rem;
 }
 .login-form .error {
     color: red;
@@ -77,16 +89,16 @@ input.full {
 a.req {
     background-color: #2d62c8;
     text-align: center;
-    margin: 0 4rem;
-    font-size: 1.8rem;
+    margin: 0 2rem;
+    font-size: .9rem;
     display: block;
     color: #fff;
-    padding: 1.5rem 0rem;
-    border-radius: .5rem;
+    padding: .75rem 0rem;
+    border-radius: .25rem;
 }
 
 .head {
-    height: 5rem;
+    height: 2.5rem;
     background-color: #fff;
     border-bottom: 1px solid #E5E5E5;
     /*box-shadow: 0 0 1px 0px rgba(0,0,0,0.3),0 0 6px 2px rgba(0,0,0,0.15);*/
@@ -95,73 +107,73 @@ a.req {
 
 .head .logo {
     background-image: url("../img/logo3.png");
-    background-size: 9rem 5rem;
-    width: 9rem;
-    height: 5rem;
+    background-size: 4.5rem 2.5rem;
+    width: 4.5rem;
+    height: 2.5rem;
     float: left;
 }
 .head .navs {
     float: right;
-    padding: 2rem;
+    padding: 1rem;
     color: #2d62c8;
-    font-size: 1.4rem;
+    font-size: .7rem;
 }
 .project {
-    margin: .5rem;
-    border-left: .4rem solid #1C3C77;
+    margin: .25rem;
+    border-left: .2rem solid #1C3C77;
     border-top: 1px solid #999;
     border-bottom: 1px solid #999;
     position: relative;
     display: block;
-    height: 13rem;
+    height: 6.5rem;
     background: #fff;
 }
 .project .profit {
     position: absolute;
-    left:1.5rem;
-    top:2.5rem;
-    font-size: 5rem;
+    left:.75rem;
+    top:1.25rem;
+    font-size: 2.5rem;
     color: #DA5558;
 }
 .project .profit em {
-    font-size: 2.5rem;
+    font-size: 1.25rem;
 }
 
 .project .dura {
     position: absolute;
     color: #2c61c9;
-    font-size: 1.5rem;
-    top: 3rem;
-    left: 11rem;
+    font-size: .75rem;
+    top: 1.5rem;
+    left: 5.5rem;
 }
 
 .project .total {
     position: absolute;
     color: #2c61c9;
-    font-size: 1.5rem;
-    top: 3rem;
-    left: 16rem;
+    font-size: .75rem;
+    top: 1.5rem;
+    left: 8rem;
 }
 
 .project .retmethod {
     position: absolute;
     color: #5099F5;
-    font-size: 1.25rem;
-    top: 6rem;
-    left: 11rem;
+    font-size: .625rem;
+    top: 3rem;
+    left: 5.5rem;
 }
 
 .project .title {
     position: absolute;
-    bottom: 1rem;
-    left: 2rem;
-    width: 34rem;
+    bottom: .5rem;
+    left: 1rem;
+    width: 17rem;
     border-top: 1px dashed #777;
 }
 .project .title div, .project .title em {
     float: left;
-    font-size: 1.25rem;
-    margin-top: 1.25rem;
+    font-size: .625rem;
+    margin-top: .625rem;
 }
 
 .project .title .name {
@@ -175,34 +187,34 @@ a.req {
 
 .project .detail {
     position: absolute;
-    top: 2rem;
+    top: 1rem;
 }
 
 .more {
-    font-size: 1.5rem;
+    font-size: .75rem;
     text-align: center;
-    padding: 1rem 0;
+    padding: .5rem 0;
     color: #888;
 }
 
 .circle,.circle2 {
-    width: 7rem;
-    height: 7rem;
+    width: 3.5rem;
+    height: 3.5rem;
     position: absolute;
-    right: 2rem;
-    top:1.5rem;
+    right: 1rem;
+    top:.75rem;
     /*  border-radius: 50%;*/
 }
 
 .circle .pie_left, .circle .pie_right {
-    width:7rem;
-    height:7rem;
+    width:3.5rem;
+    height:3.5rem;
     position: absolute;
     top: 0;left: 0;
 }
 .circle .left, .circle .right {
-    width:7rem;
-    height:7rem;
+    width:3.5rem;
+    height:3.5rem;
     background:#aaa;
     border-radius: 50%;
     position: absolute;
@@ -217,22 +229,22 @@ a.req {
 
 }
 .circle .pie_right, .circle .right {
-    clip:rect(0,auto,auto,3.5rem);
+    clip:rect(0,auto,auto,1.75rem);
 }
 .circle .pie_left,.circle .left {
-    clip:rect(0,3.5rem,auto,0);
+    clip:rect(0,1.75rem,auto,0);
 }
 .circle .mask {
-    width: 6.2rem;
-    height: 6.2rem;
+    width: 3.1rem;
+    height: 3.1rem;
     border-radius: 50%;
     position: absolute;
-    left: 0.4rem;
-    top: 0.4rem;
+    left: 0.2rem;
+    top: 0.2rem;
     background: #fff;
     text-align: center;
-    line-height: 6.5rem;
-    font-size: 1.5rem;
+    line-height: 3.25rem;
+    font-size: .75rem;
     color: #5099F7;
 }
 
@@ -245,7 +257,7 @@ a.req {
     -ms-transform: translate(-50%, -50%);
     -o-transform: translate(-50%, -50%);
     transform: translate(-50%, -50%);
-    font-size: 1.5rem;
+    font-size: .75rem;
 }
 
 .circle2 svg {
@@ -272,11 +284,11 @@ a.req {
 }
 
 .recents {
-    height: 4rem;
-    font-size: 1.6rem;
-    padding-left: 15rem;
+    height: 2rem;
+    font-size: .8rem;
+    padding-left: 7.5rem;
     color: #fff;
-    line-height: 4rem;
+    line-height: 2rem;
     background: -webkit-linear-gradient(-90deg, #4F9AF7, #2169E2 100%);
     background: -moz-linear-gradient(180deg, rgba(64,150,238,1) 0, rgba(14,90,255,1) 100%);
     background: linear-gradient(180deg, rgba(64,150,238,1) 0, rgba(14,90,255,1) 100%);
@@ -284,93 +296,59 @@ a.req {
 }
 
 .yeah {
-    margin-left: 13rem;
+    margin-left: 7.5rem;
     background-image: url("../img/yeah.png");
-    background-size: 13.5rem 12rem;
-    width: 13.5rem;
-    height: 12rem;
-    margin-top: 4rem;
+    background-size: 6.75rem 6rem;
+    width: 6.75rem;
+    height: 6rem;
+    margin-top: 2rem;
 }
 
 .hello {
     color: #777;
     font-weight: bold;
-    line-height: 3rem;
+    line-height: 1.5rem;
 }
 
 .remains {
-    font-size: 3.5rem;
+    font-size: 1.75rem;
     color: #2d62c8;
 }
 
 .usummary {
     background-color: #DA5558;
     color: #fff;
-    height: 15rem;
-
+    height: 7.5rem;
 }
 
 .usummary .showhi {
-    font-size: 1.25rem;
-    padding-left:2rem;
-    padding-top: 2rem;
+    font-size: .625rem;
+    padding-left:1rem;
+    padding-top: 1rem;
 }
 .usummary .gained {
-    padding-left:2rem;
-    font-size: 6rem;
-    margin-top: 2.5rem;
+    padding-left:1rem;
+    font-size: 3rem;
+    margin-top: 1.25rem;
 }
 
 .metotal {
     background-color: #fff;
 }
 .metotal .showhi1 {
-    font-size: 1.25rem;
+    font-size: .625rem;
     color: #656565;
-    padding: 2rem;
-}
-.metotal .showtotal {
-    font-size: 4.5rem;
-    color: #519BF8;
-    padding: 0 2rem 2rem 2rem;
-}
-
-.megrid {
-
-}
-
-.megrid .line {
-    display:-webkit-box;/* android 2.1-3.0, ios 3.2-4.3 */
-    display:-webkit-flex;/* Chrome 21+ */
-    display:-ms-flexbox;/* WP IE 10 */
-    display:flex;/* android 4.4 */
-    border-bottom: 1px solid #fff;
-}
-
-.megrid .line>div.grid {
-    -webkit-box-flex:1;/* android 2.1-3.0, ios 3.2-4.3 */
-    -webkit-flex:1;/* Chrome 21+ */
-    -ms-flex:1;/* WP IE 10 */
-    flex:1;/* android 4.4 */
-    width: 50%;
-    border-right: 1px solid #fff;
-    background-color: #F0F0F0;
     padding: 1rem;
 }
-
-.megrid .linetitle {
-    color: #646464;
-    font-size: 1.25rem;
-}
-.megrid .linemoney {
+.metotal .showtotal {
+    font-size: 2.25rem;
     color: #519BF8;
-    padding-top: 1rem;
-    font-size: 2rem;
+    padding: 0 1rem 1rem 1rem;
 }
 
 .meremains {
-    padding: 1.5rem;
-    font-size: 1.25rem;
+    padding: .75rem;
+    font-size: .625rem;
 }
 
 .meremains .r {
@@ -378,53 +356,50 @@ a.req {
 }
 
 .meremains input.add {
-    padding: 1rem;
-    width: 10rem;
+    padding: .5rem;
+    width: 5rem;
     border: 1px solid #555;
     border-radius: 5px;
     color: #999;
-    margin: 0 1rem;
+    margin: 0 .5rem;
 }
 
 .meremains .smallbtn {
-    line-height: 1.65rem;
-    padding: 0.7rem 2rem;
+    line-height: .825rem;
+    padding: 0.35rem 1rem;
     background-color: #519BF8;
-    font-size: 1.65rem;
+    font-size: .825rem;
     color: #fff;
     border-radius: 5px;
 }
 
-.melogout {
-    text-align: center;
-    color: #DA5558;
-    font-size: 1.25rem;
-}
 
 .projtitle {
-    margin: 0 1rem;
-    padding: 1rem;
-    font-size: 1.25rem;
+    margin: 0 .5rem;
+    padding: .5rem;
+    font-size: .5rem;
     border-bottom: 1px dashed #777;
     background-color: #fff;
+    font-weight: 800;
+    -webkit-font-smoothing: antialiased;
 }
 
 .projtitle em {
-    margin-top: .6rem;
+    margin-top: .3rem;
 }
 .projtitle .name {
     color: #888;
 }
 .projtitle .guarantee {
     color: #2D62C8;
-    margin-left: 1rem;
+    margin-left: .5rem;
 }
 
 .detail .finished {
     background-color: #fff;
-    margin: 0 1rem;
-    font-size: 1.5rem;
-    padding: 1rem;
+    margin: 0 .5rem;
+    font-size: .65rem;
+    padding: .5rem;
     color: #888;
 }
 .detail .finished span {
@@ -434,13 +409,13 @@ a.req {
 .detail .rbox {
     background-color: #fff;
     position: relative;
-    height: 21rem;
+    height: 10.5rem;
 }
 
 .detail .rbox .r {
     position: absolute;
-    right: 2rem;
-    font-size: 1.8rem;
+    right: 1rem;
+    font-size: .9rem;
     color: #8E8E8E;
 }
 
@@ -450,15 +425,15 @@ a.req {
 
 .detail .rbox .c {
     border-radius: 50%;
-    border: .4rem solid #529DFA;
-    left: 2rem;
+    border: .2rem solid #529DFA;
+    left: 1rem;
     color: #2D62C8;
-    font-size: 3.2rem;
-    line-height: 10rem;
+    font-size: 1.6rem;
+    line-height: 5rem;
     position: absolute;
     text-align: center;
-    width: 10rem;
-    height: 10rem;
+    width: 5rem;
+    height: 5rem;
     z-index: 10;
     background-color: #fff;
 }
@@ -468,58 +443,89 @@ a.req {
     position: absolute;
     left: 0;
     right: 0;
-    height: 16rem;
+    height: 8rem;
     z-index: 0;
-    top:5rem;
+    top:2.5rem;
 }
 
 .detail .rbox .s .tt, .detail .rbox .s .p1,.detail .rbox .s .p2 {
     position: absolute;
     color: #fff;
-    width: 12rem;
-    top: 8rem;
+    width: 6rem;
+    top: 4rem;
 }
 
 .detail .rbox .s .tt {
-    left: 2rem;
+    left: 1rem;
     border-right: 1px solid #679AED;
 }
 .detail .rbox .s .p1 {
-    left: 14rem;
+    left: 7rem;
     border-right: 1px solid #679AED;
 }
 .detail .rbox .s .p2 {
-    left: 26rem
+    left: 13rem
 }
 
 .detail .rbox .s i {
     display: block;
-    font-size: 1.5rem;
+    font-size: .75rem;
     font-style: normal;
     text-align: center;
 }
 
 .detail .rbox .s a {
     display: block;
-    font-size: 3.2rem;
+    font-size: 1.6rem;
     text-align: center;
 }
 .detail .rbox .s a em {
-    font-size: 1.75rem;
+    font-size: .875rem;
 }
 .detail .more {
     text-align: center;
-    padding: 1rem;
+    padding: .5rem;
     color: #646464;
-    font-size: 1.25rem;
+    font-size: .625rem;
 }
+
+.megrid {
+    width: 19rem;
+    background-color: #F0F0F0;
+}
+
+.megrid .line {
+    border-bottom: 1px solid #fff;
+    height: 4.5rem;
+    width: 19rem;
+}
+
+.megrid .line>div.grid {
+    box-sizing: border-box;
+    width: 9.5rem;
+    float: left;
+    border-right: 1px solid #fff;
+    background-color: #F0F0F0;
+    padding: .5rem;
+}
+
+.megrid .linetitle {
+    color: #646464;
+    font-size: .625rem;
+}
+.megrid .linemoney {
+    color: #519BF8;
+    padding-top: .5rem;
+    font-size: 1rem;
+}
+
 
 .quick {
     position: fixed;
     bottom: 0;
     left: 0;
     right: 0;
-    height: 5rem;
+    height: 2.5rem;
     background-color: #DA5558;
 }
 
@@ -527,10 +533,10 @@ a.req {
     -webkit-appearance: none;
     background-color: #DA5558;
     color: #fff;
-    margin-left: 1rem;
-    margin-top: 2rem;
+    margin-left: .5rem;
+    margin-top: 1rem;
     padding: 0;
-    font-size: 1.2rem;
+    font-size: .6rem;
     width: 40%;
     border: none;
 }
@@ -539,50 +545,47 @@ a.req {
 }
 .quick a.go {
     border-left: 1px solid #E4888B;
-    padding: .8rem 2rem .8rem 1rem;
-    font-size: 1.8rem;
+    padding: .4rem 1rem .4rem .5rem;
+    font-size: .9rem;
     color: #fff;
 }
 .quick a.fill {
     float: right;
     background-color: #2D62C8;
     color: #fff;
-    font-size: 1.8rem;
-    padding: 1.5rem 2.4rem;
+    font-size: .9rem;
+    padding: .75rem 1.2rem;
 }
 
 .foot {
-    line-height: 2rem;
-    margin-top: 2rem;
+    line-height: 1rem;
+    margin-top: 1rem;
     background-color: #656565;
     text-align: center;
     color: #939393;
-    font-size: 1rem;
+    font-size: .5rem;
 }
 
 em.ensp {
-    margin-left: .5rem;
     background-image: url('../img/baozhang.png');
-    width: 1.2rem;
+    width: .6rem;
     display: inline-block;
-    height: 1.2rem;
-    background-size: 1.2rem 1.2rem;
+    height: .6rem;
+    background-size: .6rem .6rem;
 }
 em.ens0 {
-    margin-left: .5rem;
     background-image: url('../img/bao.png');
-    width: 1.2rem;
+    width: .6rem;
     display: inline-block;
-    height: 1.2rem;
-    background-size: 1.2rem 1.2rem;
+    height: .6rem;
+    background-size: .6rem .6rem;
 }
 em.ens1 {
-    margin-left: .5rem;
     background-image: url('../img/zaibao.png');
-    width: 2.4rem;
+    width: 1.2rem;
     display: inline-block;
-    height: 1.2rem;
-    background-size: 2.4rem 1.2rem;
+    height: .6rem;
+    background-size: 1.2rem .6rem;
 }
 
 
