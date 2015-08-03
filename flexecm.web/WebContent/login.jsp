@@ -5,7 +5,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<title>企业登陆</title>
+<title>企业登录</title>
 
 <SCRIPT type=text/javascript src="js/jquery-1.11.2.min.js"></SCRIPT>
 <SCRIPT type=text/javascript src="datepicker/jquery.datetimepicker.js"></SCRIPT>
@@ -179,7 +179,7 @@ function login() {
     	<div class="regform step1">
         	<!-- -->
             <div class="title">
-            	<span>欢迎来到融信担保！请登录</span>
+            	<span>欢迎来到融信融资！请登录</span>
             </div>
             
             <div class="form-content">

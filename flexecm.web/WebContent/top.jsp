@@ -45,7 +45,7 @@ Date date = new Date();
 	<!-- -->
 	<div class="top-lv02">
 		<div class="l">
-			<a href="index.jsp"><img src="img/top_004.png"></a>
+			<a href="index.jsp"><img src="img/index_009.png"></a>
 		</div>
 
 		<div class="r">
@@ -57,10 +57,10 @@ Date date = new Date();
 		<ul>
 			<li><a href="index.jsp">首页</a></li>
 			<li><a href="home.jsp?request">融资入口</a></li>
-			<li><a href="home.jsp?profile">账号管理</a></li>
-			<li><a href="res.jsp">投资资源</a></li>
+			<li><a href="home.jsp?profile">投资入口</a></li>
+			<li><a href="res.jsp">资金供应</a></li>
 			<li><a href="invests.jsp">理财产品</a></li>
-			<li><a href="markets.jsp">金融超市</a></li>
+			<li><a href="markets.jsp">联系我们</a></li>
 		</ul>
 	</div>
 </div>

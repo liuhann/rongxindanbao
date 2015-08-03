@@ -66,6 +66,66 @@ Date date = new Date();
   cursor: pointer;
 }
 
+.ui-tab-nav {
+	width: 160px;
+	height: 210px;
+	float: left;
+}
+
+.ui-tab-nav li {
+	padding: 10px;
+	padding-left: 20px;
+}
+
+.ui-tab-nav li.current {
+	background-color: #fafafa;
+}
+
+.gview .gitem {
+	text-align: center;
+	float: left;
+	width: 140px;
+	margin: 30px;
+	border: 1px solid #ccc;
+	border-radius: 10px;
+}
+
+.gview .gitem .title {
+	font-size: 20px;
+	padding: 10px;
+	color: #53B3FD;
+}
+.gview .gitem .sub_title {
+	font-size: 12px;
+	color: #999;
+}
+
+.gview .gitem .num {
+	font-size: 24px;
+	color: #e58922;
+	padding-top: 15px;
+}
+
+.gview .gitem .em {
+	padding-bottom: 10px;
+}
+
+
+
+
+.ui-tab-content {
+	width: 628px;
+	height: 250px;
+	float: left;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+
+.ui-tab-content .slides {
+	height: 250px;
+
+}
+
 .hidden {
 	display: none;
 }
@@ -134,8 +194,11 @@ function refreshImg() {
     	<div class="index_top-lv01">
         	<div class="w1150">
                 <div class="l">
+					<span style="color: #777;">共创共享共成长，让我们一起实现梦想</span>
+					<!--
                    <span>今天是</span>
                    <span><%=1900+date.getYear() %>年<%=date.getMonth()+1 %>月<%=date.getDate() %>日</span>
+                   -->
                 </div>
                 
                  <div class="r">
@@ -209,8 +272,6 @@ function refreshImg() {
                             </div>
                         </li></a>
                         <!-- -->                        
-
-
                     </ul>
                 	
                 </div>
@@ -236,84 +297,91 @@ function refreshImg() {
         	<ul>
             	<li><a href="index.jsp">首页</a></li>
             	<li><a href="home.jsp?request">融资入口</a></li>
-            	<li><a href="home.jsp?profile">账号管理</a></li>
-            	<li><a href="res.jsp">投资资源</a></li>
+            	<li><a href="home.jsp?profile">投资入口</a></li>
+            	<li><a href="res.jsp">资金供应</a></li>
             	<li><a href="invests.jsp">理财产品</a></li>
-            	<li><a href="markets.jsp">金融超市</a></li>
+            	<li><a href="markets.jsp">联系我们</a></li>
             </ul>
         </div>
 
    		<div class="index_top-lv04">
         	<!-- -->
             <div class="l">
-            	<div class="box clearfix">
+            	<div class="clearfix" style="background-color: #fff;">
                     <div class="l_01">
-                        <div class="title_l">
-                            <span>最新受理项目</span>
+                        <div class="title_l" style="padding: 20px;">
+                            <span>融资信息</span>
                         </div>
                         <div class="title_r">
-                            <span><a href="#">更多&gt;</a></span>
                         </div>
                     </div>
-                    <div class="l_02">
-                         <%
-	                        Map<String, Object> recentProjects = (Map)pageInfo.get("rc");
-                         	List<Map> projLists = (List<Map>)recentProjects.get("list");
-                         	int i = 0;
-                         %>
-                        <div class="list_l clearfix"><!--左 -->
-                            <ul>
-                            	<%
-                            	while(i<6 && i<projLists.size()) {
-                            		Map proj = projLists.get(i);
-                            		
-                            		String title = "";
-                            		if ((Integer)proj.get("type")==1) {
-                            			title = proj.get("mpart") + "企业经营贷款项目" + proj.get("loan") + "万元";
-                            		} else {
-                            			title = "[个人]" + proj.get("rname") 
-                            					+ proj.get("purpose") + "申请,贷款额"+ proj.get("loan") + "万元";
-                            		}
-                            		i++;
-                            	%>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#"><%=title %> </a></span>
-                                </li>
-                            	<%
-                            	}
-                            	%>
-                            </ul>
-                        </div>
-                        <!-- -->
-                        <div class="list_r"><!--右 -->
-                            <ul>
-                                <%
-                            	while(i<12 && i<projLists.size()) {
-                            		Map proj = projLists.get(i);
-                            		
-                            		String title = "";
-                            		if ((Integer)proj.get("type")==1) {
-                            			title = proj.get("mpart") + "企业经营贷款项目" + proj.get("loan") + "万元";
-                            		} else {
-                            			title = "[个人]" + proj.get("rname") 
-                            					+ proj.get("purpose") + "申请,贷款额"+ proj.get("loan") + "万元";
-                            		}
-                            		i++;
-                            	%>
-                                <li>
-                                    <img src="img/index_024.png">
-                                    <span><a href="#"><%=title %> </a></span>
-                                </li>
-                            	<%
-                            	}
-                            	%>                                                                                                                                          
-                            </ul>                    
-                        </div>
-                        <!-- -->
-                        <div class="list_c"><!--中 -->                    
-                        </div>
-                        
+                    <div class="l_02" style="padding-top: 0;">
+
+						<div class="ui-tab-nav">
+							<ul>
+								<li class="current">项目总览</li>
+								<li>最新受理项目</li>
+								<li>已成功项目</li>
+								<li>更多</li>
+							</ul>
+						</div>
+
+						<div class="ui-tab-content">
+							<div class="slide-wrapper">
+
+
+								<div class="gview slides">
+									<div class="gitem">
+										<p class="title">融资需求</p>
+										<div class="sub_title">数量</div>
+										<div class="num">409</div>
+										<div class="em">个</div>
+									</div>
+									<div class="gitem">
+										<p class="title">融资需求</p>
+										<div class="sub_title">完结</div>
+										<div class="num">185</div>
+										<div class="em">个</div>
+									</div>
+									<div class="gitem">
+										<p class="title">成功对接</p>
+										<div class="sub_title">总额</div>
+										<div class="num">14457</div>
+										<div class="em">万元</div>
+									</div>
+								</div>
+
+								<div class="recent-projs slides">
+									<%
+										Map<String, Object> recentProjects = (Map)pageInfo.get("rc");
+										List<Map> projLists = (List<Map>)recentProjects.get("list");
+										int i = 0;
+									%>
+									<ul>
+										<%
+											while(i<projLists.size()) {
+												Map proj = projLists.get(i);
+
+												String title = "";
+												if ((Integer)proj.get("type")==1) {
+													title = proj.get("mpart") + "企业经营贷款项目" + proj.get("loan") + "万元";
+												} else {
+													title = "[个人]" + proj.get("rname")
+															+ proj.get("purpose") + "申请,贷款额"+ proj.get("loan") + "万元";
+												}
+												i++;
+										%>
+										<li>
+											<img src="img/index_024.png">
+											<span><a href="#"><%=title %> </a></span>
+										</li>
+										<%
+											}
+										%>
+									</ul>
+								</div>
+							</div>
+						</div>
                     </div>
                 </div>
                 <!-- -->
@@ -327,11 +395,11 @@ function refreshImg() {
             	<%if (AuthenticationUtil.getCurrentUser()==null) { %>
             	<div class="box"> 
            			<div class="r_01">
-                    	<span>享受更多便利？欢迎成为我们的绿色通道企业</span>
+                    	<span>高新区企业、青年创业梦工场项目、新材料产业企业等用户登录入口</span>
                     </div>
-                    <div class="r_02">
-                    	<span class="tab_l current">请登录</span> <!--current为选中的样式 必须要和签满的tab_X样式并存 -->
-                        <span class="tab_r "><a href="login.jsp">后台登录</a></span>
+                    <div class="r_02" style="border-bottom: 2px solid #1F99D3;margin-top: 10px;">
+                    	<span class="tab_l current" style="height:28px;">绿色通道</span> <!--current为选中的样式 必须要和签满的tab_X样式并存 -->
+                        <!--<span> class="tab_r "><a href="login.jsp">后台登录</a></span> -->
                          
                     </div>
                     
@@ -345,11 +413,11 @@ function refreshImg() {
                         <input type="button" class="form-button" value="登录" onclick="login();">
                     </div>
                     
-                    <div class="r_04">
+                    <div class="r_04" style="margin-top: 8px;">
                     	<span class="r_04_l">
                         	<a href="#">个人注册</a>
                         </span>
-                        <span class="r_04_l">
+                        <span class="r_04_l" style="margin-left: 8px;">
                         	<a href="#">企业注册</a>
                         </span>
                         <span class="r_04_r">
@@ -358,7 +426,7 @@ function refreshImg() {
                     </div>
            		</div>
            		<% } else { %>
-	           		<div class="box uinfo"  style="  height: 262px;">
+	           		<div class="box uinfo"  style="height: 262px;">
 						Hi,<%=currentUser.get("rname") %>
 							
 						<%

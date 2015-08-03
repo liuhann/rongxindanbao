@@ -165,6 +165,28 @@ function login() {
     });
 }
 
+function register() {
+    var req = {
+        "loginid":$("#loginid").val(),
+        "pwd": $("#pwd").val(),
+        "ufcode": $("#ufcode").val()
+    };
+    alert(JSON.stringify(req));
+    $.post("/service/eliyou/wx/register", req, function () {
+        if($("#bindwx").prop("checked")) {
+            location.href =
+                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
+                + encodeURI("http://eliyou.luckyna.com/oauth/wx")
+                + "&response_type=code&scope=snsapi_base&state=/wx/me.html";
+        } else {
+            location.href = "me.html";
+        }
+    }).fail(function(error){
+        alert(JSON.stringify(error));
+        $(".login-form .error").show();
+    });
+}
+
 function runToNumber(div, money) {
     if (money==0) {
         $(div).html(formatMoney(money));

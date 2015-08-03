@@ -44,6 +44,42 @@ public class EliyouService {
         return rr;
     }
 
+
+    @RestService(method="POST", uri="/eliyou/wx/register", authenticated=false, rndcode=false)
+    public RestResult register(@RestParam(value="loginid")String uid, @RestParam(value="pwd") String pwd
+            ,@RestParam(value="ufcode") String ufcode) {
+        RestResult rr = new RestResult();
+        if (uid==null || pwd==null || ufcode==null) {
+            throw new HttpStatusException(HttpStatus.BAD_REQUEST);
+        }
+
+        String url = eliyouServer + "/eLiYou/wechat/register.do";
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userid", uid);
+        params.put("password", pwd);
+        params.put("ufcode", ufcode);
+
+        logger.info("register to eliyou  url=" + url + "  u:" + uid + " p:" + pwd + " ufcode: " + ufcode);
+
+        JSONObject result = WebUtils.doPost(url, params);
+
+        logger.info("login result " + result.toString());
+
+        if (result!=null && result.has("code")) {
+            try {
+                String e = null;
+                e = result.getString("code");
+                if ("01".equals(e)) {
+                    rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
+                    return rr;
+                }
+            } catch (JSONException e1) {
+                e1.printStackTrace();
+            }
+        }
+        throw new HttpStatusException(HttpStatus.CONFLICT);
+    }
+
     @RestService(method="GET", uri="/eliyou/wx/logout", authenticated=true, rndcode=false)
     public RestResult logout() {
         RestResult rr = new RestResult();
@@ -211,6 +247,7 @@ public class EliyouService {
             }
         }
         throw new HttpStatusException(HttpStatus.UNAUTHORIZED);
-
     }
+
+
 }

@@ -13,7 +13,7 @@
     <title></title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/common.js?vvw"></script>
 
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
 
@@ -26,12 +26,14 @@
     </div>
 
     <div class="login-form">
-        <input type="text" placeholder="用户名">
-        <input type="password" placeholder="密码">
-        <input type="text" placeholder="友福码">
+        <input type="text" id="loginid" placeholder="用户名">
+        <input type="password" id="pwd" placeholder="密码">
+        <input type="text" id="ufcode" placeholder="友福码">
+        <div class="error " style="display: none;">用户名冲突或有福码错误</div>
+        <div class="bindwx"><input type="checkbox"  value="checkbox" checked="checked" id="bindwx"> 同时绑定微信账号</div>
+        <a class="req" onclick="register();">同意服务条款并注册</a>
 
-        <div class="bindwx"><input type="checkbox"> 同时绑定微信账号</div>
-        <a class="req">同意服务条款并注册</a>
+        <div class="bindwx"><a href="login.html">已有账户并登录</a></div>
     </div>
 </div>
 
