@@ -1,33 +1,27 @@
 package com.ever365.utils;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
-
+import org.apache.commons.httpclient.Header;
 import org.apache.commons.httpclient.HttpClient;
 import org.apache.commons.httpclient.HttpException;
 import org.apache.commons.httpclient.SimpleHttpConnectionManager;
 import org.apache.commons.httpclient.methods.GetMethod;
 import org.apache.commons.httpclient.methods.PostMethod;
+import org.apache.commons.httpclient.methods.multipart.FilePart;
+import org.apache.commons.httpclient.methods.multipart.MultipartRequestEntity;
+import org.apache.commons.httpclient.methods.multipart.Part;
+import org.apache.commons.httpclient.methods.multipart.StringPart;
 import org.apache.commons.httpclient.params.HttpClientParams;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.apache.commons.mail.DefaultAuthenticator;
-import org.apache.commons.mail.Email;
-import org.apache.commons.mail.EmailException;
-import org.apache.commons.mail.SimpleEmail;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.springframework.util.FileCopyUtils;
+
+import java.io.*;
+import java.util.*;
+import java.util.logging.Logger;
 
 public class WebUtils {
-	private static Log logger = LogFactory.getLog(WebUtils.class);
+	private static Logger logger = Logger.getLogger(WebUtils.class.getName());
 
 	public static JSONObject doGet(String requestUrl) {
 		HttpClient httpClient = new HttpClient(new HttpClientParams(),
@@ -39,6 +33,72 @@ public class WebUtils {
 		return jsonObject;
 	}
 
+
+	public static void multiPartPost(String url, Map<String, Object> params) throws IOException {
+		PostMethod method = new PostMethod(url);
+
+		try {
+			List<Part> parts = new ArrayList<Part>();
+
+			for (String key : params.keySet()) {
+				Object value = params.get(key);
+				if (value instanceof String) {
+					parts.add(new StringPart(key, (String) value, method.getRequestCharSet()));
+				}
+				if (value instanceof File) {
+					parts.add(new FilePart(key, (File) value));
+				}
+			}
+
+			method.setRequestEntity(new MultipartRequestEntity(parts.toArray(new Part[parts.size()]), method.getParams()));
+
+			HttpClient client = new HttpClient(new HttpClientParams(),
+					new SimpleHttpConnectionManager(true));
+			client.getHttpConnectionManager().getParams().setConnectionTimeout(50000);
+			// 由于要上传的文件可能比较大 , 因此在此设置最大的连接超时时间
+
+			int statusCode = client.executeMethod(method);
+
+			System.out.println("Status : " + statusCode);
+
+			String responseString = method.getResponseBodyAsString();
+
+			System.out.println("Response : \n\n" + responseString);
+		} catch (IOException ioe) {
+			ioe.printStackTrace();
+		} finally {
+			method.releaseConnection();
+		}
+	}
+
+
+	public static File downloadFile(String url) {
+		HttpClient httpClient = new HttpClient(new HttpClientParams(),
+				new SimpleHttpConnectionManager(true));
+		GetMethod getMethod = new GetMethod(url);
+		logger.info("[GET]" + url);
+		JSONObject jsonObject = null;
+		try {
+			int statusCode = httpClient.executeMethod(getMethod);
+			if (statusCode != 200) {
+				logger.info("Method failed: request url:" + url + "  status:" + getMethod.getStatusLine());
+			}
+			File temp = File.createTempFile("pattern", ".suffix");
+
+			// 创建临时文件
+			//在程序退出时删除临时文件
+			FileCopyUtils.copy(getMethod.getResponseBodyAsStream(), new FileOutputStream(temp));
+			logger.info("file generated " + temp.getName() + "  size: " + temp.length());
+			return temp;
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			getMethod.releaseConnection();
+		}
+		return null;
+	}
 
 	public static String getString(String requestUrl) {
 		HttpClient httpClient = new HttpClient(new HttpClientParams(),
@@ -60,7 +120,6 @@ public class WebUtils {
 		} finally {
 			getMethod.releaseConnection();
 		}
-
 		return null;
 	}
 
@@ -84,9 +143,9 @@ public class WebUtils {
 			String str1 = result;
 			return str1;
 		} catch (HttpException e) {
-			logger.debug("HttpException on get url" + requestUrl);
+			e.printStackTrace();
 		} catch (IOException e) {
-			logger.debug("IOException on get url" + requestUrl);
+			e.printStackTrace();
 		} finally {
 			getMethod.releaseConnection();
 		}
@@ -94,7 +153,7 @@ public class WebUtils {
 	}
 
 	public static JSONObject doGet(String requestUrl,
-			Map<String, String> headers) {
+								   Map<String, String> headers) {
 		HttpClient httpClient = new HttpClient(new HttpClientParams(),
 				new SimpleHttpConnectionManager(true));
 		GetMethod getMethod = new GetMethod(requestUrl);
@@ -107,7 +166,7 @@ public class WebUtils {
 	}
 
 	private static JSONObject performGet(String requestUrl,
-			HttpClient httpClient, GetMethod getMethod) {
+										 HttpClient httpClient, GetMethod getMethod) {
 		logger.info("[GET]" + requestUrl);
 		JSONObject jsonObject = null;
 		try {
@@ -122,13 +181,12 @@ public class WebUtils {
 			try {
 				jsonObject = new JSONObject(result);
 			} catch (Exception e) {
-				logger.debug("json invalid:" + requestUrl + "  content: "
-						+ result);
+				e.printStackTrace();
 			}
 		} catch (HttpException e) {
-			logger.debug("HttpException on get url" + requestUrl);
+			e.printStackTrace();
 		} catch (IOException e) {
-			logger.debug("IOException on get url" + requestUrl);
+			e.printStackTrace();
 		} finally {
 			getMethod.releaseConnection();
 		}
@@ -136,7 +194,7 @@ public class WebUtils {
 	}
 
 	public static JSONObject doPost(String requestUrl,
-			Map<String, Object> params, Map<String, String> headers) {
+									Map<String, Object> params, Map<String, String> headers) {
 		HttpClient httpClient = new HttpClient(new SimpleHttpConnectionManager(
 				true));
 		PostMethod postMethod = new PostMethod(requestUrl);
@@ -149,7 +207,7 @@ public class WebUtils {
 	}
 
 	public static JSONObject doPost(String requestUrl,
-			Map<String, Object> params) {
+									Map<String, Object> params) {
 		HttpClient httpClient = new HttpClient(new SimpleHttpConnectionManager(
 				true));
 		PostMethod postMethod = new PostMethod(requestUrl);
@@ -158,8 +216,8 @@ public class WebUtils {
 	}
 
 	public static JSONObject performPost(String requestUrl,
-			Map<String, Object> params, HttpClient httpClient,
-			PostMethod postMethod) {
+										 Map<String, Object> params, HttpClient httpClient,
+										 PostMethod postMethod) {
 		for (String key : params.keySet()) {
 			Object value = params.get(key);
 			if (value != null) {
@@ -171,12 +229,23 @@ public class WebUtils {
 
 		JSONObject jsonObject = null;
 		try {
+			logger.info("POST: " + requestUrl );
 			int statusCode = httpClient.executeMethod(postMethod);
 			logger.info("status: " + statusCode);
-			if (statusCode != 200) {
+
+			if (statusCode==302) {
+				Header location = postMethod.getResponseHeader("Location");
+				if (location!=null) {
+					logger.info("redirect to" + location.getValue());
+					return doGet(location.getValue());
+				}
+
+			} else if (statusCode != 200) {
 				logger.info("Method failed: request url:" + requestUrl
 						+ "  status:" + postMethod.getStatusLine());
 			}
+
+
 			byte[] responseBody = postMethod.getResponseBody();
 			String result = new String(responseBody, "utf-8");
 			try {
@@ -186,9 +255,9 @@ public class WebUtils {
 						+ result);
 			}
 		} catch (HttpException e) {
-			logger.debug("HttpException on get url" + requestUrl);
+			e.printStackTrace();
 		} catch (IOException e) {
-			logger.debug("IOException on get url" + requestUrl);
+			e.printStackTrace();
 		} finally {
 			postMethod.releaseConnection();
 			httpClient.getHttpConnectionManager().closeIdleConnections(0L);
@@ -249,7 +318,7 @@ public class WebUtils {
 		Map ret = new HashMap();
 		Object value = null;
 		String key = null;
-		for (Iterator keys = jsonObject.keys(); keys.hasNext();) {
+		for (Iterator keys = jsonObject.keys(); keys.hasNext(); ) {
 			key = (String) keys.next();
 			try {
 				value = jsonObject.get(key);
@@ -270,5 +339,28 @@ public class WebUtils {
 		}
 		return ret.size() != 0 ? ret : null;
 	}
+
+	public static void main(String[] args) {
+		try {
+			// 创建临时文件
+			//在程序退出时删除临时文件
+			Map<String, Object> params = new HashMap<String, Object>();
+			File f = new File("d:/avtar.jpg");
+			System.out.println(f.length());
+			params.put("userAccount", "zhangting");
+			params.put("money", "1000");
+			params.put("alipayAccount", "ail");
+			params.put("fileName",f);
+
+			WebUtils.multiPartPost("http://61.48.147.7:8086/eLiYou/wechat/saveRecharge.do", params);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+		}
+	}
+
+
+
+
 
 }

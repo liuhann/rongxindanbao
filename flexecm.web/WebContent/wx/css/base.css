@@ -7,6 +7,7 @@ html, body {
     background: #ebebeb;
     font-family:Tahoma,Arial,Roboto,Helvetica,sans-serif;
     font-size: 10px;
+    overflow: hidden;
 }
 
 .wrapper {
@@ -170,8 +171,7 @@ a.req {
     width: 17rem;
     border-top: 1px dashed #777;
 }
-.project .title div, .project .title em {
-    float: left;
+.project .title span, .project .title div, .project .title em {
     font-size: .625rem;
     margin-top: .625rem;
 }
@@ -306,13 +306,14 @@ a.req {
 
 .hello {
     color: #777;
-    font-weight: bold;
     line-height: 1.5rem;
+    font-size: .5rem;
 }
 
 .remains {
-    font-size: 1.75rem;
+    font-size: 1.5rem;
     color: #2d62c8;
+    margin-bottom: .6rem;
 }
 
 .usummary {
@@ -417,6 +418,7 @@ a.req {
     right: 1rem;
     font-size: .9rem;
     color: #8E8E8E;
+    top: 1rem;
 }
 
 .detail .rbox .r .rt {
@@ -426,16 +428,17 @@ a.req {
 .detail .rbox .c {
     border-radius: 50%;
     border: .2rem solid #529DFA;
-    left: 1rem;
+    left: 1.5rem;
     color: #2D62C8;
-    font-size: 1.6rem;
-    line-height: 5rem;
+    font-size: 1.5rem;
+    line-height: 4.5rem;
     position: absolute;
     text-align: center;
-    width: 5rem;
-    height: 5rem;
+    width: 4.5rem;
+    height: 4.5rem;
     z-index: 10;
-    background-color: #fff;
+
+    background: -webkit-linear-gradient(0 3rem,#ccc,#000);
 }
 
 .detail .rbox .s {
@@ -443,7 +446,7 @@ a.req {
     position: absolute;
     left: 0;
     right: 0;
-    height: 8rem;
+    height: 8.1rem;
     z-index: 0;
     top:2.5rem;
 }
@@ -478,7 +481,9 @@ a.req {
     display: block;
     font-size: 1.6rem;
     text-align: center;
+    margin-top: .4rem;
 }
+
 .detail .rbox .s a em {
     font-size: .875rem;
 }
@@ -496,7 +501,7 @@ a.req {
 
 .megrid .line {
     border-bottom: 1px solid #fff;
-    height: 4.5rem;
+    height: 4rem;
     width: 19rem;
 }
 
@@ -506,17 +511,19 @@ a.req {
     float: left;
     border-right: 1px solid #fff;
     background-color: #F0F0F0;
-    padding: .5rem;
+    padding: .8rem 0 0 .8rem;
 }
 
 .megrid .linetitle {
     color: #646464;
-    font-size: .625rem;
+    font-size: .6rem;
+    line-height: .8rem;
 }
+
 .megrid .linemoney {
     color: #519BF8;
-    padding-top: .5rem;
     font-size: 1rem;
+    margin-top: .3rem;
 }
 
 
@@ -558,7 +565,7 @@ a.req {
 }
 
 .foot {
-    line-height: 1rem;
+    line-height: 2rem;
     margin-top: 1rem;
     background-color: #656565;
     text-align: center;
@@ -586,6 +593,64 @@ em.ens1 {
     display: inline-block;
     height: .6rem;
     background-size: 1.2rem .6rem;
+}
+
+.loader {
+    width: 7rem;
+    height: 1rem;
+    line-height: 1rem;
+    text-align: center;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%);
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    font-family: helvetica, arial, sans-serif;
+    text-transform: uppercase;
+    font-weight: 900;
+    color: #ce4233;
+    letter-spacing: 0.2em;
+}
+
+.loader::before, .loader::after {
+    content: "";
+    display: block;
+    width: 1rem;
+    height: .3rem;
+    background: #ce4233;
+    position: absolute;
+    -webkit-animation: load .7s ease-in-out;
+    animation: load .7s ease-in-out;
+/*
+ infinite alternate
+ */
+    animation-fill-mode: both;
+    -webkit-animation-fill-mode: both;
+}
+.loader::before {
+    top: -0.3rem;
+}
+.loader::after {
+    bottom: -0.3rem;
+}
+
+@-webkit-keyframes load {
+    0% {
+       -webkit-transform: translateX(0rem);
+    }
+    100% {
+       -webkit-transform: translateX(6rem);
+    }
+}
+
+@keyframes load {
+    0% {
+        transform: translateX(0rem);
+    }
+    100% {
+        transform: translateX(6rem);
+    }
 }
 
 

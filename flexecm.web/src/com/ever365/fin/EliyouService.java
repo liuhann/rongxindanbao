@@ -4,27 +4,30 @@ import com.ever365.mongo.MongoDataSource;
 import com.ever365.rest.*;
 import com.ever365.utils.RandomCodeServlet;
 import com.ever365.utils.StringUtils;
-import com.ever365.utils.WebUtils;
 import com.mongodb.BasicDBObject;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.*;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
+import com.ever365.utils.WebUtils;
+import org.springframework.util.FileCopyUtils;
 
 public class EliyouService {
 
-
     Logger logger = Logger.getLogger(EliyouService.class.getName());
 
-    private String eliyouServer = "http://221.218.37.133:8086";
+    private String eliyouServer = "http://61.48.62.99:8086";
 
     private MongoDataSource dataSource;
+
+    private Long refreshTime = 60 * 60 * 1000L;
 
     public void setDataSource(MongoDataSource dataSource) {
         this.dataSource = dataSource;
@@ -67,35 +70,9 @@ public class EliyouService {
     }
 
 
-    private Long recentTicketTime = 0L;
-    private String jsapiTicket = null;
-
     @RestService(method="GET", uri="/eliyou/wx/signature", authenticated=false)
     public Map<String, Object> getWeixinConfigs(@RestParam(value = "url")String url) {
-
-        if (System.currentTimeMillis()-recentTicketTime>7200000) {
-            //重新获取签名
-            String tokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxaeeab45e6d45524b&secret=8c1ad314d1b5cc2508ecb1d1042afe5e";
-            JSONObject tokenJson = WebUtils.doGet(tokenUrl);
-
-            logger.info("token result " + tokenJson.toString());
-            if (tokenJson!=null && tokenJson.has("access_token")) {
-                try {
-                    String apiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + tokenJson.getString("access_token") + "&type=jsapi";
-                    JSONObject ticketJSON = WebUtils.doGet(apiTicketUrl);
-                    logger.info("ticket result  " + ticketJSON.toString());
-                    if (ticketJSON!=null && ticketJSON.has("ticket")) {
-                        jsapiTicket = ticketJSON.getString("ticket");
-                        recentTicketTime = System.currentTimeMillis();
-                    }
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                    jsapiTicket = null;
-                    recentTicketTime = 0L;
-                }
-            }
-        }
-
+        String jsapiTicket = getWeixinJSTicket();
         if (jsapiTicket!=null) {
             logger.info("jsapi ticket: " + jsapiTicket);
             String noncestr = StringUtils.getRandString(10);
@@ -116,6 +93,88 @@ public class EliyouService {
         }
         return new HashMap<String,Object>(0);
     }
+
+    private Long tokenTime = 0L;
+    private String weixinToken = null;
+    @RestService(method="GET", uri="/eliyou/wx/token", authenticated=false)
+    public synchronized String getWeixinToken() {
+        if (System.currentTimeMillis()-tokenTime > refreshTime) {
+            //重新获取签名
+            String tokenUrl = "https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=wxaeeab45e6d45524b&secret=8c1ad314d1b5cc2508ecb1d1042afe5e";
+            JSONObject tokenJson = WebUtils.doGet(tokenUrl);
+
+            logger.info("token result " + tokenJson.toString());
+            if (tokenJson!=null && tokenJson.has("access_token")) {
+                try {
+                    weixinToken = tokenJson.getString("access_token");
+                    tokenTime = System.currentTimeMillis();
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                    weixinToken = null;
+                    tokenTime = 0L;
+                }
+            }
+        }
+        return weixinToken;
+    }
+
+    private Long ticketTime = 0L;
+    private String jsapiTicket = null;
+    @RestService(method="GET", uri="/eliyou/wx/js/ticket", authenticated=false)
+    public synchronized String getWeixinJSTicket() {
+        if (System.currentTimeMillis()-ticketTime > refreshTime) {
+            try {
+                String apiTicketUrl = "https://api.weixin.qq.com/cgi-bin/ticket/getticket?access_token=" + getWeixinToken() + "&type=jsapi";
+                JSONObject ticketJSON = WebUtils.doGet(apiTicketUrl);
+                logger.info("ticket result  " + ticketJSON.toString());
+                if (ticketJSON!=null && ticketJSON.has("ticket")) {
+                    jsapiTicket = ticketJSON.getString("ticket");
+                    ticketTime = System.currentTimeMillis();
+                }
+            } catch (JSONException e) {
+                e.printStackTrace();
+                jsapiTicket = null;
+                ticketTime = 0L;
+            }
+        }
+        return jsapiTicket;
+    }
+
+    @RestService(method="POST", uri="/eliyou/alipay/add", authenticated=true, rndcode=false)
+    public void postAlipay(@RestParam(value="picid")String picid, @RestParam(value="money")Integer money,
+                           @RestParam(value="alipay")String account) {
+        //首先下载文件
+        File temp = WebUtils.downloadFile("http://file.api.weixin.qq.com/cgi-bin/media/get?access_token=" + getWeixinToken() + "&media_id=" + picid);
+        try {
+            // 创建临时文件
+            //在程序退出时删除临时文件
+            Map<String, Object> params = new HashMap<String, Object>();
+            params.put("userAccount", AuthenticationUtil.getCurrentUser());
+            params.put("money", money.toString());
+            params.put("alipayAccount", account);
+            params.put("fileName", temp);
+            WebUtils.multiPartPost(eliyouServer + "/eLiYou/wechat/saveRecharge.do", params);
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if (temp!=null) {
+                temp.delete();
+            }
+        }
+    }
+
+    @RestService(method="POST", uri="/eliyou/recharge", authenticated=false, rndcode=false)
+    public Map<String, Object> saveRacharge(@RestParam(value="money")Integer money) {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userAccount", AuthenticationUtil.getCurrentUser());
+        params.put("money", money.toString());
+        params.put("url", "http://eliyou.luckyna.com/wx/me.html");
+        JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/savewyRecharge.do", params);
+
+        logger.info(result.toString());
+        return WebUtils.jsonObjectToMap(result);
+    }
+
 
     @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=true, rndcode=false)
     public Map<String, Object> getUserInfos() {

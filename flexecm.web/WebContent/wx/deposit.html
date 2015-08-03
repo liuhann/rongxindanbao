@@ -15,7 +15,77 @@
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
-    <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
+    <link type="text/css" rel="stylesheet" href="css/base.css?xi"><!--通用CSS样式 -->
+
+    <script>
+        $(function() {
+            getCurrentUser();
+            $.getJSON("/service/eliyou/wx/uinfos", {}, function(data){
+                if (data.result=="success") {
+                    runToNumber($(".remains"),data.kyje);
+                }
+            });
+        });
+
+        function confirmDeposit() {
+
+            var money = $("#money").val();
+            if (!isPlusNumber(money)) {
+                msg("请输您的支付宝已充金额");
+                return;
+            }
+
+            $.post("/service/eliyou/recharge", {
+                'money': money
+            }, function(data) {
+
+                var resp = JSON.parse(data);
+
+                if (resp.obj) {
+                    $("#RechargeMoneymoremore").val(resp.obj.rechargeMoneymoremore);
+                    $("#PlatformMoneymoremore").val(resp.obj.platformMoneymoremore);
+                    $("#OrderNo").val(resp.obj.orderNo);
+                    $("#Amount").val(formatMoney(resp.obj.amount, 1));
+                    $("#RechargeType").val("2");
+                    $("#FeeType").val("1");
+
+                    $("#Remark1").val(resp.obj.remark1);
+                    $("#Remark2").val(resp.obj.remark2);
+
+                    $("#ReturnURL").val(resp.obj.returnURL);
+                    $("#NotifyURL").val(resp.obj.notifyURL);
+                    $("#SignInfo").val(resp.obj.signInfo);
+
+                    $("#form1").submit();
+                }
+
+                /*
+                {
+                :   "msg":"成功",
+                :   "obj":
+                :   {
+                :   :   "platformMoneymoremore":"p1099",
+                :   :   "amount":1000.0,
+                :   :   "signInfo":"X4woETXWbVnsn4agPdLMEA1Em9XFpff4dVwk2DHSaYlOppROYd11TebWIW5hBa22pMKhcdscQ3JC\r\ntOBfypzFQsJUXPjqC5/3Tnl5FgHsi6r2WcLpBk8syLySU1P09Revdm2L1Y69ARe9dR5n9UQGTXxP\r\nDljliDMTKR8G5PMbx1E=",
+                :   :   "orderNo":"CZ-15070000019",
+                :   :   "cardNo":"",
+                :   :   "feeType":"",
+                :   :   "rechargeMoneymoremore":"m29624",
+                :   :   "rechargeType":"",
+                :   :   "randomTimeStamp":"",
+                :   :   "remark1":"zhangting",
+                :   :   "remark2":"36",
+                :   :   "remark3":"",
+                :   :   "returnURL":"www.sina.com.cn",
+                :   :   "notifyURL":"http://61.48.147.7:8086/eLiYou/moneyMoreMore/rechargeNotifyResult.do"
+                :   },
+                :   "code":"01"
+                }
+                */
+            });
+        }
+
+    </script>
 
 </head>
 <body>
@@ -23,16 +93,42 @@
 <div class="wrapper">
     <div class="head">
         <div class="logo"></div>
-        <div class="navs"><a>投资</a> | <a>账户</a></div>
+        <div class="navs"><a href="recents.html">投资</a> | <a href="me.html">账户</a></div>
     </div>
 
     <div class="content-form">
-        <div class="hello">亲爱的momo，您的账户余额为</div>
+        <div class="hello">亲爱的<span class="uname"></span>，您的账户余额为</div>
         <div class="remains">0.00</div>
 
-        <input type="number" class="full"  placeholder="请输入充值金额">
-        <a class="req" style="margin-top: 1rem;  padding: 1.5rem 0;">确认充值</a>
+        <input type="number" id="money" class="full"  placeholder="请输入充值金额">
+        <a class="req" style="margin-top: 1rem; " href="javascript:confirmDeposit();">确认充值</a>
     </div>
+
+
+    <form id="form1" name="form1" action="http://218.4.234.150:88/main/loan/toloanrecharge.action" method="post">
+        <input id="RechargeMoneymoremore" name="RechargeMoneymoremore" value="" type="hidden" />
+        <input id="PlatformMoneymoremore" name="PlatformMoneymoremore" value="" type="hidden" />
+        <input id="LoanNo" name="LoanNo" value="" type="hidden" />
+        <input id="OrderNo" name="OrderNo" value="" type="hidden" />
+        <input id="Amount" name="Amount" value="" type="hidden" />
+        <input id="Fee" name="Fee" value="" type="hidden" />
+        <input id="FeePlatform" name="FeePlatform" value="" type="hidden" />
+        <input id="RechargeType" name="RechargeType" value="" type="hidden" />
+        <input id="FeeType" name="FeeType" value="" type="hidden" />
+        <input id="CardNo" name="CardNo" value="" type="hidden" />
+        <input id="RandomTimeStamp" name="RandomTimeStamp" value="" type="hidden" />
+        <input id="Remark1" name="Remark1" value="" type="hidden" />
+        <input id="Remark2" name="Remark2" value="" type="hidden" />
+        <input id="Remark3" name="Remark3" value="" type="hidden" />
+        <input id="ResultCode" name="ResultCode" value="" type="hidden" />
+        <input id="Message" name="Message" value="" type="hidden" />
+        <input id="ReturnURL" name="ReturnURL" value="" type="hidden" />
+        <input id="NotifyURL" name="NotifyURL" value="" type="hidden" />
+        <input id="SignInfo" name="SignInfo" value="" type="hidden" />
+    </form>
+
+
+
 
     <div class="foot">
         ©2015北京易利友信息技术有限公司 京ICP备15011092号

@@ -21,12 +21,12 @@
     <script>
         $(function() {
             if(navigator.userAgent.indexOf("MicroMessenger")==-1) {
-                //location.href = "https://qr.alipay.com/apan8s1sn60siwgv72";
+                location.href = "https://qr.alipay.com/apan8s1sn60siwgv72";
                 return;
             }
+            getCurrentUser();
 
             $.getJSON("/service/eliyou/wx/signature", {url:"http://eliyou.luckyna.com/wx/alipay.html"}, function(data) {
-
                 wx.config({
                     debug: false, // 开启调试模式,调用的所有api的返回值会在客户端alert出来，若要查看传入的参数，可以在pc端打开，参数信息会通过log打出，仅在pc端时才会打印。
                     appId: 'wxaeeab45e6d45524b', // 必填，公众号的唯一标识
@@ -37,8 +37,9 @@
                 });
 
                 wx.ready(function(){
-
+                    $(".upload").show();
                 });
+
                 wx.error(function(res){
                     alert("微信初始化失败 " + JSON.stringify(res));
                 });
@@ -52,6 +53,7 @@
         });
 
 
+        var pic_local_id = null;
         function choosePic() {
             wx.chooseImage({
                 count: 1, // 默认9
@@ -62,8 +64,46 @@
                     img.css("width", "4rem");
                     img.css("height", "6rem");
                     img.attr("src", res.localIds);
+                    pic_local_id = res.localIds;
                     $("#pic-preview").append(img);
                     //var localIds = res.localIds; // 返回选定照片的本地ID列表，localId可以作为img标签的src属性显示图片
+                }
+            });
+        }
+
+        function postAlipayForm() {
+            if (pic_local_id==null) {
+                msg("上传您的充值截图凭证");
+                return;
+            }
+
+            var money = $("#money").val();
+            var alipayaccount = $("#alipayaccount").val();
+            if (!isPlusNumber(money)) {
+                msg("请输您的支付宝已充金额");
+                return;
+            }
+
+            if (alipayaccount=="") {
+                msg("请输入您的支付宝账户名");
+                return;
+            }
+
+            wx.uploadImage({
+                localId : pic_local_id[0], // 需要上传的图片的本地ID，由chooseImage接口获得
+                isShowProgressTips: 1, // 默认为1，显示进度提示
+                success: function (res) {
+                    var serverId = res.serverId;
+                    $.post("/service/eliyou/alipay/add", {
+                        "picid": serverId,
+                        "money": money,
+                        "alipay": alipayaccount
+                    }, function() {
+                        msg("信息已经上传。");
+                        location.href = "me.html";
+                    }).fail(function() {
+
+                    });
                 }
             });
         }
@@ -72,15 +112,21 @@
     <style>
         .alipy-title {
             width: 19rem;
-            height: 4.2rem;
+            height: 2.2rem;
             background-image: url('img/alipayd.png');
             background-size: 19rem 4.2rem;
             margin-top: .8rem;
+            color: #2C61C9;
+            font-size: 1.25rem;
+            padding-top: 2.2rem;
+            padding-left: 2.5rem;
+            text-decoration: underline;
         }
 
         .upload {
             padding: .3rem;
         }
+
         .upload a,.otherpay a {
             color: #2C61C9;
             text-decoration: underline;
@@ -98,7 +144,7 @@
             line-height: 1.5rem;
         }
 
-        a.req    {
+        a.req {
             margin: 1.15rem 0 0 0;
             padding: .6rem 0;
         }
@@ -115,20 +161,20 @@
     </div>
 -->
     <div class="alipy-title">
+        eliyou@eliyou.com
     </div>
 
     <div class="content-form" style="  margin-top: .8rem;">
-        <input type="number" class="full"  placeholder="请输您的支付宝已充金额">
-        <input type="text" class="full"  placeholder="请输入您的支付宝账户名">
+        <input type="number" id="money" class="full"  placeholder="请输您的支付宝已充金额">
+        <input type="text" class="full" id="alipayaccount"  placeholder="请输入您的支付宝账户名">
 
-        <div class="upload"><a  onclick="javascript:choosePic();">点击上传您的充值凭证</a></div>
+        <div class="upload" style="display: none;"><a  onclick="javascript:choosePic();">点击上传您的充值凭证</a></div>
         <div class="line" id="pic-preview">
 
         </div>
-        <a class="req" style="">充值</a>
-
+        <a class="req" href="javascript:postAlipayForm();">充值</a>
         <div class="otherpay">
-            <p>选择其他充值方式<a>快捷支付</a> </p>
+            <p>选择其他充值方式<a href="deposit.html">快捷支付</a> </p>
             <p class="comment">使用快捷支付充值第三方托管账户将收取0.1%手续费</p>
         </div>
     </div>

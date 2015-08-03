@@ -22,65 +22,14 @@
 <script>
     $(function() {
         getRecents(10,0);
-
-        setTimeout(function() {
-            $(".circle2").each(function(){
-                var num = parseInt($(this).find("span.percent").html()) * 2.5;
-                $(this).find("svg").css("stroke-dasharray", num+ "%,250%")
-            });
-        }, 1000);
-        /*
-        $(".circle2").each(function(){
-            var num = parseInt($(this).find("span.percent").html()) * 2.5;
-
-            $(this).find("svg").css("stroke-dasharray", num+ "%,250%")
-            if (num<=180) {
-                $(this).find('.right').css('transform', "rotate(" + num + "deg)");
-            } else {
-                $(this).find('.right').css('transform', "rotate(180deg)");
-                $(this).find('.left').css('transform', "rotate(" + (num - 180) + "deg)");
-            }
-        });
-        */
-
-        $(".project").bindtouch(function() {
-            var order = $(this).prevAll(".project").length;
-
-            $(this).css("-webkit-transform", "translateY(-"+ (order*13.5+4) 　+"rem)");
-            $(this).css("-webkit-transition", "-webkit-transform .5s");
-
-            $("body").scrollTop(0);
-
-            $(".recents").addClass("animated fadeOutUp").css("-webkit-animation-duration", "0.5s");
-            var se = 0.5;
-            var i = 1;
-            $(this).siblings(".project").each(function() {
-                $(this).addClass("animated fadeOutUp").css("-webkit-animation-duration", (se+0.2*i) +"s");
-                i++;
-            });
-
-            $(".detail").appendTo($(this));
-            $(".detail").show();
-
-            $(this).unbind();
-            /*
-            $(this).find(".desc, .circle").remove();
-            $(this).find(".title").css("top", "1rem").css("border-top", "none").css("border-bottom", "1px dashed #777").css("bottom", "none");
-            */
-            setTimeout(function() {
-                location.href = "project.html";
-            },500);
-        });
-
     });
 </script>
 </head>
 <body>
-<div class="loading">正在加载</div>
 <div class="wrapper">
     <div class="head">
         <div class="logo"></div>
-        <div class="navs"><a>投资</a> | <a>账户</a></div>
+        <div class="navs"><a href="me.html">账户</a></div>
     </div>
 
     <div class="recents">
@@ -102,7 +51,7 @@
         </div>
 
         <div class="title">
-            <div class="name">购车中转贷</div>
+            <span class="name">购车中转贷</span>
             <em class="ensp"></em>
             <em class="ens0"></em>
             <em class="ens1"></em>
@@ -120,5 +69,66 @@
     </div>
 </div>
 
+
+<div class="projectInfo" style="display: none;">
+
+    <div class="projtitle">
+        <span class="name">购车中转贷</span>
+        <em class="ensp"></em>
+        <em class="ens0"></em>
+        <em class="ens1"></em>
+        <span class="guarantee">淄博融信融资担保有限公司</span>
+    </div>
+    <div class="detail" >
+        <div class="finished"><span class="d">0</span>天<span class="h">4</span>时<span class="m">23</span>分后结束</div>
+        <div class="rbox">
+            <div class="r"><label>可投余额:</label><span class="rt">12,000</span>元</div>
+            <div class="c">82%</div>
+            <div class="s">
+                <div class="tt">
+                    <i>借款金额(万元)</i>
+                    <a class="mn capitalTotal">0</a>
+                </div>
+                <div class="p1">
+                    <i>年化收益率</i>
+                    <a class="mn"><span class="yearProfit">12</span><em>%</em></a>
+                </div>
+                <div class="p2">
+                    <i>投资期限(天)</i>
+                    <a class="mn">30</a>
+                </div>
+            </div>
+        </div>
+        <div class="megrid">
+            <div class="line">
+                <div class="grid">
+                    <div class="linetitle">预计到期日</div>
+                    <div class="linemoney mecapital">232</div>
+                </div>
+                <div class="grid">
+                    <div class="linetitle">还款方式</div>
+                    <div class="linemoney meprofit">到期还本付息</div>
+                </div>
+            </div>
+            <div class="line" style="border-bottom: none;">
+                <div class="grid">
+                    <div class="linetitle">账户余额（元）</div>
+                    <div class="linemoney lockmoney">12,009.00</div>
+                </div>
+                <div class="grid">
+                    <div class="linetitle"></div>
+                    <div class="linemoney allinvest"></div>
+                </div>
+            </div>
+        </div>
+        <div class="more" onclick="">
+            --继续拖动查看产品详情--
+        </div>
+    </div>
+    <div class="quick">
+        <input type="number" placeholder="请输入投资金额">  <a class="go">立即投资</a> <a class="fill" href="alipay.html">充值</a>
+    </div>
+
+</div>
 </body>
 </html>

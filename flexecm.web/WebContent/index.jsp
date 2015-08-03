@@ -29,7 +29,7 @@ Date date = new Date();
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 
-<title>欢迎来到融信担保</title>
+<title>欢迎来到融信融资</title>
 
 <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
 <link type="text/css" rel="stylesheet" href="css/index_top.css">
@@ -169,7 +169,7 @@ function refreshImg() {
                             	<img src="img/index_010.png">
                             </div>
                             <div class="text">
-                            	<span>超过万家金融机构</span>
+                            	<span>国家基金受托单位</span>
                             </div>
                         </li></a>
                         <!-- -->
@@ -187,7 +187,7 @@ function refreshImg() {
                             	<img src="img/index_012.png">
                             </div>
                             <div class="text">
-                            	<span>最快一天放款</span>
+                            	<span>快速放款</span>
                             </div>
                         </li></a>
                         <!-- -->
@@ -209,7 +209,8 @@ function refreshImg() {
                             </div>
                         </li></a>
                         <!-- -->                        
-                                                                      
+
+
                     </ul>
                 	
                 </div>
@@ -225,8 +226,7 @@ function refreshImg() {
                 </div>
                 <div class="r_03">
                 	<input type="button" value="融资指南">
-                	<input type="button" value="申请借款">
-                	<input type="button" value="关于我们">                
+                	<input type="button" value="关于我们">
                 </div>
             </div>
 		<!-- -->
