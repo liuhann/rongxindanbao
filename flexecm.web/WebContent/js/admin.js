@@ -226,11 +226,19 @@ function pageFinishedLoans() {
 	});
 }
 
-function viewLoanTable(filter, txt, cellfunc) {
+function viewLoanTable(filter, txt, cellfunc, skip, limit) {
 	$("#ccontent").show();
+	if (skip==null) {
+		skip = 0;
+	}
+	if (limit==null) {
+		limit = 10;
+	}
 	loadPage($("#ccontent"), "sub/loanList.html", function() {
 		$.post("/service/fin/loan/list", {
-			"filter": JSON.stringify(filter)
+			"filter": JSON.stringify(filter),
+			"skip": skip,
+			"limit": limit
 		}, function(data) {
 			var result = JSON.parse(data);
 			$("#loans-list .panel .title").html(txt);
@@ -238,6 +246,8 @@ function viewLoanTable(filter, txt, cellfunc) {
 				if (cal=="open") {
 					cellfunc(t, data, cal);
 				}
+			}, function(pagenum) {
+				viewLoanTable(filter, txt, cellfunc, (pagenum-1) * 10, limit);
 			});
 		});
 	});

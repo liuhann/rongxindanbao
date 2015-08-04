@@ -211,6 +211,17 @@ public class EliyouService {
         return WebUtils.jsonObjectToMap(result);
     }
 
+    @RestService(method="POST", uri="/eliyou/qiandd/register", authenticated=true, rndcode=false)
+    public Map<String, Object> registerQianDD() {
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userAccount", AuthenticationUtil.getCurrentUser());
+        params.put("url", "http://eliyou.luckyna.com/wx/me.html");
+        JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/registerBind.do", params);
+
+        logger.info(result.toString());
+        return WebUtils.jsonObjectToMap(result);
+    }
+
 
     @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=true, rndcode=false)
     public Map<String, Object> getUserInfos() {

@@ -190,6 +190,9 @@ abbr, acronym {
 .active-btn {
 	cursor: pointer;
 }
+
 a {
 	cursor: pointer;
+	color: #444;
+	text-decoration: none;
 }

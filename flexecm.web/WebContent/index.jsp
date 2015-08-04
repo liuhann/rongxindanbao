@@ -66,26 +66,11 @@ Date date = new Date();
   cursor: pointer;
 }
 
-.ui-tab-nav {
-	width: 160px;
-	height: 210px;
-	float: left;
-}
-
-.ui-tab-nav li {
-	padding: 10px;
-	padding-left: 20px;
-}
-
-.ui-tab-nav li.current {
-	background-color: #fafafa;
-}
-
 .gview .gitem {
 	text-align: center;
 	float: left;
 	width: 140px;
-	margin: 30px;
+	margin: 55px;
 	border: 1px solid #ccc;
 	border-radius: 10px;
 }
@@ -111,10 +96,30 @@ Date date = new Date();
 }
 
 
+.slide-wrapper {
+	width: 2340px;
+	height: 250px;
+	-webkit-transition: margin-left 300ms ease-in;
+	-moz-transition: margin-left 300ms ease-in;
+	-ms-transition: margin-left 300ms ease-in;
+	-o-transition: margin-left 300ms ease-in;
+	transition: margin-left 300ms ease-in;
+}
 
+.title_r ul li {
+	float: left;
+	padding: 20px;
+	padding-bottom: 10px;
+	cursor: pointer;
+	font-size: 14px;
+}
+
+.title_r ul li.current {
+	border-bottom: 2px solid #673231;
+}
 
 .ui-tab-content {
-	width: 628px;
+	width: 780px;
 	height: 250px;
 	float: left;
 	background-repeat: no-repeat;
@@ -123,7 +128,21 @@ Date date = new Date();
 
 .ui-tab-content .slides {
 	height: 250px;
+	float: left;
+	width: 780px;
+}
 
+.recent-projs ul {
+	margin-top: 10px;
+	margin-left: 20px;
+}
+
+.recent-projs ul li {
+	padding: 10px;
+}
+.recent-projs ul li a {
+
+	color: #21A3E0;
 }
 
 .hidden {
@@ -155,7 +174,6 @@ function login() {
 		$("#login-error").html("输入的用户名或密码格式错误");
 		return;
 	}
-	
 	var rnd = null;
 	if ($("p.rndimg:visible").length==1) {
 		rnd = $("#rndcode").val();
@@ -178,14 +196,21 @@ function login() {
 			refreshImg();
 		}
 	});
-	
 }
-
 
 function refreshImg() {
 	$("p.rndimg").show();
 	$("#rnd-img").attr("src", "/rndimg?" + new Date().getTime());
 }
+
+
+	$(function() {
+		$("#snap-title ul li").click(function() {
+			$("#snap-title ul li.current").removeClass("current");
+			$(this).addClass("current");
+			$(".slide-wrapper").css("margin-left", "-" + $("#snap-title ul li").index(this)*780 + "px");
+		})
+	});
 </script>
 
 </head>
@@ -312,24 +337,18 @@ function refreshImg() {
                         <div class="title_l" style="padding: 20px;">
                             <span>融资信息</span>
                         </div>
-                        <div class="title_r">
-                        </div>
-                    </div>
-                    <div class="l_02" style="padding-top: 0;">
-
-						<div class="ui-tab-nav">
-							<ul>
+                        <div class="title_r" id="snap-title">
+							<ul >
 								<li class="current">项目总览</li>
 								<li>最新受理项目</li>
 								<li>已成功项目</li>
 								<li>更多</li>
 							</ul>
-						</div>
-
+                        </div>
+                    </div>
+                    <div class="l_02" style="padding-top: 0;">
 						<div class="ui-tab-content">
 							<div class="slide-wrapper">
-
-
 								<div class="gview slides">
 									<div class="gitem">
 										<p class="title">融资需求</p>

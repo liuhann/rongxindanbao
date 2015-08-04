@@ -37,10 +37,16 @@ function getStatus() {
             runToNumber($(".lockmoney"),data.djje);
             runToNumber($(".allinvest"),data.ljtz);
             runToNumber($(".ramaintotal"),data.kyje);
+        } else {
+           msg("请注册钱多多账户进行充值和投资");
+            $.post("/service/eliyou/qiandd/register", {}, function(data) {
+                var regInfo = JSON.parse(data);
+
+
+            });
         }
     });
 }
-
 
 function getRecents(max, page, cb) {
 
@@ -171,7 +177,6 @@ function register() {
         "pwd": $("#pwd").val(),
         "ufcode": $("#ufcode").val()
     };
-    alert(JSON.stringify(req));
     $.post("/service/eliyou/wx/register", req, function () {
         if($("#bindwx").prop("checked")) {
             location.href =
