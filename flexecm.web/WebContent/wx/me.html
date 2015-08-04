@@ -15,8 +15,13 @@
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
-    <link type="text/css" rel="stylesheet" href="css/base.css?xxi"><!--通用CSS样式 -->
+    <link type="text/css" rel="stylesheet" href="css/base.css?xxv"><!--通用CSS样式 -->
 
+    <style>
+        .regqian {
+        }
+
+    </style>
     <script>
         $(function() {
             getCurrentUser();
@@ -94,8 +99,11 @@
     </div>
 
     <div class="meremains">
-        <!--<input placeholder="请输入充值金额" class="add">-->
         <span>可用余额(元)：</span> <span class="ramaintotal">0.00</span>  <a class="smallbtn" href="deposit.html">充值</a>
+    </div>
+
+    <div class="regqian" style="display: none;">
+        <span>请注册托管平台账号以完成充值和投资等操作  <a class="smallbtn" onclick="registerQianDuoduo();">去注册</a></span>
     </div>
 
     <div class="melogout">
@@ -111,26 +119,22 @@
         <form id="form1" name="form1" action="http://218.4.234.150:88/main/loan/toloanregisterbind.action" method="post">
             <input id="RegisterType" name="RegisterType" value="2" type="hidden" />
             <input id="AccountType" name="AccountType" value="" type="hidden" />
-            <input id="LoanNo" name="LoanNo" value="" type="hidden" />
-            <input id="OrderNo" name="OrderNo" value="" type="hidden" />
-            <input id="Amount" name="Amount" value="" type="hidden" />
-            <input id="Fee" name="Fee" value="" type="hidden" />
-            <input id="FeePlatform" name="FeePlatform" value="" type="hidden" />
-            <input id="RechargeType" name="RechargeType" value="" type="hidden" />
-            <input id="FeeType" name="FeeType" value="" type="hidden" />
-            <input id="CardNo" name="CardNo" value="" type="hidden" />
+            <input id="Mobile" name="Mobile" value="" type="hidden" />
+            <input id="Email" name="Email" value="" type="hidden" />
+            <input id="RealName" name="RealName" value="" type="hidden" />
+            <input id="IdentificationNo" name="IdentificationNo" value="" type="hidden" />
+            <input id="Image1" name="Image1" value="" type="hidden" />
+            <input id="Image2" name="Image2" value="" type="hidden" />
+            <input id="LoanPlatformAccount" name="LoanPlatformAccount" value="" type="hidden" />
+            <input id="PlatformMoneymoremore" name="PlatformMoneymoremore" value="" type="hidden" />
             <input id="RandomTimeStamp" name="RandomTimeStamp" value="" type="hidden" />
             <input id="Remark1" name="Remark1" value="" type="hidden" />
             <input id="Remark2" name="Remark2" value="" type="hidden" />
             <input id="Remark3" name="Remark3" value="" type="hidden" />
-            <input id="ResultCode" name="ResultCode" value="" type="hidden" />
-            <input id="Message" name="Message" value="" type="hidden" />
             <input id="ReturnURL" name="ReturnURL" value="" type="hidden" />
             <input id="NotifyURL" name="NotifyURL" value="" type="hidden" />
             <input id="SignInfo" name="SignInfo" value="" type="hidden" />
         </form>
-
-
     </div>
 </div>
 

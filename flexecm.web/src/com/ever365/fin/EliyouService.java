@@ -23,7 +23,7 @@ public class EliyouService {
 
     Logger logger = Logger.getLogger(EliyouService.class.getName());
 
-    private String eliyouServer = "http://61.48.62.99:8086";
+    private String eliyouServer = "http://111.199.9.36:8086";
 
     private MongoDataSource dataSource;
 

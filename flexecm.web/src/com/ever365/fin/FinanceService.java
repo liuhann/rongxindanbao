@@ -90,7 +90,9 @@ public class FinanceService implements Tenantable {
 		Map<String, Object> loanFilter = new HashMap<String, Object>();
 		loanFilter.put("audit", MapUtils.newMap("$gt", 1));
 		
-		m.put("rc", dataSource.filterCollectoin(COLL_LOANS, loanFilter,null, 0, 12));
+		m.put("rc", dataSource.filterCollectoin(COLL_LOANS, loanFilter,null, 0, 6));
+
+
 		m.put("fm", filterCollection("finamarkets", null, 0, 10));
 
 		m.put("finres", dataSource.filterCollectoin("finres",null,null,0,8));

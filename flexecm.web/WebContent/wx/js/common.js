@@ -38,13 +38,25 @@ function getStatus() {
             runToNumber($(".allinvest"),data.ljtz);
             runToNumber($(".ramaintotal"),data.kyje);
         } else {
-           msg("请注册钱多多账户进行充值和投资");
-            $.post("/service/eliyou/qiandd/register", {}, function(data) {
-                var regInfo = JSON.parse(data);
+            $(".meremains").hide();
+            $(".regqian").show();
+            return;
 
-
-            });
         }
+    });
+}
+
+function registerQianDuoduo() {
+    $.post("/service/eliyou/qiandd/register", {}, function(data) {
+        var regInfo = JSON.parse(data);
+
+        $("#LoanPlatformAccount").val(regInfo.obj.loanPlatformAccount);
+        $("#PlatformMoneymoremore").val(regInfo.obj.platformMoneymoremore);
+        $("#ReturnURL").val(regInfo.obj.returnURL);
+        $("#SignInfo").val(regInfo.obj.signInfo);
+        $("#NotifyURL").val(regInfo.obj.notifyURL);
+
+        $("#form1").submit();
     });
 }
 

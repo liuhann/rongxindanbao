@@ -352,6 +352,12 @@ a.req {
     font-size: .625rem;
 }
 
+.regqian {
+    padding: .75rem;
+    font-size: .625rem;
+    color: orangered;
+}
+
 .meremains .r {
     color: #519BF8;
 }
@@ -365,7 +371,7 @@ a.req {
     margin: 0 .5rem;
 }
 
-.meremains .smallbtn {
+.smallbtn {
     line-height: .825rem;
     padding: 0.35rem 1rem;
     background-color: #519BF8;
