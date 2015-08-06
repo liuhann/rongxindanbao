@@ -44,7 +44,6 @@ public class EliyouService {
         return rr;
     }
 
-
     @RestService(method="POST", uri="/eliyou/wx/register", authenticated=false, rndcode=false)
     public RestResult register(@RestParam(value="loginid")String uid, @RestParam(value="pwd") String pwd
             ,@RestParam(value="ufcode") String ufcode) {
@@ -103,6 +102,42 @@ public class EliyouService {
             e.printStackTrace();
         }
         return new ArrayList<Object>(0);
+    }
+
+    @RestService(method="GET", uri="/eliyou/project/detail", authenticated=false, rndcode=false)
+    public Map<String,Object> getProjectDetail(@RestParam(value = "id") String id) {
+        String requestUrl = eliyouServer + "/eLiYou/wechat/detail.do?id=" + id;
+        String json = WebUtils.getString(requestUrl);
+        try {
+            JSONObject jo = new JSONObject(json);
+            Map<String, Object> result = WebUtils.jsonObjectToMap(jo);
+
+            if (AuthenticationUtil.getCurrentUser()==null) {
+                result.put("uinf", null);
+            } else {
+                result.put("uinf", getUserInfos());
+            }
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<>(0);
+    }
+
+
+    @RestService(method="GET", uri="/eliyou/project/invest", authenticated=true, rndcode=false)
+    public Map<String,Object> invest(@RestParam(value = "id") String id,@RestParam(value = "money") String money) {
+        String requestUrl = eliyouServer + "/eLiYou/wechat/addInvest.do";
+
+        Map<String, Object> params = new HashMap<String, Object>();
+        params.put("userAccount", AuthenticationUtil.getCurrentUser());
+        params.put("money", money);
+        params.put("projectId", id);
+        params.put("url", "http://eliyou.luckyna.com/wx/me.html");
+        JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/addInvest.do", params);
+
+        logger.info(result.toString());
+        return WebUtils.jsonObjectToMap(result);
     }
 
 

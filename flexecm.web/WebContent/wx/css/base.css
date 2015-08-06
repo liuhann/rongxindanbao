@@ -10,12 +10,22 @@ html, body {
     overflow: hidden;
 }
 
+.loading {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top:0;
+    bottom: 0;
+    background: white;
+    text-align: center;
+    font-size: 16px;
+    padding-top: 200px;
+}
 .wrapper {
+    display: none;
     width: 19rem;
 }
-.wrapper.pd {
-    background-color: #fff;
-}
+
 .wrapper .logo {
     background-image: url('../img/logo.png');
     background-size: 19rem auto;
@@ -36,7 +46,7 @@ html, body {
     padding: 1rem;
 }
 
-input[type='text'],input[type='password'] {
+input[type='text'],input[type='password'],input[type='search'] {
     margin-left: 2rem;
     padding: .5rem;
     border: none;
@@ -64,6 +74,14 @@ input.full {
     margin-left: 0;
     border: none;
     width: 16rem;
+}
+
+input+span.cleanable {
+    display: none;
+    position: relative;
+    font-size: .7rem;
+    left: -1rem;
+    color: #999;
 }
 
 .login-form input[type='checkbox'] {

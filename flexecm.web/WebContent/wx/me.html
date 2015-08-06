@@ -24,8 +24,9 @@
     </style>
     <script>
         $(function() {
-            getCurrentUser();
-            getStatus();
+            getCurrentUser(function() {
+                getStatus();
+            });
 
 /*
             runToNumber($(".gained"),1120.22);
@@ -58,7 +59,7 @@
     </style>
 </head>
 <body>
-<div class="loading">正在加载</div>
+<div class="loading">正在获取账户信息</div>
 <div class="wrapper">
     <div class="head">
         <div class="logo"></div>

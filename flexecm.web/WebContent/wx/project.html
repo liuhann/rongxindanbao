@@ -15,82 +15,195 @@
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
+    <style>
+        .wrapper {
+            background-color: #fff;
+            transition: transform .3s linear;
+            -webkit-transition: -webkit-transform .3s linear;
+        }
 
+        .rbox .c {
+            background: -webkit-gradient(linear,0% 10%, 0% 100%, from(#FFFFFF), to(#C5DCFC), color-stop(0.02,#C5DCFC)) #fff;
+        }
+        .quicksd {
+            height: 2.5rem;
+            background-color: #fff;
+        }
+
+        a.return {
+            margin: 1rem;
+            line-height: 2.5rem;
+            color: #888;
+        }
+
+        .projDesc {
+            position: absolute;
+            transition: transform .3s linear;
+            top: 30rem;
+            left: 0;
+            right: 0;
+
+        }
+
+        .projDesc .content {
+            background-color: #fefefe;
+            min-height: 20rem;
+            padding: .7rem;
+            font-size: .7rem;
+
+        }
+    </style>
     <script>
         $(function() {
-            $(".rbox .c").css("background", "-webkit-gradient(linear,0% 20%, 0% 100%, from(#FFFFFF), to(#C5DCFC), color-stop(0.02,#C5DCFC)) #fff");
+            var projectId = querystring("id");
+            $.getJSON("/service/eliyou/project/detail?id=" + projectId,
+                    {},
+            function(data) {
+                initProjectInfo(data, $(".projectInfo"));
+                display();
+            }).fail(function(error){
+               $(".loading").html("项目打开失败 error： " + JSON.stringify(error));
+            });
         });
+
+        function initProjectInfo(project, container) {
+            var repayInstalTypes = ["个月","天"];
+            $(container).find(".projtitle .name").html(project.projectName);
+            if (project.guaranteeCompanyModel && project.guaranteeCompanyModel.guaranteeCoName) {//担保机构
+                $(container).find(".guarantee").html(project.guaranteeCompanyModel.guaranteeCoName);
+            }
+
+            if (project.investorRateYear) {
+                $(container).find(".yearProfit").html(project.investorRateYear); //年化
+            }
+
+            if (project.capitalSumLower) {  //贷款金额
+                $(container).find(".capitalTotal").html(formatMoney(parseInt(project.capitalSumLower)/10000));
+            }
+
+            if (project.repayTypeModel) {//f
+                $(container).find(".meprofit").html(project.repayTypeModel.typeName);
+            }
+
+            if (project.useDetail) {
+                $(".projDesc").find(".content").html(project.useDetail);
+            }
+
+            if (project.repayInstalType && project.repayInstalNum) {
+                $(container).find(".dura").html(project.repayInstalNum + repayInstalTypes[project.repayInstalType-1]); //还款期
+                //cloned.find(".title .guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
+            }
+
+            if (project.schedule) {  //申购进度
+                //var num = data[i].schedule * 2.5;
+                //cloned.find("svg").css("stroke-dasharray", num + "%,250%")
+                $(container).find(".schedule").html(project.schedule + "%");
+
+                $(".rbox .c").css("background", "-webkit-gradient(linear, 0% " + (100-project.schedule) + "%, 0% 100%, from(rgb(255, 255, 255)), color-stop(0.02, rgb(197, 220, 252)), to(rgb(197, 220, 252))) rgb(255, 255, 255)");
+            }
+
+            if (project.remainAmount) {
+                $(".remainAmount").html(project.remainAmount);
+            }
+        }
+
+
+        function goDetail() {
+            $(".wrapper, .projDesc").css("transform", "translateY(-30rem)");
+            $(".wrapper, .projDesc").css("-webkit-transform", "translateY(-30rem)");
+        }
+
+        function goSummary() {
+            $(".wrapper, .projDesc").css("transform", "translateY(0)");
+            $(".wrapper, .projDesc").css("-webkit-transform", "translateY(0)");
+        }
+
+        function placeOrder() {
+            $.getJOSN("/service/eliyou/project/invest", {
+                'id':  querystring("id"),
+                'money': $("#orderMoney").val()
+            },function(data) {
+
+            });
+        }
     </script>
 </head>
 <body>
-<div class="loading">正在加载</div>
-<div class="wrapper pd">
+<div class="loading">正在进入项目</div>
+<div class="wrapper">
     <div class="head">
         <div class="logo"></div>
-        <div class="navs"><a>投资</a> | <a>账户</a></div>
+        <div class="navs"><a>投资</a> | <a href="me.html">账户</a></div>
     </div>
-    <div>
-    <div class="projtitle">
-        <span class="name">购车中转贷</span>
-        <em class="ensp"></em>
-        <em class="ens0"></em>
-        <em class="ens1"></em>
-        <span class="guarantee">淄博融信融资担保有限公司</span>
-    </div>
-    <div class="detail" >
-        <div class="finished"><span class="d">0</span>天<span class="h">4</span>时<span class="m">23</span>分后结束</div>
-        <div class="rbox">
-            <div class="r"><label>可投余额:</label><span class="rt">12,000</span>元</div>
-            <div class="c">82%</div>
-            <div class="s">
-                <div class="tt">
-                    <i>借款金额(万元)</i>
-                    <a class="mn">35</a>
-                </div>
-                <div class="p1">
-                    <i>年化收益率</i>
-                    <a class="mn"><span>12</span><em>%</em></a>
-                </div>
-                <div class="p2">
-                    <i>投资期限(天)</i>
-                    <a class="mn">30</a>
+    <div class="projectInfo">
+        <div class="projtitle">
+            <span class="name">购车中转贷</span>
+            <em class="ensp"></em>
+            <em class="ens0"></em>
+            <em class="ens1"></em>
+            <span class="guarantee">淄博融信融资担保有限公司</span>
+        </div>
+        <div class="detail" >
+            <div class="finished"><span class="d">0</span>天<span class="h">4</span>时<span class="m">23</span>分后结束</div>
+            <div class="rbox">
+                <div class="r"><label>可投余额:</label><span class="rt remainAmount">0</span>元</div>
+                <div class="c schedule">0%</div>
+                <div class="s">
+                    <div class="tt">
+                        <i>借款金额(万元)</i>
+                        <a class="mn capitalTotal">0</a>
+                    </div>
+                    <div class="p1">
+                        <i>年化收益率</i>
+                        <a class="mn"><span class="yearProfit">0</span><em>%</em></a>
+                    </div>
+                    <div class="p2">
+                        <i>投资期限</i>
+                        <a class="mn dura">0</a>
+                    </div>
                 </div>
             </div>
-        </div>
-        <div class="megrid">
-            <div class="line">
-                <div class="grid">
-                    <div class="linetitle">预计到期日</div>
-                    <div class="linemoney mecapital">232</div>
+            <div class="megrid">
+                <div class="line">
+                    <div class="grid">
+                        <div class="linetitle">预计到期日</div>
+                        <div class="linemoney mecapital">232</div>
+                    </div>
+                    <div class="grid">
+                        <div class="linetitle">还款方式</div>
+                        <div class="linemoney meprofit"></div>
+                    </div>
                 </div>
-                <div class="grid">
-                    <div class="linetitle">还款方式</div>
-                    <div class="linemoney meprofit">到期还本付息</div>
+                <div class="line" style="border-bottom: none;">
+                    <div class="grid">
+                        <div class="linetitle">账户余额（元）</div>
+                        <div class="linemoney lockmoney">12,009.00</div>
+                    </div>
+                    <div class="grid">
+                        <div class="linetitle"></div>
+                        <div class="linemoney allinvest"></div>
+                    </div>
                 </div>
             </div>
-            <div class="line" style="border-bottom: none;">
-                <div class="grid">
-                    <div class="linetitle">账户余额（元）</div>
-                    <div class="linemoney lockmoney">12,009.00</div>
-                </div>
-                <div class="grid">
-                    <div class="linetitle"></div>
-                    <div class="linemoney allinvest"></div>
-                </div>
+            <div class="more" onclick="goDetail();">
+                --点击查看产品详情--
             </div>
+            <div class="quicksd"></div>
         </div>
-        <div class="more" onclick="">
-            --继续拖动查看产品详情--
-        </div>
-        </div>
-    </div>
-    <div class="quick">
-        <input type="number" placeholder="请输入投资金额">  <a class="go">立即投资</a> <a class="fill" href="alipay.html">充值</a>
-    </div>
-    <div class="foot">
-        ©2015北京易利友信息技术有限公司 京ICP备15011092号
     </div>
 </div>
 
+<div class="projDesc">
+    <div class="head" >
+        <a  class="return" onclick="goSummary()">返回</a>
+    </div>
+    <div class="content">
+            暂无项目具体描述信息
+    </div>
+</div>
+
+    <div class="quick">
+        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go">立即投资</a> <a class="fill" href="alipay.html">充值</a>
+    </div>
 </body>
 </html>

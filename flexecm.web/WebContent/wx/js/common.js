@@ -5,12 +5,19 @@ $(function() {
     var size = $(window).width() / 19;
     $("html").css("font-size", size + "px");
     $("body").css("font-size", size + "px");
-    $(".loading").hide();
+    setInputClearable();
     $(".wrapper").show();
     //$("body").append($('<div class="loader">正在加载...</div>'));
 });
 
-function getCurrentUser() {
+
+function display() {
+    $(".loading").hide();
+    $(".wrapper").show();
+}
+
+
+function getCurrentUser(cb) {
     $.getJSON("/service/fin/current", {}, function(d) {
         if (d.cu==null) {
             if (location.href.indexOf("login.html")==-1) {
@@ -21,8 +28,37 @@ function getCurrentUser() {
                     + "&response_type=code&scope=snsapi_base&state=" + location.pathname;
             }
         } else {
+            $(".loading").hide();
             $(".head .navs").append("<span>" + d.cu + "</span>");
             $(".uname").html(d.cu);
+            if (cb!=null) {
+                cb();
+            }
+        }
+    });
+}
+
+function setInputClearable() {
+
+    $("input.cleanable").each(function() {
+
+        $(this).next("span.cleanable").click(function() {
+            $(this).prev("input").val("");
+            $(this).hide();
+        });
+    })
+    $("input.cleanable").focus(function() {
+        if ($(this).val()!="") {
+         $(this).next("span.cleanable").show();
+        } else {
+            $(this).next("span.cleanable").hide();
+        }
+    });
+    $("input.cleanable").blur(function() {
+        if ($(this).val()!="") {
+            $(this).next("span.cleanable").show();
+        } else {
+            $(this).next("span.cleanable").hide();
         }
     });
 }
@@ -88,13 +124,17 @@ function getRecents(max, page, cb) {
                 cloned.find(".desc .profit span").html(data[i].investorRateYear); //年化
             }
 
-            if (data[i].repayInstalType && data[i].repayInstalNum) {
+            if (data[i].repayInstalType && data[i].repayInstalNum) { //借款期
                 cloned.find(".desc .dura").html(data[i].repayInstalNum + repayInstalTypes[data[i].repayInstalType-1]); //还款期
                 //cloned.find(".title .guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
             }
 
             if (data[i].capitalSumLower) {  //贷款金额
                 cloned.find(".desc .total").html(formatMoney(data[i].capitalSumLower));
+            }
+
+            if (data[i].repayTypeModel) {  //还款方式
+                cloned.find(".retmethod").html(data[i].repayTypeModel.typeName);
             }
 
             if (data[i].schedule) {  //申购进度
@@ -104,6 +144,7 @@ function getRecents(max, page, cb) {
             }
 
             cloned.bindtouch(function(){
+                /*
                 $(".wrapper .recents, .wrapper .project,.wrapper .more").remove();
                 $(".wrapper .head").after($(".projectInfo"));
                 $(".projectInfo").show();
@@ -111,7 +152,9 @@ function getRecents(max, page, cb) {
                 $(".wrapper").addClass("pd");
 
                 initProjectInfo($(this).data("project"), $(".projectInfo"));
-                //location.href = "project.html";
+                */
+                location.href = "project.html?id=" + $(this).data("project").id;
+
             });
         }
         //setTimeout(function() {
@@ -138,23 +181,6 @@ function getRecents(max, page, cb) {
         });
         */
     });
-}
-
-
-function initProjectInfo(project, container) {
-    $(container).find(".projtitle .name").html(project.projectName);
-    if (data[i].guaranteeCompanyModel && data[i].guaranteeCompanyModel.guaranteeCoName) {//担保机构
-        $(container).find(".guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
-    }
-
-    if (data[i].investorRateYear) {
-        $(container).find(".yearProfit").html(data[i].investorRateYear); //年化
-    }
-
-    if (data[i].capitalSumLower) {  //贷款金额
-        $(container).find(".capitalTotal").html(formatMoney(parseInt(data[i].capitalSumLower)/10000));
-    }
-
 }
 
 function logout() {
