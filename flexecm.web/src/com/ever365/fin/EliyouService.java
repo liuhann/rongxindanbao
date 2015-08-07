@@ -117,7 +117,8 @@ public class EliyouService {
             } else {
                 result.put("uinf", getUserInfos());
             }
-
+            result.put("now", System.currentTimeMillis());
+            return result;
         } catch (JSONException e) {
             e.printStackTrace();
         }

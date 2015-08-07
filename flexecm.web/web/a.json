@@ -1,0 +1,70 @@
+{
+  "id": "NATkmzGjHDnrbgoeiTjjpHbooMdUV",
+  "type": "test",
+  "creator": "hugo",
+  "created": "2015-04-02 23:22",
+  "updated": "2015-04-02 23:22",
+  "description" : {
+      "en": "This is data template"
+  },
+  "version": 22,
+  "tags" : [
+    "exercise",
+    "test",
+    "drag n drop"
+  ],
+  "estimated-duration": "30 minutes",
+  "count": 3,
+  "head" : {
+    "logo": {
+      "url": "a.png",
+      "meta": {
+        "size": 230,
+        "resolution":"100x50"
+      }
+    },
+    "number": "W9ASF_5",
+    "title":"Linking your ideas",
+    "subtitle": "Grammar"
+  },
+
+  "content":[
+    {
+      "type":"stem",
+      "number": "9",
+      "title": {
+        "en":"Choose the best endings for these sentences."
+      }
+    },
+    {
+      "type": "single choice",
+      "number": "1",
+      "description": {
+        "en": "It is not too long for a question title."
+      },
+      "answer" : [
+        {
+          "choice": {
+            "text":{
+              "en": "There were thousands of people at the football match."
+            },
+            "flag": true
+          }
+        },
+        {
+          "choice": {
+            "text":{
+              "en": "The government spent ten millions dollars on education last year."
+            },
+            "flag": false
+          }
+        }
+      ]
+    }
+  ],
+
+  "foot": {
+    "copyright" : "Copyright © 2009-2015 ALTT",
+    "publisher": "ALTT co."
+  }
+}

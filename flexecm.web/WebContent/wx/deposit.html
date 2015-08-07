@@ -19,13 +19,16 @@
 
     <script>
         $(function() {
-            getCurrentUser();
-            $.getJSON("/service/eliyou/wx/uinfos", {}, function(data){
-                if (data.result=="success") {
-                    runToNumber($(".remains"),data.kyje);
-                }
+            getCurrentUser(function() {
+                $.getJSON("/service/eliyou/wx/uinfos", {}, function(data){
+                    if (data.kyje) {
+                        runToNumber($(".remains"),data.kyje);
+                    }
+                    display();
+                });
             });
         });
+
 
         function confirmDeposit() {
 

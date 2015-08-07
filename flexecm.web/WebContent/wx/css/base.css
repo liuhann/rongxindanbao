@@ -314,12 +314,12 @@ a.req {
 }
 
 .yeah {
-    margin-left: 7.5rem;
+    margin-left: 6rem;
     background-image: url("../img/yeah.png");
     background-size: 6.75rem 6rem;
     width: 6.75rem;
     height: 6rem;
-    margin-top: 2rem;
+    margin-top: 1rem;
 }
 
 .hello {

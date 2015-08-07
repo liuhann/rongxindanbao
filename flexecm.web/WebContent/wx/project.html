@@ -38,11 +38,12 @@
 
         .projDesc {
             position: absolute;
+            -webkit-transition: -webkit-transform .3s linear;
             transition: transform .3s linear;
             top: 30rem;
             left: 0;
             right: 0;
-
+            display: none;
         }
 
         .projDesc .content {
@@ -50,7 +51,6 @@
             min-height: 20rem;
             padding: .7rem;
             font-size: .7rem;
-
         }
     </style>
     <script>
@@ -105,25 +105,56 @@
             if (project.remainAmount) {
                 $(".remainAmount").html(project.remainAmount);
             }
+
+            if (project.uinf) {
+                $(".remainmoney").html(formatMoney(parseInt(project.uinf.kyje)));
+            }
+
+            if (project.issueFinishDate) {
+                var remains = project.issueFinishDate - project.now;
+                if (remains<0) {
+                    $(".finished").html("已结束");
+                } else {
+                    $(".finished .d").html(Math.floor(remains/24*60*60*1000));
+                }
+                $(".util-date").html(new Date(project.issueFinishDate).format("yyyy-MM-dd"));
+            }
         }
 
 
         function goDetail() {
-            $(".wrapper, .projDesc").css("transform", "translateY(-30rem)");
-            $(".wrapper, .projDesc").css("-webkit-transform", "translateY(-30rem)");
+            $(".wrapper, .projDesc").show().css("transform", "translateY(-30rem)")
+                    .css("-webkit-transform", "translateY(-30rem)");
         }
 
         function goSummary() {
-            $(".wrapper, .projDesc").css("transform", "translateY(0)");
-            $(".wrapper, .projDesc").css("-webkit-transform", "translateY(0)");
+            $(".projDesc").hide();
+            $(".wrapper, .projDesc").css("transform", "translateY(0)")
+                    .css("-webkit-transform", "translateY(0)");
         }
 
         function placeOrder() {
-            $.getJOSN("/service/eliyou/project/invest", {
-                'id':  querystring("id"),
+            $.getJSON("/service/eliyou/project/invest", {
+                'id': querystring("id")[0],
                 'money': $("#orderMoney").val()
             },function(data) {
+                if (data.code =="005") {
+                    $("#LoanJsonList").val(data.obj.loanJsonList);
+                    $("#PlatformMoneymoremore").val(data.obj.platformMoneymoremore);
+                    $("#TransferAction").val(data.obj.transferAction);
+                    $("#Action").val(data.obj.action);
+                    $("#TransferType").val(data.obj.transferType);
+                    $("#NeedAudit").val(data.obj.needAudit);
+                    $("#RandomTimeStamp").val(data.obj.randomTimeStamp);
+                    $("#Remark1").val(data.obj.remark1);
+                    $("#Remark2").val(data.obj.remark2);
+                    $("#Remark3").val(data.obj.remark3);
+                    $("#ReturnURL").val(data.obj.returnURL);
+                    $("#NotifyURL").val(data.obj.notifyURL);
+                    $("#SignInfo").val(data.obj.signInfo);
 
+                    $("#form1").submit();
+                }
             });
         }
     </script>
@@ -133,7 +164,7 @@
 <div class="wrapper">
     <div class="head">
         <div class="logo"></div>
-        <div class="navs"><a>投资</a> | <a href="me.html">账户</a></div>
+        <div class="navs"><a href="recents.html">投资</a> | <a href="me.html">账户</a></div>
     </div>
     <div class="projectInfo">
         <div class="projtitle">
@@ -167,7 +198,7 @@
                 <div class="line">
                     <div class="grid">
                         <div class="linetitle">预计到期日</div>
-                        <div class="linemoney mecapital">232</div>
+                        <div class="linemoney util-date"></div>
                     </div>
                     <div class="grid">
                         <div class="linetitle">还款方式</div>
@@ -177,7 +208,7 @@
                 <div class="line" style="border-bottom: none;">
                     <div class="grid">
                         <div class="linetitle">账户余额（元）</div>
-                        <div class="linemoney lockmoney">12,009.00</div>
+                        <div class="linemoney remainmoney">0</div>
                     </div>
                     <div class="grid">
                         <div class="linetitle"></div>
@@ -203,7 +234,26 @@
 </div>
 
     <div class="quick">
-        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go">立即投资</a> <a class="fill" href="alipay.html">充值</a>
+        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go" onclick="placeOrder();">立即投资</a> <a class="fill" href="alipay.html">充值</a>
     </div>
+
+
+<form style="display:none;" id="form1" name="form1" action="http://218.4.234.150:88/main/loan/loan.action" method="post">
+    <input id="LoanJsonList" name="LoanJsonList" value="" type="hidden" />
+    <input id="PlatformMoneymoremore" name="PlatformMoneymoremore" value="" type="hidden" />
+    <input id="TransferAction" name="TransferAction" value="1" type="hidden" />
+    <input id="Action" name="Action" value="1" type="hidden" />
+    <input id="TransferType" name="TransferType" value="" type="hidden" />
+    <input id="NeedAudit" name="NeedAudit" value="" type="hidden" />
+    <input id="RandomTimeStamp" name="RandomTimeStamp" value="" type="hidden" />
+    <input id="Remark1" name="Remark1" value="" type="hidden" />
+    <input id="Remark2" name="Remark2" value="" type="hidden" />
+    <input id="Remark3" name="Remark3" value="" type="hidden" />
+    <input id="ReturnURL" name="ReturnURL" value="" type="hidden" />
+    <input id="NotifyURL" name="NotifyURL" value="" type="hidden" />
+    <input id="SignInfo" name="SignInfo" value="" type="hidden" />
+</form>
+
+
 </body>
 </html>

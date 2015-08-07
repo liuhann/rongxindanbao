@@ -6,7 +6,7 @@ $(function() {
     $("html").css("font-size", size + "px");
     $("body").css("font-size", size + "px");
     setInputClearable();
-    $(".wrapper").show();
+    //$(".wrapper").show();
     //$("body").append($('<div class="loader">正在加载...</div>'));
 });
 
@@ -28,8 +28,6 @@ function getCurrentUser(cb) {
                     + "&response_type=code&scope=snsapi_base&state=" + location.pathname;
             }
         } else {
-            $(".loading").hide();
-            $(".head .navs").append("<span>" + d.cu + "</span>");
             $(".uname").html(d.cu);
             if (cb!=null) {
                 cb();
@@ -65,6 +63,7 @@ function setInputClearable() {
 
 function getStatus() {
     $.getJSON("/service/eliyou/wx/uinfos", {}, function(data){
+        display();
         if (data.result=="success") {
             runToNumber($(".gained"),data.ljsy);
             runToNumber($(".showtotal"),data.zhzzc);
@@ -73,11 +72,10 @@ function getStatus() {
             runToNumber($(".lockmoney"),data.djje);
             runToNumber($(".allinvest"),data.ljtz);
             runToNumber($(".ramaintotal"),data.kyje);
-        } else {
+        }
+        if (!data.moneyMoreAccount) {
             $(".meremains").hide();
             $(".regqian").show();
-            return;
-
         }
     });
 }
@@ -106,6 +104,7 @@ function getRecents(max, page, cb) {
         'maxResult': max,
         'page': page
     }, function(data){
+        display();
         for(var i=0;i<data.length; i++) {
             $(".recents").after(cloned);
 
@@ -192,6 +191,9 @@ function logout() {
 }
 
 function login() {
+
+    $(".wrapper").hide();
+    $(".loading").html("正在登录中...").show();
     $.post("/service/eliyou/wx/login", {
         "loginid":$("#loginid").val(),
         "pwd": $("#pwd").val()
@@ -205,6 +207,8 @@ function login() {
             location.href = "me.html";
         }
     }).fail(function(error){
+        $(".wrapper").show();
+        $(".loading").hide();
         $(".login-form .error").show();
     });
 }
@@ -272,6 +276,41 @@ function formatMoney(number, places, symbol, thousand, decimal) {
     return symbol + negative + (j ? i.substr(0, j) + thousand : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thousand) + (places ? decimal + Math.abs(number - i).toFixed(places).slice(2) : "");
 }
 
+
+
+Date.prototype.format = function(fmt) {
+    var o = {
+        "M+" : this.getMonth()+1, //月份
+        "d+" : this.getDate(), //日
+        "h+" : this.getHours()%12 == 0 ? 12 : this.getHours()%12, //小时
+        "H+" : this.getHours(), //小时
+        "m+" : this.getMinutes(), //分
+        "s+" : this.getSeconds(), //秒
+        "q+" : Math.floor((this.getMonth()+3)/3), //季度
+        "S" : this.getMilliseconds() //毫秒
+    };
+    var week = {
+        "0" : "/u65e5",
+        "1" : "/u4e00",
+        "2" : "/u4e8c",
+        "3" : "/u4e09",
+        "4" : "/u56db",
+        "5" : "/u4e94",
+        "6" : "/u516d"
+    };
+    if(/(y+)/.test(fmt)){
+        fmt=fmt.replace(RegExp.$1, (this.getFullYear()+"").substr(4 - RegExp.$1.length));
+    }
+    if(/(E+)/.test(fmt)){
+        fmt=fmt.replace(RegExp.$1, ((RegExp.$1.length>1) ? (RegExp.$1.length>2 ? "/u661f/u671f" : "/u5468") : "")+week[this.getDay()+""]);
+    }
+    for(var k in o){
+        if(new RegExp("("+ k +")").test(fmt)){
+            fmt = fmt.replace(RegExp.$1, (RegExp.$1.length==1) ? (o[k]) : (("00"+ o[k]).substr((""+ o[k]).length)));
+        }
+    }
+    return fmt;
+}
 
 $.fn.bindtouch = function(cb) {
     attachEvent($(this), cb);
