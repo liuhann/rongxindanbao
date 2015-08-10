@@ -13,9 +13,12 @@
 
     <title>E利友-我的账户</title>
 
+    <script>
+
+    </script>
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
-    <link type="text/css" rel="stylesheet" href="css/base.css?xxv"><!--通用CSS样式 -->
+    <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
 
     <style>
         .regqian {
@@ -104,6 +107,15 @@
 
     <div class="regqian" style="display: none;">
         <span>请注册托管平台账号以完成充值和投资等操作  <a class="smallbtn" onclick="registerQianDuoduo();">去注册</a></span>
+    </div>
+
+    <div style="display:none;" >
+        <script>
+            function testForLayout() {
+                alert("Page width is " +  $(window).width()  + "  HTML ROOT font size " + $("html").css("font-size") + "  " + $(".gained").css("font-size"));
+            }
+        </script>
+        <a onclick="testForLayout();">Test For layout </a>
     </div>
 
     <div class="melogout">

@@ -48,7 +48,7 @@
                     $("#RechargeMoneymoremore").val(resp.obj.rechargeMoneymoremore);
                     $("#PlatformMoneymoremore").val(resp.obj.platformMoneymoremore);
                     $("#OrderNo").val(resp.obj.orderNo);
-                    $("#Amount").val(formatMoney(resp.obj.amount, 1));
+                    $("#Amount").val(formatMoney(resp.obj.amount, 1, "", ""));
                     $("#RechargeType").val("2");
                     $("#FeeType").val("1");
 
@@ -129,8 +129,6 @@
         <input id="NotifyURL" name="NotifyURL" value="" type="hidden" />
         <input id="SignInfo" name="SignInfo" value="" type="hidden" />
     </form>
-
-
 
 
     <div class="foot">
