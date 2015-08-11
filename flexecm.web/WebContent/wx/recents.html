@@ -19,10 +19,152 @@
 
     <link type="text/css" rel="stylesheet" href="css/base.css?b1x"><!--通用CSS样式 -->
 
+    <style>
+
+
+        .project .circle {
+            width: 3.5rem;
+            height: 3.5rem;
+            position: absolute;
+            right: 1rem;
+            top:.75rem;
+            /*  border-radius: 50%;*/
+        }
+
+        .circle span.o {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            -webkit-transform: translate(-50%, -50%);
+            -moz-transform: translate(-50%, -50%);
+            -ms-transform: translate(-50%, -50%);
+            -o-transform: translate(-50%, -50%);
+            transform: translate(-50%, -50%);
+            font-size: .75rem;
+        }
+
+        .circle svg {
+            display: block;
+            position: absolute;
+            top: 0rem;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            stroke-dasharray: 0%, 250%;
+            stroke-dashoffset: 0%;
+            stroke-linecap: round;
+            fill: none;
+            stroke: #2c62c8;
+            /*
+            transform: rotate(-90deg);
+            -ms-transform-origin: center center;
+            -webkit-transform-origin: center center;
+            transform-origin: center center;
+            -webkit-transform: rotate(-90deg);
+            -moz-transform: rotate(-90deg);
+            -ms-transform: rotate(-90deg);
+            -o-transform: rotate(-90deg);
+            */
+        }
+
+        .circle svg circle {
+            transition: stroke-dasharray .5s linear;
+            -webkit-transition: stroke-dasharray .5s linear;
+        }
+    </style>
 <script>
     $(function() {
         getRecents(10,0);
     });
+
+
+
+    function getRecents(max, page, cb) {
+
+        $(".more").html("加载中......");
+        $(".more").unbind();
+
+        var repayInstalTypes = ["个月","天"];
+        $.getJSON("/service/eliyou/wx/recents", {
+            'maxResult': max,
+            'page': page
+        }, function(data){
+            display();
+            for(var i=0;i<data.length; i++) {
+                $(".recents").after(cloned);
+
+                var cloned = $(".template").clone().removeClass("template").addClass("project").show();
+                cloned.data("project", data[i]);
+
+                if (data[i].projectName) { //项目名称
+                    cloned.find(".title .name").html(data[i].projectName);
+                }
+
+                if (data[i].guaranteeCompanyModel && data[i].guaranteeCompanyModel.guaranteeCoName) {//担保机构
+                    cloned.find(".guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
+                }
+
+                if (data[i].investorRateYear) {
+                    cloned.find(".desc .profit span").html(data[i].investorRateYear); //年化
+                }
+
+                if (data[i].repayInstalType && data[i].repayInstalNum) { //借款期
+                    cloned.find(".desc .dura").html(data[i].repayInstalNum + repayInstalTypes[data[i].repayInstalType-1]); //还款期
+                    //cloned.find(".title .guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
+                }
+
+                if (data[i].capitalSumLower) {  //贷款金额
+                    cloned.find(".desc .total").html(formatMoney(data[i].capitalSumLower));
+                }
+
+                if (data[i].repayTypeModel) {  //还款方式
+                    cloned.find(".retmethod").html(data[i].repayTypeModel.typeName);
+                }
+
+                if (data[i].schedule) {  //申购进度
+                    if (data[i].schedule==100) {
+                        cloned.find(".percent").html("还款中").css("font-size", ".5rem").next("em").remove();
+                    } else {
+                        cloned.find(".percent").html(data[i].schedule);
+                    }
+                    cloned.find("svg circle.pct").css("stroke-dasharray", data[i].schedule*2.5 + "%,250%");
+                }
+
+                cloned.bindtouch(function(){
+                    /*
+                     $(".wrapper .recents, .wrapper .project,.wrapper .more").remove();
+                     $(".wrapper .head").after($(".projectInfo"));
+                     $(".projectInfo").show();
+                     $(".rbox .c").css("background", "-webkit-gradient(linear,0% 20%, 0% 100%, from(#FFFFFF), to(#C5DCFC), color-stop(0.02,#C5DCFC)) #fff");
+                     $(".wrapper").addClass("pd");
+
+                     initProjectInfo($(this).data("project"), $(".projectInfo"));
+                     */
+                    location.href = "project.html?id=" + $(this).data("project").id;
+
+                });
+            }
+            //setTimeout(function() {
+
+            //}, 300);
+
+            if (data.length>0) {
+                $(".more").html("-查看更多-");
+                $(".more").bindtouch(function() {
+                    getRecents(max, page+1);
+                });
+            } else {
+                $(".more").html("没有更多的项目了 -->");
+                $(".more").unbind();
+            }
+            /*
+             $(".circle2").each(function(){
+             var num = parseInt($(this).find("span.percent").html()) * 2.5;
+             $(this).find("svg").css("stroke-dasharray", num+ "%,250%")
+             });
+             */
+        });
+    }
 </script>
 </head>
 <body>
@@ -44,12 +186,21 @@
             <div class="retmethod"></div>
         </div>
 
-        <div class="circle2">
+        <div class="circle">
             <svg xmlns="http://www.w3.org/2000/svg">
-                <circle cx="50%" cy="50%" r="40%" stroke-width="6%"/>
+                <circle cx="50%" cy="50%" r="40%" stroke-width="6%" style="stroke:#eeeeee;stroke-dasharray: 250%, 250%;"/>
+                <circle cx="50%" cy="50%" r="40%" stroke-width="6%" style="stroke-dasharray: 0%, 250%;" class="pct"/>
             </svg>
-            <span class="o"><span class="percent">80</span><em>%</em></span>
+            <span class="o"><span class="percent">0</span><em>%</em></span>
         </div>
+
+        <!--
+        <div class="circle2" style="z-index: 10;">
+            <svg xmlns="http://www.w3.org/2000/svg">
+                <circle cx="50%" cy="50%" r="40%" stroke-width="6%" style="stroke:#eeeeee;stroke-dasharray: 250%, 250%;"/>
+            </svg>
+        </div>
+        -->
 
         <div class="title">
             <span class="name">购车中转贷</span>

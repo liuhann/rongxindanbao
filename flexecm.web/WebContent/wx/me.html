@@ -27,9 +27,16 @@
     </style>
     <script>
         $(function() {
-            getCurrentUser(function() {
-                getStatus();
-            });
+
+            if (location.href.indexOf("qdd")>-1) {
+                $(".loading").html("正在为您跳转到托管平台开户页面...");
+                registerQianDuoduo();
+            } else {
+                getCurrentUser(function() {
+                    getStatus();
+                });
+            }
+
 
 /*
             runToNumber($(".gained"),1120.22);

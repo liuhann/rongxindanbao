@@ -24,7 +24,12 @@
                     if (data.kyje) {
                         runToNumber($(".remains"),data.kyje);
                     }
-                    display();
+                    if (!data.moneyMoreAccount) {
+                        location.href = "me.html?qdd=1";
+                        //$(".loading").html("您尚未开通托管平台账号，正在跳转到注册页面 ");
+                    } else {
+                        display();
+                    }
                 });
             });
         });
@@ -34,7 +39,7 @@
 
             var money = $("#money").val();
             if (!isPlusNumber(money)) {
-                msg("请输您的支付宝已充金额");
+                msg("请输入已充金额");
                 return;
             }
 

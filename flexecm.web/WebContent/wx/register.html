@@ -13,13 +13,18 @@
     <title></title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
-    <script type="text/javascript" src="js/common.js?vvw"></script>
+    <script type="text/javascript" src="js/common.js"></script>
 
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
     <script>
         $(function() {
-            $(".loading").hide();
-            $(".wrapper").show();
+            $.getJSON("/service/fin/current", {}, function(d) {
+                if (d.cu==null) {
+                    display();
+                } else {
+                    location.href = "me.html";
+                }
+            });
         })
     </script>
 </head>

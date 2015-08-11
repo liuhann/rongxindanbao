@@ -2,19 +2,21 @@ package com.ever365.fin;
 
 import com.ever365.mongo.MongoDataSource;
 import com.ever365.rest.*;
+import com.ever365.utils.MapUtils;
 import com.ever365.utils.RandomCodeServlet;
 import com.ever365.utils.StringUtils;
 import com.mongodb.BasicDBObject;
+import com.mongodb.DBCursor;
+import com.mongodb.DBObject;
+import org.apache.http.auth.AUTH;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.*;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.logging.Logger;
 import com.ever365.utils.WebUtils;
 import org.springframework.util.FileCopyUtils;
@@ -23,11 +25,15 @@ public class EliyouService {
 
     Logger logger = Logger.getLogger(EliyouService.class.getName());
 
-    private String eliyouServer = "http://111.199.9.36:8086";
+    private String eliyouServer = "http://111.196.18.73:8086";
+
+    private String weixinServer = "http://eliyou.luckyna.com";
 
     private MongoDataSource dataSource;
 
     private Long refreshTime = 60 * 60 * 1000L;
+
+    public String tRechargeOK = "X519Mnuma8Sij9j0hRC8nn_FyBQLJ9P7BJzbn-NzE_Y";
 
     public void setDataSource(MongoDataSource dataSource) {
         this.dataSource = dataSource;
@@ -240,11 +246,38 @@ public class EliyouService {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
         params.put("money", money.toString());
-        params.put("url", "http://eliyou.luckyna.com/wx/me.html");
+        params.put("url", weixinServer + "/service/eliyou/recharge/back");
         JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/savewyRecharge.do", params);
 
         logger.info(result.toString());
         return WebUtils.jsonObjectToMap(result);
+    }
+
+    @RestService(method="POST", uri="/eliyou/recharge/back", authenticated=false, rndcode=false)
+    public RestResult rechageCallBack(Map result) throws UnsupportedEncodingException {
+        logger.info("recharge callback " + new JSONObject(result).toString());
+        RestResult rr = new RestResult();
+
+        logger.info("ResultCode: " + result.get("ResultCode"));
+
+        if ("88".equals(result.get("ResultCode"))) {
+            List<Map<String, String>> datas = new ArrayList<>();
+            datas.add(MapUtils.tribleMap("key","first","value", "您的乾多多账户充值成功", "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","keyword1","value",(String)result.get("Amount"), "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","keyword2","value",StringUtils.formateDate(new Date()), "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","remark","value","赶快去投资吧！", "color", "#173177"));
+
+            DBCursor cur = dataSource.getCollection("weixin").find(new BasicDBObject("userId", AuthenticationUtil.getCurrentUser()));
+            while(cur.hasNext()) {
+                DBObject dbo = cur.next();
+                sendWeixinTemplateInfo(dbo.get("openid").toString(), tRechargeOK, datas);
+            }
+
+            rr.setRedirect("/wx/rechargeok.html");
+        } else {
+            rr.setRedirect("/wx/rechargefail.html");
+        }
+        return rr;
     }
 
     @RestService(method="POST", uri="/eliyou/qiandd/register", authenticated=true, rndcode=false)
@@ -258,18 +291,44 @@ public class EliyouService {
         return WebUtils.jsonObjectToMap(result);
     }
 
-
     @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=true, rndcode=false)
     public Map<String, Object> getUserInfos() {
+        if (AuthenticationUtil.getCurrentUser()==null) {
+            return new HashMap<String,Object>(0);
+        }
         String requestUrl = eliyouServer + "/eLiYou/wechat/rechargeIndex.do?userAccount=" + AuthenticationUtil.getCurrentUser();
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
-            return WebUtils.jsonObjectToMap(jo);
+            Map<String, Object> map = WebUtils.jsonObjectToMap(jo);
+            map.put("cu", AuthenticationUtil.getCurrentUser());
+            return map;
         } catch (JSONException e) {
             e.printStackTrace();
         }
         return new HashMap<String,Object>(0);
+    }
+
+    public void sendWeixinTemplateInfo(String toUser, String templateId, List<Map<String,String>> datas) {
+
+        Map<String, Object> content = new HashMap<String,Object>();
+        content.put("touser", toUser);
+        content.put("template_id", templateId);
+        content.put("url", weixinServer + "/wx/me.html");
+        content.put("topcolor", "FF0000");
+
+        Map<String, Object> data = new HashMap<String, Object>();
+
+        for(Map<String,String> tk: datas) {
+            String key = tk.get("key");
+            tk.remove("key");
+            data.put(key, tk);
+        }
+        content.put("data", data);
+        String url= "https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=" + getWeixinToken();
+        String body = new JSONObject(content).toString();
+        logger.info("send template: url="  + url + " body " + body);
+        WebUtils.doPost(url, body);
     }
 
     private void checkPassword(String uid, String pwd) {
@@ -290,11 +349,10 @@ public class EliyouService {
                 if ("成功".equals(e)) {
                     return;
                 }
-            } catch (JSONException e1) {
+            } catch (JSONException e1){
             }
         }
         throw new HttpStatusException(HttpStatus.UNAUTHORIZED);
     }
-
 
 }

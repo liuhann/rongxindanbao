@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <title></title>
+
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
+
+    <style>
+
+        .foot {
+            position: absolute;
+            bottom: 0px;
+            width: 100%;
+        }
+
+        .opers {
+            position: absolute;
+            bottom: 5rem;
+            text-align: center;
+            width: 100%;
+        }
+
+        a:visited {
+            color: #ffffff;
+        }
+        .btn {
+            line-height: 1rem;
+            padding: 0.5rem 2rem;
+            background-color: #2d62c8;
+            font-size: 1rem;
+            color: #fff;
+            border-radius: 5px;
+        }
+
+        .sucess-msg {
+            color: #2d62c8;
+            padding: 2rem;
+        }
+
+    </style>
+    <script>
+        $(function() {
+            display();
+        })
+    </script>
+
+</head>
+<body>
+<div class="loading">正在加载</div>
+<div class="wrapper">
+    <div class="head">
+        <div class="logo"></div>
+        <div class="navs"><a href="recents.html">投资</a> | <a href="me.html">账户</a></div>
+    </div>
+
+    <div style="padding-left: 7rem; padding-top: 2rem">
+        <img src="img/yes.png" style="width:5rem;height: auto;">
+    </div>
+    <div class="sucess-msg">
+        您的充值申请已提交，我们正在努力为您处理中，请稍后去账户查看
+    </div>
+    <div class="opers">
+        <a class="btn" href="me.html">查看账户</a>
+        <a class="btn" href="recents.html">去投资</a>
+    </div>
+
+    <div class="foot">
+        ©2015北京易利友信息技术有限公司 京ICP备15011092号
+    </div>
+</div>
+
+</body>
+</html>

@@ -26,7 +26,7 @@
             background: -webkit-gradient(linear,0% 10%, 0% 100%, from(#FFFFFF), to(#C5DCFC), color-stop(0.02,#C5DCFC)) #fff;
         }
         .quicksd {
-            height: 2.5rem;
+            height: 4.5rem;
             background-color: #fff;
         }
 
@@ -38,8 +38,8 @@
 
         .projDesc {
             position: absolute;
-            -webkit-transition: -webkit-transform .3s linear;
             transition: transform .3s linear;
+            -webkit-transition: -webkit-transform .3s linear;
             top: 30rem;
             left: 0;
             right: 0;
@@ -97,7 +97,13 @@
             if (project.schedule) {  //申购进度
                 //var num = data[i].schedule * 2.5;
                 //cloned.find("svg").css("stroke-dasharray", num + "%,250%")
-                $(container).find(".schedule").html(project.schedule + "%");
+
+                if (project.schedule==100) {
+                    $(container).find(".schedule").html("还款中").css("font-size", "1rem");
+                    $(".quick").hide();
+                } else {
+                    $(container).find(".schedule").html(project.schedule + "%");
+                }
 
                 $(".rbox .c").css("background", "-webkit-gradient(linear, 0% " + (100-project.schedule) + "%, 0% 100%, from(rgb(255, 255, 255)), color-stop(0.02, rgb(197, 220, 252)), to(rgb(197, 220, 252))) rgb(255, 255, 255)");
             }
@@ -123,7 +129,8 @@
 
 
         function goDetail() {
-            $(".wrapper, .projDesc").show().css("transform", "translateY(-30rem)")
+            $(".projDesc").show();
+            $(".wrapper, .projDesc").css("transform", "translateY(-30rem)")
                     .css("-webkit-transform", "translateY(-30rem)");
         }
 
@@ -134,6 +141,13 @@
         }
 
         function placeOrder() {
+
+            var money = $("#orderMoney").val();
+            if (!isPlusNumber(money)) {
+                msg("请输入已充金额");
+                return;
+            }
+
             $.getJSON("/service/eliyou/project/invest", {
                 'id': querystring("id")[0],
                 'money': $("#orderMoney").val()
@@ -154,6 +168,8 @@
                     $("#SignInfo").val(data.obj.signInfo);
 
                     $("#form1").submit();
+                    return;
+                } else {
                 }
             });
         }
@@ -232,11 +248,9 @@
             暂无项目具体描述信息
     </div>
 </div>
-
     <div class="quick">
-        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go" onclick="placeOrder();">立即投资</a> <a class="fill" href="alipay.html">充值</a>
+        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go" onclick="placeOrder();">立即投资</a> <a class="fill" href="deposit.html">充值</a>
     </div>
-
 
 <form style="display:none;" id="form1" name="form1" action="http://218.4.234.150:88/main/loan/loan.action" method="post">
     <input id="LoanJsonList" name="LoanJsonList" value="" type="hidden" />

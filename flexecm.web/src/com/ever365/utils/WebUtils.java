@@ -206,6 +206,49 @@ public class WebUtils {
 		return performPost(requestUrl, params, httpClient, postMethod);
 	}
 
+	public static JSONObject doPost(String requestUrl, String body) {
+		HttpClient httpClient = new HttpClient(new SimpleHttpConnectionManager(
+				true));
+		PostMethod postMethod = new PostMethod(requestUrl);
+		JSONObject jsonObject;
+		try {
+			postMethod.getParams().setParameter("http.protocol.content-charset",
+					"UTF-8");
+			postMethod.setRequestBody(body);
+			logger.info("POST: " + requestUrl );
+			int statusCode = httpClient.executeMethod(postMethod);
+			logger.info("status: " + statusCode);
+
+			if (statusCode==302) {
+				Header location = postMethod.getResponseHeader("Location");
+				if (location!=null) {
+					logger.info("redirect to" + location.getValue());
+					return doGet(location.getValue());
+				}
+			} else if (statusCode != 200) {
+				logger.info("Method failed: request url:" + requestUrl
+						+ "  status:" + postMethod.getStatusLine());
+			}
+			byte[] responseBody = postMethod.getResponseBody();
+			String result = new String(responseBody, "utf-8");
+			try {
+				return new JSONObject(result);
+			} catch (Exception e) {
+				logger.info("json invalid:" + requestUrl + "  content: "
+						+ result);
+			}
+		} catch (HttpException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			postMethod.releaseConnection();
+			httpClient.getHttpConnectionManager().closeIdleConnections(0L);
+		}
+		return null;
+
+	}
+
 	public static JSONObject doPost(String requestUrl,
 									Map<String, Object> params) {
 		HttpClient httpClient = new HttpClient(new SimpleHttpConnectionManager(
