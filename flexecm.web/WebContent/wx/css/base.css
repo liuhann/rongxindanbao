@@ -287,30 +287,6 @@ a.req {
     padding: 0 1rem 1rem 1rem;
 }
 
-.meremains {
-    padding: .75rem;
-    font-size: .625rem;
-}
-
-.regqian {
-    padding: .75rem;
-    font-size: .625rem;
-    color: orangered;
-}
-
-.meremains .r {
-    color: #519BF8;
-}
-
-.meremains input.add {
-    padding: .5rem;
-    width: 5rem;
-    border: 1px solid #555;
-    border-radius: 5px;
-    color: #999;
-    margin: 0 .5rem;
-}
-
 .smallbtn {
     line-height: .825rem;
     padding: 0.35rem 1rem;
@@ -318,6 +294,10 @@ a.req {
     font-size: .825rem;
     color: #fff;
     border-radius: 5px;
+}
+
+a.smallbtn:visited {
+    color: #fff;
 }
 
 
@@ -433,12 +413,6 @@ a.req {
 .detail .rbox .s a em {
     font-size: .875rem;
 }
-.detail .more {
-    text-align: center;
-    padding: .5rem;
-    color: #646464;
-    font-size: .625rem;
-}
 
 .megrid {
     width: 19rem;
@@ -479,6 +453,7 @@ a.req {
     left: 0;
     right: 0;
     height: 2.5rem;
+    display: none;
     background-color: #DA5558;
 }
 
@@ -581,6 +556,44 @@ em.ens1 {
     bottom: -0.3rem;
 }
 
+
+.msg-container {
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.3);
+}
+.msg-container .msgbox {
+    width: 16rem;
+    height: 9rem;
+    background-color: #fff;
+    margin: 7rem auto;
+    border-radius: .5rem;
+}
+.msg-container .msgbox .content {
+    color: #8d8d8d;
+    height: 4.6rem;
+    font-size: .8rem;
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+}
+
+.msg-container .msgbox .btns {
+    text-align: center;
+}
+
+.msg-container .msgbox .btns a {
+    font-size: 1rem;
+    color: #2c62c8;
+    line-height: 2.5rem;
+}
+.msg-container .msgbox .btns.pressed {
+    background: #f4f5f9;
+}
+
 @-webkit-keyframes load {
     0% {
        -webkit-transform: translateX(0rem);
@@ -601,8 +614,8 @@ em.ens1 {
 
 
 .animated {
-    /*-webkit-animation-duration: 1s;
-    animation-duration: 1s;*/
+    -webkit-animation-duration: .4s;
+    animation-duration: .4s;
     -webkit-animation-fill-mode: both;
     animation-fill-mode: both;
 }
@@ -636,3 +649,60 @@ em.ens1 {
         transform: translateY(-100px);
     }
 }
+
+
+@-webkit-keyframes zoomIn {
+    from {
+        opacity: 0;
+        -webkit-transform: scale3d(.3, .3, .3);
+        transform: scale3d(.3, .3, .3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes zoomIn {
+    from {
+        opacity: 0;
+        -webkit-transform: scale3d(.3, .3, .3);
+        transform: scale3d(.3, .3, .3);
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+.zoomIn {
+    -webkit-animation-name: zoomIn;
+    animation-name: zoomIn;
+}
+
+
+@-webkit-keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.fadeIn {
+    -webkit-animation-name: fadeIn;
+    animation-name: fadeIn;
+}
+

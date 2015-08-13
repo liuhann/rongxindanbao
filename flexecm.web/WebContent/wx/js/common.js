@@ -138,10 +138,9 @@ function register() {
                 + encodeURI("http://eliyou.luckyna.com/oauth/wx")
                 + "&response_type=code&scope=snsapi_base&state=/wx/me.html";
         } else {
-            location.href = "me.html";
+            location.href = "me.html?qdd";
         }
     }).fail(function(error){
-        alert(JSON.stringify(error));
         $(".login-form .error").show();
     });
 }
@@ -168,8 +167,16 @@ function showStacks(stacks, div) {
 }
 
 function msg(s) {
-    alert(s);
+
+    var msgbox = $('<div class="msg-container fadeIn animated"><div class="msgbox zoomIn animated"><div class="content">'
+    + s + '</div><div class="btns"><a class="close">知道了</a></div></div></div>');
+    $('body').append(msgbox);
+
+    msgbox.find(".btns").bindtouch(function() {
+        $(".msg-container").remove();
+    });
 }
+
 
 function isPlusNumber(str) {
     var r = /^[0-9]*[1-9][0-9]*$/;

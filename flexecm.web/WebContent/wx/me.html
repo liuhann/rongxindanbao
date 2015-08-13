@@ -21,7 +21,36 @@
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
 
     <style>
+
+
+
+        .meremains {
+            padding: .75rem;
+            font-size: .625rem;
+            line-height: 1.4rem;
+        }
+
+
+        .meremains .r {
+            color: #519BF8;
+        }
+
+        .meremains input.add {
+            padding: .5rem;
+            width: 5rem;
+            border: 1px solid #555;
+            border-radius: 5px;
+            color: #999;
+            margin: 0 .5rem;
+        }
+
+
+
         .regqian {
+            text-align: center;
+            padding: .75rem;
+            font-size: .625rem;
+            margin-top: .5rem;
         }
 
     </style>
@@ -109,11 +138,11 @@
     </div>
 
     <div class="meremains">
-        <span>可用余额(元)：</span> <span class="ramaintotal">0.00</span>  <a class="smallbtn" href="deposit.html">充值</a>
+        <span>可用余额(元)：</span> <span class="ramaintotal">0.00</span>  <a class="smallbtn" style="float: right;" href="deposit.html">充值</a>
     </div>
 
     <div class="regqian" style="display: none;">
-        <span>请注册托管平台账号以完成充值和投资等操作  <a class="smallbtn" onclick="registerQianDuoduo();">去注册</a></span>
+         <a class="smallbtn" style="padding: .5rem 2rem;" onclick="registerQianDuoduo();">开通第三方托管</a>
     </div>
 
     <div style="display:none;" >

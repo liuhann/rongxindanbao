@@ -14,18 +14,20 @@
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <link type="text/css" rel="stylesheet" href="css/fontello.css">
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
     <style>
         .wrapper {
             background-color: #fff;
-            transition: transform .3s linear;
-            -webkit-transition: -webkit-transform .3s linear;
+            transition: transform .2s linear;
+            -webkit-transition: -webkit-transform .2s linear;
         }
 
         .rbox .c {
             background: -webkit-gradient(linear,0% 10%, 0% 100%, from(#FFFFFF), to(#C5DCFC), color-stop(0.02,#C5DCFC)) #fff;
         }
         .quicksd {
+            display: none;
             height: 4.5rem;
             background-color: #fff;
         }
@@ -39,7 +41,7 @@
         .projDesc {
             position: absolute;
             transition: transform .3s linear;
-            -webkit-transition: -webkit-transform .3s linear;
+            -webkit-transition: -webkit-transform .2s linear;
             top: 30rem;
             left: 0;
             right: 0;
@@ -52,6 +54,13 @@
             padding: .7rem;
             font-size: .7rem;
         }
+
+        .detail .more {
+            height: 3rem;
+            background-image: url('img/008.png');
+            background-size: contain;
+            background-repeat: no-repeat;
+        }
     </style>
     <script>
         $(function() {
@@ -63,6 +72,46 @@
                 display();
             }).fail(function(error){
                $(".loading").html("项目打开失败 error： " + JSON.stringify(error));
+            });
+
+            if (querystring("invest").length>0) {
+                msg("恭喜您，投资成功");
+            }
+            if (querystring("investfail").length>0) {
+                msg("抱歉，投资失败");
+            }
+
+            $(".more").on("touchstart", function(event){
+                event.preventDefault();
+                //$(".allinvest").html( event.originalEvent.touches[0].pageY);
+                $(this).data("y", event.originalEvent.touches[0].pageY );
+            });
+            $(".more,.wrapper").on("touchmove", function(event){
+                var currentY =  event.originalEvent.touches[0].pageY;
+                //$(".allinvest").html( event.originalEvent.touches[0].pageY);
+                var y = $(".more").data("y");
+                if (y) {
+                    var delta = currentY - y;
+                    if (delta<0) {
+                        $(".projDesc").show();
+                        $(".wrapper").css("-webkit-transform", "translateY(" + delta + "px)")
+                    }
+                }
+            });
+
+            $(".more,.wrapper").on("touchend", function(event){
+                var y = $(".more").data("y");
+                console.log(event);
+                var currentY = event.originalEvent.changedTouches[0].pageY;
+                if (y) {
+                    if (y - currentY > 200) {
+                        goDetail();
+                    } else {
+                        $(".projDesc").hide();
+                        $(".wrapper").css("-webkit-transform", "translateY(0px)")
+                    }
+                }
+                $(".more").data("y", null);
             });
         });
 
@@ -94,15 +143,15 @@
                 //cloned.find(".title .guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
             }
 
-            if (project.schedule) {  //申购进度
+            if (project.schedule!=null) {  //申购进度
                 //var num = data[i].schedule * 2.5;
                 //cloned.find("svg").css("stroke-dasharray", num + "%,250%")
 
                 if (project.schedule==100) {
                     $(container).find(".schedule").html("还款中").css("font-size", "1rem");
-                    $(".quick").hide();
                 } else {
                     $(container).find(".schedule").html(project.schedule + "%");
+                    $(".quick").show();
                 }
 
                 $(".rbox .c").css("background", "-webkit-gradient(linear, 0% " + (100-project.schedule) + "%, 0% 100%, from(rgb(255, 255, 255)), color-stop(0.02, rgb(197, 220, 252)), to(rgb(197, 220, 252))) rgb(255, 255, 255)");
@@ -121,17 +170,16 @@
                 if (remains<0) {
                     $(".finished").html("已结束");
                 } else {
-                    $(".finished .d").html(Math.floor(remains/24*60*60*1000));
+                    $(".finished .d").html(Math.floor(remains/(24*60*60*1000)));
+                    $(".finished .h").html(Math.floor(remains%(24*60*60*1000)/(60*60*1000)));
+                    $(".finished .m").html(Math.floor(remains%(60*60*1000)/(60*1000)));
                 }
                 $(".util-date").html(new Date(project.issueFinishDate).format("yyyy-MM-dd"));
             }
         }
 
-
         function goDetail() {
-            $(".projDesc").show();
-            $(".wrapper, .projDesc").css("transform", "translateY(-30rem)")
-                    .css("-webkit-transform", "translateY(-30rem)");
+            $(".wrapper, .projDesc").css("-webkit-transform", "translateY(-30rem)");
         }
 
         function goSummary() {
@@ -170,6 +218,7 @@
                     $("#form1").submit();
                     return;
                 } else {
+                    msg(data.msg);
                 }
             });
         }
@@ -191,7 +240,7 @@
             <span class="guarantee">淄博融信融资担保有限公司</span>
         </div>
         <div class="detail" >
-            <div class="finished"><span class="d">0</span>天<span class="h">4</span>时<span class="m">23</span>分后结束</div>
+            <div class="finished"><i class="icon-clock"></i><span class="d">0</span>天<span class="h">4</span>时<span class="m">23</span>分后结束</div>
             <div class="rbox">
                 <div class="r"><label>可投余额:</label><span class="rt remainAmount">0</span>元</div>
                 <div class="c schedule">0%</div>
@@ -232,8 +281,7 @@
                     </div>
                 </div>
             </div>
-            <div class="more" onclick="goDetail();">
-                --点击查看产品详情--
+            <div class="more" bonclick="goDetail();" >
             </div>
             <div class="quicksd"></div>
         </div>
@@ -267,7 +315,17 @@
     <input id="NotifyURL" name="NotifyURL" value="" type="hidden" />
     <input id="SignInfo" name="SignInfo" value="" type="hidden" />
 </form>
+<!--
+<div class="msg-container">
+    <div class="msgbox zoomIn animated">
+        <div class="content">
 
-
+        </div>
+        <div class="btns">
+            <a class="close"></a>
+        </div>
+    </div>
+</div>
+-->
 </body>
 </html>

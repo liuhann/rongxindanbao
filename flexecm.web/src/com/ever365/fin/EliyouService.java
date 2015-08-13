@@ -1,11 +1,13 @@
 package com.ever365.fin;
 
+import com.ever365.auth.OAuthServlet;
 import com.ever365.mongo.MongoDataSource;
 import com.ever365.rest.*;
 import com.ever365.utils.MapUtils;
 import com.ever365.utils.RandomCodeServlet;
 import com.ever365.utils.StringUtils;
 import com.mongodb.BasicDBObject;
+import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import org.apache.http.auth.AUTH;
@@ -34,6 +36,7 @@ public class EliyouService {
     private Long refreshTime = 60 * 60 * 1000L;
 
     public String tRechargeOK = "X519Mnuma8Sij9j0hRC8nn_FyBQLJ9P7BJzbn-NzE_Y";
+    public String tInvestSucess = "JMvfH3xhLUlF-cZ5OQYVSCTB2MTR0_24Wt-orolCnOU";
 
     public void setDataSource(MongoDataSource dataSource) {
         this.dataSource = dataSource;
@@ -76,6 +79,7 @@ public class EliyouService {
                 e = result.getString("code");
                 if ("01".equals(e)) {
                     rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
+                    rr.setSession(OAuthServlet.OAUTH_REDIRECT, "/wx/me.html?qdd");
                     return rr;
                 }
             } catch (JSONException e1) {
@@ -131,7 +135,6 @@ public class EliyouService {
         return new HashMap<>(0);
     }
 
-
     @RestService(method="GET", uri="/eliyou/project/invest", authenticated=true, rndcode=false)
     public Map<String,Object> invest(@RestParam(value = "id") String id,@RestParam(value = "money") String money) {
         String requestUrl = eliyouServer + "/eLiYou/wechat/addInvest.do";
@@ -140,12 +143,54 @@ public class EliyouService {
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
         params.put("money", money);
         params.put("projectId", id);
-        params.put("url", "http://eliyou.luckyna.com/wx/me.html");
+        params.put("url", weixinServer + "/service/eliyou/invest/back");
         JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/addInvest.do", params);
 
         logger.info(result.toString());
+        dataSource.getCollection("invests").update(new BasicDBObject("user", AuthenticationUtil.getCurrentUser()),
+                BasicDBObjectBuilder.start("user",AuthenticationUtil.getCurrentUser()).add("project",id).add("money", money)
+                .add("time", System.currentTimeMillis()).get(), true, false);
         return WebUtils.jsonObjectToMap(result);
     }
+
+    @RestService(method="POST", uri="/eliyou/invest/back", authenticated=false, rndcode=false)
+    public RestResult investCallBack(Map result) throws UnsupportedEncodingException {
+        logger.info("recharge callback " + new JSONObject(result).toString());
+        RestResult rr = new RestResult();
+
+        logger.info("ResultCode: " + result.get("ResultCode"));
+        DBObject one = dataSource.getCollection("invests").findOne(new BasicDBObject("user", AuthenticationUtil.getCurrentUser()));
+
+        if ("88".equals(result.get("ResultCode"))) {
+            /*
+            List<Map<String, String>> datas = new ArrayList<>();
+            datas.add(MapUtils.tribleMap("key","first","value", "恭喜您抢投成功，您已成功投资，明日开始计息。", "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","keyword1","value",(String)result.get("Amount"), "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","keyword2","value",StringUtils.formateDate(new Date()), "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","remark","value","赶快去投资吧！", "color", "#173177"));
+
+            DBCursor cur = dataSource.getCollection("weixin").find(new BasicDBObject("userId", AuthenticationUtil.getCurrentUser()));
+            while(cur.hasNext()) {
+                DBObject dbo = cur.next();
+                sendWeixinTemplateInfo(dbo.get("openid").toString(), tRechargeOK, datas);
+            }
+            */
+
+            if (one!=null) {
+                rr.setRedirect("/wx/project.html?id=" + one.get("project").toString() + "&invest=1");
+            } else {
+                rr.setRedirect("/wx/recents.html");
+            }
+        } else {
+            if (one!=null) {
+                rr.setRedirect("/wx/project.html?id=" + one.get("project").toString() + "&investfail=1");
+            } else {
+                rr.setRedirect("/wx/recents.html");
+            }
+        }
+        return rr;
+    }
+
 
 
     @RestService(method="GET", uri="/eliyou/wx/signature", authenticated=false)

@@ -26,7 +26,7 @@ import com.ever365.rest.CookieService;
 public class OAuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CookieService cookieService;
-	public static final String SESSION_REDIRECT = "oauth_redirect";
+	public static final String OAUTH_REDIRECT = "oauth_redirect";
 	private Map<String, OAuthProvider> providers = new HashMap();
 	private MongoDataSource dataSource = null;
 	Logger logger = Logger.getLogger(OAuthServlet.class.getName());
@@ -54,7 +54,6 @@ public class OAuthServlet extends HttpServlet {
 			if (authDetail == null) {// 验证失败
 				throw new HttpStatusException(HttpStatus.UNAUTHORIZED);
 			}
-
 			String userId = null;
 			if (pr.binding()) { //如果要和平台账号绑定
 				setUser(request); //首先设置平台账号信息
@@ -70,7 +69,7 @@ public class OAuthServlet extends HttpServlet {
 					dataSource.getCollection(pr.getName()).update(
 						new BasicDBObject("openid", authDetail.get("openid")), binding, true, false);
 				} else {
-					//用户未登录，要通过openid获取平台账号信息
+					//处理用户未登录， 用openid来登录系统
 					logger.info("get user  with openid: " + authDetail.get("openid"));
 					DBObject one = dataSource.getCollection(pr.getName()).findOne(
 							new BasicDBObject("openid", authDetail.get("openid"))
@@ -91,6 +90,14 @@ public class OAuthServlet extends HttpServlet {
 				this.cookieService.bindUserCookie(request, response, userId);
 			}
 
+			if (request.getSession().getAttribute(OAUTH_REDIRECT) != null) {
+				Object redirect = request.getSession().getAttribute(
+						OAUTH_REDIRECT);
+				request.getSession().removeAttribute(OAUTH_REDIRECT);
+				logger.info("redirect to "  + redirect.toString());
+				response.sendRedirect(redirect.toString());
+			}
+
 			if ("/wx".equals(servletPath)) {
 				response.sendRedirect("/wx/me.html");
 				return;
@@ -100,16 +107,10 @@ public class OAuthServlet extends HttpServlet {
 				logger.info("redirect to "  + request.getParameter("state"));
 				response.sendRedirect(request.getParameter("state"));
 				return;
-			} else if (request.getSession().getAttribute("oauth_redirect") != null) {
-				Object redirect = request.getSession().getAttribute(
-						"oauth_redirect");
-				request.getSession().removeAttribute("oauth_redirect");
-				logger.info("redirect to "  + redirect.toString());
-				response.sendRedirect(redirect.toString());
-			} else {
-				logger.info("redirect to /wx/me.html");
-				response.sendRedirect("/wx/me.html");
 			}
+
+			logger.info("redirect to /wx/me.html");
+			response.sendRedirect("/wx/me.html");
 
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -155,7 +156,7 @@ public class OAuthServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		if (request.getParameter("redirect") != null)
-			request.getSession().setAttribute("oauth_redirect",
+			request.getSession().setAttribute(OAUTH_REDIRECT,
 					request.getParameter("redirect"));
 	}
 }

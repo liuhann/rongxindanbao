@@ -91,7 +91,6 @@
         }, function(data){
             display();
             for(var i=0;i<data.length; i++) {
-                $(".recents").after(cloned);
 
                 var cloned = $(".template").clone().removeClass("template").addClass("project").show();
                 cloned.data("project", data[i]);
@@ -143,6 +142,9 @@
                     location.href = "project.html?id=" + $(this).data("project").id;
 
                 });
+
+
+                $(".project-list").append(cloned);
             }
             //setTimeout(function() {
 
@@ -177,6 +179,10 @@
 
     <div class="recents">
         <span>最新标的</span>
+    </div>
+    <div class="project-list">
+
+
     </div>
     <div class="project template" style="display:none;">
         <div class="desc">
