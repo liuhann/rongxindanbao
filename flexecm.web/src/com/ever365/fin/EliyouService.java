@@ -57,7 +57,7 @@ public class EliyouService {
     public RestResult register(@RestParam(value="loginid")String uid, @RestParam(value="pwd") String pwd
             ,@RestParam(value="ufcode") String ufcode) {
         RestResult rr = new RestResult();
-        if (uid==null || pwd==null || ufcode==null) {
+        if (uid==null || pwd==null) {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST);
         }
 
@@ -65,7 +65,9 @@ public class EliyouService {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userid", uid);
         params.put("password", pwd);
-        params.put("ufcode", ufcode);
+        if (ufcode==null || !ufcode.equals("")) {
+            params.put("ufcode", ufcode);
+        }
 
         logger.info("register to eliyou  url=" + url + "  u:" + uid + " p:" + pwd + " ufcode: " + ufcode);
 
@@ -79,7 +81,7 @@ public class EliyouService {
                 e = result.getString("code");
                 if ("01".equals(e)) {
                     rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
-                    rr.setSession(OAuthServlet.OAUTH_REDIRECT, "/wx/me.html?qdd");
+                    rr.setSession(OAuthServlet.OAUTH_REDIRECT, "/wx/openqdd.html");
                     return rr;
                 }
             } catch (JSONException e1) {
@@ -326,27 +328,37 @@ public class EliyouService {
     }
 
     @RestService(method="POST", uri="/eliyou/qiandd/register", authenticated=true, rndcode=false)
-    public Map<String, Object> registerQianDD() {
+    public Map<String, Object> registerQianDD(@RestParam(value="return") String returnUrl) {
+        if (returnUrl==null) {
+            returnUrl = weixinServer + "/wx/recents.html";
+        }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
-        params.put("url", "http://eliyou.luckyna.com/wx/me.html");
+        params.put("url", weixinServer + returnUrl);
         JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/registerBind.do", params);
 
         logger.info(result.toString());
         return WebUtils.jsonObjectToMap(result);
     }
 
-    @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=true, rndcode=false)
+    @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=false)
     public Map<String, Object> getUserInfos() {
         if (AuthenticationUtil.getCurrentUser()==null) {
             return new HashMap<String,Object>(0);
         }
+
         String requestUrl = eliyouServer + "/eLiYou/wechat/rechargeIndex.do?userAccount=" + AuthenticationUtil.getCurrentUser();
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
             Map<String, Object> map = WebUtils.jsonObjectToMap(jo);
             map.put("cu", AuthenticationUtil.getCurrentUser());
+
+            DBObject one = dataSource.getCollection("weixin").findOne(new BasicDBObject("userId", AuthenticationUtil.getCurrentUser()));
+            if (one!=null) {
+                map.put("openid", one.get("openid"));
+            }
+
             return map;
         } catch (JSONException e) {
             e.printStackTrace();

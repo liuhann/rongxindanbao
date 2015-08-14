@@ -16,7 +16,7 @@
 ;(function(factory) {
 
     // AMD
-    if (typeof define === 'function' && define.amd) define(['jquery'], factory);
+    if (typeof define === 'function' && define.amd) define(['jquery.datetimepicker.js'], factory);
 
     // CommonJS
     else if (typeof exports === 'object') factory(require('jquery'));

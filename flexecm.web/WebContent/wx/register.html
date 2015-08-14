@@ -18,14 +18,38 @@
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
     <script>
         $(function() {
-            $.getJSON("/service/fin/current", {}, function(d) {
+            $.getJSON("/service/eliyou/wx/uinfos", {}, function(d) {
                 if (d.cu==null) {
-                    display();
+                        display();
                 } else {
-                    location.href = "me.html";
+                    if (d.openid) {
+                        location.href = "weixinbinded.html";
+                    } else {
+                        location.href = "me.html";
+                    }
                 }
             });
-        })
+        });
+
+        function register() {
+            var req = {
+                "loginid":$("#loginid").val(),
+                "pwd": $("#pwd").val(),
+                "ufcode": $("#ufcode").val()
+            };
+            $.post("/service/eliyou/wx/register", req, function () {
+                if($("#bindwx").prop("checked")) {
+                    location.href =
+                            "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
+                            + encodeURI("http://eliyou.luckyna.com/oauth/wx")
+                            + "&response_type=code&scope=snsapi_base&state=/wx/openqdd.html";
+                } else {
+                    location.href = "openqdd.html";
+                }
+            }).fail(function(error){
+                $(".login-form .error").show();
+            });
+        }
     </script>
 </head>
 <body>

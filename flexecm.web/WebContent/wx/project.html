@@ -15,7 +15,7 @@
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <link type="text/css" rel="stylesheet" href="css/fontello.css">
-    <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
+    <link type="text/css" rel="stylesheet" href="css/base.css?v10"><!--通用CSS样式 -->
     <style>
         .wrapper {
             background-color: #fff;
@@ -67,11 +67,26 @@
             var projectId = querystring("id");
             $.getJSON("/service/eliyou/project/detail?id=" + projectId,
                     {},
-            function(data) {
-                initProjectInfo(data, $(".projectInfo"));
-                display();
-            }).fail(function(error){
-               $(".loading").html("项目打开失败 error： " + JSON.stringify(error));
+                    function(data) {
+                        initProjectInfo(data, $(".projectInfo"));
+                        display();
+                        $.getJSON("/service/eliyou/wx/uinfos", {}, function(data) {
+                            if (data.result!="sucess") {
+                                $("#btnplaceorder, #btnrecharge").bindtouch(function() {
+                                    location.href = "openqdd.html";
+                                });
+                            } else {
+                                $("#btnplaceorder").bindtouch(function() {
+                                    placeOrder();
+                                });
+                                $("#btnrecharge").bindtouch(function() {
+                                    location.href = "deposit.html";
+                                });
+                                runToNumber($(".remainmoney"),data.kyje);
+                            }
+                        });
+                    }).fail(function(error){
+                       $(".loading").html("项目打开失败 error： " + JSON.stringify(error));
             });
 
             if (querystring("invest").length>0) {
@@ -189,7 +204,6 @@
         }
 
         function placeOrder() {
-
             var money = $("#orderMoney").val();
             if (!isPlusNumber(money)) {
                 msg("请输入已充金额");
@@ -214,7 +228,6 @@
                     $("#ReturnURL").val(data.obj.returnURL);
                     $("#NotifyURL").val(data.obj.notifyURL);
                     $("#SignInfo").val(data.obj.signInfo);
-
                     $("#form1").submit();
                     return;
                 } else {
@@ -234,9 +247,7 @@
     <div class="projectInfo">
         <div class="projtitle">
             <span class="name">购车中转贷</span>
-            <em class="ensp"></em>
-            <em class="ens0"></em>
-            <em class="ens1"></em>
+            <em class="shield"></em>
             <span class="guarantee">淄博融信融资担保有限公司</span>
         </div>
         <div class="detail" >
@@ -297,7 +308,7 @@
     </div>
 </div>
     <div class="quick">
-        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go" onclick="placeOrder();">立即投资</a> <a class="fill" href="deposit.html">充值</a>
+        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go" id="btnplaceorder">立即投资</a> <a class="fill" id="btnrecharge">充值</a>
     </div>
 
 <form style="display:none;" id="form1" name="form1" action="http://218.4.234.150:88/main/loan/loan.action" method="post">

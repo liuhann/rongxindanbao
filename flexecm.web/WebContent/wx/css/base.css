@@ -515,6 +515,15 @@ em.ens1 {
     height: .6rem;
     background-size: 1.2rem .6rem;
 }
+em.shield {
+    background-image: url('../img/security.png');
+    width: .82rem;
+    display: inline-block;
+    height: .9rem;
+    background-size: .8rem .8rem;
+    background-repeat: no-repeat;
+    vertical-align: bottom;
+}
 
 .loader {
     width: 7rem;
