@@ -6,8 +6,6 @@ $(function() {
     $("html").css("font-size", size + "px");
     $("body").css("font-size", size + "px");
     setInputClearable();
-    //$(".wrapper").show();
-    //$("body").append($('<div class="loader">正在加载...</div>'));
 });
 
 
@@ -80,19 +78,6 @@ function getStatus() {
     });
 }
 
-function registerQianDuoduo() {
-    $.post("/service/eliyou/qiandd/register", {}, function(data) {
-        var regInfo = JSON.parse(data);
-
-        $("#LoanPlatformAccount").val(regInfo.obj.loanPlatformAccount);
-        $("#PlatformMoneymoremore").val(regInfo.obj.platformMoneymoremore);
-        $("#ReturnURL").val(regInfo.obj.returnURL);
-        $("#SignInfo").val(regInfo.obj.signInfo);
-        $("#NotifyURL").val(regInfo.obj.notifyURL);
-
-        $("#form1").submit();
-    });
-}
 
 function logout() {
     $.getJSON("/service/eliyou/wx/logout", {}, function() {
@@ -101,6 +86,24 @@ function logout() {
         location.href = "/wx/login.html";
     })
 }
+
+
+function registerQianDuoduo(returnUrl) {
+    var request = {};
+    if (returnUrl) {
+        request.return = returnUrl;
+    }
+    $.post("/service/eliyou/qiandd/register", request, function(data) {
+        var regInfo = JSON.parse(data);
+        $("#LoanPlatformAccount").val(regInfo.obj.loanPlatformAccount);
+        $("#PlatformMoneymoremore").val(regInfo.obj.platformMoneymoremore);
+        $("#ReturnURL").val(regInfo.obj.returnURL);
+        $("#SignInfo").val(regInfo.obj.signInfo);
+        $("#NotifyURL").val(regInfo.obj.notifyURL);
+        $("#form1").submit();
+    });
+}
+
 
 function login() {
 
@@ -125,25 +128,6 @@ function login() {
     });
 }
 
-function register() {
-    var req = {
-        "loginid":$("#loginid").val(),
-        "pwd": $("#pwd").val(),
-        "ufcode": $("#ufcode").val()
-    };
-    $.post("/service/eliyou/wx/register", req, function () {
-        if($("#bindwx").prop("checked")) {
-            location.href =
-                "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
-                + encodeURI("http://eliyou.luckyna.com/oauth/wx")
-                + "&response_type=code&scope=snsapi_base&state=/wx/me.html";
-        } else {
-            location.href = "me.html?qdd";
-        }
-    }).fail(function(error){
-        $(".login-form .error").show();
-    });
-}
 
 function runToNumber(div, money) {
     if (money==0) {

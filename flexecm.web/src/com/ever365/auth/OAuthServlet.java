@@ -23,6 +23,10 @@ import org.springframework.web.context.ContextLoaderListener;
 import com.ever365.rest.AuthenticationUtil;
 import com.ever365.rest.CookieService;
 
+
+/***
+ * For Weixin Only!!!
+ */
 public class OAuthServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private CookieService cookieService;
@@ -42,6 +46,7 @@ public class OAuthServlet extends HttpServlet {
 			HttpServletResponse response) throws ServletException, IOException {
 		logger.info("OAuthServlet: " + request.getRequestURI() + "? " + request.getQueryString());
 		String servletPath = getServicePath(request);
+
 		try {
 			if (request.getParameter("code")==null) {
 				response.sendRedirect("/error.html");
@@ -96,20 +101,19 @@ public class OAuthServlet extends HttpServlet {
 				request.getSession().removeAttribute(OAUTH_REDIRECT);
 				logger.info("redirect to "  + redirect.toString());
 				response.sendRedirect(redirect.toString());
+				return;
 			}
 
 			if ("/wx".equals(servletPath)) {
-				response.sendRedirect("/wx/me.html");
+				if (request.getParameter("state")!=null) {
+					logger.info("redirect to "  + request.getParameter("state"));
+					response.sendRedirect(request.getParameter("state"));
+				} else {
+					response.sendRedirect("/wx/me.html");
+				}
 				return;
 			}
 
-			if (request.getParameter("state")!=null) {
-				logger.info("redirect to "  + request.getParameter("state"));
-				response.sendRedirect(request.getParameter("state"));
-				return;
-			}
-
-			logger.info("redirect to /wx/me.html");
 			response.sendRedirect("/wx/me.html");
 
 		} catch (Exception e) {
