@@ -6,21 +6,25 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="format-detection" content="telephone=no">
-    <meta http-equiv="Expires" content="-1">
-    <meta http-equiv="Cache-Control" content="no-cache">
-    <meta http-equiv="Pragma" content="no-cache">
 
-    <title></title>
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+
+    <title>最新标的</title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <link type="text/css" rel="stylesheet" href="css/fontello.css">
-    <link type="text/css" rel="stylesheet" href="css/base.css?v10"><!--通用CSS样式 -->
+    <link type="text/css" rel="stylesheet" href="css/base.css?v11"><!--通用CSS样式 -->
     <style>
         .wrapper {
             background-color: #fff;
+            /*
             transition: transform .2s linear;
             -webkit-transition: -webkit-transform .2s linear;
+            */
         }
 
         .rbox .c {
@@ -40,8 +44,10 @@
 
         .projDesc {
             position: absolute;
+            /*
             transition: transform .3s linear;
             -webkit-transition: -webkit-transform .2s linear;
+            */
             top: 30rem;
             left: 0;
             right: 0;
@@ -56,10 +62,16 @@
         }
 
         .detail .more {
+            padding-top: .5rem;
             height: 3rem;
+            text-align: center;
+            font-size: .8rem;
+            color: #777;
+            /*
             background-image: url('img/008.png');
             background-size: contain;
             background-repeat: no-repeat;
+            */
         }
     </style>
     <script>
@@ -71,7 +83,7 @@
                         initProjectInfo(data, $(".projectInfo"));
                         display();
                         $.getJSON("/service/eliyou/wx/uinfos", {}, function(data) {
-                            if (data.result!="sucess") {
+                            if (data.moneyMoreAccount==null) {
                                 $("#btnplaceorder, #btnrecharge").bindtouch(function() {
                                     location.href = "openqdd.html";
                                 });
@@ -95,6 +107,10 @@
             if (querystring("investfail").length>0) {
                 msg("抱歉，投资失败");
             }
+        });
+
+
+        function bindDragUpMore() {
 
             $(".more").on("touchstart", function(event){
                 event.preventDefault();
@@ -128,7 +144,7 @@
                 }
                 $(".more").data("y", null);
             });
-        });
+        }
 
         function initProjectInfo(project, container) {
             var repayInstalTypes = ["个月","天"];
@@ -194,6 +210,7 @@
         }
 
         function goDetail() {
+            $(".projDesc").show();
             $(".wrapper, .projDesc").css("-webkit-transform", "translateY(-30rem)");
         }
 
@@ -246,9 +263,9 @@
     </div>
     <div class="projectInfo">
         <div class="projtitle">
-            <span class="name">购车中转贷</span>
+            <span class="name"></span>
             <em class="shield"></em>
-            <span class="guarantee">淄博融信融资担保有限公司</span>
+            <span class="guarantee"></span>
         </div>
         <div class="detail" >
             <div class="finished"><i class="icon-clock"></i><span class="d">0</span>天<span class="h">4</span>时<span class="m">23</span>分后结束</div>
@@ -292,7 +309,8 @@
                     </div>
                 </div>
             </div>
-            <div class="more" bonclick="goDetail();" >
+            <div class="more" onclick="goDetail();" >
+                点击查看产品详情
             </div>
             <div class="quicksd"></div>
         </div>

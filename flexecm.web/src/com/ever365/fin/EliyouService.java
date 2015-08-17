@@ -27,7 +27,7 @@ public class EliyouService {
 
     Logger logger = Logger.getLogger(EliyouService.class.getName());
 
-    private String eliyouServer = "http://111.196.18.73:8086";
+    private String eliyouServer = "http://114.244.84.119:8086";
 
     private String weixinServer = "http://eliyou.luckyna.com";
 
