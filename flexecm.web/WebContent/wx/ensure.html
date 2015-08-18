@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <title></title>
+
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+
+    <style>
+    .wrapper {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+        background-color: #feefd3;
+    }
+
+    .page {
+        position: absolute;
+        left: 0;
+        right: 0;
+        top: 0;
+        bottom: 0;
+    }
+        .page .title {
+            color: #5099f6;
+            text-align: center;
+            font-size: 1rem;
+            margin-top: 1.6rem;
+            line-height: 1.5rem;
+            font-weight: 500;
+        }
+
+        .page .title p {
+            margin: 0;
+        }
+
+        .page .image {
+            text-align: center;
+            margin-top: 1.5rem;
+        }
+        .page .image img{
+            width: 10rem;
+            height: auto;
+        }
+
+        .page .explain {
+            padding: 0rem 2rem;
+            color: #8d8d8d;
+            font-size: .75rem;
+        }
+        .page .explain li {
+            margin-top: .8rem;
+        }
+
+        .step1 {
+            z-index: 14;
+            background-color: #feefd3;
+        }
+        .step2 {
+            z-index: 13;
+            background-color: #dfeefb;
+        }
+        .step3 {
+            z-index: 12;
+            background-color: #e5f1df;
+        }
+        .step4 {
+            z-index: 11;
+            background-color: #fceade;
+        }
+
+        .up {
+            position: absolute;
+            bottom: 1rem;
+            left: 8.5rem;
+            width: 2rem;
+            height: 2rem;
+            z-index: 20;
+        }
+
+        .animated {
+            -webkit-animation-duration: 3s;
+            animation-duration: 3s;
+            -webkit-animation-fill-mode: both;
+            animation-fill-mode: both;
+        }
+        .animated.s1 {
+            -webkit-animation-duration: .5s;
+            animation-duration: .5s;
+        }
+
+        .animated.infinite {
+            -webkit-animation-iteration-count: infinite;
+            animation-iteration-count: infinite;
+        }
+
+        @-webkit-keyframes slideUpHint {
+            from {
+                -webkit-transform: translate3d(0, 100%, 0);
+                transform: translate3d(0, 100%, 0);
+                visibility: visible;
+                opacity: 1;
+            }
+
+            30% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
+            80% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+                opacity: 1;
+            }
+            100% {
+                -webkit-transform: translate3d(0, -100%, 0);
+                transform: translate3d(0, -100%, 0);
+                opacity: 0;
+            }
+        }
+
+        .slideUpHint {
+            -webkit-animation-name: slideUpHint;
+            animation-name: slideUpHint;
+        }
+
+        @-webkit-keyframes slideOutUp {
+            from {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                visibility: hidden;
+                -webkit-transform: translate3d(0, -100%, 0);
+                transform: translate3d(0, -100%, 0);
+            }
+        }
+
+        @keyframes slideOutUp {
+            from {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+
+            100% {
+                visibility: hidden;
+                -webkit-transform: translate3d(0, -100%, 0);
+                transform: translate3d(0, -100%, 0);
+            }
+        }
+
+        .slideOutUp {
+            -webkit-animation-name: slideOutUp;
+            animation-name: slideOutUp;
+        }
+
+        @-webkit-keyframes slideInDown {
+            from {
+                visibility: hidden;
+                -webkit-transform: translate3d(0, -100%, 0);
+                transform: translate3d(0, -100%, 0);
+            }
+
+            100% {
+
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        @keyframes slideInDown {
+            from {
+                visibility: hidden;
+                -webkit-transform: translate3d(0, -100%, 0);
+                transform: translate3d(0, -100%, 0);
+            }
+
+            100% {
+                -webkit-transform: translate3d(0, 0, 0);
+                transform: translate3d(0, 0, 0);
+            }
+        }
+
+        .slideInDown {
+            -webkit-animation-name: slideInDown;
+            animation-name: slideInDown;
+        }
+
+
+    </style>
+    <script>
+        var currentPage = 1;
+        $(function() {
+            var size = $(window).width() / 19;
+            $("html").css("font-size", size + "px");
+            $("body").css("font-size", size + "px");
+
+            $(".wrapper").on("touchstart", function(event){
+                event.preventDefault();
+                //$(".allinvest").html( event.originalEvent.touches[0].pageY);
+                $(this).data("y", event.originalEvent.touches[0].pageY );
+            });
+            $(".wrapper").on("touchmove", function(event){
+                var currentY =  event.originalEvent.touches[0].pageY;
+                var y = $(this).data("y");
+                if (y) {
+                    var delta = currentY - y;
+                    if (delta<0) {
+                        slideUp();
+                    } else {
+                        slideDown();
+                    }
+                    $(this).data("y", null);
+                }
+            });
+        });
+
+        function slideUp() {
+
+            if (currentPage<4) {
+                $(".page.step" + currentPage).removeClass("slideInDown").addClass("animated slideOutUp s1");
+                currentPage ++;
+
+                if (currentPage==4) {
+                    $(".up").hide();
+                }
+            }
+
+        }
+
+        function slideDown() {
+            $(".up").show();
+            if (currentPage==1) {
+                return;
+            } else {
+                $(".page.step" + (currentPage-1)).removeClass("slideOutUp").addClass("slideInDown");
+                currentPage --;
+            }
+        }
+
+
+    </script>
+
+</head>
+<body>
+
+<div class="wrapper">
+    <div class="page step1">
+        <div class="title">
+            <p>优质的借款项目  清晰的项目来源</p>
+            <p>严格的项目风险控制</p>
+        </div>
+        <div class="image">
+            <img src="img/security001.png">
+        </div>
+
+        <ul class="explain">
+            <li>贷款前对借款项目全面调查：e利友的各地风控团队实地考察借款人的借款用途、还款能力、经营状况、盈利能力、家庭情况、综合实力等，保证提供优质的项目。</li>
+            <li>贷款中对借款项目全面监控：e利友在借贷合同履行期间对借款人的资金使用和业务状况进行监控。</li>
+            <li>双重第三方担保：资质良好的小额贷款公司、实力强的国有担保公司为所发布的项目实施双重全额担保。</li>
+            <li>风险准备金为平台投资安全提供100%本金保障。</li>
+        </ul>
+
+    </div>
+
+    <div class="page step2">
+        <div class="title">
+            <p>e利友用户的资金安全保障</p>
+        </div>
+        <div class="image">
+            <img src="img/security002.png">
+        </div>
+
+        <ul class="explain">
+            <li>e利友的用户投资完全有第三方支付公司进行p2p账户托管，并由中国工商银行北京亚运村支行对账户资金进行监管。</li>
+            <li>e利友对用户交易资金的保管完全遵守“专户专款专用”的原则，不搞资金池不非法吸储，客户在e利友的交易资金是完全可以放心的。</li>
+            <li>每个项目提供至少一个担保方，绝大多数项目提供双重担保。严格的风控加上双重担保，锁定资金安全可靠性。</li>
+        </ul>
+
+    </div>
+
+    <div class="page step3">
+        <div class="title">
+            <p>e利友全程有国内知名律师事务所</p>
+            <p>提供法律保障</p>
+        </div>
+        <div class="image">
+            <img src="img/security003.png">
+        </div>
+
+        <ul class="explain">
+            <li>投资人及借款人双方民间借贷的合法性。</li>
+            <li>e利友提供居间撮合服务的合法性。</li>
+            <li>电子合同的合法性及可执行性。</li>
+            <li>投资人在e利友获得的出借理财收益的合法性。</li>
+        </ul>
+    </div>
+
+    <div class="page step4">
+        <div class="title">
+            <p>e利友的数据安全保障</p>
+        </div>
+        <div class="image">
+            <img src="img/security004.png">
+        </div>
+
+        <ul class="explain">
+            <li>运用256位加密，MD5等各种先进的安全技术保护用户在e利友账户中存储的个人信息、账户信息以及交易记录，以免用户账户遭受未经授权的访问、使用以及信息泄露。</li>
+            <li>e利友有着完善的安全监测系统，可以及时发现网站的非正常访问并做相应的安全响应。对于用户的账户信息，e利友会对其进行高强度的加密，以防止用户信息的外泄。</li>
+            <li>e利友的技术团队持续更新和改进网站的安全策略，以保证网站安全策略的有效性和健壮性。</li>
+        </ul>
+    </div>
+
+    <div class="up animated infinite slideUpHint">
+        <img src="img/dragup.png">
+    </div>
+</div>
+
+</body>
+</html>

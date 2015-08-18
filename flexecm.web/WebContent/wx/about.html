@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+    
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <title></title>
+
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+
+    <style>
+        .logo {
+            background-image: url("img/about-logo.png");
+            background-size: 8rem auto;
+            background-repeat: no-repeat;
+            margin: 2rem auto;
+            width: 8rem;
+            height: 5.8rem;
+        }
+
+        .version {
+            color: #8d8d8d;
+            text-align: center;
+            font-size: .625rem;
+        }
+
+        .intro {
+            color: #8d8d8d;
+            padding: 2rem 2rem;
+            font-size: .75rem;
+            text-indent: 1.5rem;
+            line-height: 1rem;
+        }
+
+        .go {
+            font-size: .75rem;
+            color: #2c62c8;
+            border-bottom: 1px solid #ccc;
+            padding: 1rem .5rem;
+        }
+        .go i {
+            float: right;
+            font-style: normal;
+            font-size: .75rem;
+        }
+    </style>
+    <script>
+        $(function() {
+            var size = $(window).width() / 19;
+            $("html").css("font-size", size + "px");
+            $("body").css("font-size", size + "px");
+        });
+    </script>
+
+</head>
+<body>
+
+<div class="wrapper">
+
+    <div class="logo">
+    </div>
+    <div class="version">
+        当前版本 2.1.0
+    </div>
+
+    <div class="intro">
+        e利友是个互联网金融新贵，有银行高管、金融专家、国有财团高管，由知名上市互联网集团高管亲自挂帅。资源丰富，团队年轻有活力。e利友是个成长性极好的团队，快来加入我们，跟着名人变土豪吧！
+    </div>
+
+    <div class="go" style="border-top: 1px solid #ccc;">
+        <a href="qq:2696263425"><span>客服QQ</span> <i>2696263425  &gt;</i></a>
+    </div>
+    <div class="go">
+        <a href="tel:4001657056"><span>财富专线</span> <i>4001 657 056  &gt;</i> </a>
+    </div>
+</div>
+
+</body>
+</html>
