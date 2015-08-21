@@ -6,28 +6,27 @@ import com.ever365.rest.*;
 import com.ever365.utils.MapUtils;
 import com.ever365.utils.RandomCodeServlet;
 import com.ever365.utils.StringUtils;
+import com.ever365.utils.WebUtils;
 import com.mongodb.BasicDBObject;
 import com.mongodb.BasicDBObjectBuilder;
 import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
-import org.apache.http.auth.AUTH;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.*;
-import java.net.URLEncoder;
+import java.io.File;
+import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.logging.Logger;
-import com.ever365.utils.WebUtils;
-import org.springframework.util.FileCopyUtils;
 
 public class EliyouService {
 
     Logger logger = Logger.getLogger(EliyouService.class.getName());
 
-    private String eliyouServer = "http://114.244.84.119:8086";
+    private String eliyouServer = "http://123.57.54.16:8080/eliyou/wechat";
 
     private String weixinServer = "http://eliyou.luckyna.com";
 
@@ -37,6 +36,7 @@ public class EliyouService {
 
     public String tRechargeOK = "X519Mnuma8Sij9j0hRC8nn_FyBQLJ9P7BJzbn-NzE_Y";
     public String tInvestSucess = "JMvfH3xhLUlF-cZ5OQYVSCTB2MTR0_24Wt-orolCnOU";
+    public String tWeixinBinding = "73Mk9OPU-vBR2V288TWuP28fxrMLL5Wm9RpXh94XO5Y";
 
     public void setDataSource(MongoDataSource dataSource) {
         this.dataSource = dataSource;
@@ -61,7 +61,7 @@ public class EliyouService {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST);
         }
 
-        String url = eliyouServer + "/eLiYou/wechat/register.do";
+        String url = eliyouServer + "/register.do";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userid", uid);
         params.put("password", pwd);
@@ -104,7 +104,7 @@ public class EliyouService {
     @RestService(method="GET", uri="/eliyou/wx/recents", authenticated=false, rndcode=false)
     public List<Object> getRecentProjects(@RestParam(value = "maxResult") Integer max,
                                           @RestParam(value = "page") Integer page) {
-        String requestUrl = eliyouServer + "/eLiYou/wechat/porductMore.do?maxResult=" + max
+        String requestUrl = eliyouServer + "/porductMore.do?maxResult=" + max
                 + "&page=" + page;
         String json = WebUtils.getString(requestUrl);
         try {
@@ -118,7 +118,7 @@ public class EliyouService {
 
     @RestService(method="GET", uri="/eliyou/project/detail", authenticated=false, rndcode=false)
     public Map<String,Object> getProjectDetail(@RestParam(value = "id") String id) {
-        String requestUrl = eliyouServer + "/eLiYou/wechat/detail.do?id=" + id;
+        String requestUrl = eliyouServer + "/detail.do?id=" + id;
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
@@ -139,14 +139,14 @@ public class EliyouService {
 
     @RestService(method="GET", uri="/eliyou/project/invest", authenticated=true, rndcode=false)
     public Map<String,Object> invest(@RestParam(value = "id") String id,@RestParam(value = "money") String money) {
-        String requestUrl = eliyouServer + "/eLiYou/wechat/addInvest.do";
+        String requestUrl = eliyouServer + "/addInvest.do";
 
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
         params.put("money", money);
         params.put("projectId", id);
         params.put("url", weixinServer + "/service/eliyou/invest/back");
-        JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/addInvest.do", params);
+        JSONObject result = WebUtils.doPost(eliyouServer + "/addInvest.do", params);
 
         logger.info(result.toString());
         dataSource.getCollection("invests").update(new BasicDBObject("user", AuthenticationUtil.getCurrentUser()),
@@ -278,7 +278,7 @@ public class EliyouService {
             params.put("money", money.toString());
             params.put("alipayAccount", account);
             params.put("fileName", temp);
-            WebUtils.multiPartPost(eliyouServer + "/eLiYou/wechat/saveRecharge.do", params);
+            WebUtils.multiPartPost(eliyouServer + "/saveRecharge.do", params);
         } catch (IOException e) {
             e.printStackTrace();
         } finally {
@@ -294,8 +294,11 @@ public class EliyouService {
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
         params.put("money", money.toString());
         params.put("url", weixinServer + "/service/eliyou/recharge/back");
-        JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/savewyRecharge.do", params);
+        JSONObject result = WebUtils.doPost(eliyouServer + "/savewyRecharge.do", params);
 
+        if (result==null) {
+            return MapUtils.newMap("error", (Object)"json invalid");
+        }
         logger.info(result.toString());
         return WebUtils.jsonObjectToMap(result);
     }
@@ -335,7 +338,7 @@ public class EliyouService {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
         params.put("url", weixinServer + returnUrl);
-        JSONObject result = WebUtils.doPost(eliyouServer + "/eLiYou/wechat/registerBind.do", params);
+        JSONObject result = WebUtils.doPost(eliyouServer + "/registerBind.do", params);
 
         logger.info(result.toString());
         return WebUtils.jsonObjectToMap(result);
@@ -347,7 +350,7 @@ public class EliyouService {
             return new HashMap<String,Object>(0);
         }
 
-        String requestUrl = eliyouServer + "/eLiYou/wechat/rechargeIndex.do?userAccount=" + AuthenticationUtil.getCurrentUser();
+        String requestUrl = eliyouServer + "/rechargeIndex.do?userAccount=" + AuthenticationUtil.getCurrentUser();
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
@@ -365,6 +368,27 @@ public class EliyouService {
         }
         return new HashMap<String,Object>(0);
     }
+
+    public void sendWeixinBindingNotify(String user) {
+        try {
+            List<Map<String, String>> datas = new ArrayList<>();
+            datas.add(MapUtils.tribleMap("key","first","value", "您好，恭喜您账户绑定成功！", "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","name1","value","e利友", "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","name2","value","微信", "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","time","value",StringUtils.formateDate(new Date()), "color", "#173177"));
+            datas.add(MapUtils.tribleMap("key","remark","value","您可以使用下方微信菜单进行更多体验。如需解绑，点击退出账户即可！ ", "color", "#173177"));
+
+            DBCursor cur = dataSource.getCollection("weixin").find(new BasicDBObject("userId", user));
+            while(cur.hasNext()) {
+                DBObject dbo = cur.next();
+                logger.info("send binding info for " + user + "  openid: " + dbo.get("openid").toString());
+                sendWeixinTemplateInfo(dbo.get("openid").toString(), tWeixinBinding, datas);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void sendWeixinTemplateInfo(String toUser, String templateId, List<Map<String,String>> datas) {
 
@@ -389,7 +413,7 @@ public class EliyouService {
     }
 
     private void checkPassword(String uid, String pwd) {
-        String url = eliyouServer + "/eLiYou/wechat/loginCheck.do";
+        String url = eliyouServer + "/loginCheck.do";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", uid);
         params.put("password", pwd);

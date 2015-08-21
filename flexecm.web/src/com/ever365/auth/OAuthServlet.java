@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.ever365.fin.EliyouService;
 import com.ever365.mongo.MongoDataSource;
 import com.ever365.rest.HttpStatus;
 import com.ever365.rest.HttpStatusException;
@@ -32,6 +33,7 @@ public class OAuthServlet extends HttpServlet {
 	private CookieService cookieService;
 	public static final String OAUTH_REDIRECT = "oauth_redirect";
 	private Map<String, OAuthProvider> providers = new HashMap();
+	private EliyouService eliyouService = null;
 	private MongoDataSource dataSource = null;
 	Logger logger = Logger.getLogger(OAuthServlet.class.getName());
 
@@ -39,6 +41,7 @@ public class OAuthServlet extends HttpServlet {
 		super.init();
 		this.cookieService = ContextLoaderListener.getCurrentWebApplicationContext().getBean("rest.cookie", CookieService.class);
 		this.dataSource = ContextLoaderListener.getCurrentWebApplicationContext().getBean("bindingdb", MongoDataSource.class);
+		this.eliyouService = ContextLoaderListener.getCurrentWebApplicationContext().getBean("eliyou.service", EliyouService.class);
 		this.providers.put("/wx", new WeixinOAuthProvider());
 	}
 
@@ -73,6 +76,10 @@ public class OAuthServlet extends HttpServlet {
 					binding.put("userId", AuthenticationUtil.getCurrentUser());
 					dataSource.getCollection(pr.getName()).update(
 						new BasicDBObject("openid", authDetail.get("openid")), binding, true, false);
+					if (this.eliyouService!=null) {
+						eliyouService.sendWeixinBindingNotify(userId);
+					}
+
 				} else {
 					//处理用户未登录， 用openid来登录系统
 					logger.info("get user  with openid: " + authDetail.get("openid"));
@@ -113,9 +120,7 @@ public class OAuthServlet extends HttpServlet {
 				}
 				return;
 			}
-
 			response.sendRedirect("/wx/me.html");
-
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

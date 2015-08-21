@@ -54,8 +54,8 @@
                     $("#PlatformMoneymoremore").val(resp.obj.platformMoneymoremore);
                     $("#OrderNo").val(resp.obj.orderNo);
                     $("#Amount").val(formatMoney(resp.obj.amount, 1, "", ""));
-                    $("#RechargeType").val("2");
-                    $("#FeeType").val("1");
+                    $("#RechargeType").val(resp.obj.rechargeType);
+                    $("#FeeType").val(resp.obj.feeType);
 
                     $("#Remark1").val(resp.obj.remark1);
                     $("#Remark2").val(resp.obj.remark2);

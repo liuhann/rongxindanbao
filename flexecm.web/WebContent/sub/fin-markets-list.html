@@ -14,12 +14,11 @@ function listFinaMarkets(skip) {
 		initTable("#fina-market-table",result, null, function(page) {
 			listFinaMarkets(page*15);
 		});
-		
 	});
 }
 
 function addFinaMarket() {
-	loadPage($("#ccontent"), "sub/fina-market-edit.html");
+	loadPage($("#ccontent"), "sub/fin-market-edit.html");
 }
 
 function removeMarket(t) {
@@ -40,7 +39,7 @@ function removeMarket(t) {
 				金融超市管理
 			</div>
 			<div class="opers">
-				<a class="btn" onclick="addFinaMarket();">增加金融超市</a>
+				<a class="btn" onclick="addFinaMarket();">增加产品</a>
 			</div>
 		</div>
 

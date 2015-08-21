@@ -76,7 +76,7 @@ function filterAccount(filter, skip, limit) {
 		'limit': limit
 	}, function(data) {
 		var result = JSON.parse(data);
-		initTable("#uncfmAccount",result, function(cell, data) {
+		initTable("#uncfmAccount", result, function(cell, data) {
 			var cal = cell.data("cal");
 			
 			if (cal=="type") {

@@ -9,12 +9,16 @@ function saveFinaMarket() {
 	var fc = new formCheck("#ccontent");
 	var o = fc.getRequest();
 	o.collection = "finamarkets";
-	
+
 	$.post("/service/fin/content/update", o, function(){
 		alert("保存完成");
+		returnList();
 	});
-	
 }
+
+	function returnList() {
+		loadPage($("#ccontent"), "sub/fin-markets-list.html");
+	}
 </script>
 </head>
 <body>
@@ -25,8 +29,9 @@ function saveFinaMarket() {
 		<td>
 			<div class="form-item">
 				<select id="type">
-					<option value="1">企业借款类</option>
-					<option value="2">个人借款类</option>
+					<option value="1">企业贷款类</option>
+					<option value="2">个人贷款类</option>
+					<option value="3">理财产品</option>
 				</select>
 			</div>
 			<i class="err type"></i>
@@ -91,6 +96,7 @@ function saveFinaMarket() {
 		<td></td>
 		<td>
 			<input class="form-button savemerge" onclick="saveFinaMarket();" type="button" value="保存">
+			<input class="form-button savemerge" onclick="returnList();" type="button" value="取消">
 		</td>
 	</tr>
 </table>

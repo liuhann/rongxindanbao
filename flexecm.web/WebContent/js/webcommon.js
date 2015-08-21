@@ -551,7 +551,7 @@ function initTable(tbid, data, cell, cb) {
 	var number = Math.floor(data.start/data.per) + 1;
 	var pc = Math.floor(data.size/data.per)+1;
 	
-	$(tbid).find(".pager").remove();
+	$(tbid).parent().find(".pager").remove();
 	
 	if (pc>1 && $(tbid).find(".pager").length==0) {
 		$("<div class='pager'></div>").insertAfter($(tbid))

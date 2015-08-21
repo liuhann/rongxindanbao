@@ -104,9 +104,7 @@ function registerQianDuoduo(returnUrl) {
     });
 }
 
-
 function login() {
-
     $(".wrapper").hide();
     $(".loading").html("正在登录中...").show();
     $.post("/service/eliyou/wx/login", {

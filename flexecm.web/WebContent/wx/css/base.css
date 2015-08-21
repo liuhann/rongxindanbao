@@ -142,9 +142,9 @@ a.req {
 }
 .head .navs {
     float: right;
-    padding: 1rem;
+    padding: .7rem;
     color: #2d62c8;
-    font-size: .7rem;
+    font-size: .9rem;
 }
 .project {
     margin: .25rem;
@@ -198,11 +198,15 @@ a.req {
     width: 17rem;
     border-top: 1px dashed #777;
 }
-.project .title span, .project .title div, .project .title em {
+.project .title span, .project .title em {
     font-size: .625rem;
-    margin-top: .625rem;
+    margin-top: .225rem;
 }
 
+.project .title div {
+    font-size: .625rem;
+    margin-top: .325rem;
+}
 .project .title .name {
     color: #888;
 }
@@ -313,7 +317,7 @@ a.smallbtn:visited {
 }
 
 .projtitle em {
-    margin-top: .3rem;
+    /*margin-top: .3rem;*/
 }
 .projtitle .name {
     color: #888;
@@ -448,44 +452,6 @@ a.smallbtn:visited {
 }
 
 
-.quick {
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2.5rem;
-    display: none;
-    background-color: #DA5558;
-}
-
-.quick input[type='number'] {
-    -webkit-appearance: none;
-    background-color: #DA5558;
-    color: #fff;
-    margin-left: .5rem;
-    margin-top: 1rem;
-    padding: 0;
-    font-size: .6rem;
-    width: 40%;
-    border: none;
-}
-.quick input::-webkit-input-placeholder {
-    color: #AC4445;
-}
-.quick a.go {
-    border-left: 1px solid #E4888B;
-    padding: .4rem 1rem .4rem .5rem;
-    font-size: .9rem;
-    color: #fff;
-}
-.quick a.fill {
-    float: right;
-    background-color: #2D62C8;
-    color: #fff;
-    font-size: .9rem;
-    padding: .75rem 1.2rem;
-}
-
 .foot {
     line-height: 2rem;
     margin-top: 1rem;
@@ -518,12 +484,12 @@ em.ens1 {
 }
 em.shield {
     background-image: url('../img/security.png');
-    width: .82rem;
+    width: .85rem;
     display: inline-block;
     height: .9rem;
     background-size: .8rem .8rem;
     background-repeat: no-repeat;
-    vertical-align: bottom;
+    vertical-align: middle;
 }
 
 .loader {
@@ -663,15 +629,15 @@ em.shield {
 
 @-webkit-keyframes zoomIn {
     from {
-        -webkit-transform: scale3d(.3, .3, .3);
-        transform: scale3d(.3, .3, .3);
+        -webkit-transform: scale3d(1.1, 1.1, 1.1);
+        transform: scale3d(1.1, 1.1, 1.1);
     }
 }
 
 @keyframes zoomIn {
     from {
-        -webkit-transform: scale3d(.3, .3, .3);
-        transform: scale3d(.3, .3, .3);
+        -webkit-transform: scale3d(1.1, 1.1, 1.1);
+        transform: scale3d(1.1, 1.1, 1.1);
     }
 }
 

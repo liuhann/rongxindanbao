@@ -1,0 +1,634 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.1/jquery.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/gsap/1.14.2/TweenMax.min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/angular.js/1.3.8/angular.min.js"></script>
+    <script src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/181892/gsTimelines_v2.js"></script>
+    <style>
+
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #3e3e3e;
+            padding: 10px;
+        }
+
+        #stage {
+            position: relative;
+            height: 573px;
+            width: 323px;
+            z-index: 0;
+            overflow: hidden;
+            text-overflow: clip;
+            background-color: #1A0B1A;
+            background-size: 100% 100%;
+            opacity:0;
+            border: 1px solid #1A0B1A;
+        }
+
+        #stage > div {
+            position: absolute;
+            margin: 0px;
+            right: auto;
+            bottom: auto;
+            left: 0px;
+            background-color: rgba(0, 0, 0, 0);
+            background-size: 100% 100%;
+            background-position: 0px 0px;
+            background-repeat: no-repeat;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .scaled {
+            width: 100%
+        }
+
+        #stage > div#status {
+            top: 0px;
+            width: 323px;
+            height: 21px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/status.png);
+        }
+
+        #stage > div#green_status {
+            z-index: -15;
+            top: 21px;
+            width: 323px;
+            height: 18px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/zoomed_header.png);
+        }
+
+        #stage > div#header {
+            top: 21px;
+            width: 323px;
+            height: 53px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/header.png);
+        }
+
+        #stage > div#tile1, #stage > div.tile1 {
+            left:-1px;
+            top: 74px;
+            width: 162px;
+            height: 164px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_kodaline_v8.png);
+            cursor: zoom-in;
+        }
+
+        #stage > div#tile2, #stage > div.tile2 {
+            left: 164px;
+            top: 74px;
+            width: 161px;
+            height: 164px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_moby_v8.png);
+            cursor: zoom-in;
+        }
+
+        #stage > div#tile3, #stage > div.tile3 {
+            left:-1px;
+            top: 240px;
+            width: 162px;
+            height: 162px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_supermodel_v8.png);
+            cursor: zoom-in;
+        }
+
+        #stage > div#tile4, #stage > div.tile4 {
+            left: 164px;
+            top: 240px;
+            width: 162px;
+            height: 162px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_goulding_v8.png);
+            cursor: zoom-in;
+        }
+
+
+        #stage > div#tile4, #stage > div.tile5 {
+            left:-1px;
+            top: 404px;
+            width: 162px;
+            height: 162px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_goyte_v8.png);
+            cursor: zoom-in;
+        }
+
+        #stage > div#tile6, #stage > div.tile6 {
+            left: 164px;
+            top: 404px;
+            width: 162px;
+            height: 162px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_pharrell_v8.png);
+            cursor: zoom-in;
+        }
+
+        #stage > div#details {
+            top: 75px;
+            width: 162px;
+            height: 162px;
+            overflow: hidden;
+            z-index: 100;
+            cursor: zoom-out;
+        }
+
+        #stage div#title {
+            margin-top: -4px;
+            position: relative;
+            width: 323px;
+            height: 0px;
+            /*height: 131px;*/
+            background: #3c6373;
+        }
+
+        #stage div#title > .content {
+            opacity: 0;
+            width: 323px;
+            height: 131px;
+        }
+
+        #stage div#info {
+            position: relative;
+            width: 323px;
+            height: 0px;
+            /*height: 56px;*/
+            background: white;
+        }
+
+        #stage div#info > .content {
+            opacity: 0;
+            width: 323px;
+            height: 56px;
+        }
+
+
+        #stage > div#other {
+            left: 88px;
+            top: 481px;
+            width: 237px;
+            height: 51px;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/otherTiles_v8.png);
+        }
+
+        #stage > div#footer {
+            border-top: 1px solid black;
+            margin: -1px;
+            top: 532px;
+            width: 332px;
+            height: 42px;
+            z-index: 150;
+            background-image: url(http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/footer_v4.png);
+        }
+
+        #stage > div#mask {
+            z-index: 0;
+            background-color: rgba(0, 0, 0, 1);
+            opacity: 0.0;
+            top: 75px;
+            width: 324px;
+            height: 458px;
+        }
+
+        #pause {
+            position: absolute;
+
+            top: 305px;
+            right: 20px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #67CABC;
+            -webkit-box-shadow: 2px 4px 3px 0px rgba(20, 20, 20, 0.7);
+            -moz-box-shadow: 2px 4px 3px 0px rgba(20, 20, 20, 0.7);
+            box-shadow: 2px 4px 3px 0px rgba(20, 20, 20, 0.7);
+
+            -webkit-transform: scale(0.4);
+            -moz-transform: scale(0.4);
+            transform: scale(0.4);
+            opacity: 0;
+            overflow: hidden;
+        }
+
+        .pause {
+            margin-left: 4px;
+            margin-top: 5px;
+        }
+
+        div#title > img, div#info > img {
+            opacity: 0;
+        }
+    </style>
+
+
+    <script>
+
+
+        /**
+         * Purpose:
+         *
+         * Use GSAP `TimelineLite` to demonstrate use of animation timelines to build complex transitions.
+         * Use GSAP-AngularJS Timeline DSL to parse and build timeline transitions
+         *
+         */
+        angular.module("kodaline",['gsTimelines','ng'])
+                .controller("KodaController", KodaController )
+                .factory(   "tilesModel",     TileDataModel )
+
+        /**
+         * KodaController constructor
+         * @constructor
+         */
+        function KodaController( $scope, tilesModel, $timeline, $timeout, $q, $log ) {
+
+            $scope.allTiles    = [].concat(tilesModel);
+            $scope.preload     = makeLoaderFor("#details > img", true);
+            $scope.showDetails = showDetails;
+            $scope.hideDetails = hideDetails;
+
+            enableAutoClose();
+            preloadImages();
+
+            // Wait while image loads are started...
+
+            $timeout(function(){
+                // Auto zoom first tile
+                showDetails(tilesModel[0], true)
+                        .then(function(){
+                            $timeout(function(){
+                                hideDetails();
+                            }, 100, false);
+                        });
+
+            }, 500 );
+
+
+            // ************************************************************
+            // Show Tile features
+            // ************************************************************
+
+            /**
+             * Zoom the `#details` view simply by setting a $scope.state variable
+             *
+             */
+            function showDetails( selectedTile ) {
+                var request = promiseToNotify( "zoom", "complete." );
+
+                $timeline( "zoom", {
+                    onUpdate          : makeNotify("zoom", "updating..."),
+                    onComplete        : request.notify
+                });
+
+                // Perform animation via state change
+                $scope.state        = "zoom";
+                $scope.selectedTile = selectedTile;
+
+                return request.promise;
+            }
+
+            /**
+             *  Unzoom the `#details` view simply by clearing the state
+             */
+            function hideDetails() {
+                $timeline( "zoom", {
+                    onUpdate          : makeNotify("zoom", "reversing..."),
+                    onReverseComplete : makeNotify("zoom", "reversed.")
+                });
+
+                $scope.state = '';
+            }
+
+            // ************************************************************
+            // Image Features
+            // ************************************************************
+
+            /**
+             * Load all the full-size images in the background...
+             */
+            function preloadImages() {
+                try {
+                    var loader   = makeLoaderFor("#backgroundLoader");
+
+                    // Sequentially load the tiles (not parallel)
+                    // NOTE: we are using a hidden `img src` to do the pre-loading
+
+                    return tilesModel.reduce(function(promise, tile ){
+                        return promise.then(function(){
+                            return loader(tile).then(function(){
+                                return 0; // first tile index
+                            });
+                        });
+
+                    }, $q.when(true))
+
+                } catch( e ) { ; }
+            }
+
+            /**
+             * Preload background and foreground images before transition start
+             * Only load() 1x using the `imageLoaded` flag
+             */
+            function makeLoaderFor(selector, includeContent) {
+
+                // Use a promise to delay the start of the transition until the full album image has
+                // loaded and the img `src` attribute has been updated...
+
+                return function loadsImagesFor(tile) {
+                    tile = tile || tilesModel[0];
+
+                    var deferred = $q.defer();
+                    var element = $(selector);
+
+                    if ( !!includeContent ) {
+                        $("#stage div#title > .content").css("background-image", "url(" + tile.titleSrc + ")");
+                        $("#stage div#info  > .content").css("background-image", "url(" + tile.infoSrc + ")");
+                    }
+
+                    if ( tile.imageLoaded != true ) {
+                        $log.debug( "loading $( {0} ).src = {1}".supplant([selector || "", tile.albumSrc]));
+
+                        element.one( "load", function(){
+                            $log.debug( " $('{0}').loaded() ".supplant([selector]) );
+
+                            // Manually track load status
+                            tile.imageLoaded = true;
+                            deferred.resolve(tile);
+                        })
+                                .attr("src", tile.albumSrc);
+
+                    } else {
+                        if (element.attr("src") != tile.albumSrc) {
+                            $log.debug( "updating $({0}).src = '{1}'".supplant([selector || "", tile.albumSrc]));
+                            element.attr("src", tile.albumSrc);
+                        }
+                        deferred.resolve(tile);
+                    }
+
+                    return deferred.promise;
+                }
+            }
+
+
+            // ************************************************************
+            // Other Features - autoClose and Scaling
+            // ************************************************************
+
+            function promiseToNotify(direction, action) {
+                var deferred = $q.defer();
+
+                return {
+                    promise : deferred.promise,
+                    notify  : function(tl){
+                        $log.debug( "tl('{0}') {1}".supplant([direction, action || "finished"]));
+                        deferred.resolve(tl);
+                    }
+                };
+            }
+            /**
+             * Reusable animation event callback for logging
+             * @returns {Function}
+             */
+            function makeNotify (direction, action) {
+                return function(tl) {
+                    $log.debug( "tl('{0}') {1}".supplant([direction, action || "finished"]));
+                };
+            }
+
+            /**
+             * Add Escape key and mousedown listeners to autoclose/reverse the
+             * zoom animations...
+             */
+            function enableAutoClose() {
+                $('body').keydown( autoClose );
+                $('#mask').mousedown( autoClose );
+                $('#details').mousedown( autoClose );
+            }
+
+            /**
+             * Auto-close details view upon ESCAPE keydowns
+             */
+            function autoClose(e) {
+                if ((e.keyCode == 27) || (e.type == "mousedown")) {
+                    ($scope.hideDetails || angular.noop)();
+                    e.preventDefault();
+                }
+            }
+
+        }
+
+        /**
+         * Tile DataModel factory for model data used in Tile animations
+         * @constructor
+         *
+         * CDN Prefix:     http://solutionoptimist-bucket.s3.amazonaws.com/kodaline
+         * Local Prefix:   ./assets/images/koda
+         */
+        function TileDataModel() {
+            var model = [
+                {
+                    className : "tile1",
+                    from: {
+                        left:-1,
+                        top: 74,
+                        width: 162,
+                        height: 164
+                    },
+                    to  : { height : 216  },
+                    thumbSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_kodaline_v3.png",
+                    albumSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/album_kodaline.png",
+                    titleSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/title_kodaline.png",
+                    infoSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/info_kodaline.png"
+                },
+                {
+                    className : "tile2",
+                    from: {
+                        left: 164,
+                        top: 74,
+                        width: 161,
+                        height: 164
+                    },
+                    to  : { height : 216  },
+                    thumbSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_moby_v3.png",
+                    albumSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/album_moby_v2.png",
+                    titleSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/title_moby.png",
+                    infoSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/info_moby.png"
+                },
+                {
+                    className : "tile3",
+                    from: {
+                        left:-1,
+                        top: 240,
+                        width: 162,
+                        height: 162
+                    },
+                    to  : { height : 229  },
+                    thumbSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_supermodel.png",
+                    albumSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/album_supermodel.png",
+                    titleSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/title_supermodel.png",
+                    infoSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/info_supermodel.png"
+
+                },
+                {
+                    className : "tile4",
+                    from: {
+                        left: 164,
+                        top: 240,
+                        width: 162,
+                        height: 162
+                    },
+                    to  : { height : 229  },
+                    thumbSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_goulding.png",
+                    albumSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/album_goulding.png",
+                    titleSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/title_goulding.png",
+                    infoSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/info_goulding.png"
+                },
+                {
+                    className : "tile5",
+                    from: {
+                        left:-1,
+                        top: 404,
+                        width: 162,
+                        height: 162
+                    },
+                    to  : { height : 216  },
+                    thumbSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_goyte.png",
+                    albumSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/album_goyte.png",
+                    titleSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/title_goyte.png",
+                    infoSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/info_goyte_v2.png"
+                },
+                {
+                    className : "tile6",
+                    from: {
+                        left: 164,
+                        top: 404,
+                        width: 162,
+                        height: 162
+                    },
+                    to  : { height : 216  },
+                    thumbSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/thumb_pharrell.png",
+                    albumSrc: "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/album_pharrell.png",
+                    titleSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/title_pharrell.png",
+                    infoSrc : "http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/info_pharrell.png"
+                }
+            ];
+
+            return model;
+        }
+
+        // supplant() method from Crockfords `Remedial Javascript`
+
+        var supplant =  function( template, values, pattern ) {
+            pattern = pattern || /\{([^\{\}]*)\}/g;
+
+            return template.replace(pattern, function(a, b) {
+                var p = b.split('.'),
+                        r = values;
+
+                try {
+                    for (var s in p) { r = r[p[s]];  }
+                } catch(e){
+                    r = a;
+                }
+
+                return (typeof r === 'string' || typeof r === 'number') ? r : a;
+            });
+        };
+
+
+        // supplant() method from Crockfords `Remedial Javascript`
+        Function.prototype.method = function (name, func) {
+            this.prototype[name] = func;
+            return this;
+        };
+
+        String.method("supplant", function( values, pattern ) {
+            var self = this;
+            return supplant(self, values, pattern);
+        });
+
+
+        // Publish this global function...
+        String.supplant = supplant;
+
+
+
+    </script>
+</head>
+<body>
+
+
+<div ng-app="kodaline" ng-controller="KodaController" >
+    <!--
+        On `zoom`, show the full details for the selected Tile/thumbnail
+        Note the use a resolve with `preload(selectedTile)`...
+        this is used to prefill the images before the animation STARTS.
+    -->
+    <gs-timeline state="zoom" time-scale="1.8" resolve="preload(selectedTile)" >
+
+        <gs-step target="#mask"         style="zIndex:-10;className:''"       ></gs-step>
+        <gs-step target="#details"      style="zIndex:-11;className:''"       ></gs-step>
+        <gs-step target="#green_status" style="zIndex:-13;className:''"       ></gs-step>
+        <gs-step target="#mask"         style="zIndex:90"                     ></gs-step>
+        <gs-step target="#nowPlaying"   style="top:481;left:88;opacity:1.0"   duration="0.001"></gs-step>
+        <gs-step target="#details"      style="zIndex:92; opacity:0.01; bounds:{{selectedTile.from}};" ></gs-step>
+
+        <gs-step target="#details"      style="opacity:1.0"                           duration="0.3"></gs-step>
+        <gs-step mark-position="fullThumb"></gs-step>
+        <gs-step target="#nowPlaying"   style="top:532;left:324;"                     duration="0.2" ></gs-step>
+        <gs-step target="#nowPlaying"   style="opacity:0"                             duration="0.1" position="fullThumb+=0.1"></gs-step>
+        <gs-step target="#details"      style="delay:0.3; left:0; height:{{selectedTile.to.height}}; width:329" duration="0.5"></gs-step>
+        <gs-step mark-position="fullWidth"></gs-step>
+        <gs-step target="#mask"         style="opacity:0.80"                          duration="0.5"   position="fullWidth-=0.3"></gs-step>
+        <gs-step target="#details"      style="opacity:1; top:18; height:512"         duration="0.3"   position="fullWidth+=0.1"></gs-step>
+        <gs-step mark-position="slideIn"></gs-step>
+
+        <gs-step target="#green_status"      style="zIndex:91; opacity:1; top:21;"                     position="slideIn"></gs-step>
+        <gs-step target="#green_status"      style="top:1"                            duration="0.2"   position="slideIn"></gs-step>
+        <gs-step target="#details > #title"  style="height:131"                       duration="0.6"   position="fullWidth"></gs-step>
+        <gs-step target="#details > #info"   style="height:56"                        duration="0.5"   position="fullWidth+=0.2"></gs-step>
+        <gs-step target="#details > #title > div.content" style="opacity:1.0"         duration="0.8"   position="fullWidth+=0.3"></gs-step>
+        <gs-step target="#details > #info > div.content"  style="opacity:1"           duration="0.4"   position="fullWidth+=0.6"></gs-step>
+        <gs-step target="#details > #pause"               style="opacity:1;scale:1.0" duration="0.4"   position="fullWidth+=0.4"></gs-step>
+
+    </gs-timeline>
+
+    <div id="stage" gs-scale  >
+        <div id="status" class="status"></div>
+        <div id="green_status" class="hidden"></div>
+        <div id="header"></div>
+
+        <div ng-repeat="tile in allTiles"
+             class="{{tile.className}}"
+             ng-click="showDetails(tile)" >
+        </div>
+
+        <div id="other"></div>
+        <div id="footer"></div>
+        <div id="mask" class="hidden" ng-click="hideDetails()"></div>
+        <div id="details" class="hidden" ng-click="hideDetails()">
+            <img src="" class="scaled">
+            <div id="title" >
+                <div class="content"></div>
+            </div>
+            <div id="info" >
+                <div class="content"></div>
+            </div>
+            <div id="pause">
+                <img src="http://solutionoptimist-bucket.s3.amazonaws.com/kodaline/pause.png" class="pause">
+            </div>
+        </div>
+        <div class="hidden">
+            <img id="backgroundLoader" class="hidden"></gs-step>
+        </div>
+    </div>
+
+</div>
+
+
+</body>
+</html>

@@ -59,7 +59,7 @@ Date date = new Date();
 			<li><a href="home.jsp?request">融资入口</a></li>
 			<li><a href="home.jsp?profile">投资入口</a></li>
 			<li><a href="res.jsp">资金供应</a></li>
-			<li><a href="invests.jsp">理财产品</a></li>
+			<li><a href="invests.jsp">金融超市</a></li>
 			<li><a href="markets.jsp">联系我们</a></li>
 		</ul>
 	</div>

@@ -88,7 +88,9 @@
 			<h2>内容管理</h2>
 		</div>
 		<ul>
+			<!--
 			<li onclick="pageLicai();">理财产品</li>
+			-->
 			<li onclick="pageFinaMarket();">金融超市</li>
 			<li onclick="pageFinResource();">投资资源</li>
 			<li onclick="pageNews();">新闻公告</li>

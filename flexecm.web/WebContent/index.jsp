@@ -133,7 +133,6 @@ Date date = new Date();
 }
 
 .recent-projs ul {
-	margin-top: 10px;
 	margin-left: 20px;
 }
 
@@ -324,7 +323,7 @@ function refreshImg() {
             	<li><a href="home.jsp?request">融资入口</a></li>
             	<li><a href="home.jsp?profile">投资入口</a></li>
             	<li><a href="res.jsp">资金供应</a></li>
-            	<li><a href="invests.jsp">理财产品</a></li>
+            	<li><a href="invests.jsp">金融超市</a></li>
             	<li><a href="markets.jsp">联系我们</a></li>
             </ul>
         </div>
@@ -412,23 +411,98 @@ function refreshImg() {
             <div class="r">
             
             	<%if (AuthenticationUtil.getCurrentUser()==null) { %>
-            	<div class="box"> 
+            		<div class="box">
+					<!--
            			<div class="r_01">
                     	<span>高新区企业、青年创业梦工场项目、新材料产业企业等用户登录入口</span>
                     </div>
+                    -->
                     <div class="r_02" style="border-bottom: 2px solid #1F99D3;margin-top: 10px;">
                     	<span class="tab_l current" style="height:28px;">绿色通道</span> <!--current为选中的样式 必须要和签满的tab_X样式并存 -->
                         <!--<span> class="tab_r "><a href="login.jsp">后台登录</a></span> -->
                          
                     </div>
-                    
-                    <div class="r_03"><!--这里作为标签切换的页面 我估计可以复制两套，不同的post指向 -->
-                    	<input class="form-text" value="" id="loginid">
-                        <span class="usr">用户名</span>
-                    	<input class="form-text"  type="password" id="pwd">
-                        <span class="pwd">密&nbsp;&nbsp; 码</span>
+
+					<style>
+						.login-panel {
+
+						}
+
+						.login-panel p {
+							position: relative;
+							margin-top: 10px;
+						}
+
+						.login-panel p span {
+							position: absolute;
+							font-size: 14px;
+							color: #666;
+							background-image: url('img/index_019.png');
+							background-repeat: no-repeat;
+							display: block;
+							height: 32px;
+							width: 86px;
+							line-height: 32px;
+							text-align: center;
+						}
+
+						.login-panel p select {
+							border-left: none;
+							padding: 5px;
+							width: 190px;
+							height: 32px;
+							border: 1px solid #cccccc;
+							border-radius: 3px;
+							margin-left: 84px;
+						}
+						.login-panel p input {
+							border-left: none;
+							padding: 5px;
+							width: 180px;
+							height: 20px;
+							border: 1px solid #cccccc;
+							border-radius: 3px;
+							margin-left: 84px;
+						}
+
+						.login-panel input[type='button'] {
+							background-image: url('img/big-btn-bg.png');
+							background-repeat: repeat-x;
+							border-radius: 6px;
+							height: 40px;
+							font-size: 16px;
+							color: #fff;
+							margin-top: 10px;
+							width: 270px;
+							border: none;
+							line-height: 30px;
+						}
+
+					</style>
+					<div class="login-panel"><!--这里作为标签切换的页面 我估计可以复制两套，不同的post指向 -->
+						<p>
+							<span class="usr">用户类型</span>
+							<select>
+								<option>高新区企业</option>
+								<option>青年创业梦工场</option>
+								<option>新材料产业企业</option>
+							</select>
+						</p>
+
+
+						<p>
+							<span class="usr">用户名</span>
+							<input class="form-text" value="" id="loginid">
+						</p>
+
+						<p>
+							<span class="pwd">密&nbsp;&nbsp; 码</span>
+							<input class="form-text"  type="password" id="pwd">
+						</p>
+
                         <p id="login-error" class="error hidden"></p>
-                        <p class="rndimg hidden"><input id="rndcode"> <img id="rnd-img"> <a href="javascript:refreshImg();">刷新</a></p>                        
+
+						<p class="rndimg hidden"><input id="rndcode"> <img id="rnd-img"> <a href="javascript:refreshImg();">刷新</a></p>
                         <input type="button" class="form-button" value="登录" onclick="login();">
                     </div>
                     
@@ -495,7 +569,7 @@ function refreshImg() {
                     <div class="l_top">
                         <div class="l_top_l">
                             <span>
-                            投资资源
+                            资金供应
                             </span>
                         </div>    
                         <div class="l_top_r">
@@ -542,133 +616,12 @@ function refreshImg() {
 							%>
                         </ul>
                     </div>
-                  
-
                   </div>
                     <div class="yinying">
                     </div>                  
               </div>
-            
         </div>
-        <!-- -->
-        <div class="index_top-lv06">
-            <div class="box">
-                <div class="title">
-                    <div class="l">
-                        理财产品
-                    </div>
-                    <div class="r">
-                        <a href="invests.jsp">更多&gt;</a>
-                    </div>
-                </div>
-                <div class="content">
-                    <div class="box_1">
-                    	<div class="box_1_top">
-                        	<div class="l">
-                            	网贷类投资
-                            </div>
-                            <div class="r">
-                            	<a href="#"><%=((Map)pageInfo.get("wd")).get("size").toString() %>款&gt;</a>
-                            </div>
-                        </div>
-                        <div class="box_1_foot">
-                        	<%
-                        		
-                        		Object list = ((Map)pageInfo.get("wd")).get("list");
-                        		List<Map> wdlist =  (List) list;
-                        		for(Map wd :wdlist) {
-                        	%>
-	                        	<div class="item">
-	                            	<div class="l">
-	                                	<img src="<%=wd.get("logo").toString()%>">
-	                                   <!-- <span><%=wd.get("platform").toString()%></span> -->
-	                                </div>
-	                                <div class="r">
-	                                	<cite><%=wd.get("name").toString() %></cite>
-	                                    <span>年化<b><%=wd.get("profit").toString()%>%</b></span>
-	                                </div>
-	                            </div>
-                        	
-                        	<%
-                        		}
-                        	%>
-                        </div>
-                    </div>
-                    <!-- -->
-                    <div class="box_1">
-                    	<div class="box_1_top">
-                        	<div class="l">
-                            	银行理财
-                            </div>
-                            <div class="r">
-                            	<a href="#"><%=((Map)pageInfo.get("yh")).get("size").toString() %>款&gt;</a>
-                            </div>
-                        </div>
-                        <div class="box_1_foot">
-                        	<%
-                        	List<Map> yhlist = (List)  (((Map)pageInfo.get("yh")).get("list"));
-                        		for(Map wd :yhlist) {
-                        	%>
-	                        	<div class="item">
-	                            	<div class="l">
-	                                	<img style="width:30px;height: 30px;" src="<%=wd.get("logo").toString()%>">
-	                                    <span><%=wd.get("platform").toString()%></span>
-	                                </div>
-	                                <div class="r">
-	                                	<cite><%=wd.get("name").toString() %></cite>
-	                                    <span>年化<b><%=wd.get("profit").toString()%>%</b></span>
-	                                </div>
-	                            </div>
-                        	<%
-                        		}
-                        	%>
-                        </div>
-                    </div>
-                    <!-- -->
-                    <div class="box_1 cl-mr">
-                    	<div class="box_1_top">
-                        	<div class="l">
-                            	定向类理财
-                            </div>
-                            <div class="r">
-                            <a href="#"><%=((Map)pageInfo.get("dx")).get("size").toString() %>款&gt;</a>
-                            </div>
-                        </div>
-                        <div class="box_1_foot">
-                        	<div class="item cls_b fix">
-                            	<div class="l" style="height:25px; line-height:25px;">
-                                    <span style="height:25px; line-height:25px;">余额宝</span>
-                                </div>
-                                <div class="r" style="height:25px; line-height:25px;">
-                                    <span>年化<b>10%</b></span>
-                                </div>
-                            </div>
-                        	<div class="item cls_b fix">
-                            	<div class="l" style="height:25px; line-height:25px;">
-                                    <span style="height:25px; line-height:25px;">网易理财</span>
-                                </div>
-                                <div class="r" style="height:25px; line-height:25px;">
-                                    <span>年化<b>10%</b></span>
-                                </div>
-                            </div>        
 
-                        	<div class="item cls_b fix">
-                            	<div class="l" style="height:25px; line-height:25px;">
-                                    <span style="height:25px; line-height:25px;">网易理财</span>
-                                </div>
-                                <div class="r" style="height:25px; line-height:25px;">
-                                    <span>年化<b>10%</b></span>
-                                </div>
-                            </div>                            
-                                                
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="yinying">
-            </div>
-        </div>
-        <!-- -->
         <div class="index_top-lv07">
         	<div class="box">
             	<div class="title">
@@ -683,11 +636,14 @@ function refreshImg() {
                 	<div class="l">
                     	<ul>
                         	<li class="current">  <!--current为选中的样式 -->
-                            	<span>企业借款类</span>
+                            	<span>企业贷款类</span>
                             </li>
                         	<li>
-                            	<span>企业借款类</span>
-                            </li>                            
+                            	<span>个人贷款类</span>
+                            </li>
+							<li>
+								<span>理财产品</span>
+							</li>
                         </ul>
                     </div>
                     

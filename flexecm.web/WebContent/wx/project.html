@@ -21,10 +21,9 @@
     <style>
         .wrapper {
             background-color: #fff;
-            /*
+
             transition: transform .2s linear;
             -webkit-transition: -webkit-transform .2s linear;
-            */
         }
 
         .rbox .c {
@@ -36,6 +35,14 @@
             background-color: #fff;
         }
 
+        .quick.focusin {
+/*
+            top: 0;
+            bottom: auto;
+            */
+        }
+
+
         a.return {
             margin: 1rem;
             line-height: 2.5rem;
@@ -44,10 +51,8 @@
 
         .projDesc {
             position: absolute;
-            /*
             transition: transform .3s linear;
             -webkit-transition: -webkit-transform .2s linear;
-            */
             top: 30rem;
             left: 0;
             right: 0;
@@ -67,12 +72,59 @@
             text-align: center;
             font-size: .8rem;
             color: #777;
-            /*
+
             background-image: url('img/008.png');
             background-size: contain;
             background-repeat: no-repeat;
-            */
+
         }
+
+        .quick {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2.5rem;
+            display: none;
+            background-color: #fff;
+            border-top: 1px solid #ddd;
+        }
+
+        .quick input[type='number'] {
+            margin: 0;
+            -webkit-appearance: none;
+            background-color: white;
+            color: #777;
+            padding: .7rem .6rem;
+            font-size: .9rem;
+            width: 7.5rem;
+            border: none;
+            position: absolute;
+            left: 0;
+            top: 0;
+            margin-bottom: 0;
+        }
+        .quick input::-webkit-input-placeholder {
+            color: #777;
+        }
+        .quick a.go {
+            border-left: 1px solid #E4888B;
+            float: right;
+            background-color: #DA5558;
+            color: #fff;
+            font-size: .9rem;
+            padding: .75rem 1.2rem;
+        }
+
+        .quick a.fill {
+            float: right;
+            background-color: #2D62C8;
+            color: #fff;
+            font-size: .9rem;
+            padding: .75rem 1.2rem;
+        }
+
+
     </style>
     <script>
         $(function() {
@@ -101,6 +153,15 @@
                        $(".loading").html("项目打开失败 error： " + JSON.stringify(error));
             });
 
+            bindDragUpMore();
+            $("#orderMoney").focusin(function() {
+                $(".quick").addClass("focusin");
+            });
+
+            $("#orderMoney").focusout(function() {
+                $(".quick").removeClass("focusin");
+            });
+
             if (querystring("invest").length>0) {
                 msg("恭喜您，投资成功");
             }
@@ -111,7 +172,6 @@
 
 
         function bindDragUpMore() {
-
             $(".more").on("touchstart", function(event){
                 event.preventDefault();
                 //$(".allinvest").html( event.originalEvent.touches[0].pageY);
@@ -223,7 +283,7 @@
         function placeOrder() {
             var money = $("#orderMoney").val();
             if (!isPlusNumber(money)) {
-                msg("请输入已充金额");
+                msg("投资金额必须是100的整数倍");
                 return;
             }
 
@@ -248,7 +308,11 @@
                     $("#form1").submit();
                     return;
                 } else {
-                    msg(data.msg);
+                    if (data.code=="003") {
+                        location.href = "deposit.html";
+                    } else {
+                        msg(data.msg);
+                    }
                 }
             });
         }
@@ -309,8 +373,8 @@
                     </div>
                 </div>
             </div>
-            <div class="more" onclick="goDetail();" >
-                点击查看产品详情
+            <div class="more" onclick1="goDetail();" >
+
             </div>
             <div class="quicksd"></div>
         </div>
@@ -326,7 +390,7 @@
     </div>
 </div>
     <div class="quick">
-        <input type="number" id="orderMoney" placeholder="请输入投资金额">  <a class="go" id="btnplaceorder">立即投资</a> <a class="fill" id="btnrecharge">充值</a>
+        <input type="number" id="orderMoney" placeholder="请输入100的倍数">   <a class="fill" id="btnrecharge">充值</a><a class="go" id="btnplaceorder">立即投资</a>
     </div>
 
 <form style="display:none;" id="form1" name="form1" action="http://218.4.234.150:88/main/loan/loan.action" method="post">

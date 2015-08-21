@@ -10,10 +10,13 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="-1" />
-    <title></title>
+
+
+    <title>欢迎注册e利友账户</title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/formRules.js"></script>
 
     <link type="text/css" rel="stylesheet" href="css/base.css"><!--通用CSS样式 -->
     <script>
@@ -32,11 +35,17 @@
         });
 
         function register() {
+
             var req = {
                 "loginid":$("#loginid").val(),
                 "pwd": $("#pwd").val(),
                 "ufcode": $("#ufcode").val()
             };
+
+            if (!authRules.checkUserName(req.loginid)) {
+                msg("用户名只允许字母、数字、下划线、横线组成，首位只能为字母,4到25位之间");
+                return;
+            }
             $.post("/service/eliyou/wx/register", req, function () {
                 if($("#bindwx").prop("checked")) {
                     location.href =
@@ -47,7 +56,12 @@
                     location.href = "openqdd.html";
                 }
             }).fail(function(error){
-                $(".login-form .error").show();
+                if (error.msg) {
+                    msg(error.msg);
+                } else {
+                    msg("用户名或者密码不能为空");
+                }
+                //$(".login-form .error").show();
             });
         }
     </script>

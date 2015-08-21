@@ -484,11 +484,8 @@
 	display: block;
 	height: 32px;
 	width: 86px;
-	position: absolute;
 	line-height: 32px;
 	text-align: center;
-	top: 0px;
-	left: 0px;
 }
 .index_top-lv04 .r .box .r_02 {
 	height: auto;
