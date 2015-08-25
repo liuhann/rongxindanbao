@@ -28,7 +28,13 @@
                         location.href = "openqdd.html";
                         //$(".loading").html("您尚未开通托管平台账号，正在跳转到注册页面 ");
                     } else {
+
+                        var money = querystring("money");
+                        if (money.length>0) {
+                            $("#money").val(money[0]);
+                        }
                         display();
+
                     }
                 });
             });

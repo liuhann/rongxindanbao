@@ -14,6 +14,7 @@
     <title></title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
 
     <style>
     .wrapper {
@@ -92,6 +93,8 @@
         .animated {
             -webkit-animation-duration: 3s;
             animation-duration: 3s;
+            animation-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
+            -webkit-animation-timing-function: cubic-bezier(0.1, 0.57, 0.1, 1);
             -webkit-animation-fill-mode: both;
             animation-fill-mode: both;
         }
@@ -198,7 +201,6 @@
             animation-name: slideInDown;
         }
 
-
     </style>
     <script>
         var currentPage = 1;
@@ -237,7 +239,6 @@
                     $(".up").hide();
                 }
             }
-
         }
 
         function slideDown() {
@@ -250,13 +251,16 @@
             }
         }
 
-
     </script>
 
 </head>
 <body>
 
 <div class="wrapper">
+
+    <div class="head" style="display: none; height: 2.5rem;">
+    </div>
+
     <div class="page step1">
         <div class="title">
             <p>优质的借款项目  清晰的项目来源</p>

@@ -3,11 +3,24 @@
  */
 $(function() {
     var size = $(window).width() / 19;
+    $(window).data("owidth", $(window).width());
     $("html").css("font-size", size + "px");
     $("body").css("font-size", size + "px");
     setInputClearable();
-});
 
+    setTimeout(function() {
+        var awidth = 2.5/19 * (parseInt($(window).width())/parseInt($(".head").css("height"))) * $(window).width();
+        if (Math.abs(awidth-$(window).width())>5) {
+            if (localStorage.getItem("notified")==null) {
+                msg("系统检测到您的字体设置不是标准字体，可能造成显示异常。为此已将页面自动调整");
+                localStorage.setItem("notified", "1");
+            }
+            var size = awidth/19;
+            $("html").css("font-size", size + "px");
+            $("body").css("font-size", size + "px");
+        }
+    }, 200);
+});
 
 function display() {
     $(".loading").hide();

@@ -2,6 +2,7 @@
     padding: 0;
     margin: 0;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-text-size-adjust:none;
 }
 html, body {
     background: #ebebeb;
@@ -31,7 +32,7 @@ a {
 
 .wrapper {
     display: none;
-    width: 19rem;
+    width: 100%;
 }
 
 .wrapper .logo {
@@ -228,18 +229,6 @@ a.req {
     color: #888;
 }
 
-.recents {
-    height: 2rem;
-    font-size: .8rem;
-    padding-left: 7.5rem;
-    color: #fff;
-    line-height: 2rem;
-    background: -webkit-linear-gradient(-90deg, #4F9AF7, #2169E2 100%);
-    background: -moz-linear-gradient(180deg, rgba(64,150,238,1) 0, rgba(14,90,255,1) 100%);
-    background: linear-gradient(180deg, rgba(64,150,238,1) 0, rgba(14,90,255,1) 100%);
-    display: block;
-}
-
 .yeah {
     margin-left: 6rem;
     background-image: url("../img/yeah.png");
@@ -327,112 +316,21 @@ a.smallbtn:visited {
     margin-left: .5rem;
 }
 
-.detail .finished {
-    background-color: #fff;
-    margin: 0 .5rem;
-    font-size: .65rem;
-    padding: .5rem;
-    color: #888;
-}
-.detail .finished span {
-    color:#2D62C8;
-}
-
-.detail .rbox {
-    background-color: #fff;
-    position: relative;
-    height: 10.5rem;
-}
-
-.detail .rbox .r {
-    position: absolute;
-    right: 1rem;
-    font-size: .9rem;
-    color: #8E8E8E;
-    top: 1rem;
-}
-
-.detail .rbox .r .rt {
-    color: #2D62C8;
-}
-
-.detail .rbox .c {
-    border-radius: 50%;
-    border: .2rem solid #529DFA;
-    left: 1.5rem;
-    color: #2D62C8;
-    font-size: 1.5rem;
-    line-height: 4.5rem;
-    position: absolute;
-    text-align: center;
-    width: 4.5rem;
-    height: 4.5rem;
-    z-index: 10;
-
-    background: -webkit-linear-gradient(0 3rem,#ccc,#000);
-}
-
-.detail .rbox .s {
-    background-color: #458FF2;
-    position: absolute;
-    left: 0;
-    right: 0;
-    height: 8.1rem;
-    z-index: 0;
-    top:2.5rem;
-}
-
-.detail .rbox .s .tt, .detail .rbox .s .p1,.detail .rbox .s .p2 {
-    position: absolute;
-    color: #fff;
-    width: 6rem;
-    top: 4rem;
-}
-
-.detail .rbox .s .tt {
-    left: 1rem;
-    border-right: 1px solid #679AED;
-}
-.detail .rbox .s .p1 {
-    left: 7rem;
-    border-right: 1px solid #679AED;
-}
-.detail .rbox .s .p2 {
-    left: 13rem
-}
-
-.detail .rbox .s i {
-    display: block;
-    font-size: .75rem;
-    font-style: normal;
-    text-align: center;
-}
-
-.detail .rbox .s a {
-    display: block;
-    font-size: 1.6rem;
-    text-align: center;
-    margin-top: .4rem;
-}
-
-.detail .rbox .s a em {
-    font-size: .875rem;
-}
-
 .megrid {
-    width: 19rem;
+    width: 100%;
     background-color: #F0F0F0;
 }
 
 .megrid .line {
     border-bottom: 1px solid #fff;
     height: 4rem;
-    width: 19rem;
+    width: 100%;
 }
 
 .megrid .line>div.grid {
     box-sizing: border-box;
-    width: 9.5rem;
+    width: 50%;
+    height: 100%;
     float: left;
     border-right: 1px solid #fff;
     background-color: #F0F0F0;
@@ -450,7 +348,6 @@ a.smallbtn:visited {
     font-size: 1rem;
     margin-top: .3rem;
 }
-
 
 .foot {
     line-height: 2rem;

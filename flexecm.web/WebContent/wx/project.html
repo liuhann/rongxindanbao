@@ -17,18 +17,18 @@
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
     <link type="text/css" rel="stylesheet" href="css/fontello.css">
-    <link type="text/css" rel="stylesheet" href="css/base.css?v11"><!--通用CSS样式 -->
+    <link type="text/css" rel="stylesheet" href="css/base.css?v12"><!--通用CSS样式 -->
     <style>
         .wrapper {
             background-color: #fff;
-
-            transition: transform .2s linear;
-            -webkit-transition: -webkit-transform .2s linear;
+            transition: transform  .3s cubic-bezier(0.1, 0.57, 0.1, 1);
+            -webkit-transition: -webkit-transform .3s  cubic-bezier(0.1, 0.57, 0.1, 1);
         }
 
         .rbox .c {
             background: -webkit-gradient(linear,0% 10%, 0% 100%, from(#FFFFFF), to(#C5DCFC), color-stop(0.02,#C5DCFC)) #fff;
         }
+
         .quicksd {
             display: none;
             height: 4.5rem;
@@ -42,7 +42,6 @@
             */
         }
 
-
         a.return {
             margin: 1rem;
             line-height: 2.5rem;
@@ -51,8 +50,8 @@
 
         .projDesc {
             position: absolute;
-            transition: transform .3s linear;
-            -webkit-transition: -webkit-transform .2s linear;
+            transition: transform  .3s cubic-bezier(0.1, 0.57, 0.1, 1);
+            -webkit-transition: -webkit-transform .3s  cubic-bezier(0.1, 0.57, 0.1, 1);
             top: 30rem;
             left: 0;
             right: 0;
@@ -72,11 +71,9 @@
             text-align: center;
             font-size: .8rem;
             color: #777;
-
             background-image: url('img/008.png');
             background-size: contain;
             background-repeat: no-repeat;
-
         }
 
         .quick {
@@ -125,6 +122,97 @@
         }
 
 
+
+        .detail .finished {
+            background-color: #fff;
+            margin: 0 .5rem;
+            font-size: .65rem;
+            padding: .5rem;
+            color: #888;
+        }
+        .detail .finished span {
+            color:#2D62C8;
+        }
+
+        .detail .rbox {
+            background-color: #fff;
+            position: relative;
+            height: 10.5rem;
+        }
+
+        .detail .rbox .r {
+            position: absolute;
+            right: 1rem;
+            font-size: .9rem;
+            color: #8E8E8E;
+            top: 1rem;
+        }
+
+        .detail .rbox .r .rt {
+            color: #2D62C8;
+        }
+
+        .detail .rbox .c {
+            border-radius: 50%;
+            border: .2rem solid #529DFA;
+            left: 1.5rem;
+            color: #2D62C8;
+            font-size: 1.5rem;
+            line-height: 4.5rem;
+            position: absolute;
+            text-align: center;
+            width: 4.5rem;
+            height: 4.5rem;
+            z-index: 10;
+            background: -webkit-linear-gradient(0 3rem,#ccc,#000);
+        }
+
+        .detail .rbox .s {
+            background-color: #458FF2;
+            position: absolute;
+            left: 0;
+            height: 4.5rem;
+            z-index: 0;
+            top: 2.5rem;
+            width: 100%;
+            padding-top: 3.5rem;
+        }
+
+        .detail .rbox .s .tt, .detail .rbox .s .p1,.detail .rbox .s .p2 {
+            float: left;
+            color: #fff;
+        }
+
+        .detail .rbox .s .tt {
+            width: 35%;
+            border-right: 1px solid #679AED;
+        }
+        .detail .rbox .s .p1 {
+            width: 30%;
+            border-right: 1px solid #679AED;
+        }
+        .detail .rbox .s .p2 {
+            width: 30%;
+        }
+
+        .detail .rbox .s i {
+            display: block;
+            font-size: .75rem;
+            font-style: normal;
+            text-align: center;
+        }
+
+        .detail .rbox .s a {
+            display: block;
+            font-size: 1.6rem;
+            text-align: center;
+            margin-top: .4rem;
+        }
+
+        .detail .rbox .s a em {
+            font-size: .875rem;
+        }
+
     </style>
     <script>
         $(function() {
@@ -170,11 +258,10 @@
             }
         });
 
-
         function bindDragUpMore() {
             $(".more").on("touchstart", function(event){
                 event.preventDefault();
-                //$(".allinvest").html( event.originalEvent.touches[0].pageY);
+                //$(".allinvest").html(event.originalEvent.touches[0].pageY);
                 $(this).data("y", event.originalEvent.touches[0].pageY );
             });
             $(".more,.wrapper").on("touchmove", function(event){
@@ -185,7 +272,7 @@
                     var delta = currentY - y;
                     if (delta<0) {
                         $(".projDesc").show();
-                        $(".wrapper").css("-webkit-transform", "translateY(" + delta + "px)")
+                        $(".wrapper").css("-webkit-transform", "translateY(" + delta + ")");
                     }
                 }
             });
@@ -195,11 +282,11 @@
                 console.log(event);
                 var currentY = event.originalEvent.changedTouches[0].pageY;
                 if (y) {
-                    if (y - currentY > 200) {
+                    if (y - currentY > 50) {
                         goDetail();
                     } else {
                         $(".projDesc").hide();
-                        $(".wrapper").css("-webkit-transform", "translateY(0px)")
+                        $(".wrapper").css("-webkit-transform", "translate(0px,0px,0px)");
                     }
                 }
                 $(".more").data("y", null);
@@ -276,8 +363,8 @@
 
         function goSummary() {
             $(".projDesc").hide();
-            $(".wrapper, .projDesc").css("transform", "translateY(0)")
-                    .css("-webkit-transform", "translateY(0)");
+            $(".wrapper, .projDesc").css("transform", "translate(0,0,0)")
+                    .css("-webkit-transform",  "translate(0,0,0)");
         }
 
         function placeOrder() {
@@ -309,7 +396,7 @@
                     return;
                 } else {
                     if (data.code=="003") {
-                        location.href = "deposit.html";
+                        location.href = "deposit.html?money=" + money;
                     } else {
                         msg(data.msg);
                     }
@@ -321,7 +408,7 @@
 <body>
 <div class="loading">正在进入项目</div>
 <div class="wrapper">
-    <div class="head">
+    <div class="head" >
         <div class="logo"></div>
         <div class="navs"><a href="recents.html">投资</a> | <a href="me.html">账户</a></div>
     </div>

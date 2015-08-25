@@ -13,10 +13,12 @@
 
     <title></title>
 
+    <link type="text/css" rel="stylesheet" href="css/base.css?vv"><!--通用CSS样式 -->
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
 
     <style>
-        .logo {
+        .logox {
             background-image: url("img/about-logo.png");
             background-size: 8rem auto;
             background-repeat: no-repeat;
@@ -50,21 +52,22 @@
             font-style: normal;
             font-size: .75rem;
         }
+
     </style>
+
     <script>
         $(function() {
-            var size = $(window).width() / 19;
-            $("html").css("font-size", size + "px");
-            $("body").css("font-size", size + "px");
+           $(".wrapper").show();
         });
-    </script>
 
+    </script>
 </head>
 <body>
 
-<div class="wrapper">
-
-    <div class="logo">
+<div class="wrapper" >
+    <div class="head"  style="display: none; height: 2.5rem">
+    </div>
+    <div class="logox">
     </div>
     <div class="version">
         当前版本 2.1.0
