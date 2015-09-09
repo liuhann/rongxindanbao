@@ -215,6 +215,9 @@
 
     </style>
     <script>
+
+
+        var kyje = null;
         $(function() {
             var projectId = querystring("id");
             $.getJSON("/service/eliyou/project/detail?id=" + projectId,
@@ -232,9 +235,15 @@
                                     placeOrder();
                                 });
                                 $("#btnrecharge").bindtouch(function() {
-                                    location.href = "deposit.html";
+                                    var money = $("#orderMoney").val();
+                                    if (isPlusNumber(money)) {
+                                        location.href = "deposit.html?money=" + money;
+                                    } else {
+                                        location.href = "deposit.html" ;
+                                    }
                                 });
                                 runToNumber($(".remainmoney"),data.kyje);
+                                kyje = data.kyje;
                             }
                         });
                     }).fail(function(error){
@@ -370,7 +379,11 @@
         function placeOrder() {
             var money = $("#orderMoney").val();
             if (!isPlusNumber(money)) {
-                msg("投资金额必须是100的整数倍");
+                msg("投资金额必须是大于1的整数");
+                return;
+            }
+            if (parseInt(money)>kyje) {
+                msg("账户可用余额不足");
                 return;
             }
 
@@ -477,7 +490,7 @@
     </div>
 </div>
     <div class="quick">
-        <input type="number" id="orderMoney" placeholder="请输入100的倍数">   <a class="fill" id="btnrecharge">充值</a><a class="go" id="btnplaceorder">立即投资</a>
+        <input type="number" id="orderMoney" placeholder="输入大于1的整数">   <a class="fill" id="btnrecharge">充值</a><a class="go" id="btnplaceorder">立即投资</a>
     </div>
 
 <form style="display:none;" id="form1" name="form1" action="http://218.4.234.150:88/main/loan/loan.action" method="post">

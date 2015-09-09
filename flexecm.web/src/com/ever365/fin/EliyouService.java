@@ -42,6 +42,18 @@ public class EliyouService {
         this.dataSource = dataSource;
     }
 
+    public void setEliyouServer(String eliyouServer) {
+        this.eliyouServer = eliyouServer;
+    }
+
+    public void setWeixinServer(String weixinServer) {
+        this.weixinServer = weixinServer;
+    }
+
+    public void setRefreshTime(Long refreshTime) {
+        this.refreshTime = refreshTime;
+    }
+
     @RestService(method="POST", uri="/eliyou/wx/login", authenticated=false, rndcode=false)
     public RestResult login(@RestParam(value="loginid")String uid, @RestParam(value="pwd") String pwd) {
         RestResult rr = new RestResult();

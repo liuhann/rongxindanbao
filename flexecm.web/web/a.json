@@ -1,70 +1,47 @@
 {
-  "id": "NATkmzGjHDnrbgoeiTjjpHbooMdUV",
-  "type": "test",
-  "creator": "hugo",
-  "created": "2015-04-02 23:22",
-  "updated": "2015-04-02 23:22",
-  "description" : {
-      "en": "This is data template"
-  },
-  "version": 22,
-  "tags" : [
-    "exercise",
-    "test",
-    "drag n drop"
+  "id":"alfjalsfdjll398ljl-9ooadfasf",
+  "name":"",
+  "image":"",
+  "type":"ordering",
+  "type id":"1127",
+  “version":"1.1",
+  "creator":"Hugo",
+  "date of birth":"2014-03-01",
+  "description":"",
+  "tags":
+  [
+    "exercise", "test", "ordering"
   ],
-  "estimated-duration": "30 minutes",
-  "count": 3,
-  "head" : {
-    "logo": {
-      "url": "a.png",
-      "meta": {
-        "size": 230,
-        "resolution":"100x50"
-      }
-    },
-    "number": "W9ASF_5",
-    "title":"Linking your ideas",
-    "subtitle": "Grammar"
-  },
-
-  "content":[
+  "esimated duration":"2",
+  "content":
+  [
     {
-      "type":"stem",
-      "number": "9",
-      "title": {
-        "en":"Choose the best endings for these sentences."
-      }
-    },
-    {
-      "type": "single choice",
-      "number": "1",
-      "description": {
-        "en": "It is not too long for a question title."
+      "order":"0",
+      "label":"10",
+      "question":
+      {
+        "title":"",
+        "rubric":"Please unscramble the words below."
       },
-      "answer" : [
-        {
-          "choice": {
-            "text":{
-              "en": "There were thousands of people at the football match."
-            },
-            "flag": true
+      "answer" : {
+        "content": [
+          {
+            "order":"1",
+            "content":"get a book list"
+          },
+          {
+            "order":"2",
+            "content":"do research"
+          },
+          {
+            "order":"3",
+            "content":"make notes"
           }
-        },
-        {
-          "choice": {
-            "text":{
-              "en": "The government spent ten millions dollars on education last year."
-            },
-            "flag": false
-          }
-        }
-      ]
+        ],
+        "label type":"alphabet",
+        "order type":"0"
+      }
     }
-  ],
 
-  "foot": {
-    "copyright" : "Copyright © 2009-2015 ALTT",
-    "publisher": "ALTT co."
-  }
+  ]
 }

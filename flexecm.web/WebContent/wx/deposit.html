@@ -40,12 +40,11 @@
             });
         });
 
-
         function confirmDeposit() {
 
             var money = $("#money").val();
             if (!isPlusNumber(money)) {
-                msg("请输入已充金额");
+                msg("充值金额输入无效");
                 return;
             }
 
