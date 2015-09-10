@@ -50,7 +50,7 @@
                 if($("#bindwx").prop("checked")) {
                     location.href =
                             "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
-                            + encodeURI("http://eliyou.luckyna.com/oauth/wx")
+                            + encodeURI("http://" + location.host + "/oauth/wx")
                             + "&response_type=code&scope=snsapi_base&state=/wx/openqdd.html";
                 } else {
                     location.href = "openqdd.html";

@@ -176,7 +176,7 @@ public class EliyouService {
         DBObject one = dataSource.getCollection("invests").findOne(new BasicDBObject("user", AuthenticationUtil.getCurrentUser()));
 
         if ("88".equals(result.get("ResultCode"))) {
-            /*
+
             List<Map<String, String>> datas = new ArrayList<>();
             datas.add(MapUtils.tribleMap("key","first","value", "恭喜您抢投成功，您已成功投资，明日开始计息。", "color", "#173177"));
             datas.add(MapUtils.tribleMap("key","keyword1","value",(String)result.get("Amount"), "color", "#173177"));
@@ -188,7 +188,6 @@ public class EliyouService {
                 DBObject dbo = cur.next();
                 sendWeixinTemplateInfo(dbo.get("openid").toString(), tRechargeOK, datas);
             }
-            */
 
             if (one!=null) {
                 rr.setRedirect("/wx/project.html?id=" + one.get("project").toString() + "&invest=1");
@@ -345,7 +344,7 @@ public class EliyouService {
     @RestService(method="POST", uri="/eliyou/qiandd/register", authenticated=true, rndcode=false)
     public Map<String, Object> registerQianDD(@RestParam(value="return") String returnUrl) {
         if (returnUrl==null) {
-            returnUrl = weixinServer + "/wx/recents.html";
+            returnUrl = "/wx/recents.html";
         }
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", AuthenticationUtil.getCurrentUser());

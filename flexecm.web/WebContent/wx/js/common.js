@@ -35,7 +35,8 @@ function getCurrentUser(cb) {
                 //首先尝试用微信账号登陆, 在回调中， 如果未绑定上会跳转到登陆页面
                 location.href =
                     "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
-                    + encodeURI("http://eliyou.luckyna.com/oauth/wx")
+                    //+ encodeURI("http://123.57.54.16:8091/oauth/wx")
+                    + encodeURI("http://" + location.host + "/oauth/wx")
                     + "&response_type=code&scope=snsapi_base&state=" + location.pathname;
             }
         } else {
@@ -105,7 +106,10 @@ function registerQianDuoduo(returnUrl) {
     var request = {};
     if (returnUrl) {
         request.return = returnUrl;
+    } else {
+        request.return = "/wx/recents.html";
     }
+
     $.post("/service/eliyou/qiandd/register", request, function(data) {
         var regInfo = JSON.parse(data);
         $("#LoanPlatformAccount").val(regInfo.obj.loanPlatformAccount);
@@ -127,7 +131,7 @@ function login() {
         if($("#bindwx").prop("checked")) {
             location.href =
                 "https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxaeeab45e6d45524b&redirect_uri="
-                    + encodeURI("http://eliyou.luckyna.com/oauth/wx")
+                    + encodeURI("http://" + location.host + "/oauth/wx")
                     + "&response_type=code&scope=snsapi_base&state=/wx/me.html";
         } else {
             location.href = "me.html";

@@ -131,7 +131,7 @@
             color: #888;
         }
         .detail .finished span {
-            color:#2D62C8;
+            color:#DA5558;
         }
 
         .detail .rbox {
@@ -226,7 +226,11 @@
                         initProjectInfo(data, $(".projectInfo"));
                         display();
                         $.getJSON("/service/eliyou/wx/uinfos", {}, function(data) {
-                            if (data.moneyMoreAccount==null) {
+                            if (data.cu==null) {
+                                $("#btnplaceorder, #btnrecharge").bindtouch(function() {
+                                    location.href = "login.html";
+                                });
+                            } else if (data.moneyMoreAccount==null) {
                                 $("#btnplaceorder, #btnrecharge").bindtouch(function() {
                                     location.href = "openqdd.html";
                                 });
@@ -314,7 +318,7 @@
             }
 
             if (project.capitalSumLower) {  //贷款金额
-                $(container).find(".capitalTotal").html(formatMoney(parseInt(project.capitalSumLower)/10000));
+                $(container).find(".capitalTotal").html(formatMoney(parseInt(project.capitalSumLower)/10000, 0));
             }
 
             if (project.repayTypeModel) {//f
@@ -345,7 +349,7 @@
             }
 
             if (project.remainAmount) {
-                $(".remainAmount").html(project.remainAmount);
+                $(".remainAmount").html(formatMoney(project.remainAmount,0));
             }
 
             if (project.uinf) {
@@ -493,7 +497,7 @@
         <input type="number" id="orderMoney" placeholder="输入大于1的整数">   <a class="fill" id="btnrecharge">充值</a><a class="go" id="btnplaceorder">立即投资</a>
     </div>
 
-<form style="display:none;" id="form1" name="form1" action="http://218.4.234.150:88/main/loan/loan.action" method="post">
+<form style="display:none;" id="form1" name="form1" action="https://transfer.moneymoremore.com/loan/loan.action" method="post">
     <input id="LoanJsonList" name="LoanJsonList" value="" type="hidden" />
     <input id="PlatformMoneymoremore" name="PlatformMoneymoremore" value="" type="hidden" />
     <input id="TransferAction" name="TransferAction" value="1" type="hidden" />
