@@ -60,14 +60,14 @@
 
         .projDesc .content {
             background-color: #fefefe;
-            min-height: 20rem;
+            min-height: 40rem;
             padding: .7rem;
             font-size: .7rem;
         }
 
         .detail .more {
             padding-top: .5rem;
-            height: 3rem;
+            height: 10rem;
             text-align: center;
             font-size: .8rem;
             color: #777;
@@ -304,6 +304,25 @@
                 }
                 $(".more").data("y", null);
             });
+
+            $(".projDesc .content").on("touchstart", function(event){
+                event.preventDefault();
+                //$(".allinvest").html( event.originalEvent.touches[0].pageY);
+                $(this).data("y", event.originalEvent.touches[0].pageY );
+            });
+            $(".projDesc .content").on("touchmove", function(event){
+                var currentY =  event.originalEvent.touches[0].pageY;
+                var y = $(this).data("y");
+                if (y) {
+                    var delta = currentY - y;
+                    if (delta<0) {
+                    } else {
+                        goSummary()
+                    }
+                    $(this).data("y", null);
+                }
+            });
+
         }
 
         function initProjectInfo(project, container) {
@@ -357,8 +376,8 @@
             }
 
             if (project.issueFinishDate) {
-                var remains = project.issueFinishDate - project.now;
-                if (remains<0) {
+                var remains = project.issueFinishDate + 23*60*60*1000 + 40*60*1000 - project.now;
+                if (remains<0  || project.state!=3) {
                     $(".finished").html("已结束");
                 } else {
                     $(".finished .d").html(Math.floor(remains/(24*60*60*1000)));

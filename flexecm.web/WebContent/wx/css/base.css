@@ -9,6 +9,7 @@ html, body {
     font-family:Tahoma,Arial,Roboto,Helvetica,sans-serif;
     font-size: 10px;
     overflow: hidden;
+    min-height: 100%;
 }
 
 i, em {
@@ -33,6 +34,7 @@ a {
 .wrapper {
     display: none;
     width: 100%;
+    min-height: 100%;
 }
 
 .wrapper .logo {
