@@ -486,9 +486,9 @@ function refreshImg() {
 								<option>高新区企业</option>
 								<option>青年创业梦工场</option>
 								<option>新材料产业企业</option>
+								<option>商业承兑汇票融资</option>
 							</select>
 						</p>
-
 
 						<p>
 							<span class="usr">用户名</span>
@@ -519,7 +519,7 @@ function refreshImg() {
                     </div>
            		</div>
            		<% } else { %>
-	           		<div class="box uinfo"  style="height: 262px;">
+	           		<div class="box uinfo"  style="height: 250px;">
 						Hi,<%=currentUser.get("rname") %>
 							
 						<%

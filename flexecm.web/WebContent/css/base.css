@@ -196,3 +196,8 @@ a {
 	color: #444;
 	text-decoration: none;
 }
+
+
+select {
+	padding: 3px;
+}

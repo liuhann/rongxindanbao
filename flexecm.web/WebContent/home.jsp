@@ -71,6 +71,10 @@
             display: none;
         }
 
+
+        #form-content td {
+            padding:10px;
+        }
         #form-content td:FIRST-CHILD {
             width: 220px;
             text-align: right;

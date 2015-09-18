@@ -337,7 +337,7 @@
             }
 
             if (project.capitalSumLower) {  //贷款金额
-                $(container).find(".capitalTotal").html(formatMoney(parseInt(project.capitalSumLower)/10000, 0));
+                $(container).find(".capitalTotal").html(formatMoney(parseInt(project.capitalSumLower)/10000, 0, ""));
             }
 
             if (project.repayTypeModel) {//f
@@ -406,7 +406,7 @@
                 return;
             }
             if (parseInt(money)>kyje) {
-                msg("账户可用余额不足");
+                location.href = "deposit.html?msg=" + encodeURI("您的可用余额不足先充值再去投资吧");
                 return;
             }
 

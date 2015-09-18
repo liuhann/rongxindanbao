@@ -208,15 +208,14 @@
 	padding: 8px 10px;
 	color: #333;
 	padding-right: 16px;
+	line-height: 24px;
 }
 .zhanghuguanli_jksq_001 .r .lv03 table tr td .form-text {
-	height: 30px;
-	width: 225px;
-	padding-right: 10px;
-	padding-left: 10px;
+  	padding: 5px;
 	float: left;
 	border: 1px solid #cccccc;
 	border-radius:2px;
+	margin-right: 5px;
 }
 .zhanghuguanli_jksq_001 .r .lv03 table tr td b {
 	font-size: 12px;

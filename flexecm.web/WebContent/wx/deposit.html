@@ -32,6 +32,11 @@
             width: 19rem;
         }
 
+        .content-form p {
+            font-size: .6rem;
+            line-height: 1.2rem;
+            color: #777;
+        }
 
 
     </style>
@@ -51,8 +56,12 @@
                         if (money.length>0) {
                             $("#money").val(money[0]);
                         }
-                        display();
 
+                        var info = querystring("msg");
+                        if (info.length>0) {
+                            msg(decodeURI(info[0]));
+                        }
+                        display();
                     }
                 });
             });
@@ -132,7 +141,20 @@
         <div class="remains">0.00</div>
 
         <input type="number" id="money" class="full"  placeholder="请输入充值金额">
-        <a class="req" style="margin-top: 1rem; " href="javascript:confirmDeposit();">确认充值</a>
+        <a class="req" style="margin-top: 1rem;margin-bottom: 2rem; " href="javascript:confirmDeposit();">确认充值</a>
+
+           <p> 温馨提示</p>
+
+
+           <p> 1、充值必须使用银行借记卡。不支持存折、信用卡等方式充值； </p>
+
+           <p>2、充值前确保您已经开通银行卡网上支付功能，如有疑问请咨询您的开户行咨询； </p>
+
+           <p>3、使用手机快捷支付充值，第三方托管平台将会收取您0.1%的充值手续费；</p>
+
+           <p> 4、点击充值按钮，表示您已经仔细阅读并同意《e利友投资咨询与管理服务协议》；</p>
+
+           <p>5、严禁利用充值功能进行套现、转账、洗钱等行为，一经发现，e利友将封停可疑账号30天。</p>
     </div>
 
 
