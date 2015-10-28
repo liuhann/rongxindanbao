@@ -18,6 +18,7 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 import java.util.logging.Logger;
@@ -60,7 +61,7 @@ public class EliyouService {
         if (uid==null || pwd==null) {
             throw new HttpStatusException(HttpStatus.BAD_REQUEST);
         }
-        checkPassword(uid, pwd);
+        uid = checkPassword(uid, pwd);
         rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
         return rr;
     }
@@ -94,7 +95,13 @@ public class EliyouService {
                 if ("01".equals(e)) {
                     rr.setSession(AuthenticationUtil.SESSION_CURRENT_USER, uid);
                     rr.setSession(OAuthServlet.OAUTH_REDIRECT, "/wx/openqdd.html");
+                    rr.setResult("OK");
                     return rr;
+                } else {
+                    rr.setResult(result.getString("msg"));
+                    return rr;
+
+                    //throw new HttpStatusException(HttpStatus.CONFLICT, result.getString("msg"));
                 }
             } catch (JSONException e1) {
                 e1.printStackTrace();
@@ -116,8 +123,11 @@ public class EliyouService {
     @RestService(method="GET", uri="/eliyou/wx/recents", authenticated=false, rndcode=false)
     public List<Object> getRecentProjects(@RestParam(value = "maxResult") Integer max,
                                           @RestParam(value = "page") Integer page) {
-        String requestUrl = eliyouServer + "/porductMore.do?maxResult=" + max
-                + "&page=" + page;
+
+        String requestUrl = eliyouServer + "/porductMore.do?maxResult=" + max  + "&page=" + page;
+
+        logger.info("list products : " + requestUrl);
+
         String json = WebUtils.getString(requestUrl);
         try {
             JSONArray ja = new JSONArray(json);
@@ -129,7 +139,7 @@ public class EliyouService {
     }
 
     @RestService(method="GET", uri="/eliyou/project/detail", authenticated=false, rndcode=false)
-    public Map<String,Object> getProjectDetail(@RestParam(value = "id") String id) {
+    public Map<String,Object> getProjectDetail(@RestParam(value = "id") String id) throws UnsupportedEncodingException {
         String requestUrl = eliyouServer + "/detail.do?id=" + id;
         String json = WebUtils.getString(requestUrl);
         try {
@@ -356,12 +366,13 @@ public class EliyouService {
     }
 
     @RestService(method="GET", uri="/eliyou/wx/uinfos", authenticated=false)
-    public Map<String, Object> getUserInfos() {
+    public Map<String, Object> getUserInfos() throws UnsupportedEncodingException {
         if (AuthenticationUtil.getCurrentUser()==null) {
             return new HashMap<String,Object>(0);
         }
 
-        String requestUrl = eliyouServer + "/rechargeIndex.do?userAccount=" + AuthenticationUtil.getCurrentUser();
+
+        String requestUrl = eliyouServer + "/rechargeIndex.do?userAccount=" + URLEncoder.encode(AuthenticationUtil.getCurrentUser(), "UTF-8");
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
@@ -423,7 +434,7 @@ public class EliyouService {
         WebUtils.doPost(url, body);
     }
 
-    private void checkPassword(String uid, String pwd) {
+    private String checkPassword(String uid, String pwd) {
         String url = eliyouServer + "/loginCheck.do";
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", uid);
@@ -439,7 +450,11 @@ public class EliyouService {
                 String e = null;
                 e = result.getString("msg");
                 if ("成功".equals(e)) {
-                    return;
+                    if (result.has("userAccount")) {
+                        return result.getString("userAccount");
+                    } else {
+                        return uid;
+                    }
                 }
             } catch (JSONException e1){
             }

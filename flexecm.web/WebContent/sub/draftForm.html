@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title></title>
+    <script type="text/javascript" src="datepicker/jquery.datetimepicker.js"></script>
+    <link type="text/css" rel="stylesheet" href="datepicker/jquery.datetimepicker.css">
+    <SCRIPT type=text/javascript src="js/plupload.full.min.js"></SCRIPT>
+
+    <script>
+        $(function() {
+            var fc = new formCheck("#draftForm ");
+            fc.init({});
+        });
+
+        function commitDraft() {
+            var fc = new formCheck("#draftForm ");
+            $.post("/service/fin/draft/add", fc.getRequest(), function() {
+                dashboard();
+            });
+            console.log(fc.getRequest());
+        }
+
+    </script>
+
+</head>
+<body>
+
+
+<form id="draftForm">
+    <div><a class="btn return hidden" style="display: none;">返回列表</a></div>
+
+    <table>
+        <tr>
+            <td>
+                票号
+            </td>
+            <td>
+                <input class="form-text" type="text"  id="draftid">
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                出票日期
+            </td>
+            <td>
+                <input class="form-text date" type="text" id="draftdate">
+            </td>
+
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td ROWSPAN="3" style="width: 100px;">
+                付款人
+            </td>
+            <td style="width: 123px;text-align: right;">
+                全称
+            </td>
+            <td>
+                <input class="form-text" type="text" id="drawee">
+            </td>
+        </tr>
+
+
+        <tr>
+            <td style="width: 123px;">
+                账号
+            </td>
+            <td>
+                <input class="form-text" type="text" id="draweeaccount">
+            </td>
+
+        </tr>
+
+
+
+        <tr>
+            <td style="width: 123px;">
+                开户行
+            </td>
+            <td>
+                <input class="form-text" type="text" id="draweebank">
+            </td>
+
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td ROWSPAN="3" style="width: 100px;">
+                收款人
+            </td>
+            <td style="width: 123px;text-align: right;">
+                全称
+            </td>
+            <td>
+                <input class="form-text" type="text" id="remittee">
+            </td>
+        </tr>
+
+        <tr>
+            <td style="width: 123px;">
+                账号
+            </td>
+            <td>
+                <input class="form-text" type="text" id="remitteeaccount">
+            </td>
+
+        </tr>
+
+
+        <tr>
+            <td style="width: 123px;">
+                开户行
+            </td>
+            <td>
+                <input class="form-text" type="text" id="remitteebank">
+            </td>
+
+        </tr>
+    </table>
+
+    <table>
+        <tr>
+            <td>
+                出票金额
+            </td>
+            <td>
+                <input class="form-text" type="text"  id="money">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                汇票到期日
+            </td>
+            <td>
+                <input class="form-text date" type="text"  id="duedate">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                承兑人
+            </td>
+            <td>
+                <input class="form-text" type="text"  id="acceptor">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                出票人
+            </td>
+            <td>
+                <input class="form-text" type="text"  id="drawer">
+            </td>
+        </tr>
+        <tr>
+            <td>
+                直接前手
+            </td>
+            <td>
+                <input class="form-text" type="text"  id="lasthand">
+            </td>
+        </tr>
+    </table>
+
+    <table>
+       <tr>
+           <td colspan="2">上传的资料</td>
+       </tr>
+
+
+        <tr>
+            <td>
+                票据照片正面
+            </td>
+            <td>
+                <a id="draft-front-pic" class="imgupload"
+                   href="javascript:;">[点击上传]</a>
+            </td>
+        </tr>
+
+        <tr>
+            <td>
+                票据照片反面
+            </td>
+            <td>
+                <a id="draft-back-pic" class="imgupload"
+                   href="javascript:;">[点击上传]</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>商品交易合同照片上传</p>
+                <p>（持票人与出票人或直接前手签订）</p>
+            </td>
+            <td>
+                <a id="draft-contract-pic" class="imgupload"
+                   href="javascript:;">[点击上传]</a>
+            </td>
+        </tr>
+        <tr>
+            <td>
+                <p>其他资料</p>
+            </td>
+            <td>
+                <a id="draft-other-pic" class="imgupload"
+                   href="javascript:;">[点击上传]</a>
+            </td>
+        </tr>
+
+
+        <tr>
+            <td>
+                <p>&nbsp;</p>
+            </td>
+            <td>
+                <a class="btn" href="javascript:commitDraft()">提交</a>
+            </td>
+        </tr>
+
+    </table>
+</form>
+
+
+</body>
+</html>

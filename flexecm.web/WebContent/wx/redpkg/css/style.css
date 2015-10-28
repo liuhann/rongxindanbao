@@ -1,0 +1,37 @@
+* {
+    padding: 0;
+    margin: 0;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    -webkit-text-size-adjust:none;
+}
+html, body {
+    background: #ebebeb;
+    font-family:Tahoma,Arial,Roboto,Helvetica,sans-serif;
+    font-size: 10px;
+    overflow: hidden;
+    min-height: 100%;
+}
+
+.background {
+    position: absolute;
+    left:0;
+    right:0;
+    top:0;
+    bottom:0;
+    background-size: cover;
+    overflow: hidden;
+    z-index: -1;
+}
+
+.sprite {
+    position: absolute;
+    z-index: 10;
+}
+
+.label  {
+    position: absolute;
+}
+
+.next {
+    position: absolute;
+}

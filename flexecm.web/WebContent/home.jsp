@@ -94,7 +94,6 @@
 <%
     FinanceService finService = ((FinanceService) ContextLoaderListener
             .getCurrentWebApplicationContext().getBean("fin.service"));
-
     Map<String, Object> currentUser = finService.getCurrentUser();
 
     if (currentUser.get("cu") == null) {
@@ -122,9 +121,16 @@
                     <li class="current" onclick="dashboard();">
                         账户总览
                     </li>
-                    <li onclick="startLoanRequest();">
-                        借款申请&gt;
-                    </li>
+                    <% if ("商业承兑汇票融资".equals(currentUser.get("vip-type"))) { %>
+                        <li id="fstartDraft" onclick="startDraft();">
+                            商业承兑汇票 &gt;
+                        </li>
+                    <%} else { %>
+                        <li id="fstartLoan" onclick="startLoanRequest();">
+                            借款申请&gt;
+                        </li>
+                    <% }%>
+
                     <li onclick="loanProgress();">
                         借款进度&gt;
                     </li>

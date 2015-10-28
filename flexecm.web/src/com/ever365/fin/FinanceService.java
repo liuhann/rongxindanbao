@@ -45,6 +45,8 @@ public class FinanceService implements Tenantable {
 	public static final String TYPE_ADMIN = "admin";
 	public static final String TYPE_BACK_USER = "backuser";
 	public static final String COLL_ACCOUNTS = "accounts";
+
+
 	private MongoDataSource dataSource;
 	private LocalContentStore contentStore;
 	private String pwd = "123456";
@@ -489,7 +491,16 @@ public class FinanceService implements Tenantable {
 		DBObject one = dataSource.getCollection(collection).findOne(new BasicDBObject("_id", new ObjectId(id)));
 		return one.toMap();
 	}
-	
+
+
+	@RestService(method="POST", uri="/fin/draft/add")
+	public void addDraftRequest(Map<String, Object> request) {
+		request.put("updated", new Date().getTime());
+		request.put("editor", AuthenticationUtil.getCurrentUser());
+		update("drafts", new BasicDBObject(request));
+	}
+
+
 	//检查账户创建请求的合法性
 	public void checkAccountValid(Map<String, Object> req) {
 		//首先判断一些必填字段 （将来判断的字段会更多）

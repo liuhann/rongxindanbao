@@ -81,6 +81,14 @@
 			<li onclick="pagePassedLoans();">已通过项目</li>
 			<li onclick="pageFinishedLoans();">还款完结项目列表</li>
 		</ul>
+
+		<div class="title">
+			<h2>商业承兑汇票</h2>
+		</div>
+		<ul>
+			<li onclick="pageAllDrafts();">已提交列表</li>
+		</ul>
+
 	</div>
 	
 	<div class="box navcontent hidden">

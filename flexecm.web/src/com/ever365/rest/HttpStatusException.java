@@ -13,7 +13,14 @@
 /*    */   {
 /* 11 */     this.status = status;
 /*    */   }
-/*    */ 
+/*    */
+
+            public HttpStatusException(HttpStatus status, String description)
+/*    */   {
+/* 11 */     this.status = status;
+                this.description = description;
+/*    */   }
+
 /*    */   public HttpStatusException(HttpStatus hs, Exception e)
 /*    */   {
 /* 21 */     this.status = hs;

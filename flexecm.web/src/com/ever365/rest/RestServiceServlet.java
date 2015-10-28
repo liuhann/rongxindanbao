@@ -172,7 +172,7 @@ public class RestServiceServlet extends HttpServlet {
 				if (((HttpStatusException) e).getCode()==HttpStatus.FORBIDDEN.value()) {
 					request.getSession().setAttribute(RandomCodeServlet.LOGIN_FAILED, 1);
 				}
-				response.getWriter().println(extractError(e));
+				response.getWriter().println(((HttpStatusException) e).getDescription());
 				response.sendError(((HttpStatusException) e).getCode(),
 						((HttpStatusException) e).getDescription());
 			} else {
@@ -239,6 +239,8 @@ public class RestServiceServlet extends HttpServlet {
 			return;
 		}
 
+        response.setContentType("text/html; charset=UTF-8");
+
 		if ((result instanceof RestResult)) {
 			RestResult rr = (RestResult) result;
 			if (rr.getSession() != null) {
@@ -274,7 +276,6 @@ public class RestServiceServlet extends HttpServlet {
 			return;
 		}
 
-		response.setContentType("text/html; charset=UTF-8");
 		PrintWriter pw = response.getWriter();
 		if ((result instanceof Collection)) {
 			JSONArray ja = new JSONArray((Collection) result);

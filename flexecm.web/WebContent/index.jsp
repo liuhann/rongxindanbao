@@ -183,7 +183,11 @@ function login() {
 		'pwd': pwd,
 		'rndcode': rnd
 	}, function(data) {
-		location.href = location.href;
+		if ($("#type").find("option:selected").attr("dest")!=null) {
+			location.href = "home.jsp#" + $("#type").find("option:selected").attr("dest");
+		} else {
+			location.href = location.href;
+		}
 	}).fail(function(e) {
 		if (e.status==412) {
 			$("#login-error").show();
@@ -482,11 +486,11 @@ function refreshImg() {
 					<div class="login-panel"><!--这里作为标签切换的页面 我估计可以复制两套，不同的post指向 -->
 						<p>
 							<span class="usr">用户类型</span>
-							<select>
-								<option>高新区企业</option>
-								<option>青年创业梦工场</option>
-								<option>新材料产业企业</option>
-								<option>商业承兑汇票融资</option>
+							<select id="type">
+								<option dest="fstartLoan">高新区企业</option>
+								<option dest="fstartLoan">青年创业梦工场</option>
+								<option dest="fstartLoan">新材料产业企业</option>
+								<option dest="fstartDraft">商业承兑汇票融资</option>
 							</select>
 						</p>
 

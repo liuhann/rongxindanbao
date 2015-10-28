@@ -329,7 +329,7 @@ color: #eee;
   padding: 20px;
 }
 
-.form input[type="text"],.form input[type="password"] {
+.form input[type="text"],.form input[type="password"],select {
   margin: 4px;
   padding: 5px;
   background-color: transparent;

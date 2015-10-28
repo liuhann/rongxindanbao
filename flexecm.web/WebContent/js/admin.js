@@ -129,7 +129,6 @@ function pageAllLoans() {
 	});
 }
 
-
 function pageFirstAudit() {
 	var filter = {
 		"audit": 1
@@ -251,6 +250,11 @@ function viewLoanTable(filter, txt, cellfunc, skip, limit) {
 			});
 		});
 	});
+}
+
+
+function  pageAllDrafts() {
+	loadPage($("#ccontent"), "sub/drafts-list.html");
 }
 
 function pageNews() {

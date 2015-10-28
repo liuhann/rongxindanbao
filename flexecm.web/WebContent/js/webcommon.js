@@ -519,7 +519,7 @@ function genPass(){
  * @param cb  当翻页到某个page时，传入当时页码。可以调用获取后台更新表格数据
  */
 
-function initTable(tbid, data, cell, cb) {
+function initTable(tbid, data, cell, cb, lineclick) {
 	$(tbid + " .row.item").remove();
 	$(tbid + " .empty").show();
 	for(var i=0; i<data.list.length; i++) {
@@ -545,6 +545,12 @@ function initTable(tbid, data, cell, cb) {
 				}
 			}
 		});
+
+		if (lineclick) {
+			cloned.click(function() {
+				lineclick.bind($(this))();
+			});
+		}
 		$(tbid).append(cloned);
 	}
 	

@@ -1,0 +1,77 @@
+<head>
+    <script type="text/javascript">
+
+        $(function() {
+            listFinaMarkets(0);
+        });
+
+        function listFinaMarkets(skip) {
+            $.post("/service/fin/content/list", {
+                'collection': 'drafts',
+                'skip': skip
+            }, function(data) {
+                var result = JSON.parse(data);
+                initTable("#drafts-table", result, null, function(page) {
+                    listFinaMarkets(page*15);
+                }, function() {
+                    var entry = $(this).data("entry");
+                    loadPage($("#ccontent"), "sub/draftForm.html", function() {
+                        var fc = new formCheck("#draftForm ");
+                        fc.init(entry);
+                        fc.readOnly();
+                        fc.showBtn("return");
+
+                        $("a.return").click(function() {
+                            pageAllDrafts();
+                        });
+                    });
+                });
+            });
+        }
+    </script>
+</head>
+<div class="list-news">
+    <div class="panel">
+        <div class="title">
+            商业承兑汇票列表
+        </div>
+    </div>
+
+    <div class="table" id="drafts-table">
+        <div class="row header">
+            <div class="cell" >
+                用户
+            </div>
+            <div class="cell">
+                票号
+            </div>
+            <div class="cell">
+                出票金额
+            </div>
+            <div class="cell">
+                到期日
+            </div>
+            <div class="cell">
+                承兑人
+            </div>
+            <div class="cell">
+               申请时间
+            </div>
+        </div>
+
+        <div class="template">
+            <div class="cell" data-f="editor">
+            </div>
+            <div class="cell" data-f="draftid">
+            </div>
+            <div class="cell" data-f="money">
+            </div>
+            <div class="cell" data-f="duedate">
+            </div>
+            <div class="cell" data-f="acceptor">
+            </div>
+            <div class="cell"  data-eval="var d=new Date(entry['updated']); d.format('yyyy-MM-dd')">
+            </div>
+        </div>
+    </div>
+</div>

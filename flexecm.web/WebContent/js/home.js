@@ -4,11 +4,11 @@ $(function() {
 		$(this).addClass("current");
 	});
 
-	$(".menu_list." + uinfo.type).show();
-
-	if (window.location.href.indexOf("request")>-1) {
-		startLoanRequest();
+	if(location.hash) {
+		$(location.hash).click();
 	}
+
+	$(".menu_list." + uinfo.type).show();
 });
 
 function dashboard() {
@@ -94,6 +94,17 @@ function sendLoanRequest(t) {
 	}, function() {
 		alert("融资申请已提交");
 		loanProgress();
+	});
+}
+
+
+function startDraft() {
+
+	$("#ccontent").show();
+	$(".r.dashboard").hide();
+
+	$("#ccontent").load("sub/draftForm.html", function() {
+
 	});
 }
 

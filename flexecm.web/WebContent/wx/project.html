@@ -19,6 +19,10 @@
     <link type="text/css" rel="stylesheet" href="css/fontello.css">
     <link type="text/css" rel="stylesheet" href="css/base.css?v12"><!--通用CSS样式 -->
     <style>
+        body {
+            background-color: #fff;
+
+        }
         .wrapper {
             background-color: #fff;
             transition: transform  .3s cubic-bezier(0.1, 0.57, 0.1, 1);
@@ -213,9 +217,22 @@
             font-size: .875rem;
         }
 
+        .smalltt {
+            font-size: .6rem;
+            line-height: .7rem;
+            padding: .2rem .8rem 0 .8rem;
+            color: #646464;
+        }
+
+        .smallctt {
+            font-size: .8rem;
+            padding: 0 .8rem;
+            line-height: 1.1rem;
+            color:#519BF8;
+        }
+
     </style>
     <script>
-
 
         var kyje = null;
         $(function() {
@@ -272,6 +289,9 @@
         });
 
         function bindDragUpMore() {
+            var hrem = $(window).height()/parseInt($("html").css("font-size"));
+
+            $(".more").css("height" , hrem-2.5-1.5-1.65-10.5-8-2.5 + "rem");
             $(".more").on("touchstart", function(event){
                 event.preventDefault();
                 //$(".allinvest").html(event.originalEvent.touches[0].pageY);
@@ -322,7 +342,6 @@
                     $(this).data("y", null);
                 }
             });
-
         }
 
         function initProjectInfo(project, container) {
@@ -352,6 +371,17 @@
                 $(container).find(".dura").html(project.repayInstalNum + repayInstalTypes[project.repayInstalType-1]); //还款期
                 //cloned.find(".title .guarantee").html(data[i].guaranteeCompanyModel.guaranteeCoName);
             }
+
+            if (project.repayStartDate)  {
+                    $(".smalltt.repayStartDate").html("起息日");
+                    $(".smallctt.repayStartDate").html(new Date(project.repayStartDate).format("yyyy-MM-dd"));
+            }
+
+            if (project.repayFinishDate)  {
+                $(".smalltt.repayFinishDate").html("到期日");
+                $(".smallctt.repayFinishDate").html(new Date(project.repayFinishDate).format("yyyy-MM-dd"));
+            }
+
 
             if (project.schedule!=null) {  //申购进度
                 //var num = data[i].schedule * 2.5;
@@ -490,13 +520,15 @@
                         <div class="linetitle">账户余额（元）</div>
                         <div class="linemoney remainmoney">0</div>
                     </div>
-                    <div class="grid">
-                        <div class="linetitle"></div>
-                        <div class="linemoney allinvest"></div>
+                    <div class="grid" style="padding: 0;">
+                        <div class="smalltt repayStartDate"></div>
+                        <div class="smallctt repayStartDate"></div>
+                        <div class="smalltt repayFinishDate"></div>
+                        <div class="smallctt repayFinishDate"></div>
                     </div>
                 </div>
             </div>
-            <div class="more" onclick1="goDetail();" >
+            <div class="more" onclick1="goDetail();">
 
             </div>
             <div class="quicksd"></div>

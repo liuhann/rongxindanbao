@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <meta name="format-detection" content="telephone=no">
+
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+    <meta http-equiv="Pragma" content="no-cache" />
+    <meta http-equiv="Expires" content="-1" />
+
+    <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
+    <script type="text/javascript" src="js/common.js"></script>
+
+
+    <title>投资</title>
+    <link type="text/css" rel="stylesheet" href="css/base.css?v12"><!--通用CSS样式 -->
+    <style>
+        .wrapper {
+            display:block;
+            background-color: #fff;
+            transition: transform  .3s cubic-bezier(0.1, 0.57, 0.1, 1);
+            -webkit-transition: -webkit-transform .3s  cubic-bezier(0.1, 0.57, 0.1, 1);
+        }
+    </style>
+    <script>
+
+    </script>
+</head>
+<body>
+<div class="loading">正在进入项目</div>
+<div class="wrapper">
+
+    <div class="projectInfo">
+        <div class="projtitle">
+            <span class="name">个体经营贷</span>
+            <em class="shield"></em>
+            <span class="guarantee"></span>
+        </div>
+        <div class="detail" >
+            <div>
+                <label>投资金额：</label> <span>10,000.00yuan</span>
+            </div>
+            <div>
+                <label>借款金额：</label> <span>10,000.00yuan</span>
+            </div>
+            <div>
+                <label>年化收益率：</label> <span>10,000.00yuan</span>
+            </div>
+            <div>
+                <label>投资期限：</label> <span>10,000.00yuan</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="redpackage">
+        <div>
+            <span>大红包</span><i>(1)</i> <div class="use">使用</div>
+        </div>
+        <div  class="list">
+
+        </div>
+    </div>
+
+    <div class="ufbeans">
+
+    </div>
+
+    <div class="btns">
+        <a class="btn">投资</a>
+    </div>
+
+    <div class="contract">
+        投资代表您同意 《e利友投资协议》
+    </div>
+</div>
+
+<div class="projDesc">
+    <div class="head" >
+        <a  class="return" onclick="goSummary()">返回</a>
+    </div>
+    <div class="content">
+            暂无项目具体描述信息
+    </div>
+</div>
+    <div class="quick">
+        <input type="number" id="orderMoney" placeholder="输入大于1的整数">   <a class="fill" id="btnrecharge">充值</a><a class="go" id="btnplaceorder">立即投资</a>
+    </div>
+
+<form style="display:none;" id="form1" name="form1" action="https://transfer.moneymoremore.com/loan/loan.action" method="post">
+    <input id="LoanJsonList" name="LoanJsonList" value="" type="hidden" />
+    <input id="PlatformMoneymoremore" name="PlatformMoneymoremore" value="" type="hidden" />
+    <input id="TransferAction" name="TransferAction" value="1" type="hidden" />
+    <input id="Action" name="Action" value="1" type="hidden" />
+    <input id="TransferType" name="TransferType" value="" type="hidden" />
+    <input id="NeedAudit" name="NeedAudit" value="" type="hidden" />
+    <input id="RandomTimeStamp" name="RandomTimeStamp" value="" type="hidden" />
+    <input id="Remark1" name="Remark1" value="" type="hidden" />
+    <input id="Remark2" name="Remark2" value="" type="hidden" />
+    <input id="Remark3" name="Remark3" value="" type="hidden" />
+    <input id="ReturnURL" name="ReturnURL" value="" type="hidden" />
+    <input id="NotifyURL" name="NotifyURL" value="" type="hidden" />
+    <input id="SignInfo" name="SignInfo" value="" type="hidden" />
+</form>
+<!--
+<div class="msg-container">
+    <div class="msgbox zoomIn animated">
+        <div class="content">
+
+        </div>
+        <div class="btns">
+            <a class="close"></a>
+        </div>
+    </div>
+</div>
+-->
+
+
+</body>
+</html>

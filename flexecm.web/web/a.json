@@ -1,47 +1,19 @@
 {
-  "id":"alfjalsfdjll398ljl-9ooadfasf",
-  "name":"",
-  "image":"",
-  "type":"ordering",
-  "type id":"1127",
-  “version":"1.1",
-  "creator":"Hugo",
-  "date of birth":"2014-03-01",
-  "description":"",
-  "tags":
-  [
-    "exercise", "test", "ordering"
-  ],
-  "esimated duration":"2",
-  "content":
-  [
-    {
-      "order":"0",
-      "label":"10",
-      "question":
-      {
-        "title":"",
-        "rubric":"Please unscramble the words below."
-      },
-      "answer" : {
-        "content": [
-          {
-            "order":"1",
-            "content":"get a book list"
-          },
-          {
-            "order":"2",
-            "content":"do research"
-          },
-          {
-            "order":"3",
-            "content":"make notes"
-          }
-        ],
-        "label type":"alphabet",
-        "order type":"0"
-      }
-    }
-
-  ]
+  "Amount": "1000.00",
+  "SignInfo": "AuL3DyzrMeHTqMC6a5670VX288zLa1JcKJzLUIIyiAJN1v 43/1fmQvCJCy2klTFueEM0yjLw/qo\r\nTvMpWCVM5rwd137meztTwnIA1zO 2r8eKT lWDmSQGF1gtv5uyPpMQXT49Q T0NH2zO0f9w NCm3\r\n2a1HvY8fRs2xfpRW1M8=",
+  "RechargeType": "2",
+  "Message": "充值失败,交易验证码不正确",
+  "Fee": "1.00",
+  "FeePlatform": "0.00",
+  "RechargeMoneymoremore": "m475268",
+  "Remark2": "1288",
+  "FeeType": "3",
+  "Remark3": "",
+  "LoanNo": "",
+  "RandomTimeStamp": "",
+  "Remark1": "py2015",
+  "OrderNo": "CZ-15090000110",
+  "CardNoList": "",
+  "ResultCode": "06",
+  "PlatformMoneymoremore": "p446"
 }
