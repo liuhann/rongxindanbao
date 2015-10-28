@@ -24,7 +24,13 @@ var RedPackageDirector = (function(window) {
         MAP5_BG: "images/005_bg.jpg",
         MAP5_TEXT: "images/005_text.png",
         MAP6_BG: "images/006_bg.jpg",
-        MAP6_TEXT: "images/006_text.png"
+        MAP6_TEXT: "images/006_text.png",
+        MAP7_BG : "images/007_bg.jpg",
+        MAP7_CAR : "images/007_car.png",
+        MAP7_TEXT : "images/007_text.png",
+        MAP7_LOGO : "images/007_logo.png",
+        MAP8_SMOKE1 : "images/008_smoke01.png",
+        MAP8_SMOKE2 : "images/008_smoke02.png"
     };
 
     function play() {
@@ -37,7 +43,7 @@ var RedPackageDirector = (function(window) {
         var bg = setBg(res.MAP2_BG, "circleout");
         clear();
         setTimeout(function() {
-            addLabel(res.MAP2_TEXT, 0.1, 0.05, 0.8, {
+            addFixedSprite(res.MAP2_TEXT, 0.1, 0.05, 0.8, {
                 "z-index": "21"
             }, ["animated","fadeInUp"]);
         }, 700);
@@ -50,7 +56,7 @@ var RedPackageDirector = (function(window) {
 
     function scene3() {
         clear();
-        addLabel(res.MAP3_TEXT, 0.1, 0.05, 0.7, {
+        addFixedSprite(res.MAP3_TEXT, 0.1, 0.05, 0.7, {
             "z-index": "31"
         }, ["animated","fadeInUp"]);
         setTimeout(function() {
@@ -69,7 +75,7 @@ var RedPackageDirector = (function(window) {
         setBg(res.MAP4_BG, "zoomFade");
 
         setTimeout(function() {
-            addLabel(res.MAP4_TEXT, 0.1, 0.2, 0.4, {
+            addFixedSprite(res.MAP4_TEXT, 0.1, 0.2, 0.4, {
                 "z-index": "41"
             },  ["animated","fadeInUp"]);
         }, 1500);
@@ -84,11 +90,60 @@ var RedPackageDirector = (function(window) {
         clear();
         setBg(res.MAP5_BG, "slideOutLeft");
         setTimeout(function() {
-            addLabel(res.MAP5_TEXT, 0.1, 0.2, 0.5, {
+            addFixedSprite(res.MAP5_TEXT, 0.1, 0.2, 0.5, {
                 "z-index": "51"
             },  ["animated","fadeInUp"]);
         }, 1500);
+
+        setTimeout(function() {
+            showClickNext(scene6);
+        }, 2500);
     }
+
+    function scene6() {
+        clear();
+        setBg(res.MAP6_BG, "slideOutLeft");
+        setTimeout(function() {
+            addFixedSprite(res.MAP6_TEXT, 0.1, 0.2, 0.5, {
+                "z-index": "51"
+            },  ["animated","fadeInUp"]);
+        }, 1500);
+
+        setTimeout(function() {
+            showClickNext(scene7);
+        }, 2500);
+    }
+
+
+    function scene7() {
+        clear();
+        setBg(res.MAP7_BG, "slideOutLeft");
+        setTimeout(function() {
+            addFixedSprite(res.MAP7_CAR, 0.2, 0.3, 0.6, {
+                "z-index": "71"
+            },  ["animated","fadeIn"]);
+        }, 500);
+
+        setTimeout(function() {
+            addFixedSprite(res.MAP7_TEXT, 0.15, 0.1, 0.7, {
+                "z-index": "72"
+            },  ["animated","fadeInUp"]);
+        }, 1000);
+
+        setTimeout(function() {
+            addFixedSprite(res.MAP7_LOGO, 0.4, 0.62, 0.2, {
+                "z-index": "75"
+            },  ["animated","flipInX"]);
+        }, 2500);
+
+        setTimeout(function() {
+            var label = addAnimatedSprite([res.MAP8_SMOKE1, res.MAP8_SMOKE2],200, 0.2, 0.6, 0.6, {
+                "z-index": "76"
+            });
+        }, 4000);
+    }
+
+
 
     function showClickNext(cb) {
         var div = $("<div class='next'><span>轻触到下一幕</span></div>");
@@ -100,7 +155,8 @@ var RedPackageDirector = (function(window) {
 
         $("body").unbind();
 
-        $("body").bind("click", function() {
+        $("body").bind("click", function(e) {
+            e.preventDefault();
             cb();
         });
     }
@@ -154,7 +210,6 @@ var RedPackageDirector = (function(window) {
         }
     }
 
-
     function addSprite(url, x, y, width, styles, clazzs) {
         var sprite = $("<div class='sprite'><img></div>");
         var rx = x, ry = y;
@@ -172,26 +227,11 @@ var RedPackageDirector = (function(window) {
         }
 
         apply(sprite, styles, clazzs);
-
         $("body").append(sprite);
         return sprite;
     }
 
-    function apply(ele, styles, clazzs) {
-        if (styles) {
-            for(var key in styles) {
-                ele.css(key, styles[key]);
-            }
-        }
-
-        if (clazzs) {
-            for(var i=0; i<clazzs.length; i++) {
-                ele.addClass(clazzs[i]);
-            }
-        }
-    }
-
-    function addLabel(url, x, y, width, styles, clazzs) {
+    function addFixedSprite(url, x, y, width, styles, clazzs) {
         var sprite = $("<div class='label'><img></div>");
         var rx = x, ry = y;
         if (rx<1) rx = rx * WIDTH;
@@ -210,6 +250,52 @@ var RedPackageDirector = (function(window) {
     }
 
 
+    function addAnimatedSprite(frames, intevals, x, y, width, styles, clazzs) {
+        var sprite = $("<div class='sprite'><img></div>");
+        var rx = x, ry = y;
+        if (rx<1) rx = rx * WIDTH;
+        if (ry<1) ry = ry * HEIGHT;
+        sprite.data("x", rx);
+        sprite.data("y", ry);
+        sprite.css("left", rx);
+        sprite.css("top", ry);
+
+        if (width) {
+            sprite.find("img").attr("width", width*WIDTH);
+        }
+
+        var animated = function() {
+            sprite.delay(intevals).queue(function() {
+                $(this).find("img").attr("src", frames[0]);
+                $(this).dequeue();
+            }).delay(intevals).queue(function() {
+                $(this).find("img").attr("src", frames[1]);
+                $(this).dequeue();
+            }).delay(intevals)
+            .queue(animated);
+        };
+        animated();
+
+        apply(sprite, styles, clazzs);
+        $("body").append(sprite);
+        return sprite;
+    }
+
+    function apply(ele, styles, clazzs) {
+        if (styles) {
+            for(var key in styles) {
+                ele.css(key, styles[key]);
+            }
+        }
+
+        if (clazzs) {
+            for(var i=0; i<clazzs.length; i++) {
+                ele.addClass(clazzs[i]);
+            }
+        }
+    }
+
+
     function removeSprite(sprite) {
         $(sprite).remove();
     }
@@ -219,6 +305,7 @@ var RedPackageDirector = (function(window) {
         var img = $("<img>");
         img.attr("src", url);
         img.attr("width", $(window).width());
+        img.css("-webkit-transform", "translateY(-80px);");
         div.append(img);
 
         if (effect==="circleout") {
@@ -245,26 +332,28 @@ var RedPackageDirector = (function(window) {
                 setTransitionTime(old, "1200ms");
                 old.css("opacity",1);
                 old.css("-webkit-transform", "scale(4)");
-                //$("body").append(div);
 
-                //div.css("opacity", "1");
-                //div.css("-webkit-transform", "scale(1)");
                 div.css("-webkit-transition-delay",.5);
                 div.css("opacity", "1");
                 div.css("-webkit-transform", "scale(1)");
             }, 100);
         } else if (effect==="slideOutLeft") {
             placeAbove();
-            div.css("-webkit-transform", "translateX('"+ WIDTH + "')");
-            $("body").append(div);
-
             var old = $(".background");
-            setTransitionTime(old, "500ms");
-            setTransitionTime(div, "500ms");
+            div.css("-webkit-transform", "translateX("+ WIDTH + "px)");
+
+            $("body").append(div);
+            setTransitionTime(old, "800ms");
+            setTransitionTime(div, "800ms");
             setTimeout(function() {
-                old.css("-webkit-transform", "translateX('-" + WIDTH+ "')");
+                old.css("-webkit-transform", "translateX(-" + WIDTH+ "px)");
                 div.css("-webkit-transform", "translateX(0)");
             }, 100);
+
+            setTimeout(function() {
+                old.remove();
+            }, 1000);
+
         } else {
             $("body").append(div);
         }
@@ -281,9 +370,10 @@ var RedPackageDirector = (function(window) {
     }
 
     function setTransitionTime(div, time, effect) {
-        var ends = time  + ((effect==null)?"":effect);
-        console.log("opacity "+ ends + ", -webkit-transform " + + ends + ", -webkit-clip-path " + ends );
-        div.css("-webkit-transition", "opacity "+ ends + ", -webkit-transform " +  ends + ", -webkit-clip-path " + ends );
+        //var ends = time  + ((effect==null)?"linear":effect);
+        div.css("-webkit-transition", "opacity .5s linear, -webkit-transform .5s linear");
+
+        //$(div).css("-webkit-transition", "-webkit-transform .8s linear");
     }
 
     function preloadPictures(pictureUrls, ci, callback) {
