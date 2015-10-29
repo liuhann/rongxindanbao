@@ -28,6 +28,11 @@ html, body {
     z-index: 10;
 }
 
+.animatedSprite {
+    position: absolute;
+    background-size: cover;
+}
+
 .label  {
     position: absolute;
 }

@@ -131,16 +131,23 @@ var RedPackageDirector = (function(window) {
         }, 1000);
 
         setTimeout(function() {
-            addFixedSprite(res.MAP7_LOGO, 0.4, 0.62, 0.2, {
+            addFixedSprite(res.MAP7_LOGO, 0.4, 0.63, 0.2, {
                 "z-index": "75"
             },  ["animated","flipInX"]);
         }, 2500);
 
         setTimeout(function() {
-            var label = addAnimatedSprite([res.MAP8_SMOKE1, res.MAP8_SMOKE2],200, 0.2, 0.6, 0.6, {
-                "z-index": "76"
-            });
+            var label = addAnimatedSprite([res.MAP8_SMOKE1, res.MAP8_SMOKE2],"smoking",200, 0.15, 0.55, 0.7, 0.3);
+            label.css("z-index", "79");
         }, 4000);
+
+        setTimeout(function() {
+            scene8();
+        }, 6000);
+    }
+
+    function scene8() {
+
     }
 
 
@@ -250,33 +257,32 @@ var RedPackageDirector = (function(window) {
     }
 
 
-    function addAnimatedSprite(frames, intevals, x, y, width, styles, clazzs) {
-        var sprite = $("<div class='sprite'><img></div>");
+    function addAnimatedSprite(frames, name, intevals, x, y, width, height) {
+        var sprite = $("<div class='animatedSprite'></div>");
         var rx = x, ry = y;
         if (rx<1) rx = rx * WIDTH;
         if (ry<1) ry = ry * HEIGHT;
-        sprite.data("x", rx);
-        sprite.data("y", ry);
         sprite.css("left", rx);
         sprite.css("top", ry);
+        sprite.css("width", width*WIDTH);
+        sprite.css("height", height*HEIGHT);
 
-        if (width) {
-            sprite.find("img").attr("width", width*WIDTH);
+        sprite.css("background-image", "url('" + frames[0] + "')");
+        var animatedStyle = "@-webkit-keyframes " + name + " { ";
+        for(var i=0; i<frames.length; i++) {
+            animatedStyle += (i * 100/frames.length) + "% { "
+            + "background-image: url('" + frames[i] + "');"
+            + "} "
         }
+        animatedStyle += "}" ;
+        animatedStyle += "." + name + " { -webkit-animation-name: " + name + ";}";
 
-        var animated = function() {
-            sprite.delay(intevals).queue(function() {
-                $(this).find("img").attr("src", frames[0]);
-                $(this).dequeue();
-            }).delay(intevals).queue(function() {
-                $(this).find("img").attr("src", frames[1]);
-                $(this).dequeue();
-            }).delay(intevals)
-            .queue(animated);
-        };
-        animated();
+        $("body").append("<style>" + animatedStyle + "</style>");
 
-        apply(sprite, styles, clazzs);
+        sprite.addClass(name);
+        sprite.addClass("animated infinite");
+        sprite.css("-webkit-animation-duration" , intevals);
+
         $("body").append(sprite);
         return sprite;
     }
@@ -287,14 +293,12 @@ var RedPackageDirector = (function(window) {
                 ele.css(key, styles[key]);
             }
         }
-
         if (clazzs) {
             for(var i=0; i<clazzs.length; i++) {
                 ele.addClass(clazzs[i]);
             }
         }
     }
-
 
     function removeSprite(sprite) {
         $(sprite).remove();
