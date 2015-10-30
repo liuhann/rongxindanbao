@@ -8,28 +8,33 @@ var RedPackageDirector = (function(window) {
     var WIDTH = $(window).width();
     var HEIGHT = (1008) * (WIDTH/640);
 
+    var musicLoaded = false;
+    var loadingPics = true;
+
+    var loadedCb = null;
+
     var res = {
         HAND: "images/hand.png",
-        MAP1_BG : "images/001_bg.jpg",
+        MAP1_BG : "images/001_bg.gif",
         MAP1_PR_PEOPLE: "images/001_people.png",
-        MAP2_BG : "images/002_bg.jpg",
+        MAP2_BG : "images/002_bg.gif",
         MAP2_TEXT: "images/002_text.png",
         MAP2_WORKING_GIF: "images/003_people.gif",
         MAP3_TEXT: "images/003_text.png",
-        MAP4_BG: "images/004_bg.jpg",
+        MAP4_BG: "images/004_bg.gif",
         MAP4_TEXT: "images/004_text.png",
-        MAP5_BG: "images/005_bg.jpg",
+        MAP5_BG: "images/005_bg.gif",
         MAP5_TEXT: "images/005_text.png",
-        MAP6_BG: "images/006_bg.jpg",
+        MAP6_BG: "images/006_bg.gif",
         MAP6_TEXT: "images/006_text.png",
-        MAP7_BG : "images/007_bg.jpg",
+        MAP7_BG : "images/007_bg.gif",
         MAP7_CAR : "images/007_car.png",
         MAP7_TEXT : "images/007_text.png",
         MAP7_LOGO : "images/007_logo.png",
         MAP8_SMOKE1 : "images/008_smoke01.png",
         MAP8_SMOKE2 : "images/008_smoke02.png",
         MAP8_SMOKE_GIF : "images/008_smoke.gif",
-        MAP9_BG : "images/009_bg.jpg",
+        MAP9_BG : "images/009_bg.gif",
         MAP9_HEART : "images/009_heart.png",
         MAP9_MONEY5 : "images/009_money5.png",
         MAP9_MONEY10 : "images/009_money10.png",
@@ -37,6 +42,7 @@ var RedPackageDirector = (function(window) {
         MAP9_BUTTON1 : "images/009_button01.png",
         MAP9_BUTTON2 : "images/009_button02.png"
     };
+
     function play() {
         showClickNext(scene2);
     }
@@ -261,7 +267,7 @@ var RedPackageDirector = (function(window) {
     }
 
     function load(cb) {
-        preloadPictures(["images/001_bg.jpg", "images/001_people.png"], function() {
+        preloadPictures(["images/001_bg.gif", "images/001_people.png"], function() {
         }, function() {
             setBg(res.MAP1_BG);
             var f = [];
@@ -283,7 +289,12 @@ var RedPackageDirector = (function(window) {
                 pasted.css("width",0.3 + (loaded/f.length)*0.4 * WIDTH + "px");
                 moveTo(progress, 0.3 + (loaded/f.length)*0.4, yy-81, "1000ms");
             }, function() {
-                cb();
+                if (musicLoaded) {
+                    cb();
+                } else {
+                    loadingPics = false;
+                    loadedCb = cb;
+                }
             });
         });
 
@@ -514,8 +525,17 @@ var RedPackageDirector = (function(window) {
         }
     };
 
+    function mediaLoaded() {
+        musicLoaded = true;
+        if (loadingPics) {
+            return;
+        } else {
+            loadedCb();
+        }
+    }
     return {
         load: load,
+        mediaLoaded: mediaLoaded,
         play: play
     }
 
