@@ -1,16 +1,13 @@
 $(function() {
-
    RedPackageDirector.load(function(){
         RedPackageDirector.play();
    });
-
 });
 
-
 var RedPackageDirector = (function(window) {
-
     var WIDTH = $(window).width();
     var HEIGHT = (1008) * (WIDTH/640);
+
     var res = {
         HAND: "images/hand.png",
         MAP1_BG : "images/001_bg.jpg",
@@ -31,6 +28,7 @@ var RedPackageDirector = (function(window) {
         MAP7_LOGO : "images/007_logo.png",
         MAP8_SMOKE1 : "images/008_smoke01.png",
         MAP8_SMOKE2 : "images/008_smoke02.png",
+        MAP8_SMOKE_GIF : "images/008_smoke.gif",
         MAP9_BG : "images/009_bg.jpg",
         MAP9_HEART : "images/009_heart.png",
         MAP9_MONEY5 : "images/009_money5.png",
@@ -52,17 +50,16 @@ var RedPackageDirector = (function(window) {
             addFixedSprite(res.MAP2_TEXT, 0.1, 0.05, 0.8, {
                 "z-index": "21"
             }, ["animated","fadeInUp"]);
-        }, 700);
-
+        }, 1000);
         setTimeout(function() {
             showClickNext(scene3);
-        }, 1200);
+        }, 2000);
         //
     }
 
     function scene3() {
         clear();
-        addFixedSprite(res.MAP3_TEXT, 0.1, 0.05, 0.7, {
+        addFixedSprite(res.MAP3_TEXT, 0.2, 0.03, 0.55 , {
             "z-index": "31"
         }, ["animated","fadeInUp"]);
 
@@ -71,12 +68,12 @@ var RedPackageDirector = (function(window) {
         });
 
         setTimeout(function() {
-            moveTo(wg, 0.45, 0.5, "4s");
+            moveTo(wg, -0.3, 0.55, "6s");
         }, 400);
 
         setTimeout(function() {
             showClickNext(scene4);
-        }, 2400);
+        }, 3000);
     }
 
     function scene4() {
@@ -84,22 +81,21 @@ var RedPackageDirector = (function(window) {
         setBg(res.MAP4_BG, "zoomFade");
 
         setTimeout(function() {
-            addFixedSprite(res.MAP4_TEXT, 0.1, 0.2, 0.4, {
+            addFixedSprite(res.MAP4_TEXT, 0.1, 0.1, 0.4, {
                 "z-index": "41"
             },  ["animated","fadeInUp"]);
-        }, 1500);
-
+        }, 2500);
 
         setTimeout(function() {
             showClickNext(scene5);
-        }, 2500);
+        }, 4000);
     }
 
     function scene5() {
         clear();
         setBg(res.MAP5_BG, "slideOutLeft");
         setTimeout(function() {
-            addFixedSprite(res.MAP5_TEXT, 0.1, 0.2, 0.5, {
+            addFixedSprite(res.MAP5_TEXT, 0.3, 0.08, 0.5, {
                 "z-index": "51"
             },  ["animated","fadeInUp"]);
         }, 1500);
@@ -113,82 +109,130 @@ var RedPackageDirector = (function(window) {
         clear();
         setBg(res.MAP6_BG, "slideOutLeft");
         setTimeout(function() {
-            addFixedSprite(res.MAP6_TEXT, 0.1, 0.2, 0.5, {
+            addFixedSprite(res.MAP6_TEXT, 0.15, 0.1, 0.6, {
                 "z-index": "51"
             },  ["animated","fadeInUp"]);
-        }, 1500);
+        }, 1000);
 
         setTimeout(function() {
             showClickNext(scene7);
         }, 2500);
     }
 
-
     function scene7() {
         clear();
         setBg(res.MAP7_BG, "slideOutLeft");
+
+        /*
         setTimeout(function() {
-            addFixedSprite(res.MAP7_CAR, 0.2, 0.3, 0.6, {
+            car = addFixedSprite(res.MAP7_CAR, 0.2, 0.33, 0.6, {
                 "z-index": "71"
-            },  ["animated","fadeIn"]);
-        }, 500);
-
-        setTimeout(function() {
-            addFixedSprite(res.MAP7_TEXT, 0.15, 0.1, 0.7, {
-                "z-index": "72"
-            },  ["animated","fadeInUp"]);
+            },  ["animated","fadeIn", "scene7"]);
         }, 1000);
-
+        s*/
         setTimeout(function() {
-            addFixedSprite(res.MAP7_LOGO, 0.4, 0.63, 0.2, {
+            addFixedSprite(res.MAP7_TEXT, 0.15, 0.05, 0.7, {
+                "z-index": "72"
+            },  ["animated","fadeInUp" , "scene7"]);
+        }, 2000);
+
+        var logo;
+        setTimeout(function() {
+            logo = addFixedSprite(res.MAP7_LOGO, 0.41, 0.62, 0.2, {
                 "z-index": "75"
-            },  ["animated","flipInX"]);
-        }, 2500);
+            },  ["animated","fadeIn" ,"scene7"]);
+        }, 3500);
 
+        var smoke;
         setTimeout(function() {
-            var label = addAnimatedSprite([res.MAP8_SMOKE1, res.MAP8_SMOKE2],"smoking",200, 0.15, 0.55, 0.7, 0.3);
-            label.css("z-index", "79");
-        }, 4000);
-
-        setTimeout(function() {
-            scene8();
+            smoke = addFixedSprite(res.MAP8_SMOKE_GIF,0.16,0.53,0.7, {'z-index': "901"});
+            //var label = addAnimatedSprite([res.MAP8_SMOKE1, res.MAP8_SMOKE2], "smoking", 400, 0.15, 0.5, 0.7, 0.27);
+            //setTransitionTime(label, ".8s");
+            //zoomIn(car, "3s");
+            //zoomIn(logo, "3s");
         }, 6000);
+
+        setTimeout(function() {
+            setTransitionTime(smoke, "2s");
+            smoke.css("-webkit-transform", "scale(6)");
+        }, 6200);
+
+        setTimeout(function() {
+            $(".scene7").remove();
+            scene8();
+            setTransitionTime(smoke, "2s");
+            smoke.css("opacity", "0");
+        }, 8200);
+        setTimeout(function() {
+            smoke.remove();
+        }, 10000);
     }
 
     function scene8() {
-        clear();
-        setBg(res.MAP9_BG, "zoomFade");
-
+        setBg(res.MAP9_BG);
         var heart = $("<div id='heart' style='position: absolute;z-index: 191;'></div>");
         heart.css("left", 0.1*WIDTH);
         heart.css("top", 0.325*HEIGHT);
         $("body").append(heart);
-
         addFixedSprite(res.MAP9_MONEY15, 0.3, 0.4, 0.4, {
             'z-index': '190'
         });
-
-        addLabel("使用期限：2015.10.25-2015.11.11", 0.2, 0.55, {
-            color: "red",
-            'font-size': "16px",
+        addLabel("使用期限：2015.10.25-2015.11.11", 0.29, 0.55, {
+            color: "#f76d74",
+            'font-size': WIDTH/36 + "px",
             'z-index': "181"
         });
-        LuckyCard.case({id: "heart", coverImg:'images/009_heart.png',ratio:.8, width: 0.77*WIDTH, height:0.35*HEIGHT,callback:function(){
+        LuckyCard.case({id: "heart", coverImg:'images/009_heart.png',ratio:.4, width: 0.77*WIDTH, height:0.35*HEIGHT,callback:function(){
             $("#heart").remove();
-
             var ckx = addLabel("",0.2,0.73, {
                'z-index': "180"
             });
-            var input = $("<input class='mobile' placeholder='请输入您平台预留手机号'>");
+            ckx.attr("id", "inputck");
+            var input = $("<input class='mobilex' type='number' placeholder='请输入您平台预留手机号'>");
             ckx.append(input);
-            addFixedSprite(res.MAP9_BUTTON1,0.2, 0.85   , 0.6, {
+            input.css("font-size", WIDTH/24 + "px")
+            input.css("padding", "15px " + WIDTH/20 + "px");
+
+            var btn = addFixedSprite(res.MAP9_BUTTON1,0.2, 0.85   , 0.6, {
                 'z-index': '180'
             }, ["animated", "zoomIn"]);
+            btn.attr("id", "getbtn");
+
+            btn.click(function() {
+                $(this).addClass("animated elementClicked");
+                $(this).unbind();
+                var tbtn = $(this);
+                setTimeout(function() {
+                    tbtn.find("img").attr("src", res.MAP9_BUTTON2);
+                }, 800);
+            });
+        }, startMove: function() {
+            $("#hand").remove();
         }});
+
+        setTimeout(function() {
+            var hand = addFixedSprite(res.HAND, 0.18, 0.42, 0.15, {
+                'z-index': 192
+            },["animated", "slideObliqueDown", "infinite"]);
+            hand.attr("id", "hand");
+        }, 3000);
+
+        $(window).resize(function() {
+            if (HEIGHT - $(window).height() > 50) {
+                $("#inputck").css("top", 0.6*HEIGHT);
+                $("#getbtn").css("top", 0.72*HEIGHT);
+            } else {
+                $("#inputck").css("top", 0.73*HEIGHT);
+                $("#getbtn").css("top", 0.85*HEIGHT);
+            }
+        });
+
+
     }
 
     function showClickNext(cb) {
-        var div = $("<div class='next'><div class='circle fadeOutScale animated infinite'></div><img class='pulse animated infinite' src=' " + res.HAND + "'><span>轻触到下一幕</span> </div>");
+        /*
+        var div = $("<div class='next'><div class='circle fadeOutScale animated infinite'></div><img class='pulse animated infinite' src=' " + res.HAND + "'></div>");
         div.css("font-size", "20px");
         div.css("right", "20px");
         div.css("bottom", "20px");
@@ -201,11 +245,15 @@ var RedPackageDirector = (function(window) {
             e.preventDefault();
             cb();
         });
+        */
+
+        setTimeout(cb, 2000);
     }
 
 
     function clear() {
         $("body").unbind();
+        $(".progress").remove();
         $(".next").remove();
         $(".sprite").remove();
         $(".label").remove();
@@ -213,30 +261,32 @@ var RedPackageDirector = (function(window) {
     }
 
     function load(cb) {
-        setBg(res.MAP1_BG);
-        var f = [];
-        for(var img in res) {
-            f.push(res[img]);
-        }
-        var yy = Math.floor(WIDTH/640 * 535);
-        console.log(yy);
-
-        var progress = addSprite("images/001_people.png", 0.3, yy-81);
-        progress.append("<div class='percent' style='position: absolute;left: 14px;top: 14px;'></div>");
-
-        var pasted = $("<div style='position:absolute; height: 4px;background-color: #ffec00; width: 20px;'></div>");
-        $("body").append(pasted);
-        pasted.css("left", WIDTH*0.3);
-        pasted.css("top", yy);
-        pasted.css("-webkit-transition", "width .6s linear");
-
-        preloadPictures(f, function(loaded) {
-            progress.find(".percent").html(Math.floor(loaded/f.length*100) + "%");
-            pasted.css("width",0.3 + (loaded/f.length)*0.4 * WIDTH + "px");
-            moveTo(progress, 0.3 + (loaded/f.length)*0.4, yy-81, "1000ms");
+        preloadPictures(["images/001_bg.jpg", "images/001_people.png"], function() {
         }, function() {
-            cb();
+            setBg(res.MAP1_BG);
+            var f = [];
+            for(var img in res) {
+                f.push(res[img]);
+            }
+            var yy = Math.floor(WIDTH/640 * 535);
+            var progress = addSprite("images/001_people.png", 0.3, yy-81);
+            progress.append("<div class='percent' style='position: absolute;left: 14px;top: 14px;'></div>");
+
+            var pasted = $("<div class='progress' style='position:absolute; height: 4px;background-color: #ffec00; width: 20px;'></div>");
+            $("body").append(pasted);
+            pasted.css("left", WIDTH*0.3);
+            pasted.css("top", yy);
+            pasted.css("-webkit-transition", "width .6s linear");
+
+            preloadPictures(f, function(loaded) {
+                progress.find(".percent").html(Math.floor(loaded/f.length*100) + "%");
+                pasted.css("width",0.3 + (loaded/f.length)*0.4 * WIDTH + "px");
+                moveTo(progress, 0.3 + (loaded/f.length)*0.4, yy-81, "1000ms");
+            }, function() {
+                cb();
+            });
         });
+
     }
 
     function moveTo(sprite, x, y, dura) {
@@ -304,7 +354,19 @@ var RedPackageDirector = (function(window) {
         apply(label, styles, clazzs);
         $("body").append(label);
         return label;
+    }
 
+    function zoomIn(div, time) {
+        setTransitionTime(div,time);
+        $(div).css("-webkit-transform", "scale(.7)");
+        $(div).css("-webkit-transition-origin", "center center");
+    }
+
+    function zoomOutFade(div, time) {
+        setTransitionTime(div,time);
+        $(div).css("-webkit-transform", "scale(6)");
+        $(div).css("-webkit-transition-origin", "center 80%");
+        $(div).css("opacity", 0);
     }
 
     function addAnimatedSprite(frames, name, intevals, x, y, width, height) {
@@ -354,8 +416,9 @@ var RedPackageDirector = (function(window) {
         $(sprite).remove();
     }
 
-    function setBg(url , effect) {
+    function setBg(url , effect, extra) {
         var div = $("<div class='background'></div>");
+        div.css("height", HEIGHT);
         var img = $("<img>");
         img.attr("src", url);
         img.attr("width", $(window).width());
@@ -365,11 +428,11 @@ var RedPackageDirector = (function(window) {
         if (effect==="circleout") {
             placeAbove();
             var old = $(".background");
-            div.css("-webkit-clip-path","circle(10% at 60% 50%)");
+            //div.css("-webkit-clip-path","circle(10% at 60% 50%)");
             div.css("-webkit-transition", "-webkit-clip-path .6s linear");
             $("body").append(div);
             setTimeout(function() {
-                div.css("-webkit-clip-path","circle(80%)");
+                //div.css("-webkit-clip-path","circle(80% at 60% 50%)");
             }, 100);
             setTimeout(function() {
                 old.remove();
@@ -378,38 +441,38 @@ var RedPackageDirector = (function(window) {
             placeAbove();
             var old = $(".background");
             div.css("opacity", "0");
-            div.css("-webkit-transform", "scale(1.5)");
-            setTransitionTime(div, "1200ms");
+            div.css("-webkit-transform", "scale(1.1)");
+            setTransitionTime(div, "1s");
             $("body").append(div);
-
             setTimeout(function() {
-                setTransitionTime(old, "1200ms");
-                old.css("opacity",1);
+                setTransitionTime(old, "3s");
                 old.css("-webkit-transform", "scale(4)");
-
-                div.css("-webkit-transition-delay",.5);
+                div.css("-webkit-transition-delay","1s");
                 div.css("opacity", "1");
                 div.css("-webkit-transform", "scale(1)");
             }, 100);
+            setTimeout(function() {
+                old.remove();
+            }, 3000);
         } else if (effect==="slideOutLeft") {
             placeAbove();
             var old = $(".background");
             div.css("-webkit-transform", "translateX("+ WIDTH + "px)");
 
             $("body").append(div);
-            setTransitionTime(old, "800ms");
-            setTransitionTime(div, "800ms");
+            setTransitionTime(old, ".5s");
+            setTransitionTime(div, ".5s");
             setTimeout(function() {
                 old.css("-webkit-transform", "translateX(-" + WIDTH+ "px)");
                 div.css("-webkit-transform", "translateX(0)");
             }, 100);
-
             setTimeout(function() {
                 old.remove();
             }, 1000);
-
         } else {
+            var old = $(".background");
             $("body").append(div);
+            old.remove();
         }
 
         function placeAbove() {
@@ -422,11 +485,9 @@ var RedPackageDirector = (function(window) {
         }
         return div;
     }
-
     function setTransitionTime(div, time, effect) {
         //var ends = time  + ((effect==null)?"linear":effect);
-        div.css("-webkit-transition", "opacity .5s linear, -webkit-transform .5s linear");
-
+        div.css("-webkit-transition", "opacity " + time + " linear, -webkit-transform " + time + " linear");
         //$(div).css("-webkit-transition", "-webkit-transform .8s linear");
     }
 
@@ -434,7 +495,6 @@ var RedPackageDirector = (function(window) {
         var i,
             j,
             loaded = 0;
-
         for (i = 0, j = pictureUrls.length; i < j; i++) {
             (function (img, src) {
                 img.onload = function () {
@@ -530,6 +590,11 @@ var RedPackageDirector = (function(window) {
      * touchmove/mousemove event handler
      */
     function _moveEventHandler(event) {
+
+        if (this.opt.startMove) {
+            this.opt.startMove();
+        }
+
         var evt = this.supportTouch?event.touches[0]:event;
         var coverPos = this.cover.getBoundingClientRect();
         var mouseX = evt.pageX - coverPos.left;
