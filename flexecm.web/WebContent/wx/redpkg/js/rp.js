@@ -14,6 +14,7 @@ var RedPackageDirector = (function(window) {
     var loadedCb = null;
 
     var res = {
+        MUTER: "images/music.png",
         HAND: "images/hand.png",
         MAP1_BG : "images/001_bg.gif",
         MAP1_PR_PEOPLE: "images/001_people.png",
@@ -197,7 +198,7 @@ var RedPackageDirector = (function(window) {
             var input = $("<input class='mobilex' type='number' placeholder='请输入您平台预留手机号'>");
             ckx.append(input);
             input.css("font-size", WIDTH/24 + "px")
-            input.css("padding", "15px " + WIDTH/20 + "px");
+            input.css("padding", "15px " + WIDTH/16 + "px");
 
             var btn = addFixedSprite(res.MAP9_BUTTON1,0.2, 0.85   , 0.6, {
                 'z-index': '180'
@@ -266,8 +267,11 @@ var RedPackageDirector = (function(window) {
         $(".animatedSprite").remove();
     }
 
+
+
     function load(cb) {
         preloadPictures(["images/001_bg.gif", "images/001_people.png"], function() {
+
         }, function() {
             setBg(res.MAP1_BG);
             var f = [];
@@ -525,7 +529,33 @@ var RedPackageDirector = (function(window) {
         }
     };
 
+    function addMediaMuter() {
+        var muter = $("<div> <IMG></div>");
+
+        muter.find("img").attr("src", res.MUTER);
+
+        muter.css("z-index", 9999).css("position", "absolute").css("right",  WIDTH/40).css("top",  WIDTH/40);
+
+        muter.addClass("rotate360");
+        muter.find("img").css("width", WIDTH/12);
+
+        $("body").append(muter);
+
+        muter.click(function() {
+
+            var audio = document.getElementById("myaudio");
+            if ($(this).hasClass("rotate360")) {
+                audio.pause();
+                $(this).removeClass("rotate360").addClass("filtergrey");
+            } else {
+                audio.play();
+                $(this).addClass("rotate360").removeClass("filtergrey");
+            }
+        });
+    }
+
     function mediaLoaded() {
+        addMediaMuter();
         musicLoaded = true;
         if (loadingPics) {
             return;

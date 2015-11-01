@@ -156,7 +156,7 @@ public class EliyouService {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        return new HashMap<>(0);
+        return new HashMap(0);
     }
 
     @RestService(method="GET", uri="/eliyou/project/invest", authenticated=true, rndcode=false)
@@ -187,7 +187,7 @@ public class EliyouService {
 
         if ("88".equals(result.get("ResultCode"))) {
 
-            List<Map<String, String>> datas = new ArrayList<>();
+            List<Map<String, String>> datas = new ArrayList();
             datas.add(MapUtils.tribleMap("key","first","value", "恭喜您抢投成功，您已成功投资，明日开始计息。", "color", "#173177"));
             datas.add(MapUtils.tribleMap("key","keyword1","value",(String)result.get("Amount"), "color", "#173177"));
             datas.add(MapUtils.tribleMap("key","keyword2","value",StringUtils.formateDate(new Date()), "color", "#173177"));
@@ -332,7 +332,7 @@ public class EliyouService {
         logger.info("ResultCode: " + result.get("ResultCode"));
 
         if ("88".equals(result.get("ResultCode"))) {
-            List<Map<String, String>> datas = new ArrayList<>();
+            List<Map<String, String>> datas = new ArrayList();
             datas.add(MapUtils.tribleMap("key","first","value", "您的乾多多账户充值成功", "color", "#173177"));
             datas.add(MapUtils.tribleMap("key","keyword1","value",(String)result.get("Amount"), "color", "#173177"));
             datas.add(MapUtils.tribleMap("key","keyword2","value",StringUtils.formateDate(new Date()), "color", "#173177"));
@@ -391,9 +391,38 @@ public class EliyouService {
         return new HashMap<String,Object>(0);
     }
 
+
+
+
+    @RestService(method="GET", uri="/eliyou/wx/addpackage", authenticated=false)
+    public Map<String, Object> addRedPackage(@RestParam(value="mobile") String mobile, @RestParam(value="total") String total){
+
+        String requestUrl = eliyouServer + "/addRedPacket.do";
+        String json = WebUtils.getString(requestUrl);
+        try {
+            JSONObject jo = new JSONObject(json);
+            Map<String, Object> map = WebUtils.jsonObjectToMap(jo);
+            map.put("cu", AuthenticationUtil.getCurrentUser());
+
+            DBObject one = dataSource.getCollection("weixin").findOne(new BasicDBObject("userId", AuthenticationUtil.getCurrentUser()));
+            if (one!=null) {
+                map.put("openid", one.get("openid"));
+            }
+
+            return map;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String,Object>(0);
+    }
+
+
+
+
+
     public void sendWeixinBindingNotify(String user) {
         try {
-            List<Map<String, String>> datas = new ArrayList<>();
+            List<Map<String, String>> datas = new ArrayList<Map<String, String>>();
             datas.add(MapUtils.tribleMap("key","first","value", "您好，恭喜您账户绑定成功！", "color", "#173177"));
             datas.add(MapUtils.tribleMap("key","name1","value","e利友", "color", "#173177"));
             datas.add(MapUtils.tribleMap("key","name2","value","微信", "color", "#173177"));
