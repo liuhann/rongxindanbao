@@ -181,6 +181,7 @@ input.mobilex {
     -webkit-animation-timing-function: linear;
 }
 
-.filtergrey {
+.filtergrey img {
+    -webkit-transform: translateZ(0);
     -webkit-filter: grayscale(100%);
 }

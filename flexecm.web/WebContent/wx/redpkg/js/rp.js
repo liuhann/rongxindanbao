@@ -1,13 +1,17 @@
 $(function() {
+
+
+    var mr = Math.random();
+    var money = (mr<0.33)?"5":((mr<0.66?"10": "20"));
+    RedPackageDirector.setMoney(money);
    RedPackageDirector.load(function(){
         RedPackageDirector.play();
    });
 });
 
-var RedPackageDirector = (function(window) {
+var RedPackageDirector = (function(window, body) {
     var WIDTH = $(window).width();
     var HEIGHT = (1008) * (WIDTH/640);
-
     var musicLoaded = false;
     var loadingPics = true;
 
@@ -39,11 +43,16 @@ var RedPackageDirector = (function(window) {
         MAP9_HEART : "images/009_heart.png",
         MAP9_MONEY5 : "images/009_money5.png",
         MAP9_MONEY10 : "images/009_money10.png",
-        MAP9_MONEY15 : "images/009_money20.png",
+        MAP9_MONEY20 : "images/009_money20.png",
         MAP9_BUTTON1 : "images/009_button01.png",
         MAP9_BUTTON2 : "images/009_button02.png"
     };
 
+    var money = "20";
+
+    function setMoney(m) {
+        money = m;
+    }
     function play() {
         showClickNext(scene2);
     }
@@ -181,14 +190,6 @@ var RedPackageDirector = (function(window) {
         heart.css("left", 0.1*WIDTH);
         heart.css("top", 0.325*HEIGHT);
         $("body").append(heart);
-        addFixedSprite(res.MAP9_MONEY15, 0.3, 0.4, 0.4, {
-            'z-index': '190'
-        });
-        addLabel("使用期限：2015.10.25-2015.11.11", 0.29, 0.55, {
-            color: "#f76d74",
-            'font-size': WIDTH/36 + "px",
-            'z-index': "181"
-        });
         LuckyCard.case({id: "heart", coverImg:'images/009_heart.png',ratio:.4, width: 0.77*WIDTH, height:0.35*HEIGHT,callback:function(){
             $("#heart").remove();
             var ckx = addLabel("",0.2,0.73, {
@@ -214,7 +215,17 @@ var RedPackageDirector = (function(window) {
                 }, 800);
             });
         }, startMove: function() {
-            $("#hand").remove();
+            if ($("#hand").length>0) {
+                $("#hand").remove();
+                addFixedSprite("images/009_money" + money + ".png", 0.3, 0.4, 0.4, {
+                    'z-index': '190'
+                });
+                addLabel("使用期限：2015.10.25-2015.11.11", 0.29, 0.55, {
+                    color: "#f76d74",
+                    'font-size': WIDTH/36 + "px",
+                    'z-index': "181"
+                });
+            }
         }});
 
         setTimeout(function() {
@@ -564,14 +575,13 @@ var RedPackageDirector = (function(window) {
         }
     }
     return {
+        setMoney: setMoney,
         load: load,
         mediaLoaded: mediaLoaded,
         play: play
     }
 
 }(window));
-
-
 
 
 ;

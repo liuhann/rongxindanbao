@@ -391,24 +391,17 @@ public class EliyouService {
         return new HashMap<String,Object>(0);
     }
 
-
-
-
-    @RestService(method="GET", uri="/eliyou/wx/addpackage", authenticated=false)
+    @RestService(method="GET", uri="/eliyou/wx/hongbao/add", authenticated=false)
     public Map<String, Object> addRedPackage(@RestParam(value="mobile") String mobile, @RestParam(value="total") String total){
-
-        String requestUrl = eliyouServer + "/addRedPacket.do";
+        Map<String, Object> rp = getPackageByMobileNO(mobile);
+        if (!"01".equals(rp.get("code"))) {
+            return rp;
+        }
+        String requestUrl = eliyouServer + "/addRedPacket.do?mobileNo=" + mobile + "&moneyTotal=" + total;
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
             Map<String, Object> map = WebUtils.jsonObjectToMap(jo);
-            map.put("cu", AuthenticationUtil.getCurrentUser());
-
-            DBObject one = dataSource.getCollection("weixin").findOne(new BasicDBObject("userId", AuthenticationUtil.getCurrentUser()));
-            if (one!=null) {
-                map.put("openid", one.get("openid"));
-            }
-
             return map;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -416,9 +409,33 @@ public class EliyouService {
         return new HashMap<String,Object>(0);
     }
 
+    @RestService(method="GET", uri="/eliyou/wx/hongbao/get", authenticated=false)
+    public Map<String, Object> getPackageByMobileNO(@RestParam(value="mobile") String mobile){
+        String requestUrl = eliyouServer + "/getByMobileNo.do?mobileNo=" + mobile;
+        String json = WebUtils.getString(requestUrl);
+        try {
+            JSONObject jo = new JSONObject(json);
+            Map<String, Object> map = WebUtils.jsonObjectToMap(jo);
+            return map;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String,Object>(0);
+    }
 
-
-
+    @RestService(method="GET", uri="/eliyou/wx/hongbao/use", authenticated=false)
+    public Map<String, Object> transferPackage(@RestParam(value="id") String id){
+        String requestUrl = eliyouServer + "/toTransfer.do?id=" + id;
+        String json = WebUtils.getString(requestUrl);
+        try {
+            JSONObject jo = new JSONObject(json);
+            Map<String, Object> map = WebUtils.jsonObjectToMap(jo);
+            return map;
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return new HashMap<String,Object>(0);
+    }
 
     public void sendWeixinBindingNotify(String user) {
         try {
