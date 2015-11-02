@@ -394,7 +394,7 @@ public class EliyouService {
     @RestService(method="GET", uri="/eliyou/wx/hongbao/add", authenticated=false)
     public Map<String, Object> addRedPackage(@RestParam(value="mobile") String mobile, @RestParam(value="total") String total){
         Map<String, Object> rp = getPackageByMobileNO(mobile);
-        if (!"01".equals(rp.get("code"))) {
+        if ("01".equals(rp.get("code"))) {
             return rp;
         }
         String requestUrl = eliyouServer + "/addRedPacket.do?mobileNo=" + mobile + "&moneyTotal=" + total;
