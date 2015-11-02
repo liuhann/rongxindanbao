@@ -1,12 +1,10 @@
 $(function() {
-
-
     var mr = Math.random();
     var money = (mr<0.33)?"5":((mr<0.66?"10": "20"));
     RedPackageDirector.setMoney(money);
-   RedPackageDirector.load(function(){
-        RedPackageDirector.play();
-   });
+    RedPackageDirector.load(function(){
+            RedPackageDirector.play();
+    });
 });
 
 var RedPackageDirector = (function(window, body) {
@@ -580,9 +578,7 @@ var RedPackageDirector = (function(window, body) {
         mediaLoaded: mediaLoaded,
         play: play
     }
-
 }(window));
-
 
 ;
 (function(window, document, undefined) {
