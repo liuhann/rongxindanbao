@@ -89,6 +89,15 @@ function getStatus() {
             $(".meremains").hide();
             $(".regqian").show();
         }
+
+        if (data.mobile && data.mobile!="null") {
+            //查询用户的红包
+            RedPackageHandler.getHongbao(data.mobile, function(data) {
+                if (data.code==="01") {
+                    
+                }
+            });
+        }
     });
 }
 

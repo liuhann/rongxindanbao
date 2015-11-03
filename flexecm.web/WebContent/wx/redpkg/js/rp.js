@@ -1,4 +1,8 @@
 $(function() {
+    var size = $(window).width() / 19;
+    $("html").css("font-size", size + "px");
+    $("body").css("font-size", size + "px");
+
     var mr = Math.random();
     var money = (mr<0.33)?"5":((mr<0.66?"10": "20"));
     RedPackageDirector.setMoney(money);
@@ -48,6 +52,11 @@ var RedPackageDirector = (function(window, body) {
 
     var money = "20";
 
+
+    $("body").on("touchstart", function(event){
+        event.preventDefault();
+    });
+
     function setMoney(m) {
         money = m;
     }
@@ -68,7 +77,6 @@ var RedPackageDirector = (function(window, body) {
         setTimeout(function() {
             showClickNext(scene3);
         }, 2000);
-        //
     }
 
     function scene3() {
@@ -206,11 +214,15 @@ var RedPackageDirector = (function(window, body) {
 
             btn.click(function() {
                 $(this).addClass("animated elementClicked");
-                $(this).unbind();
-                var tbtn = $(this);
-                setTimeout(function() {
-                    tbtn.find("img").attr("src", res.MAP9_BUTTON2);
-                }, 800);
+
+                RedPackageHandler.addHongbao($(".mobilex").val(), money, function(data) {
+                    if (data) {
+                        $(this).unbind();
+                        btn.find("img").attr("src", res.MAP9_BUTTON2);
+                    } else {
+                        msg("请输入正确的手机号码");
+                    }
+                });
             });
         }, startMove: function() {
             if ($("#hand").length>0) {
@@ -276,8 +288,6 @@ var RedPackageDirector = (function(window, body) {
         $(".animatedSprite").remove();
     }
 
-
-
     function load(cb) {
         preloadPictures(["images/001_bg.gif", "images/001_people.png"], function() {
 
@@ -289,7 +299,7 @@ var RedPackageDirector = (function(window, body) {
             }
             var yy = Math.floor(WIDTH/640 * 535);
             var progress = addSprite("images/001_people.png", 0.3, yy-81);
-            progress.append("<div class='percent' style='position: absolute;left: 14px;top: 14px;'></div>");
+            progress.append("<div class='percent' style='position: absolute;left: 14px;top: 14px; font-size:12px;'></div>");
 
             var pasted = $("<div class='progress' style='position:absolute; height: 4px;background-color: #ffec00; width: 20px;'></div>");
             $("body").append(pasted);
@@ -761,3 +771,52 @@ var RedPackageDirector = (function(window, body) {
         window.LuckyCard = LuckyCard;
     }
 })(window, document);
+
+
+function msg(s) {
+    var msgbox = $('<div class="msg-container fadeIn animated"><div class="msgbox zoomIn animated"><div class="content">'
+        + s + '</div><div class="btns"><a class="close">知道了</a></div></div></div>');
+    $('body').append(msgbox);
+    msgbox.find(".btns").bindtouch(function() {
+        $(".msg-container").remove();
+    });
+}
+
+(function($) {
+    function attachEvent(src, cb) {
+        $(src).unbind();
+        var isTouchDevice = 'ontouchstart' in window || navigator.msMaxTouchPoints;
+        if (isTouchDevice) {
+            $(src).bind("touchstart", function(event) {
+                $(this).data("touchon", true);
+                $(this).addClass("pressed");
+            });
+            $(src).bind("touchend", function() {
+                $(this).removeClass("pressed");
+                if ($(this).data("touchon")) {
+                    cb.bind(this)();
+                }
+                $(this).data("touchon", false);
+            });
+            $(src).bind("touchmove", function() {
+                $(this).data("touchon", false);
+                $(this).removeClass("pressed");
+            });
+        } else {
+            $(src).bind("mousedown", function() {
+                $(this).addClass("pressed");
+                $(this).data("touchon", true);
+            });
+            $(src).bind("mouseup", function() {
+                $(this).removeClass("pressed");
+                $(this).data("touchon", false);
+                cb.bind(this)();
+            });
+        }
+    }
+    $.fn.bindtouch = function(cb) {
+        attachEvent($(this), cb);
+    };
+}($));
+
+

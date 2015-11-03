@@ -16,6 +16,7 @@
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/hongbao.js"></script>
     <link type="text/css" rel="stylesheet" href="css/base.css?vk1"><!--通用CSS样式 -->
 
     <style>
@@ -143,6 +144,51 @@
             }
         </script>
         <a onclick="testForLayout();">Test For layout </a>
+    </div>
+
+    <style>
+        .hongbao {
+            display: none;
+            background-image: url('img/hongbaobg.png');
+            width: 18rem;
+            height: 5rem;
+            margin: 0 .5rem;
+            background-size: contain;
+            position: relative;
+        }
+
+        .hongbao .desc {
+            position: absolute;
+            bottom: .3rem;
+            font-size: .65rem;
+            color: #fff;
+            left: .5rem;
+        }
+        .hongbao .title {
+            position: absolute;
+            right: 5rem;
+            font-size: 1rem;
+            color: #fff;
+            top: .5rem;
+        }
+
+        .hongbao .money {
+            position: absolute;
+            color: #fff;
+            font-size: 1.5rem;
+            left: .3rem;
+            top: .3rem;
+        }
+
+        .hongbao .money i {
+            font-size: 2.6rem;
+        }
+    </style>
+    <div class="hongbao">
+        <div class="money"><i>10</i>元</div>
+        <div class="title">新手红包</div>
+        <div class="desc">新手投资，无门槛使用</div>
+        <div class="date"></div>
     </div>
 
     <div class="melogout">

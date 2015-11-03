@@ -173,6 +173,45 @@ input.mobilex {
 }
 
 
+.msg-container {
+    position: absolute;
+    z-index: 9999;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,.3);
+}
+.msg-container .msgbox {
+    width: 16rem;
+    height: 9rem;
+    background-color: #fff;
+    margin: 7rem auto;
+    border-radius: .5rem;
+}
+.msg-container .msgbox .content {
+    color: #8d8d8d;
+    height: 4.6rem;
+    font-size: .8rem;
+    border-bottom: 1px solid #ccc;
+    padding: 1rem;
+}
+
+.msg-container .msgbox .btns {
+    text-align: center;
+}
+
+.msg-container .msgbox .btns a {
+    font-size: 1rem;
+    color: #2c62c8;
+    line-height: 2.5rem;
+}
+.msg-container .msgbox .btns.pressed {
+    background: #f4f5f9;
+}
+
+
+
 .rotate360 {
     -webkit-animation-iteration-count: infinite;
     -webkit-animation-duration: 3s;

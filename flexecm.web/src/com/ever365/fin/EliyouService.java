@@ -378,12 +378,10 @@ public class EliyouService {
             JSONObject jo = new JSONObject(json);
             Map<String, Object> map = WebUtils.jsonObjectToMap(jo);
             map.put("cu", AuthenticationUtil.getCurrentUser());
-
             DBObject one = dataSource.getCollection("weixin").findOne(new BasicDBObject("userId", AuthenticationUtil.getCurrentUser()));
             if (one!=null) {
                 map.put("openid", one.get("openid"));
             }
-
             return map;
         } catch (JSONException e) {
             e.printStackTrace();
@@ -398,6 +396,9 @@ public class EliyouService {
             return rp;
         }
         String requestUrl = eliyouServer + "/addRedPacket.do?mobileNo=" + mobile + "&moneyTotal=" + total;
+
+        logger.info("GET " + requestUrl);
+
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
@@ -412,6 +413,8 @@ public class EliyouService {
     @RestService(method="GET", uri="/eliyou/wx/hongbao/get", authenticated=false)
     public Map<String, Object> getPackageByMobileNO(@RestParam(value="mobile") String mobile){
         String requestUrl = eliyouServer + "/getByMobileNo.do?mobileNo=" + mobile;
+        logger.info("GET " + requestUrl);
+
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);
@@ -426,6 +429,9 @@ public class EliyouService {
     @RestService(method="GET", uri="/eliyou/wx/hongbao/use", authenticated=false)
     public Map<String, Object> transferPackage(@RestParam(value="id") String id){
         String requestUrl = eliyouServer + "/toTransfer.do?id=" + id;
+
+        logger.info("GET " + requestUrl);
+
         String json = WebUtils.getString(requestUrl);
         try {
             JSONObject jo = new JSONObject(json);

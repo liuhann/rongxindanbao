@@ -2,11 +2,12 @@
  * Created by Administrator on 2015/11/2.
  */
 
+
 var RedPackageHandler = (function() {
 
     function addHongbao(mobile, money, cb) {
         if (!isMobile(mobile)) {
-            return cb(null);
+            return cb();
         }
         $.getJSON("/service/eliyou/wx/hongbao/add", {
             'money': money,
@@ -39,7 +40,7 @@ var RedPackageHandler = (function() {
 
     return {
         addHongbao: addHongbao,
-        useHongbao: userHongbao,
+        useHongbao: useHongbao ,
         getHongbao: getHongbao
     }
 }());
