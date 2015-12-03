@@ -23,11 +23,24 @@
 <body class="bg">
 <!-- -->
 <%@ include file="top.jsp" %>
+<div class="top-lv03">
+    <ul>
+        <li><a href="index.jsp">首页</a></li>
+        <li ><a href="elogin.jsp">融资入口</a></li>
+        <li><a href="plogin.jsp">投资入口</a></li>
+        <li class="current"><a href="res.jsp">资金供应</a></li>
+        <li><a href="markets.jsp" >金融超市</a></li>
+        <li><a href="/news-view.jsp?id=56556d060cf251a9d0946900">联系我们</a></li>
+    </ul>
+</div>
+</div>
 
-    <div id="content">
+
+
+<div id="content">
 <!--内容开始 -->
     <div class="xinwen_001">
-        <cite>投资资源</cite>
+        <cite>资金供应</cite>
         <%
             FinanceService finService = ((FinanceService) ContextLoaderListener
                     .getCurrentWebApplicationContext().getBean("fin.service"));
@@ -41,7 +54,7 @@
             %>
                 <li>
                     <div class="l">
-                        <span><b>·</b><img src="<%=news.get("logo")%>"></span>
+                        <span><a target="_blank" href="<%=news.get("link")%>"><img src="<%=news.get("logo")%>"></a></span>
                     </div>
 
                     <div class="r">

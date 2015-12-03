@@ -91,13 +91,29 @@
 </head>
 <body class="bg">
 <%@ include file="top.jsp" %>
+<div class="top-lv03">
+    <ul>
+        <li><a href="index.jsp">首页</a></li>
+        <li class="current"><a href="elogin.jsp">融资入口</a></li>
+        <li><a href="plogin.jsp">投资入口</a></li>
+        <li><a href="res.jsp">资金供应</a></li>
+        <li><a href="markets.jsp" >金融超市</a></li>
+        <li><a href="/news-view.jsp?id=56556d060cf251a9d0946900">联系我们</a></li>
+    </ul>
+</div>
+</div>
+
 <%
     FinanceService finService = ((FinanceService) ContextLoaderListener
             .getCurrentWebApplicationContext().getBean("fin.service"));
     Map<String, Object> currentUser = finService.getCurrentUser();
 
     if (currentUser.get("cu") == null) {
-        response.sendRedirect("login.jsp");
+        if("person".equals(request.getQueryString())) {
+            response.sendRedirect("plogin.jsp");
+        } else {
+            response.sendRedirect("elogin.jsp");
+        }
     }
 %>
 

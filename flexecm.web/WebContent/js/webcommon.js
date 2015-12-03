@@ -449,7 +449,7 @@ var formCheck = function(selector) {
 				if ($(this).parentsUntil($(form), ".sublist").length!=0) return;
 				if ($(this).attr("id")!=null) {
 					if ($(this).attr("id").indexOf("html5_")>-1) return; //去除上传控件产生的input
-					request[$(this).attr("id")] = $(this).val();
+					request[$(this).attr("id")] = encodeURI($(this).val());
 				}
 				if ($(this).attr("type")=="radio") {
 					request[$(this).attr("name")] = $("input[name='" + $(this).attr("name") + "']:checked").val()

@@ -22,7 +22,19 @@
 
 <body class="bg">
 <!-- -->
-<%@ include file="top.jsp" %>
+<%@ include file="top.jsp"%>
+<div class="top-lv03">
+    <ul>
+        <li><a href="index.jsp">首页</a></li>
+        <li ><a href="elogin.jsp">融资入口</a></li>
+        <li><a href="plogin.jsp">投资入口</a></li>
+        <li><a href="res.jsp">资金供应</a></li>
+        <li class="current"><a href="markets.jsp" >金融超市</a></li>
+        <li><a href="/news-view.jsp?id=56556d060cf251a9d0946900">联系我们</a></li>
+    </ul>
+</div>
+</div>
+
 
     <div id="content">
 <!--内容开始 -->
@@ -42,7 +54,7 @@
                 <li>
                     <div class="l">
                         <span>
-                        <b>·</b>[<%=market.get("name").toString()%>]金额<%=market.get("quota").toString() %> <em>期限 <%=market.get("cycle").toString()%>,利率<%=market.get("rates").toString()%>%</em>
+                        <b>·</b><a href="fm-view.jsp?id=<%=market.get("_id")%>"><%=market.get("name")%></a>
                         </span>
                     </div>
 

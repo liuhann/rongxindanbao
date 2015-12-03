@@ -3,7 +3,6 @@ $(function() {
 		$(".menu_list li.current").removeClass("current");
 		$(this).addClass("current");
 	});
-
 	if(location.hash) {
 		$(location.hash).click();
 	}

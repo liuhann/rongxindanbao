@@ -27,7 +27,6 @@ function display() {
     $(".wrapper").show();
 }
 
-
 function getCurrentUser(cb) {
     $.getJSON("/service/fin/current", {}, function(d) {
         if (d.cu==null) {
@@ -51,7 +50,6 @@ function getCurrentUser(cb) {
 function setInputClearable() {
 
     $("input.cleanable").each(function() {
-
         $(this).next("span.cleanable").click(function() {
             $(this).prev("input").val("");
             $(this).hide();
@@ -94,7 +92,10 @@ function getStatus() {
             //查询用户的红包
             RedPackageHandler.getHongbao(data.mobile, function(data) {
                 if (data.code==="01") {
-                    
+                    $(".hongbao").show();
+                    $(".hongbao .money i").html(data.obj.moneyTotal);
+                    $(".hongbao .start").html(new Date(data.obj.createTime).format("yyyy.MM.dd") );
+                    $(".hongbao .end").html(new Date(data.obj.deadline).format("yyyy.MM.dd") );
                 }
             });
         }

@@ -21,7 +21,6 @@ Map<String, Object> pageInfo = finService.getIndexPageInfo();
 
 Date date = new Date();
 
-
 %>
 <!doctype html>
 <html>
@@ -311,11 +310,11 @@ function refreshImg() {
                     <span>服务电话：4008-8888-8888</span>
                 </div>
                 <div class="r_02">
-                	<img src="img/index_016.png">
+                	<img src="res/rxQRCode.jpg" width="120px">
                 </div>
                 <div class="r_03">
-                	<input type="button" value="融资指南">
-                	<input type="button" value="关于我们">
+                	<input type="button" value="融资指南" onclick="location.href='/news-view.jsp?id=565663a20cf251a9d0946904'">
+                	<input type="button" value="关于我们" onclick="location.href='/news-view.jsp?id=56566dd20cf220da793cd0f9'">
                 </div>
             </div>
 		<!-- -->
@@ -327,8 +326,8 @@ function refreshImg() {
             	<li><a href="home.jsp?request">融资入口</a></li>
             	<li><a href="home.jsp?profile">投资入口</a></li>
             	<li><a href="res.jsp">资金供应</a></li>
-            	<li><a href="invests.jsp">金融超市</a></li>
-            	<li><a href="markets.jsp">联系我们</a></li>
+            	<li><a href="markets.jsp">金融超市</a></li>
+            	<li><a href="/news-view.jsp?id=56556d060cf251a9d0946900">联系我们</a></li>
             </ul>
         </div>
 
@@ -512,20 +511,19 @@ function refreshImg() {
                     
                     <div class="r_04" style="margin-top: 8px;">
                     	<span class="r_04_l">
-                        	<a href="#">个人注册</a>
+                        	<a href="preg.jsp">个人注册</a>
                         </span>
                         <span class="r_04_l" style="margin-left: 8px;">
-                        	<a href="#">企业注册</a>
+                        	<a href="orgreg.jsp">企业注册</a>
                         </span>
                         <span class="r_04_r">
-                        	<a href="//forgot.jsp">找回密码？</a>
+                        	<a href="forgot.jsp">找回密码？</a>
                         </span>
                     </div>
            		</div>
            		<% } else { %>
 	           		<div class="box uinfo"  style="height: 250px;">
 						Hi,<%=currentUser.get("rname") %>
-							
 						<%
 						Map<String, Object> filters = new HashMap<String, Object>();
 						filters.put("uid", AuthenticationUtil.getCurrentUser());
@@ -587,7 +585,7 @@ function refreshImg() {
 							List<Map> finres = (List)((Map)pageInfo.get("finres")).get("list");
 							for(Map res : finres) {
 						%>
-							<li><a href="#"><img src="<%=res.get("logo")%>" alt=""></a></li>
+							<li><a target="_blank" href="<%=res.get("link")%>"><img src="<%=res.get("logo")%>" alt=""></a></li>
 
 						<%
 							}
@@ -598,8 +596,7 @@ function refreshImg() {
                   <div class="yinying">
                   </div>
               </div>
-          
-          
+
               <div class="r">
                   <div class="box" style="height: 236px;">
                     <div class="title">
@@ -614,7 +611,7 @@ function refreshImg() {
 								List<Map> newslist = (List)((Map)pageInfo.get("news")).get("list");
 								for(Map news : newslist) {
 							%>
-                        		<li><img src="img/index_024.png" alt=""><a href=""><%=news.get("title")%></a></img></li>
+                        		<li><img src="img/index_024.png" alt=""><a href="news-view.jsp?id=<%=news.get("_id")%>"><%=news.get("title")%></a></img></li>
 							<%
 								}
 							%>
@@ -633,37 +630,32 @@ function refreshImg() {
                     	金融超市
                     </div>
                     <div class="r">
-                    	<a href="markets.jsp">更多&gt;</a>
+                    	<%--<a href="markets.jsp">更多&gt;</a>--%>
                     </div>
                 </div>
                 <div class="content">
                 	<div class="l">
                     	<ul>
                         	<li class="current">  <!--current为选中的样式 -->
-                            	<span>企业贷款类</span>
+                            	<span style="color:white;">企业贷款类</span>
                             </li>
-                        	<li>
-                            	<span>个人贷款类</span>
-                            </li>
-							<li>
-								<span>理财产品</span>
-							</li>
                         </ul>
                     </div>
                     
                     <div class="r">
                     	<table>
                         	<tr style="background-color:#d8d8d8;">
-                            	<td style="width:20%;">名称</td>
-                                <td style="width:20%;">金额</td>
-                                <td style="width:20%;">期限</td>
-                                <td style="width:20%;">利率</td>
-                                <td style="width:20%;">合作机构</td>
+                            	<td  style="width: 30%">产品名称</td>
+                                <td style="width: 10%">最高额度</td>
+                                <td style="width: 10%">最长期限</td>
+                                <td style="width: 20%">利率</td>
+                                <td style="width: 20%">合作机构</td>
+                                <td style="width: 10%">操作</td>
                             </tr>
                     		<%
-                        		
                         	List<Map> fmlist = (List)  (((Map)pageInfo.get("fm")).get("list"));
                         		for(Map fm :fmlist) {
+									if ("1".equals(fm.get("type"))) {
                         	%>
 	                        	<!-- -->                            
                         		<tr>
@@ -672,13 +664,57 @@ function refreshImg() {
                                 <td class="fix1"><%=fm.get("cycle").toString() %></td>
                                 <td class="fix1"><%=fm.get("rates").toString() %>%</td>
                                 <td class="fix1"><%=fm.get("corporg").toString() %></td>
-                            </tr>    
+                                <td class="fix1"><a href="home.jsp?request">申请</a></td>
+                            </tr>
                         	<%
+									}
                         		}
                         	%>
                         </table>
                     </div>
                 </div>
+
+
+				<div class="content">
+					<div class="l">
+						<ul>
+							<li class="current">  <!--current为选中的样式 -->
+								<span style="color:white;">个人贷款类</span>
+							</li>
+						</ul>
+					</div>
+
+					<div class="r">
+						<table>
+							<tr style="background-color:#d8d8d8;">
+								<td  style="width: 30%">产品名称</td>
+								<td style="width: 10%">最高额度</td>
+								<td style="width: 10%">最长期限</td>
+								<td style="width: 20%">利率</td>
+								<td style="width: 20%">合作机构</td>
+								<td style="width: 10%">操作</td>
+							</tr>
+							<%
+								for(Map fm :fmlist) {
+									if ("2".equals(fm.get("type"))) {
+							%>
+							<!-- -->
+							<tr>
+								<td class="fix1"><%=fm.get("name").toString() %></td>
+								<td class="fix2"><%=fm.get("quota").toString() %></td>
+								<td class="fix1"><%=fm.get("cycle").toString() %></td>
+								<td class="fix1"><%=fm.get("rates").toString() %>%</td>
+								<td class="fix1"><%=fm.get("corporg").toString() %></td>
+								<td class="fix1"><a href="home.jsp?request">申请</a></td>
+							</tr>
+							<%
+									}
+								}
+							%>
+						</table>
+					</div>
+				</div>
+
             </div>
             
             <div class="yinying">

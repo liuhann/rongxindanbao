@@ -984,18 +984,14 @@
 	width: auto;
 	font-size: 14px;
 	color: #333;
-	font-weight: bold;
+	padding: 10px 0;
 }
 .index_top-lv07 .box .content .r table tr .fix1 {
-	width: 20%;
 	height: 40px;
-	line-height: 40px;
 }
 .index_top-lv07 .box .content .r table tr .fix2 {
-	width: 20%;
 	color: #d44e42;
 	height: 40px;
-	line-height: 40px;
 }
 .index_top-lv07 .box .content {
 	height: auto;

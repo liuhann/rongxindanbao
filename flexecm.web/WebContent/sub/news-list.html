@@ -14,6 +14,20 @@ function addNews() {
 	loadPage($("#ccontent"), "sub/news-edit.html");
 }
 
+
+
+function removeNews(t) {
+	var entry = $(t).parents(".row").data("entry");
+
+	$.post("/service/fin/content/remove", {
+		'collection': 'news',
+		'_id': entry._id
+	}, function() {
+		$(t).parents(".row").slideUp('fast');
+	});
+}
+
+
 </script>
 
 </head>
@@ -38,6 +52,9 @@ function addNews() {
 		      <div class="cell">
 		       		编辑者
 		      </div>
+				<div class="cell">
+					操作
+				</div>
 		    </div>
 		    
 		    <div class="template">
@@ -46,6 +63,9 @@ function addNews() {
 				<div class="cell" data-eval="var d=new Date(entry['updated']); d.format('yyyy-MM-dd hh:mm')">
 				</div>
 				<div class="cell" data-f="editor">
+				</div>
+				<div class="cell">
+					<a onclick="removeNews(this);">删除</a>
 				</div>
 			</div>
 		</div>

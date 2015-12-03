@@ -11,8 +11,8 @@
                     </div>
                     <div class="text">
                     	<h3>客服热线</h3>
-                        <span>(服务时间：10:00-22:00)</span>
-                       	<b>400-000-0000</b>
+                       	<b>0533-2272280</b>
+                        <span>(服务时间：8：00-17：00)</span>
                     </div>
                 </div>
                 <!-- -->
@@ -25,9 +25,9 @@
                     </div>
                     <div class="text">
                     	<h3>在线客服</h3>
+                       	<b>ＱＱ：845345875</b>
                         <span>(服务时间：10:00-22:00)</span>
-                       	<b>在线客服 即时答疑</b>
-                    </div>              
+                    </div>
                 </div>  
                 <!-- -->
                 <div class="v-line">
@@ -39,7 +39,7 @@
                     </div>
                     <div class="text">
                     	<h3>问题帮助</h3>
-                        <span>(服务时间：10:00-22:00)</span>
+                        <span>(服务时间：8：00-17：00)</span>
                        	<b>常见问题 帮助索引</b>
                     </div>               
                 </div>                                 
@@ -47,7 +47,7 @@
             
             <div class="r">
             	<div class="erweima">
-                	<img src="img/foot_013.png">
+                    <img src="res/rxQRCode.jpg" width="80px">
                 </div>
                 <div class="text">
                     	<h3>官方公众号</h3>
@@ -60,15 +60,13 @@
         	<div class="l">
             		<span>
                     	友情链接：
-                        <a href="#">e利友</a>
-                        <a href="#">齐商银行</a>
-                        <a href="#">凤凰财经</a>
-                        <a href="#">e利友</a>                        
-                        <a href="#">齐商银行</a> 
-                        <a href="#">凤凰财经</a>                                               
+                        <a href="http://www.eliyou.com">e利友</a>
+                        <a href="http://www.bankcomm.com/">交通银行</a>
+                        <a href="http://www.sdnxs.com/">山东张店农村信用社</a>
+                        <a href="http://www.cib.com.cn/">兴业银行</a>
                     </span>
-                    <span>24小时客服电话：400-400-0000  | E-mail:XXXXX@XXX.com</span>
-                    <span>©2002-2013 淄博XXXXX金融服务网版权所有 ICP备00000000号</span>
+                    <span>E-mail:rongxindanbao@163.com</span>
+                    <span>©2015-2016 淄博融信融资网版权所有 鲁ICP备10208677号-2</span>
             </div>
             
             <div class="r">

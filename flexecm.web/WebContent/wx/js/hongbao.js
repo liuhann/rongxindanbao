@@ -10,7 +10,7 @@ var RedPackageHandler = (function() {
             return cb();
         }
         $.getJSON("/service/eliyou/wx/hongbao/add", {
-            'money': money,
+            'total': money,
             'mobile': mobile
         }, function(rr) {
             cb(rr);

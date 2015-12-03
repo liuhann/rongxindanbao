@@ -148,13 +148,13 @@
 
     <style>
         .hongbao {
-            display: none;
             background-image: url('img/hongbaobg.png');
             width: 18rem;
             height: 5rem;
             margin: 0 .5rem;
             background-size: contain;
             position: relative;
+            display: none;
         }
 
         .hongbao .desc {
@@ -183,12 +183,28 @@
         .hongbao .money i {
             font-size: 2.6rem;
         }
+
+        .hongbao .date {
+            position: absolute;
+            right: .4rem;
+            top: .4rem;
+            color: #DA5558;
+            text-align: center;
+            width: 4rem;
+            font-size: .6rem;
+            line-height: 1.1rem;
+        }
     </style>
     <div class="hongbao">
         <div class="money"><i>10</i>元</div>
         <div class="title">新手红包</div>
         <div class="desc">新手投资，无门槛使用</div>
-        <div class="date"></div>
+        <div class="date">
+            <p style="font-size: 1rem;">有效期</p>
+            <p class="start"></p>
+            <p style="font-size: .8rem;">至</p>
+            <p class="end"></p>
+        </div>
     </div>
 
     <div class="melogout">

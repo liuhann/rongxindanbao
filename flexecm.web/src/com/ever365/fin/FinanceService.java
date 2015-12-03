@@ -492,6 +492,12 @@ public class FinanceService implements Tenantable {
 		return one.toMap();
 	}
 
+	@RestService(method="GET", uri="/fin/content/getbykey")
+	public Map getContentByKey(@RestParam(value="collection")String collection, @RestParam(value="key") String key,
+							   @RestParam(value="value") String value) {
+		DBObject one = dataSource.getCollection(collection).findOne(new BasicDBObject(key, value));
+		return one.toMap();
+	}
 
 	@RestService(method="POST", uri="/fin/draft/add")
 	public void addDraftRequest(Map<String, Object> request) {
@@ -520,7 +526,6 @@ public class FinanceService implements Tenantable {
 	
 	@RestService(method="GET", uri="/fin/current", authenticated=false)
 	public Map<String, Object> getCurrentUser() {
-		
 		Map<String, Object> result = new HashMap<String, Object>();
 		result.put("cu", AuthenticationUtil.getCurrentUser());
 		

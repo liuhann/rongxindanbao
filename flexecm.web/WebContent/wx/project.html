@@ -11,10 +11,11 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="-1" />
 
-    <title>最新标的</title>
+    <title>标的详情</title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
+    <script type="text/javascript" src="js/hongbao.js"></script>
     <link type="text/css" rel="stylesheet" href="css/fontello.css">
     <link type="text/css" rel="stylesheet" href="css/base.css?v12"><!--通用CSS样式 -->
     <style>
@@ -262,6 +263,22 @@
                                         location.href = "deposit.html" ;
                                     }
                                 });
+
+                                if (data.mobile && data.mobile!="null") {
+                                    //查询用户的红包
+                                    RedPackageHandler.getHongbao(data.mobile, function(data) {
+                                        if (data.code==="01") {
+                                            $(".hongbao").show();
+                                            $(".hongbao").html("您有一个" + data.obj.moneyTotal + "元红包，点击将充入您的账户");
+                                            $(".hongbao").click(function() {
+                                                RedPackageHandler.useHongbao(data.obj.id, function() {
+                                                    location.href = location.href;
+                                                });
+                                            });
+                                        }
+                                    });
+                                }
+
                                 runToNumber($(".remainmoney"),data.kyje);
                                 kyje = data.kyje;
                             }
@@ -527,8 +544,18 @@
                     </div>
                 </div>
             </div>
+            <style>
+                .hongbao {
+                    height: 1rem;
+                    background-color: #DA5558;
+                    color: #fff;
+                    padding: .5rem;
+                    font-size: .65rem;
+                    display: none;
+                }
+            </style>
+            <div class="hongbao"></div>
             <div class="more" onclick1="goDetail();">
-
             </div>
             <div class="quicksd"></div>
         </div>

@@ -126,3 +126,8 @@
 	background-image: url(../img/top_009.png);
 	background-repeat: repeat-x;
 }
+
+.top-lv03 ul li.current {
+	background-image: url(../img/top_009.png);
+	background-repeat: repeat-x;
+}
