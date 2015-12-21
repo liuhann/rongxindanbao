@@ -234,6 +234,20 @@
     </style>
     <script>
 
+
+
+        var STATE_MAP = {
+            0: "产品录入",
+            1: "初审" ,
+            2: "初审失败",
+            3: "招标中",
+            4: "满标复审",
+            5: "满标未通过",
+            6: "还款中" ,
+            7: "已还款",
+            8: "流标"
+        };
+
         var kyje = null;
         $(function() {
             var projectId = querystring("id");
@@ -398,6 +412,19 @@
                 $(".smallctt.repayFinishDate").html(new Date(project.repayFinishDate).format("yyyy-MM-dd"));
             }
 
+            if (project.state===3) {  //申购进度
+                $(container).find(".schedule").html(project.schedule + "%");
+                $(".quick").show();
+                if (project.remainAmount) {
+                    $(".remainAmount").html(formatMoney(project.remainAmount,0));
+                }
+            } else {
+                $(container).find(".schedule").html(STATE_MAP[project.state]).css("font-size", "1rem");
+                project.schedule = 100;
+            }
+            $(".rbox .c").css("background", "-webkit-gradient(linear, 0% " + (100-project.schedule) + "%, 0% 100%, from(rgb(255, 255, 255)), color-stop(0.02, rgb(197, 220, 252)), to(rgb(197, 220, 252))) rgb(255, 255, 255)");
+
+            /*
 
             if (project.schedule!=null) {  //申购进度
                 //var num = data[i].schedule * 2.5;
@@ -412,10 +439,8 @@
 
                 $(".rbox .c").css("background", "-webkit-gradient(linear, 0% " + (100-project.schedule) + "%, 0% 100%, from(rgb(255, 255, 255)), color-stop(0.02, rgb(197, 220, 252)), to(rgb(197, 220, 252))) rgb(255, 255, 255)");
             }
+            */
 
-            if (project.remainAmount) {
-                $(".remainAmount").html(formatMoney(project.remainAmount,0));
-            }
 
             if (project.uinf) {
                 $(".remainmoney").html(formatMoney(parseInt(project.uinf.kyje)));

@@ -51,6 +51,8 @@
             -o-transform: translate(-50%, -50%);
             transform: translate(-50%, -50%);
             font-size: .75rem;
+            text-align: center;
+            width: 5rem;
         }
 
         .circle svg {
@@ -88,6 +90,17 @@
     });
 
 
+    var STATE_MAP = {
+        0: "产品录入",
+        1: "初审" ,
+        2: "初审失败",
+        3: "招标中",
+        4: "满标复审",
+        5: "满标未通过",
+        6: "还款中" ,
+        7: "已还款",
+        8: "流标"
+    };
 
     function getRecents(max, page, cb) {
 
@@ -131,7 +144,16 @@
                     cloned.find(".retmethod").html(data[i].repayTypeModel.typeName);
                 }
 
-                if (data[i].schedule) {  //申购进度
+                if (data[i].state===3) {  //申购进度
+                    cloned.find(".percent").html(data[i].schedule);
+                    cloned.find("svg circle.pct").css("stroke-dasharray", data[i].schedule*2.5 + "%,250%");
+                } else {
+                    cloned.find(".percent").html(STATE_MAP[data[i].state]).css("font-size", ".6rem").next("em").remove();
+                    cloned.find("svg circle.pct").css("stroke-dasharray", 100*2.5 + "%,250%");
+                }
+
+                /*
+                if (data[i].schedule) {
                     if (data[i].schedule==100) {
                         cloned.find(".percent").html("还款中").css("font-size", ".5rem").next("em").remove();
                     } else {
@@ -139,6 +161,7 @@
                     }
                     cloned.find("svg circle.pct").css("stroke-dasharray", data[i].schedule*2.5 + "%,250%");
                 }
+                */
 
                 cloned.bindtouch(function(){
                     /*

@@ -306,8 +306,7 @@ function refreshImg() {
             
             <div class="r">
             	<div class="r_01">
-                	<img src="img/index_015.png">
-                    <span>服务电话：4008-8888-8888</span>
+
                 </div>
                 <div class="r_02">
                 	<img src="res/rxQRCode.jpg" width="120px">
@@ -633,6 +632,32 @@ function refreshImg() {
                     	<%--<a href="markets.jsp">更多&gt;</a>--%>
                     </div>
                 </div>
+
+				<style>
+					.content .l {
+						display: block;
+					}
+					.index_top-lv07 .box .content .r {
+						width: 1090px;
+					}
+					.index_top-lv07 .box .content .r table {
+						width: 1090px;
+					}
+					.index_top-lv07 .box .content .l ul li {
+						margin-bottom: 0;
+						margin-top: 10px;
+					}
+					.index_top-lv07 .box .content .r table tr td {
+						text-align: left;
+						padding: 10px;
+					}
+
+					.fix1 a {
+						background-color: #21A3E0;
+						color: #fff;
+						padding: 5px 10px;
+					}
+				</style>
                 <div class="content">
                 	<div class="l">
                     	<ul>
@@ -664,7 +689,7 @@ function refreshImg() {
                                 <td class="fix1"><%=fm.get("cycle").toString() %></td>
                                 <td class="fix1"><%=fm.get("rates").toString() %>%</td>
                                 <td class="fix1"><%=fm.get("corporg").toString() %></td>
-                                <td class="fix1"><a href="home.jsp?request">申请</a></td>
+                                <td class="fix1"><a href="fm-view.jsp?id=<%=fm.get("_id")%>">查看</a></td>
                             </tr>
                         	<%
 									}
@@ -705,7 +730,7 @@ function refreshImg() {
 								<td class="fix1"><%=fm.get("cycle").toString() %></td>
 								<td class="fix1"><%=fm.get("rates").toString() %>%</td>
 								<td class="fix1"><%=fm.get("corporg").toString() %></td>
-								<td class="fix1"><a href="home.jsp?request">申请</a></td>
+								<td class="fix1"><a href="fm-view.jsp?id=<%=fm.get("_id")%>">查看</a></td>
 							</tr>
 							<%
 									}
@@ -721,27 +746,27 @@ function refreshImg() {
             </div>
         </div>
         <!-- -->
-        <div class="index_top-lv08">
-        	<div class="box">
-            	<div class="title">
-                	<div class="l">
-                    	合作机构
-                    </div>
-                    <div class="r">
-                    	<a href="#">更多&gt;</a>
-                    </div>
-                </div>
-                <div class="content">
-                	<a href="#"><img src="img/index_029.png"></a>
-                	<a href="#" style="text-align:center;"><img src="img/index_030.png"></a>
-                	<a href="#" style="text-align:center;"><img src="img/index_031.png"></a>
-                	<a href="#" style="text-align:right;"><img src="img/index_034.png"></a>                                                            
-                </div>            	
-            </div>
-            
-            <div class="yinying">
-            </div>
-        </div>
+        <%--<div class="index_top-lv08">--%>
+        	<%--<div class="box">--%>
+            	<%--<div class="title">--%>
+                	<%--<div class="l">--%>
+                    	<%--合作机构--%>
+                    <%--</div>--%>
+                    <%--<div class="r">--%>
+                    	<%--<a href="#">更多&gt;</a>--%>
+                    <%--</div>--%>
+                <%--</div>--%>
+                <%--<div class="content">--%>
+                	<%--<a href="#"><img src="img/index_029.png"></a>--%>
+                	<%--<a href="#" style="text-align:center;"><img src="img/index_030.png"></a>--%>
+                	<%--<a href="#" style="text-align:center;"><img src="img/index_031.png"></a>--%>
+                	<%--<a href="#" style="text-align:right;"><img src="img/index_034.png"></a>                                                            --%>
+                <%--</div>            	--%>
+            <%--</div>--%>
+            <%----%>
+            <%--<div class="yinying">--%>
+            <%--</div>--%>
+        <%--</div>--%>
         <!-- -->
         <!-- -->
         <!-- -->

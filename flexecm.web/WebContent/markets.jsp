@@ -58,7 +58,7 @@
                         </span>
                     </div>
 
-                    <div class="r">
+                    <div class="r" style="display: none;">
                         <span><%=market.get("corporg").toString()%></span>
                     </div>
                 </li>

@@ -71,11 +71,23 @@
             <div class="title">
                 <cite><%=news.get("name")%></cite>
             </div>
-            <div class="content">
-                <div class="info_text">
+            <div class="content" style="padding-top: 0;">
+                <div class="info_text" style="padding-bottom: 30px;padding-top: 0px;">
                     <%=news.get("desc")%>
                 </div>
+                <style>
+                    a.request {
+                        background-color: #21A3E0;
+                        padding: 10px 25px;
+                        font-size: 24px;
+                        color: #fff;
+                        margin-bottom: 40px;
+                    }
+                </style>
+                <div style="text-align: center;"><a class="request" href="home.jsp?request">马上申请</a></div>
             </div>
+
+
         </div>
         <!--右边 -->
         <div class="r">
