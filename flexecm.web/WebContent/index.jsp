@@ -247,8 +247,38 @@ function refreshImg() {
     	<div class="index_top-lv02">
 		<!-- -->
         	<div class="l">
-            	<div class="l_01">
-       				<img src="img/index_009.png">         	
+            	<div class="l_01" style="position: relative;">
+       				<img src="img/index_009.png">
+
+					<style>
+						.slogon-slide {
+							position: absolute; position: absolute; top: 55px; left: 250px;
+							height: 30px;
+							line-height: 30px;
+							overflow: hidden;
+						}
+						.slogon-slide>div {
+						}
+					</style>
+					<script>
+						$(function() {
+							setInterval(function() {
+								$(".slogon-slide>div").first().fadeOut('fast', function() {
+									$(".slogon-slide").append($(this));
+									$(this).show();
+								});
+								//$(".slogon-slide").append($(".slogon-slide>div").first());
+							}, 5000);
+						});
+					</script>
+					<div class="slogon-slide" style="">
+						<div>融德汇智  至诚至信</div>
+						<div>诚  不诚无物    信  无信不立</div>
+						<div>让有信用的企业更健康</div>
+						<div>健康  快乐  财富  成长</div>
+						<div>共创  共享  共成长  让我们一起实现梦想</div>
+						<div>诚信文化的传播者和践行者</div>
+					</div>
                 </div>	
                 
                 <div class="l_02">
@@ -322,8 +352,8 @@ function refreshImg() {
         <div class="index_top-lv03">
         	<ul>
             	<li><a href="index.jsp">首页</a></li>
-            	<li><a href="home.jsp?request">融资入口</a></li>
-            	<li><a href="home.jsp?profile">投资入口</a></li>
+            	<li><a href="home.jsp?request">借款方入口</a></li>
+            	<li><a href="home.jsp?profile">贷款方入口</a></li>
             	<li><a href="res.jsp">资金供应</a></li>
             	<li><a href="markets.jsp">金融超市</a></li>
             	<li><a href="/news-view.jsp?id=56556d060cf251a9d0946900">联系我们</a></li>
@@ -352,14 +382,14 @@ function refreshImg() {
 							<div class="slide-wrapper">
 								<div class="gview slides">
 									<div class="gitem">
-										<p class="title">融资需求</p>
-										<div class="sub_title">数量</div>
+										<p class="title">已申请项目</p>
+										<div class="sub_title">总数</div>
 										<div class="num">409</div>
 										<div class="em">个</div>
 									</div>
 									<div class="gitem">
-										<p class="title">融资需求</p>
-										<div class="sub_title">完结</div>
+										<p class="title">成功融资项目</p>
+										<div class="sub_title">数量</div>
 										<div class="num">185</div>
 										<div class="em">个</div>
 									</div>
