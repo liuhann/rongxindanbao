@@ -280,55 +280,36 @@ function refreshImg() {
 						<div>诚信文化的传播者和践行者</div>
 					</div>
                 </div>	
-                
-                <div class="l_02">
-                	<ul>
-                    	<!-- -->
-                    	<a href="#"><li>
-                        	<div class="icon">
-                            	<img src="img/index_010.png">
-                            </div>
-                            <div class="text">
-                            	<span>国家基金受托单位</span>
-                            </div>
-                        </li></a>
-                        <!-- -->
-                    	<a href="#"><li>
-                        	<div class="icon">
-                            	<img src="img/index_011.png">
-                            </div>
-                            <div class="text">
-                            	<span>免费申请</span>
-                            </div>
-                        </li></a>
-                        <!-- -->  
-                    	<a href="#"><li>
-                        	<div class="icon">
-                            	<img src="img/index_012.png">
-                            </div>
-                            <div class="text">
-                            	<span>快速放款</span>
-                            </div>
-                        </li></a>
-                        <!-- -->
-                    	<a href="#"><li>
-                        	<div class="icon">
-                            	<img src="img/index_013.png">
-                            </div>
-                            <div class="text">
-                            	<span>政府背书</span>
-                            </div>
-                        </li></a>
-                        <!-- -->
-                    	<a href="#"><li>
-                        	<div class="icon">
-                            	<img src="img/index_014.png">
-                            </div>
-                            <div class="text">
-                            	<span>国有担保</span>
-                            </div>
-                        </li></a>
-                        <!-- -->                        
+                <style>
+					.logoSplash {
+						width: 660px;
+						height: 130px;
+						overflow: hidden;
+					}
+
+
+				</style>
+
+				<script>
+					$(function() {
+						var splashIndex = 0;
+						setInterval(function() {
+							$(".logoSplash .content").animate({
+								marginTop: -130*splashIndex
+							}, 300);
+							splashIndex ++;
+							if (splashIndex>3) {
+								splashIndex = 0;
+							}
+						}, 5000);
+					});
+				</script>
+                <div class="logoSplash">
+                	<ul class="content">
+						<li><img src="res/rx01.png"></li>
+						<li><img src="res/rx02.png"></li>
+						<li><img src="res/rx03.png"></li>
+						<li><img src="res/rx04.png"></li>
                     </ul>
                 	
                 </div>
