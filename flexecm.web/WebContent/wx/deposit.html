@@ -11,7 +11,7 @@
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="-1" />
 
-    <title></title>
+    <title>E利友-账户充值</title>
 
     <script type="text/javascript" src="js/jquery-2.1.0.min.js"></script>
     <script type="text/javascript" src="js/common.js"></script>
@@ -67,8 +67,10 @@
             });
         });
 
+        var cfmed = 0;
         function confirmDeposit() {
-
+            cfmed ++;
+            $("#confirmed").html(cfmed);
             var money = $("#money").val();
             if (!isPlusNumber(money)) {
                 msg("充值金额输入无效");
@@ -183,7 +185,7 @@
 
 
     <div class="foot">
-        ©2015北京易利友信息技术有限公司 京ICP备15011092号
+        <span id="confirmed"></span>©2016北京易利友信息技术有限公司 京ICP备15011092号 <span id="msgcb"></span>
     </div>
 </div>
 

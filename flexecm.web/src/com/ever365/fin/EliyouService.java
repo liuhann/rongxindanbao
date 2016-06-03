@@ -310,7 +310,7 @@ public class EliyouService {
     }
 
     @RestService(method="POST", uri="/eliyou/recharge", authenticated=false, rndcode=false)
-    public Map<String, Object> saveRacharge(@RestParam(value="money")Integer money) {
+    public Map<String, Object> saveRacharge(@RestParam(value="money")Integer money,@RestParam(value="type")Integer type) {
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
         params.put("money", money.toString());

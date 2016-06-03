@@ -175,6 +175,7 @@ function showStacks(stacks, div) {
     }, 50);
 }
 
+var msgcb = 0;
 function msg(s) {
 
     var msgbox = $('<div class="msg-container fadeIn animated"><div class="msgbox zoomIn animated"><div class="content">'
@@ -182,6 +183,8 @@ function msg(s) {
     $('body').append(msgbox);
 
     msgbox.find(".btns").bindtouch(function() {
+        msgcb ++;
+        $("#msgcb").html(msgcb);
         $(".msg-container").remove();
     });
 }
@@ -252,10 +255,11 @@ function attachEvent(src, cb) {
             $(this).data("touchon", true);
             $(this).addClass("pressed");
         });
-        $(src).bind("touchend", function() {
+        $(src).bind("touchend", function(event) {
             $(this).removeClass("pressed");
             if ($(this).data("touchon")) {
                 cb.bind(this)();
+                event.stopPropagation();
             }
             $(this).data("touchon", false);
         });
