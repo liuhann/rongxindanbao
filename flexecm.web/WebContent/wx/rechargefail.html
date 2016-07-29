@@ -55,6 +55,8 @@
     <script>
         $(function() {
             display();
+            var msg = decodeURI(querystring('msg'));
+            $('.fail-msg').html(msg);
         })
     </script>
 

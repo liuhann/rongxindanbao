@@ -315,6 +315,7 @@ public class EliyouService {
         params.put("userAccount", AuthenticationUtil.getCurrentUser());
         params.put("money", money.toString());
         params.put("url", weixinServer + "/service/eliyou/recharge/back");
+		params.put("rachargeWay", 1);
         JSONObject result = WebUtils.doPost(eliyouServer + "/savewyRecharge.do", params);
 
         if (result==null) {
@@ -330,7 +331,7 @@ public class EliyouService {
         RestResult rr = new RestResult();
 
         logger.info("ResultCode: " + result.get("ResultCode"));
-
+        logger.info("充值返回Message: " + result.get("Message"));
         if ("88".equals(result.get("ResultCode"))) {
             List<Map<String, String>> datas = new ArrayList();
             datas.add(MapUtils.tribleMap("key","first","value", "您的乾多多账户充值成功", "color", "#173177"));
@@ -346,7 +347,8 @@ public class EliyouService {
 
             rr.setRedirect("/wx/rechargeok.html");
         } else {
-            rr.setRedirect("/wx/rechargefail.html");
+        	String msg = String.valueOf(result.get("Message"));
+            rr.setRedirect("/wx/rechargefail.html?msg=" + URLEncoder.encode(msg));
         }
         return rr;
     }
